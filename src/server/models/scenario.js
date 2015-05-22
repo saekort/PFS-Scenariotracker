@@ -3,6 +3,7 @@ module.exports = function(sequelize, DataTypes) {
 			id: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
+				autoIncrement: true,
 				allowNull: false,
 				validate: {
 					isNumeric: true
@@ -34,13 +35,15 @@ module.exports = function(sequelize, DataTypes) {
 				defaultValue: false
 			},
 			archived: {
-				type: DataTypes.DATE
+				type: DataTypes.DATE,
+				defaultValue: null
 			}
 		},{
 			timestamps: true,
 			deletedAt: 'deleted',	
 			createdAt: 'created_on',
 			updatedAt: 'updated_on',
-			paranoid: true
+			paranoid: true,
+			classMethods: {}
 		});
 	};

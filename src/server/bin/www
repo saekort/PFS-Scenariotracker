@@ -5,6 +5,7 @@
  */
 
 var app = require('../app');
+var models = require("../models");
 var debug = require('debug')('server:server');
 var http = require('http');
 

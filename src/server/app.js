@@ -1,19 +1,3 @@
-// Load config
-var config = {
-		// Port the API should listen to
-		'server_port':'8080',
-		
-		// Database connection variables
-		'database_host':'localhost',
-		'database_user':'root',
-		'database_password':'',
-		'database_name':'scenariotracker',
-		'database_type':'mysql'
-};
-
-// Do not edit below this line
-// ---------------------------
-
 console.log('Loading PFS Scenariotracker API...');
 
 // REST related includes
@@ -25,32 +9,38 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 //Load REST routes
-var routes = require('./routes/index');
-var persons = require('./routes/persons');
-var scenarios = require('./routes/scenarios');
+//var routes = require('./routes/index');
+//var persons = require('./routes/persons');
+//var scenarios = require('./routes/scenarios');
 
-// ORM include
-var Sequelize = require('sequelize');
+// Load config
+var config = require(__dirname + '/config/config.json');
 
 var app = express();
+app.use(require('./controllers'));
 
-// Setup database through sequelize ORM
-var sequelize = new Sequelize(config['database_name'], config['database_user'], config['database_password'], {
-	  host: config['database_host'],
-	  dialect: config['database_type'],
-
-	  pool: {
-	    max: 5,
-	    min: 0,
-	    idle: 10000
-	  }
-	});
-
-//Define models
-console.log('Loading database models');
-var Scenario = sequelize.import(__dirname + "/models/scenario");
-
-sequelize.sync();
+////Define models
+//console.log('Loading database models');
+//var Scenario = sequelize.import(__dirname + "/models/scenario");
+//
+//// Load test data creation
+//sequelize.sync({force: true}).then(function() {
+//	Scenario.create({ 
+//		name: "Silent Tide", 
+//		description: "When strange reports of misty undead spread through Absalom, you and your fellow Pathfinders are dispatched to the half-drowned district of Puddles. Notoriously rough, the drooling addicts, flesh panderers, and quick-handed knifers of Puddles are the least of your worries. The night's tide brings with it an ancient armada of some long-forgotten war and you are the only thing between their mist-shrouded ghost fleet and Absalom's utter oblivion.",
+//		season: "0",
+//		number: "1",
+//		tier: "1-5"
+//	});
+//
+//	Scenario.create({ 
+//		name: "The Hydra's Fang Incident", 
+//		description: "After an Andoren village is razed by the Hydra's Fang, a renegade Chelish slaver-ship, outrage threatens the stability of both nations. You and your fellow Pathfinders are sent to capture the Fang before the Inner Sea is pitched into political frenzy.",
+//		season: "0",
+//		number: "2",
+//		tier: "1-5"
+//	});
+//});
 
 // Start the server
 var server = app.listen(config['server_port'], function() {
@@ -72,10 +62,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public') ));
-
-app.use('/', routes);
-app.use('/persons', persons);
-app.use('/scenarios', scenarios);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -107,6 +93,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
 
 module.exports = app;
