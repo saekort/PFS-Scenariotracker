@@ -42,5 +42,6 @@ sequelize.sync({force: true}).then(function() {
                		tier: "1-5"
                	})	            
 	            ];
-	Sequelize.Promise.all(data);
+	
+	Sequelize.Promise.all(data);0
 });
