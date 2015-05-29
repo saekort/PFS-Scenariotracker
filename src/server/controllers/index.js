@@ -3,6 +3,7 @@ var express = require('express');
 var router = express.Router();
 
 router.use('/persons', require('./persons.js'));
+router.use('/authors', require('./authors.js'));
 router.use('/scenarios', require('./scenarios.js'));
 
 /* GET home page */

@@ -16,6 +16,10 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.INTEGER
 			}
 		},{
+			name: {
+				singular: 'person',
+				plural: 'people'
+			},			
 			timestamps: true,
 			deletedAt: 'deleted',	
 			createdAt: 'created_on',

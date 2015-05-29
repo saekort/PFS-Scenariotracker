@@ -13,11 +13,19 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.STRING(64)
 			},
 		},{
+			name: {
+				singular: 'author',
+				plural: 'authors'
+			},			
 			timestamps: true,
 			deletedAt: 'deleted',	
 			createdAt: 'created_on',
 			updatedAt: 'updated_on',
 			paranoid: true,
-			classMethods: {}
+			classMethods: {
+				associate: function(models) {
+					models.Author.hasMany(models.Scenario, {as: 'Scenarios', foreignKey: 'author_id'});
+				}
+			}
 		});
 	};

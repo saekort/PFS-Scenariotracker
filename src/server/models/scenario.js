@@ -39,11 +39,19 @@ module.exports = function(sequelize, DataTypes) {
 				defaultValue: null
 			}
 		},{
+			name: {
+				singular: 'scenario',
+				plural: 'scenarios'
+			},
 			timestamps: true,
-			deletedAt: 'deleted',	
+			deletedAt: 'deleted',
 			createdAt: 'created_on',
 			updatedAt: 'updated_on',
 			paranoid: true,
-			classMethods: {}
+			classMethods: {
+				associate: function(models) {
+					models.Scenario.belongsTo(models.Author, {as: 'Author', foreignKey: 'author_id'});
+				}
+			}
 		});
 	};

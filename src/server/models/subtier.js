@@ -13,6 +13,10 @@ module.exports = function(sequelize, DataTypes) {
 				type: DataTypes.STRING(16)
 			},
 		},{
+			name: {
+				singular: 'subtier',
+				plural: 'subtiers'
+			},
 			timestamps: true,
 			deletedAt: 'deleted',	
 			createdAt: 'created_on',
