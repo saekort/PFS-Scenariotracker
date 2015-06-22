@@ -1,0 +1,12 @@
+@CHARSET "ISO-8859-1";
+
+.scenario {
+	border-radius: 15px;
+	border: 2px solid #FFCC99;
+	margin: 10px;
+	padding: 10px;
+}
+
+.scenario .title {
+	font-size: 25px;
+}
