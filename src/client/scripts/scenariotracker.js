@@ -2,8 +2,6 @@
 (function(){
     'use strict';
 
-    var scenariotracker = angular.module('scenariotracker', [
-                                                             
-                                                             ]);
+    var scenariotracker = angular.module('scenariotracker', []);
 
 })();

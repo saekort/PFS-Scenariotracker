@@ -29,6 +29,35 @@ class V1 extends REST_Controller
         $this->methods['user_delete']['limit'] = 50; //50 requests per hour per user/key
     }
     
+    function scenarios_get()
+    {
+        $scenarios = new Scenario();
+    	$scenarios->get();
+    	 
+        if($scenarios->exists())
+        {
+        	$scenarios_array = $scenarios->all_to_array();
+        	
+        	foreach($scenarios_array as $key => $value)
+        	{
+        		foreach($scenarios as $scenario)
+        		{
+        			if($scenario->id == $value['id'])
+        			{
+        				$scenarios_array[$key]['authors'] = $scenario->authors->all_to_single_array('name');
+        				$scenarios_array[$key]['subtiers'] = $scenario->subtiers->all_to_single_array('name');        				
+        			}
+        		}
+        	}
+        	
+            $this->response($scenarios_array, 200); // 200 being the HTTP response code
+        }
+        else
+        {
+            $this->response(array('error' => 'Scenarios could not be found'), 404);
+        }    	
+    }
+    
     function scenario_get()
     {
         if(!$this->get('id'))

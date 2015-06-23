@@ -17,9 +17,33 @@
 		<script src="./scripts/controllers/main.js"></script>
 	</head>
 	<body ng-controller="MainController as vm">
-	{{vm.greeting}}
-		<button class="btn" ng-click="vm.getScenarios()">GET DATA!!</button>"
-		<div class="container">
+		
+	<div class="container">
+		<div class="row">
+			<li ng-repeat="scenario in vm.scenarios">		
+			<span>Name:</span>
+			<span> {{scenario.name}}</span>	<br>
+			<span>Description: </span>
+			<span>{{scenario.description}}</span> <br>		
+			<span>Type: </span>
+			<span>{{scenario.type}}</span>	<br>	
+			<span>Season: </span> 
+			<span>{{scenario.season}}</span>	<br>
+			<span>Evergreen: </span> 
+			<span>{{scenario.evergreen}}</span>	<br>
+			<span>tier: </span> 
+			<span>{{scenario.tier}}</span>	<br>
+			<span>Subtier(s): </span> 
+			<span>{{scenario.subtiers}}</span>	<br>	
+			<span>Author(s): </span> 
+			<span>{{scenario.authors}}</span>	<br>	
+			<span>Number: </span> 
+			<span>{{scenario.number}}</span> <br>
+			</li>
+		</div>
+	</div>
+		
+<!-- 		<div class="container">
 			<div class="scenario">
 				<div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
@@ -288,6 +312,6 @@
 					</div>
 				</div>
 			</div>									
-		</div>
+		</div> -->
 	</body>
 </html>
