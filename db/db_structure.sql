@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2015 at 04:49 PM
+-- Generation Time: Jun 23, 2015 at 01:37 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -27,7 +27,33 @@ CREATE TABLE IF NOT EXISTS `authors` (
   `updated_on` datetime NOT NULL,
   `deleted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `j_author_scenario`
+--
+
+CREATE TABLE IF NOT EXISTS `j_author_scenario` (
+  `scenario_id` int(11) NOT NULL DEFAULT '0',
+  `author_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`scenario_id`,`author_id`),
+  KEY `author_id` (`author_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `j_scenario_subtier`
+--
+
+CREATE TABLE IF NOT EXISTS `j_scenario_subtier` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `scenario_id` int(11) NOT NULL,
+  `subtier_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -64,9 +90,7 @@ CREATE TABLE IF NOT EXISTS `scenarios` (
   `created_on` datetime NOT NULL,
   `updated_on` datetime NOT NULL,
   `deleted` datetime DEFAULT NULL,
-  `author_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `author_id` (`author_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 -- --------------------------------------------------------
@@ -89,7 +113,8 @@ CREATE TABLE IF NOT EXISTS `subtiers` (
 --
 
 --
--- Constraints for table `scenarios`
+-- Constraints for table `j_author_scenario`
 --
-ALTER TABLE `scenarios`
-  ADD CONSTRAINT `scenarios_ibfk_1` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `j_author_scenario`
+  ADD CONSTRAINT `j_author_scenario_ibfk_1` FOREIGN KEY (`scenario_id`) REFERENCES `scenarios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `j_author_scenario_ibfk_2` FOREIGN KEY (`author_id`) REFERENCES `authors` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
