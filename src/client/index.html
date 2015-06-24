@@ -1,4 +1,4 @@
-<<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html ng-app="scenariotracker">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -17,8 +17,29 @@
 		<script src="./scripts/controllers/main.js"></script>
 	</head>
 	<body ng-controller="MainController as vm">
+	
+	
+	<div id="sidebar">
+	<div class="container col-sm-2">
+		
+		<p>Vink hier de zoekkriteria aan. Als er niets is ingevuld in een categorie, dan wordt alles geselecteerd.</p>
+		<br>
+			
+		<b>Seizoen:</b>
+		<div><label><input type="checkbox" value="">1 </label>  </div>
+		<div><label><input type="checkbox" value="">2 </label>  </div>
+		<div><label><input type="checkbox" value="">3 </label>  </div>
+		<div><label><input type="checkbox" value="">4 </label>  </div>
+		<div><label><input type="checkbox" value="">5 </label>  </div>
+		<br>
+		<b>Core:</b>
+		<div><label><input type="checkbox" value="">ja </label>  </div>
+		<div><label><input type="checkbox" value="">nee </label>  </div>
 
-	<div class="container">
+	</div>
+	</div>               
+	
+	<div class="container col-sm-6">
 		<div class="row">
 			<div ng-repeat="scenario in vm.scenarios">		
 			<li ng-if='scenario.deleted == NULL'>
