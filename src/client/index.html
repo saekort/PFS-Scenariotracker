@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html ng-app="scenariotracker">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -17,7 +17,7 @@
 		<script src="./scripts/controllers/main.js"></script>
 	</head>
 	<body ng-controller="MainController as vm">
-		
+
 	<div class="container">
 		<div class="row">
 			<div ng-repeat="scenario in vm.scenarios">		
@@ -26,8 +26,8 @@
 			<br>
 			<span>Description: {{scenario.description}}</span> 
 			<br>		
-			<span>Type: {{scenario.type}}</span>	<
-			br>	
+			<span>Type: {{scenario.type}}</span>	
+			<br>	
 			<span>Season: {{scenario.season}}</span>	
 			<br>
 			<span>Number: {{scenario.number}}</span> 
@@ -49,7 +49,7 @@
 			<b>Dit scenario is een evergreen</b>
 			</span>
 			<span ng-if='scenario.archived != NULL'>
-			<b>Dit scenario levert geen Chroniclesheet (meer) op</b>
+			<b>Dit scenario is stopgezet en levert geen Chroniclesheet meer op</b>
 			</span>
 			<br>
 			<br>
