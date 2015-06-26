@@ -10,3 +10,36 @@
 .scenario .title {
 	font-size: 25px;
 }
+
+.scenario .title .authors {
+	font-size: 15px;
+	font-style: italic;
+}
+
+.filterbar {
+	background-color: #DADADA;
+}
+
+.filter label {
+	font-weight: normal;
+}
+
+.filter .checkbox {
+	display: block;
+	min-height: 20px;
+}
+
+.playerbar {
+	background-color: #DADADA;
+	padding: 10px;
+}
+
+.evergreen {
+	cursor: help; 
+	color: green;
+}
+
+.archived {
+	cursor: help;
+	color: red;
+}
