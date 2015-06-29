@@ -25,9 +25,10 @@
 			<div class="form-group has-feedback">
 				<label class="control-label">Search players</label> <input class="search form-control" placeholder="Search"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i> <button>Add</button>
 			</div>
-			<div ng-repeat="person in vm.people">
-			Toegevoegde spelers: {{person.name}} ({{person.pfsnumber}})
-			</div>
+			<div>Al toegevoegde mensen:</div>
+			<span ng-repeat="person in vm.people" style="float:left;">
+			{{$first ? '' : $last ? ' and ' : ', '}}{{person.name}} ({{person.pfsnumber}})
+			</span>
 		</div>
 	</div>
 	<div class="col-sm-2 filterbar">
@@ -74,14 +75,6 @@
 					<br>	
 					<span>Tier: <span ng-show="!scenario.tier">Unknown</span>{{scenario.tier}} (<span ng-show="scenario.subtiers.length == 0">Unknown</span><span ng-repeat="subtier in scenario.subtiers">{{$first ? '' : ', '}}{{subtier}}</span>)</span>	
 				</div>
-
-	<div class="jumbotron" align="center">
-		<h3>Here are the players: </h3> <br>
-			<li ng-repeat="person in vm.people">
-			{{person.name}} ({{person.pfsnumber}}) <br>
-			</li>
-	</div>
-
 			</div>
 		</div>
 	</div>
