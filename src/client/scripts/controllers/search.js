@@ -10,7 +10,10 @@
     	var vm = this;
     	vm.$http = $http;
     	vm.scenarios = [];
-    	vm.getScenarios() ; 
+    	vm.getScenarios();
+    	vm.filters = [];
+    	vm.filters.levelRangeMin = 1;
+    	vm.filters.levelRangeMax = 12;
     }
     
     SearchController.prototype.getScenarios = function()

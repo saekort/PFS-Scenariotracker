@@ -12,14 +12,22 @@
 	<link rel="stylesheet" href="./css/main.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-	<script src="./scripts/vendor/bootstrap.js"></script>
-	<script src="./scripts/ui-bootstrap-tpls-0.13.0.min.js"></script>	
+	<script src="./scripts/vendor/bootstrap.js"></script>	
 	<script src="./scripts/scenariotracker.js"></script>
 	<script src="./scripts/controllers/search.js"></script>
+	
+	<!-- RangeSlider: https://github.com/danielcrisp/angular-rangeslider -->
+	<link rel="stylesheet" href="./css/angular.rangeSlider.css">
+	<script src="./scripts/vendor/angular.rangeSlider.js"></script>
+	
+	<!-- Angular Spinner: https://github.com/urish/angular-spinner -->
+	<script src="./scripts/vendor/spin.min.js"></script>
+	<script src="./scripts/vendor/angular-spinner.js"></script>
 </head>
 <body ng-controller="SearchController as vm">
 	<div class="row playerbar">
 		<div class="col-sm-2">
+			<img src="./images/logo_pfs.png" width="270">
 		</div>
 		<div class="col-sm-6">
 			<div class="form-group has-feedback">
@@ -30,6 +38,17 @@
 	<div class="col-sm-2 filterbar">
 		<span>Filters</span>
 			<form>
+				<div class="form-group filter">
+					<strong>Level range:</strong>
+					<div range-slider 
+						min="1" 
+						max="13" 
+						step="1" 
+						model-min="vm.filters.levelRangeMin" 
+						model-max="vm.filters.levelRangeMax" 
+						attach-handle-values="true"
+						show-values="true"></div>
+				</div>			
 				<div class="form-group filter">
 					<strong>Season</strong>
 					<ul class="list-unstyled">
@@ -44,7 +63,7 @@
 					</ul>
 				</div>
 				<div class="form-group filter">
-					<strong>Type:</strong>
+					<strong>Type campaign:</strong>
 					<label class="checkbox"><input type="checkbox" value="">PFS </label>
 					<label class="checkbox"><input type="checkbox" value="">CORE </label>
 				</div>
@@ -57,6 +76,9 @@
 	
 	<div class="container col-sm-6">
 		<div class="row">
+			<div>
+				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}"></span>
+			</div>
 			<div ng-repeat="scenario in vm.scenarios">
 				<div class="scenario">		
 					<div class="title">
