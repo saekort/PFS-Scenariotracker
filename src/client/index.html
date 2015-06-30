@@ -80,13 +80,21 @@
 					<label for="authorSelect">Author(s)</label>
 					<input type="text" class="form-control" id="authorSelect" placeholder="Search author"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
 				</div>
+				<div class="form-group filter">
+					<strong>Other:</strong>
+					<label class="checkbox"><input type="checkbox" value="">Include retired scenarios</label>
+				</div>				
 			</form>
 	</div>             
 	
 	<div class="container col-sm-6">
 		<div class="row">
 			<div>
-				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}"></span>
+				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
+			</div>
+			<span>Found a total of <strong>{{vm.pagination.totalItems}}</strong> scenarios</span>
+			<div class="pfs-pagination" ng-show="vm.scenarios.length > 0">
+				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="20" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
 			</div>
 			<div ng-repeat="scenario in vm.scenarios">
 				<div class="scenario">		
@@ -103,6 +111,9 @@
 					<span>Tier: <span ng-show="!scenario.tier">Unknown</span>{{scenario.tier}} (<span ng-show="scenario.subtiers.length == 0">Unknown</span><span ng-repeat="subtier in scenario.subtiers">{{$first ? '' : ', '}}{{subtier}}</span>)</span>	
 				</div>
 			</div>
+			<div class="pfs-pagination" ng-show="vm.scenarios.length > 0">
+				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="20" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
+			</div>			
 		</div>
 	</div>
 </body>

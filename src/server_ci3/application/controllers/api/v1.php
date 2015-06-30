@@ -31,39 +31,68 @@ class V1 extends REST_Controller
     
     function scenarios_get()
     {
+    	// Set a limit, could be expanded later on
+    	$limit = 20;
+    	
         $scenarios = new Scenario();
         
         // Always limit the amount of scenarios to a maximum of 20
         //$scenarios->limit(20);
 
-        // Filter: Season
-        if($this->get('season'))
+        $i = 0;
+        while($i < 2)
         {
-        	$scenarios->where_in('season', $this->get('season'));
+	        // Filter: Season
+	        if($this->get('season'))
+	        {
+	        	$scenarios->where_in('season', $this->get('season'));
+	        }
+	        
+	        // Filter: Retired
+	        if(!$this->get('retired'))
+	        {
+	        	$scenarios->where('archived IS NULL', NULL);
+	        }
+	        
+	        // Filter: Search
+	        if($this->get('search'))
+	        {
+	        	$scenarios->like('name', $this->get('search'));
+	        }
+	        
+	        // Filter: Level range
+	        if($this->get('levelRangeMin') && $this->get('levelRangeMax'))
+	        {
+	        	//TODO
+	        	// Tier
+	        	// Subtiers
+	        }
+    	
+	    	// Pagination
+	    	if($i == 0)
+	    	{
+	    		$scenarios->get();
+	    		$response['count'] = $scenarios->result_count();
+	    	}
+	    	else
+	    	{
+	    		// First time through, just count
+	    		if($this->get('currentPage'))
+	    		{
+	    			$page = $limit * ($this->get('currentPage') -1);
+	    			$scenarios->limit($limit, $page);
+	    		}
+	    		else
+	    		{
+	    			// Just limit it to 20 scenarios
+	    			$scenarios->limit($limit);
+	    		}
+	    		
+	    		$scenarios->get();
+	    	}
+	    	
+	    	$i++;
         }
-        
-        // Filter: Retired
-        if($this->get('retired'))
-        {
-        	$scenarios->where('archived IS NOT NULL', NULL);
-        }
-        
-        // Filter: Search
-        if($this->get('search'))
-        {
-        	$scenarios->like('name', $this->get('search'));
-        }
-        
-        // Filter: Level range
-        if($this->get('levelRangeMin') && $this->get('levelRangeMax'))
-        {
-        	//TODO
-        	// Tier
-        	// Subtiers
-        }
-        
-    	$scenarios->get();
-    	 
         if($scenarios->exists())
         {
         	$scenarios_array = $scenarios->all_to_array();
@@ -80,7 +109,9 @@ class V1 extends REST_Controller
         		}
         	}
         	
-            $this->response($scenarios_array, 200); // 200 being the HTTP response code
+        	$response['scenarios'] = $scenarios_array;
+        	
+            $this->response($response, 200); // 200 being the HTTP response code
         }
         else
         {
