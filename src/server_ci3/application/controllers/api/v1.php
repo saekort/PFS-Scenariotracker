@@ -42,10 +42,24 @@ class V1 extends REST_Controller
         	$scenarios->where_in('season', $this->get('season'));
         }
         
+        // Filter: Retired
+        if($this->get('retired'))
+        {
+        	$scenarios->where('archived IS NOT NULL', NULL);
+        }
+        
+        // Filter: Search
+        if($this->get('search'))
+        {
+        	$scenarios->like('name', $this->get('search'));
+        }
+        
         // Filter: Level range
         if($this->get('levelRangeMin') && $this->get('levelRangeMax'))
         {
         	//TODO
+        	// Tier
+        	// Subtiers
         }
         
     	$scenarios->get();

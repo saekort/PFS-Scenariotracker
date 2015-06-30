@@ -17,6 +17,7 @@
     	vm.filters.seasons = [];
     	vm.filters.authors = [];
     	vm.filters.players = [];
+    	vm.filters.search = null;
     	
     	vm.getPeople();
     	vm.getScenarios();
@@ -25,7 +26,11 @@
     SearchController.prototype.getScenarios = function()
     {
     	var vm = this;
-    	vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/scenarios').
+    	
+    	// Define query string for filters]
+    	// Foreach filters.seasons stukje string ala season[]=waarde& etc
+    	
+    	vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/scenarios' + '?').
     	  success(function(data, status, headers, config) {
     	    // this callback will be called asynchronously
     	    // when the response is available
