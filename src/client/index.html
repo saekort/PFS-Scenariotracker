@@ -12,7 +12,8 @@
 	<link rel="stylesheet" href="./css/main.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
-	<script src="./scripts/vendor/bootstrap.js"></script>	
+	<script src="./scripts/vendor/bootstrap.js"></script>
+	<script src="./scripts/vendor/ui-bootstrap-tpls-0.13.0.min.js"></script>
 	<script src="./scripts/scenariotracker.js"></script>
 	<script src="./scripts/controllers/search.js"></script>
 	
@@ -33,6 +34,10 @@
 			<div class="form-group has-feedback">
 				<label class="control-label">Search players</label> <input class="search form-control" placeholder="Search"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i> <button>Add</button>
 			</div>
+			<div>Al toegevoegde mensen:</div>
+			<span ng-repeat="person in vm.people" style="float:left;">
+				{{$first ? '' : $last ? ' and ' : ', '}}{{person.name}} ({{person.pfsnumber}})
+			</span>			
 		</div>
 	</div>
 	<div class="col-sm-2 filterbar">

@@ -112,4 +112,42 @@ class V1 extends REST_Controller
             $this->response(array('error' => 'Scenario could not be found'), 404);
         }
     }
+    
+    function people_get()
+    {
+    	$people = new Person();
+    	$people->get();
+    
+    	if($people->exists())
+    	{
+    		$people_array = $people->all_to_array();
+    		 
+    		$this->response($people_array, 200); // 200 being the HTTP response code
+    	}
+    	else
+    	{
+    		$this->response(array('error' => 'People could not be found'), 404);
+    	}
+    }
+    
+    function person_get()
+    {
+    	if(!$this->get('id'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    
+    	$person = new Person($this->get('id'));
+    	 
+    	if($person->exists())
+    	{
+    		$person_array = $person->all_to_array();
+    		    		 
+    		$this->response($person_array, 200); // 200 being the HTTP response code
+    	}
+    	else
+    	{
+    		$this->response(array('error' => 'Person could not be found'), 404);
+    	}
+    }
 }
