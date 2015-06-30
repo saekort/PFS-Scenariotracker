@@ -32,6 +32,22 @@ class V1 extends REST_Controller
     function scenarios_get()
     {
         $scenarios = new Scenario();
+        
+        // Always limit the amount of scenarios to a maximum of 20
+        //$scenarios->limit(20);
+
+        // Filter: Season
+        if($this->get('season'))
+        {
+        	$scenarios->where_in('season', $this->get('season'));
+        }
+        
+        // Filter: Level range
+        if($this->get('levelRangeMin') && $this->get('levelRangeMax'))
+        {
+        	//TODO
+        }
+        
     	$scenarios->get();
     	 
         if($scenarios->exists())
@@ -58,8 +74,20 @@ class V1 extends REST_Controller
         }    	
     }
     
+    /**
+     * Expects a filter JSON array URL encoded
+     */
     function scenario_get()
     {
+    	if(!$this->get('filters'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	else
+    	{
+    		// Decode the filters
+    	}
+    	
         if(!$this->get('id'))
         {
         	$this->response(NULL, 400);
@@ -83,40 +111,6 @@ class V1 extends REST_Controller
         {
             $this->response(array('error' => 'Scenario could not be found'), 404);
         }
-    }
-    
-    public function getBySeason_get()
-    {
-//     	if(!$this->get('season'))
-//     	{
-//     		$this->response(NULL, 400);
-//     	}
-    	
-    	$scenarios = new Scenario();
-    	$scenarios->where('season', $this->get('season'))->get();
-    	 
-        if($scenarios->exists())
-        {
-        	$scenarios_array = $scenarios->all_to_array();
-        	
-        	foreach($scenarios_array as $key => $value)
-        	{
-        		foreach($scenarios as $scenario)
-        		{
-        			if($scenario->id == $value['id'])
-        			{
-        				$scenarios_array[$key]['authors'] = $scenario->authors->all_to_single_array('name');
-        				$scenarios_array[$key]['subtiers'] = $scenario->subtiers->all_to_single_array('name');        				
-        			}
-        		}
-        	}
-        	
-            $this->response($scenarios_array, 200); // 200 being the HTTP response code
-        }
-        else
-        {
-            $this->response(array('error' => 'Scenarios could not be found'), 404);
-        }  	
     }
     
     function people_get()

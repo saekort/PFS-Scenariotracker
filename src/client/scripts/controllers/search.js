@@ -10,9 +10,16 @@
     	var vm = this;
     	vm.$http = $http;
     	vm.scenarios = [];
-    	vm.getScenarios() ; 
     	vm.people = [];
-    	vm.getPeople() ;
+    	vm.filters = [];
+    	vm.filters.levelRangeMin = 1;
+    	vm.filters.levelRangeMax = 12;
+    	vm.filters.seasons = [];
+    	vm.filters.authors = [];
+    	vm.filters.players = [];
+    	
+    	vm.getPeople();
+    	vm.getScenarios();
     }
     
     SearchController.prototype.getScenarios = function()
@@ -42,5 +49,4 @@
     		  console.log (data);
     	  })
     }
-    
 })();

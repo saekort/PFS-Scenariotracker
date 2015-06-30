@@ -2,7 +2,7 @@
 
 .scenario {
 	border-radius: 15px;
-	border: 2px solid #FFCC99;
+	border: 2px solid #BA6B6B;
 	margin: 10px;
 	padding: 10px;
 }
@@ -42,4 +42,8 @@
 .archived {
 	cursor: help;
 	color: red;
+}
+
+.spinner {
+	margin-top: 150px;
 }
