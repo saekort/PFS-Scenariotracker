@@ -14,6 +14,9 @@
     	vm.filters = [];
     	vm.filters.levelRangeMin = 1;
     	vm.filters.levelRangeMax = 12;
+    	vm.filters.seasons = [];
+    	vm.filters.authors = [];
+    	vm.filters.players = [];
     }
     
     SearchController.prototype.getScenarios = function()
