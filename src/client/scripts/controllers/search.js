@@ -41,15 +41,22 @@
     	// Foreach filters.seasons stukje string ala season[]=waarde& etc
     	
     	// Build the pagination string
-    	var pagination = 'currentPage=' + vm.pagination.currentPage;
+    	var query = 'currentPage=' + vm.pagination.currentPage;
     	
-    	vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/scenarios' + '?' + pagination).
+    	// Search
+    	if(vm.filters.search)
+    	{
+    		query = query + '&search=' + vm.filters.search;
+    	}
+    	
+    	vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/scenarios' + '?' + query).
     	  success(function(data, status, headers, config) {
     		  // Assign scenarios
     		  vm.scenarios = data.scenarios;
     		  
     		  // Assign total found scenarios count
     		  vm.pagination.totalItems = data.count;
+    		  
     		  vm.usSpinnerService.stop('spinner-1');
     	  }).
     	  error(function(data, status, headers, config) {

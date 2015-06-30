@@ -45,7 +45,7 @@
 			<form>
 				<div class="form-group has-feedback">
 					<label for="scenarioSelect">Scenario name</label>
-					<input type="text" class="form-control" id="scenarioSelect" ng-model="vm.filters.search" placeholder="Search scenarios"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
+					<input type="text" class="form-control" id="scenarioSelect" ng-model="vm.filters.search" ng-change="vm.getScenarios()" ng-model-options="{debounce: 300}" placeholder="Search scenarios"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
 				</div>			
 				<div class="form-group filter">
 					<strong>Level range:</strong>
