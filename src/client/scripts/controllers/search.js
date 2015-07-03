@@ -15,7 +15,7 @@
     	vm.people = [];
     	vm.filters = [];
     	vm.filters.levelRangeMin = 1;
-    	vm.filters.levelRangeMax = 11;
+    	vm.filters.levelRangeMax = 12;
     	vm.filters.seasons = [
     	                      {key: 0, name: 0, checked: false},
     	                      {key: 1, name: 1, checked: false},

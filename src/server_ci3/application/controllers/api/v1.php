@@ -63,16 +63,23 @@ class V1 extends REST_Controller
 	        // Filter: Level range
 	        if($this->get('levelRangeMin') && $this->get('levelRangeMax'))
 	        {
-	        	//TODO
-	        	// Tier
-	        	// Subtiers
+	        	$scenarios->group_start();
+	        	$levelrange = range($this->get('levelRangeMin'), $this->get('levelRangeMax'));
+	        	
+	        	foreach($levelrange as $key => $value)
+	        	{
+	        		$value = str_pad($value, 2, '0', STR_PAD_LEFT);
+	        		$scenarios->or_like('levelrange', $value);
+	        	}
+	        	
+	        	$scenarios->group_end();
 	        }
 	        
 	        // Filter: Evergreen
 	        if($this->get('evergreen'))
 	        {
 	        	$scenarios->where('evergreen', 1);
-	        }        
+	        }
 	        
 	    	// Pagination
 	    	if($i == 0)

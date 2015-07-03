@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2015 at 10:43 AM
+-- Generation Time: Jul 03, 2015 at 02:12 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS `scenarios` (
   `season` varchar(16) DEFAULT NULL,
   `number` varchar(16) DEFAULT NULL,
   `tier` varchar(16) DEFAULT NULL,
+  `levelrange` varchar(64) NOT NULL DEFAULT '01|02|03|04|05|06|07|08|09|10|11|12|13|14|15|16|17|18|19|20',
   `evergreen` tinyint(1) DEFAULT '0',
   `archived` datetime DEFAULT NULL,
   `created_on` datetime NOT NULL,
