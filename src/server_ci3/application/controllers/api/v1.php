@@ -67,7 +67,13 @@ class V1 extends REST_Controller
 	        	// Tier
 	        	// Subtiers
 	        }
-    	
+	        
+	        // Filter: Evergreen
+	        if($this->get('evergreen'))
+	        {
+	        	$scenarios->where('evergreen', 1);
+	        }        
+	        
 	    	// Pagination
 	    	if($i == 0)
 	    	{
@@ -115,8 +121,11 @@ class V1 extends REST_Controller
         }
         else
         {
-            $this->response(array('error' => 'Scenarios could not be found'), 404);
-        }    	
+        	$response['scenarios'] = array();
+        	$response['total'] = 0;
+        	
+            $this->response($response, 200);
+        }   	
     }
     
     /**

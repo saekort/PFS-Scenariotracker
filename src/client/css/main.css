@@ -51,3 +51,14 @@
 .pfs-pagination {
 	margin: 10px;
 }
+
+.filter_player a:hover, .filter_player a:link, .filter_player a:visited, .filter_player a:active {
+	color: white;
+	text-decoration: none;
+}
+
+.found {
+	border-radius: 15px;
+	margin: 10px;
+	padding: 10px;
+}
