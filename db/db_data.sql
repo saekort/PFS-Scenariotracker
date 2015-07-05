@@ -2,21 +2,26 @@
 -- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 03, 2015 at 02:13 PM
--- Server version: 5.6.17
--- PHP Version: 5.5.12
+-- Machine: 127.0.0.1
+-- Gegenereerd op: 04 jul 2015 om 20:47
+-- Serverversie: 5.6.17
+-- PHP-versie: 5.5.12
 
-SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+
 --
--- Database: `scenariotracker`
+-- Databank: `scenariotracker`
 --
 
 --
--- Dumping data for table `authors`
+-- Gegevens worden geëxporteerd voor tabel `authors`
 --
 
 INSERT INTO `authors` (`id`, `name`, `created_on`, `updated_on`, `deleted`) VALUES
@@ -42,36 +47,323 @@ INSERT INTO `authors` (`id`, `name`, `created_on`, `updated_on`, `deleted`) VALU
 (20, 'Alison McKenzie', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (21, 'Craig Campbell', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (22, 'Benjamin Wenham', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
-(23, 'C. Robert Brown', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
+(23, 'C. Robert Brown', '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
+(24, 'David Eitelbach', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(25, 'Hank Woon', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(26, 'Sean K. Reynolds', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(27, 'Rob McCreary', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(28, 'Mark Moreland', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(29, 'Crystal Frasier', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(30, 'Erik Mona', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(31, 'Adam Daigle', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(32, 'Neil Spicer', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(33, 'Thurston Hillman', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(34, 'Jason Bulman', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(35, 'Kevin Wright', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(36, 'Owen K.C. Stephens', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(37, 'Martin Long', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(38, 'Jesse Benner', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(39, 'Matthew Goodall', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(40, 'Alex Greenshields', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(41, 'Patrick Renie', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL),
+(42, 'Hyrum Savage', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL);
 
 --
--- Dumping data for table `j_author_scenario`
+-- Gegevens worden geëxporteerd voor tabel `j_author_scenario`
 --
 
 INSERT INTO `j_author_scenario` (`scenario_id`, `author_id`) VALUES
 (1, 1),
+(83, 1),
 (2, 2),
+(16, 2),
+(24, 2),
+(34, 2),
+(40, 2),
+(47, 2),
+(70, 2),
+(78, 2),
 (3, 3),
+(20, 3),
+(42, 3),
+(62, 3),
+(63, 3),
+(65, 3),
 (4, 4),
-(5, 5);
+(13, 4),
+(33, 4),
+(5, 5),
+(6, 6),
+(6, 7),
+(7, 8),
+(10, 8),
+(26, 8),
+(29, 8),
+(30, 8),
+(36, 8),
+(49, 8),
+(51, 8),
+(52, 8),
+(58, 8),
+(61, 8),
+(71, 8),
+(73, 8),
+(8, 9),
+(14, 10),
+(17, 11),
+(22, 12),
+(38, 12),
+(41, 12),
+(48, 12),
+(60, 12),
+(66, 12),
+(74, 12),
+(23, 13),
+(39, 13),
+(80, 13),
+(27, 14),
+(37, 14),
+(56, 14),
+(28, 15),
+(9, 16),
+(15, 16),
+(10, 17),
+(10, 18),
+(11, 19),
+(25, 19),
+(12, 20),
+(18, 21),
+(19, 22),
+(21, 23),
+(31, 24),
+(31, 25),
+(44, 25),
+(32, 26),
+(35, 27),
+(43, 28),
+(47, 28),
+(54, 28),
+(64, 28),
+(69, 28),
+(45, 29),
+(57, 29),
+(68, 29),
+(79, 29),
+(46, 30),
+(50, 31),
+(53, 32),
+(55, 33),
+(59, 34),
+(62, 35),
+(63, 35),
+(65, 35),
+(67, 36),
+(72, 37),
+(75, 38),
+(76, 39),
+(77, 40),
+(81, 41),
+(82, 42);
 
 --
--- Dumping data for table `j_scenario_subtier`
+-- Gegevens worden geëxporteerd voor tabel `j_scenario_subtier`
 --
 
 INSERT INTO `j_scenario_subtier` (`id`, `scenario_id`, `subtier_id`) VALUES
 (1, 1, 4),
-(2, 1, 2);
+(2, 1, 2),
+(3, 2, 2),
+(4, 2, 4),
+(5, 3, 2),
+(6, 3, 4),
+(7, 4, 2),
+(8, 4, 4),
+(9, 5, 2),
+(10, 5, 4),
+(11, 6, 2),
+(12, 6, 4),
+(13, 7, 2),
+(14, 7, 3),
+(15, 7, 6),
+(16, 8, 2),
+(17, 8, 4),
+(18, 9, 2),
+(19, 9, 4),
+(20, 10, 2),
+(21, 10, 3),
+(22, 10, 6),
+(23, 11, 2),
+(24, 11, 4),
+(25, 12, 2),
+(26, 12, 3),
+(27, 12, 6),
+(28, 13, 2),
+(29, 13, 4),
+(30, 14, 2),
+(31, 14, 3),
+(32, 14, 6),
+(33, 15, 2),
+(34, 15, 3),
+(35, 15, 6),
+(36, 16, 5),
+(37, 16, 9),
+(38, 17, 2),
+(39, 17, 3),
+(40, 17, 6),
+(41, 18, 5),
+(42, 18, 9),
+(43, 19, 2),
+(44, 19, 3),
+(45, 19, 6),
+(46, 20, 8),
+(47, 20, 10),
+(48, 21, 5),
+(49, 21, 9),
+(50, 22, 8),
+(51, 22, 10),
+(52, 23, 2),
+(53, 23, 4),
+(54, 24, 2),
+(55, 24, 3),
+(56, 24, 6),
+(57, 25, 5),
+(58, 25, 9),
+(59, 26, 8),
+(60, 26, 10),
+(61, 27, 5),
+(62, 27, 9),
+(63, 28, 8),
+(64, 28, 10),
+(65, 29, 2),
+(66, 29, 3),
+(67, 29, 6),
+(68, 30, 2),
+(69, 30, 3),
+(70, 30, 6),
+(71, 31, 5),
+(72, 31, 9),
+(73, 32, 8),
+(74, 32, 10),
+(75, 33, 2),
+(76, 33, 4),
+(77, 34, 8),
+(78, 34, 10),
+(79, 35, 2),
+(80, 35, 3),
+(81, 35, 6),
+(82, 36, 8),
+(83, 36, 10),
+(84, 37, 2),
+(85, 37, 3),
+(86, 37, 6),
+(87, 38, 8),
+(88, 38, 10),
+(89, 39, 2),
+(90, 39, 4),
+(91, 40, 8),
+(92, 40, 10),
+(93, 41, 2),
+(94, 41, 3),
+(95, 41, 6),
+(96, 42, 8),
+(97, 42, 10),
+(98, 43, 2),
+(99, 43, 3),
+(100, 43, 6),
+(101, 44, 8),
+(102, 44, 10),
+(103, 45, 2),
+(104, 45, 4),
+(105, 46, 11),
+(106, 47, 2),
+(107, 47, 4),
+(108, 48, 2),
+(109, 48, 3),
+(110, 48, 6),
+(111, 49, 2),
+(112, 49, 3),
+(113, 49, 6),
+(114, 50, 5),
+(115, 50, 9),
+(116, 51, 2),
+(117, 51, 3),
+(118, 51, 6),
+(119, 52, 2),
+(120, 52, 3),
+(121, 52, 6),
+(122, 53, 8),
+(123, 53, 10),
+(124, 54, 11),
+(125, 55, 2),
+(126, 55, 3),
+(127, 55, 6),
+(128, 56, 5),
+(129, 56, 9),
+(130, 57, 2),
+(131, 57, 3),
+(132, 57, 6),
+(133, 58, 2),
+(134, 58, 3),
+(135, 58, 6),
+(136, 59, 5),
+(137, 59, 9),
+(138, 60, 8),
+(139, 60, 10),
+(140, 61, 11),
+(141, 62, 5),
+(142, 62, 9),
+(143, 63, 5),
+(144, 63, 9),
+(145, 64, 8),
+(146, 64, 10),
+(147, 65, 5),
+(148, 65, 9),
+(149, 66, 8),
+(150, 66, 10),
+(151, 67, 2),
+(152, 67, 4),
+(153, 68, 8),
+(154, 68, 10),
+(155, 69, 2),
+(156, 69, 4),
+(157, 70, 8),
+(158, 70, 10),
+(159, 71, 2),
+(160, 71, 4),
+(161, 72, 8),
+(162, 72, 10),
+(163, 73, 2),
+(164, 73, 4),
+(165, 74, 8),
+(166, 74, 10),
+(167, 75, 2),
+(168, 75, 4),
+(169, 76, 8),
+(170, 76, 10),
+(171, 77, 2),
+(172, 77, 4),
+(173, 77, 6),
+(174, 78, 11),
+(175, 79, 2),
+(176, 79, 4),
+(177, 79, 6),
+(178, 80, 2),
+(179, 80, 4),
+(180, 80, 6),
+(181, 81, 5),
+(182, 81, 9),
+(183, 82, 8),
+(184, 82, 9);
 
 --
--- Dumping data for table `people`
+-- Gegevens worden geëxporteerd voor tabel `people`
 --
 
 INSERT INTO `people` (`id`, `name`, `pfsnumber`, `created_on`, `updated_on`, `deleted`) VALUES
 (1, 'Simon', 25642, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
 
 --
--- Dumping data for table `scenarios`
+-- Gegevens worden geëxporteerd voor tabel `scenarios`
 --
 
 INSERT INTO `scenarios` (`id`, `name`, `description`, `type`, `season`, `number`, `tier`, `levelrange`, `evergreen`, `archived`, `created_on`, `updated_on`, `deleted`) VALUES
@@ -277,7 +569,7 @@ INSERT INTO `scenarios` (`id`, `name`, `description`, `type`, `season`, `number`
 (198, 'Special: The Sky Key Solution', 'At long last, the Pathfinder Society has reassembled the Numerian device known as the Sky Key. Initial tests suggest it is capable of projecting a location’s past into the present, allowing Society agents to peruse books from destroyed libraries and speak with echoes of long-dead heroes. Now that it has perfected the Sky Key’s controls, the Pathfinder Society is prepared to extract a slice of Absalom’s history and bring it into the present; however, there’s no telling what might be waiting inside—or who in the present might wish to wield the same power.', 'scenario', '7', '00', '1-11', '01|02|03|04|05|06|07|08|09|10|11', 0, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
 
 --
--- Dumping data for table `subtiers`
+-- Gegevens worden geëxporteerd voor tabel `subtiers`
 --
 
 INSERT INTO `subtiers` (`id`, `name`, `created_on`, `updated_on`, `deleted`) VALUES
@@ -292,4 +584,7 @@ INSERT INTO `subtiers` (`id`, `name`, `created_on`, `updated_on`, `deleted`) VAL
 (9, '8-9', '2015-05-26 13:01:56', '2015-05-26 13:01:56', NULL),
 (10, '10-11', '2015-05-26 13:01:56', '2015-05-26 13:01:56', NULL),
 (11, '12', '2015-05-26 13:01:56', '2015-05-26 13:01:56', NULL);
-SET FOREIGN_KEY_CHECKS=1;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
