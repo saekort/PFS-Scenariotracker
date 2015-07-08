@@ -2,26 +2,21 @@
 -- version 4.1.14
 -- http://www.phpmyadmin.net
 --
--- Machine: 127.0.0.1
--- Gegenereerd op: 04 jul 2015 om 20:47
--- Serverversie: 5.6.17
--- PHP-versie: 5.5.12
+-- Host: 127.0.0.1
+-- Generation Time: Jul 08, 2015 at 01:33 PM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
 
+SET FOREIGN_KEY_CHECKS=0;
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
 --
--- Databank: `scenariotracker`
+-- Database: `scenariotracker`
 --
 
 --
--- Gegevens worden geëxporteerd voor tabel `authors`
+-- Dumping data for table `authors`
 --
 
 INSERT INTO `authors` (`id`, `name`, `created_on`, `updated_on`, `deleted`) VALUES
@@ -69,7 +64,7 @@ INSERT INTO `authors` (`id`, `name`, `created_on`, `updated_on`, `deleted`) VALU
 (42, 'Hyrum Savage', '2015-07-04 00:00:00', '2015-07-04 00:00:00', NULL);
 
 --
--- Gegevens worden geëxporteerd voor tabel `j_author_scenario`
+-- Dumping data for table `j_author_scenario`
 --
 
 INSERT INTO `j_author_scenario` (`scenario_id`, `author_id`) VALUES
@@ -166,7 +161,15 @@ INSERT INTO `j_author_scenario` (`scenario_id`, `author_id`) VALUES
 (82, 42);
 
 --
--- Gegevens worden geëxporteerd voor tabel `j_scenario_subtier`
+-- Dumping data for table `j_scenario_person`
+--
+
+INSERT INTO `j_scenario_person` (`scenario_id`, `person_id`, `pfs`, `core`, `pfs_gm`, `core_gm`) VALUES
+(1, 1, NULL, NULL, NULL, NULL),
+(2, 2, NULL, NULL, NULL, NULL);
+
+--
+-- Dumping data for table `j_scenario_subtier`
 --
 
 INSERT INTO `j_scenario_subtier` (`id`, `scenario_id`, `subtier_id`) VALUES
@@ -356,14 +359,19 @@ INSERT INTO `j_scenario_subtier` (`id`, `scenario_id`, `subtier_id`) VALUES
 (184, 82, 9);
 
 --
--- Gegevens worden geëxporteerd voor tabel `people`
+-- Dumping data for table `people`
 --
 
 INSERT INTO `people` (`id`, `name`, `pfsnumber`, `created_on`, `updated_on`, `deleted`) VALUES
-(1, 'Simon', 25642, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
+(1, 'Simon', 25642, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
+(2, 'Nieske', 125983, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
+(3, 'Rik', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
+(4, 'Kwinten', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
+(5, 'Maite', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
+(6, 'Willeke', 123251, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
 
 --
--- Gegevens worden geëxporteerd voor tabel `scenarios`
+-- Dumping data for table `scenarios`
 --
 
 INSERT INTO `scenarios` (`id`, `name`, `description`, `type`, `season`, `number`, `tier`, `levelrange`, `evergreen`, `archived`, `created_on`, `updated_on`, `deleted`) VALUES
@@ -569,7 +577,7 @@ INSERT INTO `scenarios` (`id`, `name`, `description`, `type`, `season`, `number`
 (198, 'Special: The Sky Key Solution', 'At long last, the Pathfinder Society has reassembled the Numerian device known as the Sky Key. Initial tests suggest it is capable of projecting a location’s past into the present, allowing Society agents to peruse books from destroyed libraries and speak with echoes of long-dead heroes. Now that it has perfected the Sky Key’s controls, the Pathfinder Society is prepared to extract a slice of Absalom’s history and bring it into the present; however, there’s no telling what might be waiting inside—or who in the present might wish to wield the same power.', 'scenario', '7', '00', '1-11', '01|02|03|04|05|06|07|08|09|10|11', 0, NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
 
 --
--- Gegevens worden geëxporteerd voor tabel `subtiers`
+-- Dumping data for table `subtiers`
 --
 
 INSERT INTO `subtiers` (`id`, `name`, `created_on`, `updated_on`, `deleted`) VALUES
@@ -584,7 +592,4 @@ INSERT INTO `subtiers` (`id`, `name`, `created_on`, `updated_on`, `deleted`) VAL
 (9, '8-9', '2015-05-26 13:01:56', '2015-05-26 13:01:56', NULL),
 (10, '10-11', '2015-05-26 13:01:56', '2015-05-26 13:01:56', NULL),
 (11, '12', '2015-05-26 13:01:56', '2015-05-26 13:01:56', NULL);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+SET FOREIGN_KEY_CHECKS=1;

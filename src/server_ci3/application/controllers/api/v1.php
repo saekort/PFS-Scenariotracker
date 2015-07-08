@@ -81,6 +81,15 @@ class V1 extends REST_Controller
 	        	$scenarios->where('evergreen', 1);
 	        }
 	        
+	        // Filter: Players
+	        if($this->get('player'))
+	        {
+	        	foreach($this->get('player') as $pfsnumber)
+	        	{
+	        		$scenarios->where_related('players', 'id IS NULL', NULL);
+	        	}
+	        }
+	        
 	    	// Pagination
 	    	if($i == 0)
 	    	{
@@ -102,6 +111,8 @@ class V1 extends REST_Controller
 	    		}
 	    		
 	    		$scenarios->get();
+// 	    		echo $scenarios->check_last_query();
+// 	    		exit;
 	    	}
 	    	
 	    	$i++;
@@ -193,12 +204,23 @@ class V1 extends REST_Controller
     
     function person_get()
     {
-    	if(!$this->get('id'))
+    	if(!$this->get('pfsnumber') && !$this->get('name'))
     	{
     		$this->response(NULL, 400);
     	}
     
-    	$person = new Person($this->get('id'));
+    	$person = new Person();
+    	
+    	if($this->get('pfsnumber'))
+    	{
+    		// First try to get by unique pfsnumber
+    		$person->get_by_pfsnumber($this->get('pfsnumber'));
+    	}
+    	else
+    	{
+    		// Otherwise try to get by name
+    		$person->get_by_name($this->get('name'));
+    	}
     	 
     	if($person->exists())
     	{

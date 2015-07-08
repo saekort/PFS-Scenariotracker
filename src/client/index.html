@@ -5,13 +5,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" type="image/png" href="favicon.ico">
+
 
 	<title>PFS Sessiontracker</title>
 
 	<link rel="stylesheet" href="./css/bootstrap.css">
 	<link rel="stylesheet" href="./css/main.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
 	<script src="./scripts/vendor/bootstrap.js"></script>
 	<script src="./scripts/vendor/ui-bootstrap-tpls-0.13.0.min.js"></script>
 	<script src="./scripts/scenariotracker.js"></script>
@@ -28,13 +30,15 @@
 <body ng-controller="SearchController as vm">
 	<div class="row playerbar">
 		<div class="col-sm-2">
-			<img src="./images/logo_pfs.png" width="270">
+			<div style="position: absolute; top: 25px; left: 60px; color: white; font-size: 50px; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;">[ALPHA]</div>
+			<img src="./images/logo_pfs.png" width="98%">
 		</div>
 		<div class="col-sm-4">
 			<div class="form-group has-feedback">
-				<label class="control-label">Search players</label> <input class="search form-control" placeholder="Search (NYI)"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i> <button>Add</button>
+				<label class="control-label">Search players</label> 
+				<input id="playersearch" class="search form-control" ng-model="vm.filters.playersearch" typeahead="person for person in vm.getPeople($viewValue)" ng-model-options="{debounce: 300}" placeholder="Search"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i> <button ng-click="vm.addPlayer()">Add</button>
 			</div>
-			<div>Filtering: <span class="filter_player label label-default" ng-repeat="person in vm.people">{{$first ? '' : $last ? ' and ' : ', '}}{{person.name}} ({{person.pfsnumber}}) <a href="" role="button">X</a></span>
+			<div>Filtering: <span ng-repeat="person in vm.people"><span class="filter_player label label-default">{{person.name}} ({{person.pfsnumber}}) <a href="" role="button" ng-click="vm.removePlayer($index)">X</a></span>&nbsp;</span>
 			</div>
 		</div>
 	</div>
@@ -100,7 +104,7 @@
 			<div>
 				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
 			</div>
-			<p class="found bg-info text-info">Found a total of <strong>{{vm.pagination.totalItems}}</strong> scenarios</p>
+			<p class="found bg-info text-info">Found a total of <strong>{{vm.pagination.totalItems}}</strong> scenarios<span ng-hide="vm.people.length == 0"> not yet played by any filtered players</span></p>
 			<div class="pfs-pagination">
 				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="20" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
 			</div>

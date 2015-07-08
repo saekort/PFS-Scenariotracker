@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 03, 2015 at 02:12 PM
+-- Generation Time: Jul 08, 2015 at 01:32 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `authors` (
   `updated_on` datetime NOT NULL,
   `deleted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=43 ;
 
 -- --------------------------------------------------------
 
@@ -46,6 +46,21 @@ CREATE TABLE IF NOT EXISTS `j_author_scenario` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `j_scenario_person`
+--
+
+CREATE TABLE IF NOT EXISTS `j_scenario_person` (
+  `scenario_id` int(11) NOT NULL,
+  `person_id` int(11) NOT NULL,
+  `pfs` datetime DEFAULT NULL,
+  `core` datetime DEFAULT NULL,
+  `pfs_gm` datetime DEFAULT NULL,
+  `core_gm` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `j_scenario_subtier`
 --
 
@@ -54,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `j_scenario_subtier` (
   `scenario_id` int(11) NOT NULL,
   `subtier_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=185 ;
 
 -- --------------------------------------------------------
 
@@ -70,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `people` (
   `updated_on` datetime NOT NULL,
   `deleted` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 -- --------------------------------------------------------
 

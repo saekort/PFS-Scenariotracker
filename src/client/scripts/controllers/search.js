@@ -28,6 +28,7 @@
     	vm.filters.authors = [];
     	vm.filters.players = [];
     	vm.filters.search = null;
+    	vm.filters.playersearch = null;
     	vm.filters.evergreen = false;
     	vm.filters.retired = false;
     	
@@ -91,6 +92,15 @@
     		query = query + '&retired=true';
     	}
     	
+    	// Filter: Players
+    	if(vm.people)
+    	{
+    		for (var index = 0; index < vm.people.length; ++index)
+    		{
+    			query = query + '&player[]=' + vm.people[index].pfsnumber;
+    		}
+    	}
+    	
     	vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/scenarios' + '?' + query).
     	  success(function(data, status, headers, config) {
     		  // Assign scenarios
@@ -114,15 +124,22 @@
     	  });
     }
     
-    SearchController.prototype.getPeople = function()
+    SearchController.prototype.getPeople = function(search)
     {
     	var vm = this;
-    	vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/people').
-    	  success(function(data, status, headers, config) {
-    	    // this callback will be called asynchronously
-    	    // when the response is available
-    		  vm.people = data;
-    	  })
+    	
+    	return vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/people').then(
+    			function(response){
+    				return response.data.map(function(item)
+    				{
+    					if(item.pfsnumber == null)
+    					{
+    						return item.name + ' (unknown)';
+    					}
+    					
+    					return item.name + ' (' + item.pfsnumber + ')';
+    				});
+    			});
     }
     
     SearchController.prototype.changePage = function()
@@ -130,4 +147,50 @@
     	var vm = this;
     	vm.getScenarios();
     }
+    
+    SearchController.prototype.removePlayer = function(index)
+    {
+    	var vm = this;
+    	
+    	if(index > -1)
+    	{
+    		vm.people.splice(index,1);
+    	}
+    	
+    	vm.getScenarios();
+    }
+    
+    SearchController.prototype.addPlayer = function()
+    {
+    	var vm = this;
+    	
+    	if(vm.filters.playersearch != null && vm.filters.playersearch != '')	
+    	{
+    		var searcharray = vm.filters.playersearch.split(" ");
+    		var name = searcharray[0];
+    		var pfsnumber = searcharray[1];
+    		pfsnumber = pfsnumber.replace('(', '');
+    		pfsnumber = pfsnumber.replace(')', '');
+    		
+    		if(pfsnumber != null && pfsnumber != 'unknown' && pfsnumber != '')
+    		{
+    			vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/person/pfsnumber/' + pfsnumber).then(function(response){
+    				vm.people.push(response.data[0]);
+    				vm.filters.playersearch = '';
+    				vm.getScenarios();
+    				focus('playersearch');
+    			});
+    		}
+    		else
+    		{
+    			vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/person/name/' + name).then(function(response) {
+    				vm.people.push(response.data[0]);
+    				vm.filters.playersearch = '';
+    				vm.getScenarios();
+    				focus('playersearch');
+    			});
+    		}
+    	}
+    }
+    
 })();

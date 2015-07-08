@@ -4026,9 +4026,9 @@ class DataMapper implements IteratorAggregate {
 		$sel_protect = $this->db->protect_identifiers($sel);
 		// only add the items if there isn't an existing order_by,
 		// AND the select statement is empty or includes * or table.* or `table`.*
-		if(empty($this->db->dm_get('qb_orderby')) &&
+		if(!$this->db->dm_get('qb_orderby') &&
 			(
-				empty($this->db->dm_get('qb_select')) ||
+				!$this->db->dm_get('qb_select') ||
 				in_array('*', $this->db->dm_get('qb_select')) ||
 				in_array($sel_protect, $this->db->dm_get('qb_select')) ||
 			 	in_array($sel, $this->db->dm_get('qb_select'))
@@ -4554,7 +4554,7 @@ class DataMapper implements IteratorAggregate {
 		}
 
 		// Force the selection of the current object's columns
-		if (empty($db->dm_get('qb_select')))
+		if (!$db->dm_get('qb_select'))
 		{
 			$db->select($this->table . '.*');
 		}
@@ -4987,7 +4987,7 @@ class DataMapper implements IteratorAggregate {
 		}
 
 		// Force the selection of the current object's columns
-		if (empty($this->db->dm_get('qb_select')))
+		if (!$this->db->dm_get('qb_select'))
 		{
 			$this->db->select($this->table . '.*');
 		}
@@ -5025,7 +5025,7 @@ class DataMapper implements IteratorAggregate {
 		}
 
 		// To ensure result integrity, group all previous queries
-		if( ! empty($this->db->dm_get('qb_where')))
+		if( $this->db->dm_get('qb_where'))
 		{
 			$arwhere = $this->db->dm_get('qb_where');
 			array_unshift($arwhere, '( ');

@@ -1,18 +1,18 @@
 <?php
 
 /**
- * Subtier DataMapper Model
+ * Scenario DataMapper Model
  *
  * @license		MIT License
  * @category	Models
  * @author		Simon Kort
  */
-class Person extends DataMapper {
+class Scenario extends DataMapper {
 
 	// Uncomment and edit these two if the class has a model name that
 	//   doesn't convert properly using the inflector_helper.
-	// var $model = 'subtier';
-	var $table = 'people';
+	// var $model = 'scenario';
+	var $table = 'scenarios';
 
 	// You can override the database connections with this option
 	// var $db_params = 'db_config_name';
@@ -22,27 +22,49 @@ class Person extends DataMapper {
 	//   Configure your relationships below
 	// --------------------------------------------------------------------
 
-	// Insert related models that Subtier can have just one of.
+	// Insert related models that Scenario can have just one of.
 	var $has_one = array();
 
-	// Insert related models that Subtier can have more than one of.
-	var $has_many = array();
+	// Insert related models that Scenario can have more than one of.
+	var $has_many = array(
+			'authors' => array(
+					'class' => 'author',
+					'other_field' => 'scenarios',
+					'join_self_as' => 'scenario',
+					'join_other_as' => 'author',
+					'join_table' => 'j_author_scenario'
+					),
+			'subtiers' => array(
+					'class' => 'subtier',
+					'other_field' => 'scenarios',
+					'join_self_as' => 'scenario',
+					'join_other_as' => 'subtier',
+					'join_table' => 'j_scenario_subtier'
+					),
+			'players' => array(
+					'class' => 'person',
+					'other_field' => 'scenarios',
+					'join_self_as' => 'scenario',
+					'join_other_as' => 'person',
+					'join_table' => 'j_scenario_person'
+			)
+			);
 
 	/* Relationship Examples
 	 * For normal relationships, simply add the model name to the array:
-	 *   $has_one = array('user'); // Subtier has one User
+	 *   $has_one = array('user'); // Scenario has one User
 	 *
 	 * For complex relationships, such as having a Creator and Editor for
-	 * Subtier, use this form:
+	 * Scenario, use this form:
 	 *   $has_one = array(
 	 *   	'creator' => array(
 	 *   		'class' => 'user',
-	 *   		'other_field' => 'created_subtier'
+	 *   		'other_field' => 'created_scenario'
 	 *   	)
 	 *   );
 	 *
-	 * Don't forget to add 'created_subtier' to User, with class set to
-	 * 'subtier', and the other_field set to 'creator'!
+	 * Don't forget to add 'created_scenario' to User, with class set to
+	 * 'scenario', and the other_field set to 'creator'!
 	 *
 	 */
 
@@ -111,6 +133,5 @@ class Person extends DataMapper {
 	*/
 }
 
-/* End of file subtier.php */
-/* Location: ./application/models/subtier.php */
-
+/* End of file scenario.php */
+/* Location: ./application/models/scenario.php */
