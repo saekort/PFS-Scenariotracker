@@ -173,7 +173,7 @@
     		
     		if(pfsnumber != null && pfsnumber != 'unknown' && pfsnumber != '')
     		{
-    			vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/person/pfsnumber/' + pfsnumber).then(function(response){
+    			vm.$http.get('http://pfs.campaigncodex.com/api/v1/person/pfsnumber/' + pfsnumber).then(function(response){
     				vm.people.push(response.data[0]);
     				vm.filters.playersearch = '';
     				vm.getScenarios();
