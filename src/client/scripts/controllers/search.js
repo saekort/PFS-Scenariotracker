@@ -37,7 +37,6 @@
     	vm.pagination.currentPage = 1;
     	vm.pagination.pageSize = 20;
     	
-    	vm.getPeople();
     	vm.getScenarios();
     }
     
@@ -101,7 +100,7 @@
     		}
     	}
     	
-    	vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/scenarios' + '?' + query).
+    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/scenarios' + '?' + query).
     	  success(function(data, status, headers, config) {
     		  // Assign scenarios
     		  vm.scenarios = data.scenarios;
@@ -128,7 +127,7 @@
     {
     	var vm = this;
     	
-    	return vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/people').then(
+    	return vm.$http.get('http://pfs.campaigncodex.com/api/v1/people?search=' + search).then(
     			function(response){
     				return response.data.map(function(item)
     				{
@@ -175,15 +174,6 @@
     		if(pfsnumber != null && pfsnumber != 'unknown' && pfsnumber != '')
     		{
     			vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/person/pfsnumber/' + pfsnumber).then(function(response){
-    				vm.people.push(response.data[0]);
-    				vm.filters.playersearch = '';
-    				vm.getScenarios();
-    				focus('playersearch');
-    			});
-    		}
-    		else
-    		{
-    			vm.$http.get('http://localhost/pfs-scenariotracker/src/server_ci3/index.php/api/v1/person/name/' + name).then(function(response) {
     				vm.people.push(response.data[0]);
     				vm.filters.playersearch = '';
     				vm.getScenarios();

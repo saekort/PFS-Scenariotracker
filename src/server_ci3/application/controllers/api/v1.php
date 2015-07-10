@@ -31,6 +31,25 @@ class V1 extends REST_Controller
     
     function scenarios_get()
     {
+
+    	
+/**
+ * THIS WORKS!
+ 
+SELECT *
+FROM `scenarios`
+WHERE `scenarios`.`id` NOT IN(
+    SELECT `scenarios`.`id`
+    FROM `scenarios`
+    LEFT OUTER JOIN `j_scenario_person`
+        `players_j_scenario_person` ON `scenarios`.`id` = `players_j_scenario_person`.`scenario_id`
+    WHERE
+        `players_j_scenario_person`.`person_id` IN(1, 2, 3, 4, 5)    
+    ) 
+ 
+ 
+ */    	
+    	
     	// Set a limit, could be expanded later on
     	$limit = 20;
     	
@@ -84,10 +103,12 @@ class V1 extends REST_Controller
 	        // Filter: Players
 	        if($this->get('player'))
 	        {
-	        	foreach($this->get('player') as $pfsnumber)
-	        	{
-	        		$scenarios->where_related('players', 'id IS NULL', NULL);
-	        	}
+	        	$pfsnumbers = array();
+	        
+	        	$subq_players = new Scenario();
+	        	$subq_players->select('id')->where_in_related_players('pfsnumber', $this->get('player'));
+	        	
+	        	$scenarios->where_not_in_subquery('id', $subq_players);
 	        }
 	        
 	    	// Pagination
@@ -111,8 +132,6 @@ class V1 extends REST_Controller
 	    		}
 	    		
 	    		$scenarios->get();
-// 	    		echo $scenarios->check_last_query();
-// 	    		exit;
 	    	}
 	    	
 	    	$i++;
@@ -187,7 +206,14 @@ class V1 extends REST_Controller
     
     function people_get()
     {
+    	if(!$this->get('search'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
     	$people = new Person();
+    	$people->or_like('name', $this->get('search'));
+    	$people->or_like('pfsnumber', $this->get('search'));
     	$people->get();
     
     	if($people->exists())

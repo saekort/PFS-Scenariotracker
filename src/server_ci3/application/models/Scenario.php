@@ -49,7 +49,7 @@ class Scenario extends DataMapper {
 					'join_table' => 'j_scenario_person'
 			)
 			);
-
+	
 	/* Relationship Examples
 	 * For normal relationships, simply add the model name to the array:
 	 *   $has_one = array('user'); // Scenario has one User

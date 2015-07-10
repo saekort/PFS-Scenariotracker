@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 08, 2015 at 01:33 PM
+-- Generation Time: Jul 10, 2015 at 04:31 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -166,7 +166,13 @@ INSERT INTO `j_author_scenario` (`scenario_id`, `author_id`) VALUES
 
 INSERT INTO `j_scenario_person` (`scenario_id`, `person_id`, `pfs`, `core`, `pfs_gm`, `core_gm`) VALUES
 (1, 1, NULL, NULL, NULL, NULL),
-(2, 2, NULL, NULL, NULL, NULL);
+(2, 2, NULL, NULL, NULL, NULL),
+(4, 7, NULL, NULL, NULL, NULL),
+(3, 7, NULL, NULL, NULL, NULL),
+(11, 7, NULL, NULL, NULL, NULL),
+(15, 1, NULL, NULL, NULL, NULL),
+(21, 1, NULL, NULL, NULL, NULL),
+(19, 1, NULL, NULL, NULL, NULL);
 
 --
 -- Dumping data for table `j_scenario_subtier`
@@ -368,7 +374,10 @@ INSERT INTO `people` (`id`, `name`, `pfsnumber`, `created_on`, `updated_on`, `de
 (3, 'Rik', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (4, 'Kwinten', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
 (5, 'Maite', NULL, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
-(6, 'Willeke', 123251, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
+(6, 'Willeke', 123251, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
+(7, 'Test', 1, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
+(8, 'Testzoon', 2, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL),
+(9, 'Bob test', 3, '0000-00-00 00:00:00', '0000-00-00 00:00:00', NULL);
 
 --
 -- Dumping data for table `scenarios`
