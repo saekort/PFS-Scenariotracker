@@ -16,7 +16,10 @@
 	<script src="./scripts/vendor/bootstrap.js"></script>
 	<script src="./scripts/vendor/ui-bootstrap-tpls-0.13.0.min.js"></script>
 	<script src="./scripts/scenariotracker.js"></script>
+	<script src="./scripts/controllers/report.js"></script>	
 	<script src="./scripts/controllers/search.js"></script>
+	<script src="./scripts/controllers/home.js"></script>
+	<script src="./scripts/vendor/angular-ui-router.min.js"></script>
 	
 	<!-- RangeSlider: https://github.com/danielcrisp/angular-rangeslider -->
 	<link rel="stylesheet" href="./css/angular.rangeSlider.css">
@@ -26,107 +29,9 @@
 	<script src="./scripts/vendor/spin.min.js"></script>
 	<script src="./scripts/vendor/angular-spinner.js"></script>
 </head>
-<body ng-controller="SearchController as vm">
-	<div class="row playerbar">
-		<div class="col-sm-2">
-			<div style="position: absolute; top: 25px; left: 60px; color: white; font-size: 50px; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;">[ALPHA]</div>
-			<img src="./images/logo_pfs.png" width="98%">
-		</div>
-		<div class="col-sm-4">
-			<div class="form-group has-feedback">
-				<label class="control-label">Search players</label> 
-				<input id="playersearch" class="search form-control" ng-model="vm.filters.playersearch" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" placeholder="Search"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i> <button ng-click="vm.addPlayer()">Add</button>
-			</div>
-			<div ng-show="vm.people.length > 0">Filtering: <span ng-repeat="person in vm.people"><span class="filter_player label label-default">{{person.name}} ({{person.pfsnumber}}) <a href="" role="button" ng-click="vm.removePlayer($index)">X</a></span>&nbsp;</span>
-			</div>
-		</div>
-	</div>
-	<div class="col-sm-2 filterbar">
-		<h2>Filters</h2>
-			<form>
-				<div class="form-group has-feedback">
-					<label for="scenarioSelect">Scenario name</label>
-					<input type="text" class="form-control" id="scenarioSelect" ng-model="vm.filters.search" ng-change="vm.getScenarios()" ng-model-options="{debounce: 300}" placeholder="Search scenarios"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
-				</div>			
-				<div class="form-group filter">
-					<strong>Level range:</strong>
-					<div range-slider 
-						min="1" 
-						max="12"
-						step="1" 
-						model-min="vm.filters.levelRangeMin" 
-						model-max="vm.filters.levelRangeMax" 
-						attach-handle-values="true"
-						show-values="true"
-						on-handle-up="vm.getScenarios()"></div>
-				</div>			
-				<div class="form-group filter">
-					<strong class="col-sm-12">Season</strong><br>
-						<div class="checkbox col-sm-6" ng-repeat="season in vm.filters.seasons">
-							<label for="season-{{season.key}}" title="{{ season.name }}"><input id="season-{{season.key}}" type="checkbox" name="season" ng-model="season.checked" value="{{season.key}}" ng-click="vm.getScenarios()">{{ season.name }}</label>
-						</div>
-				</div>
-				<div class="form-group filter" ng-hide="1==1">
-					<strong>Type campaign:</strong>
-					<div class="checkbox">
-						<label class="checkbox"><input type="checkbox" value="">PFS (NYI) </label>
-					</div>
-					<div class="checkbox">
-						<label class="checkbox"><input type="checkbox" value="">CORE (NYI) </label>
-					</div>
-				</div>
-				<div class="form-group filter">
-					<strong>Other:</strong>
-					<br>
-					<div class="checkbox">
-						<label class="checkbox"><input type="checkbox" ng-model="vm.filters.evergreen" value="" ng-click="vm.getScenarios()"><span class="glyphicon glyphicon-leaf evergreen"></span> Only evergreens</label>
-					</div>
-					<div class="checkbox">
-						<label class="checkbox"><input type="checkbox" ng-model="vm.filters.retired" value="" ng-click="vm.getScenarios()"><span class="glyphicon glyphicon-remove archived"></span> Include retired scenarios</label>
-					</div>
-					<div class="checkbox" ng-hide="1==1">
-						<label class="checkbox"><input type="checkbox" value="" ng-click="vm.getScenarios()">Include modules (NYI)</label>
-					</div>
-					<div class="checkbox" ng-hide="1==1">
-						<label class="checkbox"><input type="checkbox" value="" ng-click="vm.getScenarios()">Include adventure paths (NYI)</label>
-					</div>
-				</div>
-				<div class="form-group has-feedback" ng-hide="1==1">
-					<label for="authorSelect">Author(s)</label>
-					<input type="text" class="form-control" id="authorSelect" placeholder="Search author (NYI)"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
-				</div>
-			</form>
-	</div>             
-	
-	<div class="col-sm-10">
-		<div class="row">
-			<div>
-				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
-			</div>
-			<p class="found bg-info text-info">Found a total of <strong>{{vm.pagination.totalItems}}</strong> scenarios<span ng-hide="vm.people.length == 0"> not yet played by any filtered players</span></p>
-			<div class="pfs-pagination">
-				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="20" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
-			</div>
-			<div class="found alert alert-info" ng-show="vm.noScenarios">No playable options were found. Try changing your search filters or selected players.</div>
-			<div ng-repeat="scenario in vm.scenarios">
-				<div class="scenario">		
-					<div class="title">
-						<span ng-if='scenario.archived != NULL' class="glyphicon glyphicon-remove archived" title="You cannot play this scenario for credit, it was retired on {{scenario.archived}}"></span>					
-						<span ng-if='scenario.evergreen == 1' class="glyphicon glyphicon-leaf evergreen" title="Evergreen"></span>
-						#{{scenario.season}}-{{scenario.number}} {{scenario.name}} 
-						<span class="authors">by </span><span class="authors" ng-show="scenario.authors.length == 0">Unknown</span><span class="authors" ng-repeat="author in scenario.authors">{{$first ? '' : $last ? ' and ' : ', '}}{{author}}</span>
-					</div>	
-					<span>{{scenario.description}}</span> 
-					<br>
-					<span>Type: {{scenario.type}}</span>
-					<br>	
-					<span>Tier: <span ng-show="!scenario.tier">Unknown</span>{{scenario.tier}} (<span ng-show="scenario.subtiers.length == 0">Unknown</span><span ng-repeat="subtier in scenario.subtiers">{{$first ? '' : ', '}}{{subtier}}</span>)</span>	
-				</div>
-			</div>
-			<div class="pfs-pagination">
-				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="20" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
-			</div>			
-		</div>
-	</div>
+<body>
+	<ui-view><br><br><br><center>Loading PFS Sessiontracker...
+		<div><img width="50%" src="./images/logo_pfs.png"></div></center>
+	</ui-view>
 </body>
 </html>

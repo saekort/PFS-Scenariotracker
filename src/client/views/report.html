@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="col-sm-2">
+		<div style="position: absolute; top: 25px; left: 60px; color: white; font-size: 50px; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;">[ALPHA]
+		</div>
+			<img src="./images/logo_pfs.png" width="98%">
+	</div>
+	<div class="col-sm-4">
+		<label class="control-label">Select a player</label> 
+		<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" placeholder="Search for a player"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i><button ng-click="vm.addPlayer()">Add</button>
+	</div>
+</div>
+<div class="row reporttabs">
+	<tabset>
+		<tab heading="Season 0">trefdvdvf</tab>
+		<tab heading="Season 1"></tab>
+		<tab heading="Season 2"></tab>
+		<tab heading="Season 3"></tab>
+		<tab heading="Season 4"></tab>
+		<tab heading="Season 5">werwerwer</tab>
+		<tab heading="Season 6"></tab>
+		<tab heading="Season 7">werwerwer</tab>
+	</tabset>
+</div>

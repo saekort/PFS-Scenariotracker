@@ -259,4 +259,26 @@ WHERE `scenarios`.`id` NOT IN(
     		$this->response(array('error' => 'Person could not be found'), 404);
     	}
     }
+
+    function scenarioBySeason_get()
+    {
+        if(!$this->get('season'))
+        {
+            $this->response(NULL, 400);
+        }
+
+        $scenario = new Scenario();
+        $scenario->get_by_season($this->get('season'));
+
+        if($scenario->exists())
+        {
+            $scenario_array = $scenario->all_to_array();
+                         
+            $this->response($scenario_array, 200); // 200 being the HTTP response code
+        }
+        else
+        {
+            $this->response(array('error' => 'Person could not be found'), 404);
+        }        
+    }
 }

@@ -1,6 +1,11 @@
 @CHARSET "ISO-8859-1";
 
+body {
+	background-color: #DADADA;
+}
+
 .scenario {
+	background-color: #FFEFDB;
 	border-radius: 15px;
 	border: 2px solid #BA6B6B;
 	margin: 10px;
@@ -59,6 +64,44 @@
 
 .found {
 	border-radius: 15px;
+	margin: 10px;
+	padding: 10px;
+}
+
+.search-button .report-button {
+	float: left;
+	text-align: center;
+}
+
+.search-button button, .report-button button {
+	background-color: #521717;
+	border-color: #521717;
+}
+
+.search-button button:hover, .report-button button:hover, 
+.search-button button:target, .report-button button:target, 
+.search-button button:focus, .report-button button:focus,
+.search-button button:active, .report-button button:active {
+	background-color: #872525 !important;
+	border-color: #872525 !important;
+}
+
+.home_logo {
+	margin: 10px;
+}
+
+.tab-pane {
+	background-color: #FFEFDB;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus{
+    color: #555555;
+    background-color: #FFEFDB; 
+}
+
+.reporttabs {
 	margin: 10px;
 	padding: 10px;
 }
