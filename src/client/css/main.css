@@ -90,18 +90,14 @@ body {
 	margin: 10px;
 }
 
-.tab-pane {
-	background-color: #FFEFDB;
+.reportingfor {
+	font-size: 25px;
 }
 
-.nav-tabs > li.active > a,
-.nav-tabs > li.active > a:hover,
-.nav-tabs > li.active > a:focus{
-    color: #555555;
-    background-color: #FFEFDB; 
+.reportoption {
+	margin: 2px;
 }
 
-.reporttabs {
-	margin: 10px;
-	padding: 10px;
+.homelink {
+	cursor: pointer;
 }

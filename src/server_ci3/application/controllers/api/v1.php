@@ -27,6 +27,11 @@ class V1 extends REST_Controller
         $this->methods['user_get']['limit'] = 500; //500 requests per hour per user/key
         $this->methods['user_post']['limit'] = 100; //100 requests per hour per user/key
         $this->methods['user_delete']['limit'] = 50; //50 requests per hour per user/key
+        
+       	if($this->request->method == 'options')
+       	{
+       		$this->response('', 200);
+       	}
     }
     
     function scenarios_get()
@@ -260,25 +265,95 @@ WHERE `scenarios`.`id` NOT IN(
     	}
     }
 
-    function scenarioBySeason_get()
+    function reportscenarios_get()
     {
-        if(!$this->get('season'))
-        {
-            $this->response(NULL, 400);
-        }
+    	if(!$this->get('type') || !$this->get('pfsnumber'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	// Get the player
+    	$player = new Person();
+    	$player->get_by_pfsnumber($this->get('pfsnumber'));
+    	
+    	// Determine what kind of content we need to get
+    	if($this->get('type') != 'overview')
+    	{
+    		// Normal content
+    		if(is_numeric(substr($this->get('type'),1,1)))
+    		{
+    			
+    			// Season
+    			$season = substr($this->get('type'),1,1);
+    			
+    			// Get all the scenarios played for this player in this season
+    			$played_scenarios = $player->scenarios->where('season', $season)->include_join_fields()->get();
+    			
+    			$state = array();
 
-        $scenario = new Scenario();
-        $scenario->get_by_season($this->get('season'));
-
-        if($scenario->exists())
-        {
-            $scenario_array = $scenario->all_to_array();
-                         
-            $this->response($scenario_array, 200); // 200 being the HTTP response code
-        }
-        else
-        {
-            $this->response(array('error' => 'Person could not be found'), 404);
-        }        
+    			foreach($played_scenarios as $played_scenario)
+    			{
+    				$state[$played_scenario->id]['pfs'] = (bool)$played_scenario->join_pfs;
+    				$state[$played_scenario->id]['core'] = (bool)$played_scenario->join_core;
+    				$state[$played_scenario->id]['pfs_gm'] = (bool)$played_scenario->join_pfs_gm;
+    				$state[$played_scenario->id]['core_gm'] = (bool)$played_scenario->join_pfs_gm;
+    			}    			
+    			
+    			$scenarios = new Scenario();
+    			$scenarios->get_by_season($season);
+    			$scenarios_array = $scenarios->all_to_array();
+    			
+    			foreach($scenarios_array as $index => $scenario)
+    			{
+					if(array_key_exists($scenario['id'], $state))
+					{
+						$scenarios_array[$index]['state'] = $state[$scenario['id']];
+					}
+					else
+					{
+						$scenarios_array[$index]['state'] = array('pfs' => false, 'core' => false, 'pfs_gm' => false, 'core_gm' => false);
+					}
+    			}
+    			
+    			$this->response($scenarios_array, 200);
+    		}
+    		else
+    		{
+    			// Modules or adventure paths
+    			//TODO
+    			$this->response('Not yet implemented', 200);
+    		}
+    	}
+    	else
+    	{
+    		// Generate overview
+    		echo 'overview';
+    	}
+    }
+    
+    function reportscenario_post()
+    {
+    	if(!$this->post('state') || !$this->post('pfsnumber') || !$this->post('scenario'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	// Does a relationship exists yet?
+    	$scenario = new Scenario($this->post('scenario'));
+    	
+    	$player = new Person();
+    	$player->where('pfsnumber', $this->post('pfsnumber'))->where_related_scenarios($scenario)->get();
+    	
+    	if(!$player->exists())
+    	{
+    		$player->where('pfsnumber', $this->post('pfsnumber'))->get();
+    		
+    		// No relation yet!
+    		$player->save_scenarios($scenario);
+    	}
+    	
+    	$player->set_join_field($scenario, $this->post('state'), date("Y-m-d H:i:s"));
+    	
+    	$this->response('', 200);
     }
 }

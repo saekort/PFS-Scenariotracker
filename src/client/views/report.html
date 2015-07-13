@@ -1,23 +1,30 @@
 <div class="row">
-	<div class="col-sm-2">
+	<div class="col-sm-2 homelink" ng-click="vm.gotoHome()">
 		<div style="position: absolute; top: 25px; left: 60px; color: white; font-size: 50px; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;">[ALPHA]
 		</div>
 			<img src="./images/logo_pfs.png" width="98%">
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-4 report_playersearch">
 		<label class="control-label">Select a player</label> 
 		<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" placeholder="Search for a player"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i><button ng-click="vm.addPlayer()">Add</button>
 	</div>
 </div>
-<div class="row reporttabs">
-	<tabset>
-		<tab heading="Season 0">trefdvdvf</tab>
-		<tab heading="Season 1"></tab>
-		<tab heading="Season 2"></tab>
-		<tab heading="Season 3"></tab>
-		<tab heading="Season 4"></tab>
-		<tab heading="Season 5">werwerwer</tab>
-		<tab heading="Season 6"></tab>
-		<tab heading="Season 7">werwerwer</tab>
-	</tabset>
+<div class="row">
+	<div class="col-sm-2"></div>
+	<div class="col-sm-10 reportingfor">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+</div>
+<div class="row">
+	<div class="col-sm-2">
+		<button class="btn btn-default col-sm-12" ng-hide="vm.atOverview" ng-click="vm.changeReportType('overview')">{{vm.overview.name}}</button>
+		<button class="btn btn-default col-sm-12" ng-repeat="reportoption in vm.reportoptions" ng-click="vm.changeReportType(reportoption)">{{reportoption.name}}</button>
+	</div>
+	<div>
+		<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
+	</div>
+	<div class="col-sm-10" ng-hide="vm.atOverview">
+		<div ng-repeat="content in vm.content track by $index" class="reportoption">
+			<input ng-model="content.state.pfs" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs')"> <input ng-model="content.state.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core')"> #{{content.season}}-{{content.number}} {{content.name}}
+		</div>
+	</div>
+	<div class="col-sm-10" ng-show="vm.atOverview"></div>
 </div>

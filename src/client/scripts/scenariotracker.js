@@ -2,7 +2,7 @@
 (function(){
     'use strict';
 
-    var scenariotracker = angular.module('scenariotracker', ['ui.bootstrap','ui-rangeSlider', 'angularSpinner','ui.router']);
+    var scenariotracker = angular.module('scenariotracker', ['ui.bootstrap','ui-rangeSlider', 'angularSpinner','ui.router','ui.check']);
     
     // Standard config of modules
     scenariotracker.config(function (usSpinnerConfigProvider, $stateProvider, $urlRouterProvider, $locationProvider) {
