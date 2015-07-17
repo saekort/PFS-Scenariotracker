@@ -5,11 +5,11 @@
         .module('scenariotracker')
         .controller('ReportController', ReportController );
     
-    function ReportController($http, $state, usSpinnerService)
+    function ReportController($http, $state, $location, usSpinnerService)
     {
     	var vm = this;
     	vm.playerselect = '';
-    	vm.player = {name: 'Simon', pfsnumber: '25642'};
+    	vm.player = null;
     	vm.reportoptions = [
     			{name: 'Season 0', id: 's0'}, 
     			{name: 'Season 1', id: 's1'},
@@ -27,9 +27,9 @@
     	vm.reporttype = vm.overview;
     	vm.$http = $http;
     	vm.$state = $state;
+    	vm.$location = $location;
     	vm.usSpinnerService = usSpinnerService;
     	vm.content = false;
-    	vm.getContent();
     }
     
     ReportController.prototype.changeReportType = function(type)
@@ -70,9 +70,12 @@
   	  	});
     }
     
-    ReportController.prototype.saveScenario = function(scenario_id, state)
+    ReportController.prototype.saveScenario = function(scenario_id, state, $index)
     {
     	var vm = this;
+    	
+    	console.log(state);
+    	console.log(vm.content[$index].state[state]);
     	
         var req = {
                 method: 'POST',
@@ -93,10 +96,40 @@
 	  	});
     }
     
-    ReportController.prototype.gotoHome = function()
+    ReportController.prototype.getPeople = function(search)
     {
     	var vm = this;
-    	vm.$state.go('home');
-    }    
+    	
+    	return vm.$http.get('http://pfs.campaigncodex.com/api/v1/people?search=' + search).then(
+    			function(response){
+    				return response.data.map(function(item)
+    				{
+    					if(item.pfsnumber == null)
+    					{
+    						return item.name + ' (unknown)';
+    					}
+    					
+    					return item.name + ' (' + item.pfsnumber + ')';
+    				});
+    			});
+    }
     
+    ReportController.prototype.selectPlayer = function()
+    {
+    	var vm = this;
+    	
+    	if(vm.playerselect != null && vm.playerselect != '')	
+    	{
+    		var searcharray = vm.playerselect.split(" ");
+    		var name = searcharray[0];
+    		var pfsnumber = searcharray[1];
+    		pfsnumber = pfsnumber.replace('(', '');
+    		pfsnumber = pfsnumber.replace(')', '');
+    		
+    		vm.player = {name: name, pfsnumber: pfsnumber};
+    	}
+    	
+    	vm.changeReportType('overview');
+    	vm.playerselect = '';
+    } 
 })();

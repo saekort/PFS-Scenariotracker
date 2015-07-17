@@ -2,6 +2,32 @@
 
 body {
 	background-color: #DADADA;
+	padding-top: 70px;
+}
+
+.navbar {
+	background-color: #6E2D2D;
+}
+
+.navbar-default .navbar-brand {
+	color: #EDEDED;
+}
+
+.navbar-default .navbar-brand:hover {
+	color: #EDEDED;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	background-color: #DFD3C5;
+	color: black;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a {
+	color: #EDEDED;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	color: white;
 }
 
 .scenario {
@@ -100,4 +126,43 @@ body {
 
 .homelink {
 	cursor: pointer;
+}
+
+.mainbutton {
+	margin: 10px;
+}
+
+.vertical {
+	display: inline-block;
+	float: left;
+	font-weight: bold;
+	height:0px;
+	position: absolute;
+	top: 70px;
+    -webkit-transform: rotate(90deg) translate(0%,0%);
+            transform: rotate(90deg) translate(0%,0%);
+    -webkit-transform-origin: 100% 100%;
+            transform-origin: 100% 100%;
+}
+
+.vertical-container {
+	height: 70px;
+	padding: 7px;
+}
+
+.pfs {
+	
+}
+
+.core {
+	left: 19px;
+}
+
+.pfsgm {
+	left: 29px;
+}
+
+.coregm {
+	left: 42px;
+	
 }

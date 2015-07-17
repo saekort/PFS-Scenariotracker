@@ -9,24 +9,26 @@
         usSpinnerConfigProvider.setDefaults({color: '#521717'});
 
         $stateProvider
-        	.state('home', {
-        		url: '',
-        		templateUrl: "views/home.html",
-        		controller: 'HomeController',
-        		controllerAs: 'vm'
-        	})
         	.state('search', {
         		url: '/search',
         		templateUrl: "views/search.html",
         		controller: 'SearchController',
         		controllerAs: 'vm'        		
         	})
+        	.state('register', {
+        		url: '/register',
+        		templateUrl: "views/register.html",
+        		controller: 'RegisterController',
+        		controllerAs: 'vm'        		
+        	})        	
         	.state('report', {
         		url: '/report',
         		templateUrl: "views/report.html",
         		controller: 'ReportController',
         		controllerAs: 'vm'        		
         	});
+        
+        $urlRouterProvider.otherwise("/search");
     });
 
 })();

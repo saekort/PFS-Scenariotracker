@@ -5,11 +5,12 @@
         .module('scenariotracker')
         .controller('SearchController', SearchController );
     
-    function SearchController($http, $state, usSpinnerService)
+    function SearchController($http, $state, $location, usSpinnerService)
     {
     	var vm = this;
     	vm.$http = $http;
     	vm.$state = $state;
+    	vm.$location = $location;
     	vm.usSpinnerService = usSpinnerService;
     	vm.scenarios = [];
     	vm.noScenarios = false;
@@ -183,11 +184,4 @@
     		}
     	}
     }
-    
-    SearchController.prototype.gotoHome = function()
-    {
-    	var vm = this;
-    	vm.$state.go('home');
-    }      
-    
 })();

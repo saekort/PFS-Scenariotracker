@@ -1,8 +1,7 @@
-	<div class="row playerbar">
-		<div class="col-sm-2 homelink" ng-click="vm.gotoHome()">
-			<div style="position: absolute; top: 25px; left: 60px; color: white; font-size: 50px; text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;">[ALPHA]</div>
-			<img src="./images/logo_pfs.png" width="98%">
-		</div>
+<ng-include src="'./views/partials/nav.html'"></ng-include>
+<div class="container-fluid">
+	<div class="row">
+		<ng-include src="'./views/partials/logo.html'"></ng-include>
 		<div class="col-sm-4">
 			<div class="form-group has-feedback">
 				<label class="control-label">Search players</label> 
@@ -87,7 +86,7 @@
 						#{{scenario.season}}-{{scenario.number}} {{scenario.name}} 
 						<span class="authors">by </span><span class="authors" ng-show="scenario.authors.length == 0">Unknown</span><span class="authors" ng-repeat="author in scenario.authors">{{$first ? '' : $last ? ' and ' : ', '}}{{author}}</span>
 					</div>	
-					<span>{{scenario.description}}</span> 
+					<span>{{scenario.description}}</span>
 					<br>
 					<span>Type: {{scenario.type}}</span>
 					<br>	
@@ -99,3 +98,4 @@
 			</div>			
 		</div>
 	</div>
+</div>
