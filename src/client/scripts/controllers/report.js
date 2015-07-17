@@ -19,8 +19,8 @@
     			{name: 'Season 5', id: 's5'},
     			{name: 'Season 6', id: 's6'},
     			{name: 'Season 7', id: 's7'},		
-    			//{name: 'Modules', id: 'mod'},
-    			//{name: 'Adventure paths', id: 'ap'}
+    			{name: 'Modules', id: 'mod'},
+    			{name: 'Adventure paths', id: 'ap'}
     			];
     	vm.overview = {name: '<< Back to overview', id: 'overview'};
     	vm.atOverview = true;
@@ -39,7 +39,7 @@
     	if(type == 'overview')
     	{
     		vm.reporttype = 'overview';
-    		vm.getContent();
+    		vm.getPlayerprogress();
     		vm.atOverview = true;
     	}
     	else
@@ -69,6 +69,26 @@
   	  		vm.usSpinnerService.stop('spinner-1');
   	  	});
     }
+  
+    ReportController.prototype.getPlayerprogress = function()
+    {
+    	var vm = this;
+    	
+    	vm.usSpinnerService.spin('spinner-1');
+    	
+    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/playerprogress' + '?pfsnumber=' + vm.player.pfsnumber).
+    		success(function(data, status, headers, config) {
+    		// Assign scenarios
+    		vm.playerprogress = data;
+  		  	vm.usSpinnerService.stop('spinner-1');
+    	}).
+  	  	error(function(data, status, headers, config) {
+  	  		// called asynchronously if an error occurs
+  	  		// or server returns response with an error status.
+  	  		console.log('ERROR loading content');
+  	  		vm.usSpinnerService.stop('spinner-1');
+  	  	});
+    }    
     
     ReportController.prototype.saveScenario = function(scenario_id, state, $index)
     {

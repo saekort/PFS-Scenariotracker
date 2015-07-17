@@ -34,7 +34,7 @@ class Person extends DataMapper {
 					'join_other_as' => 'scenario',
 					'join_table' => 'j_scenario_person'
 			)			
-			);
+		);
 
 	/* Relationship Examples
 	 * For normal relationships, simply add the model name to the array:

@@ -35,6 +35,18 @@
 				#{{content.season}}-{{content.number}} {{content.name}}
 			</div>
 		</div>
-		<div class="col-sm-10" ng-show="vm.atOverview"></div>
-	</div>
+		<div class="col-sm-10" ng-show="vm.atOverview && vm.player != null">
+			<div class="row playedprogress" ng-repeat="playerprogress in vm.playerprogress">
+				<div ng-show="playerprogress.season == 'mod' || playerprogress.season == 'ap'"></div>
+				<div class="col-sm-4" ng-hide="playerprogress.season == 'mod' || playerprogress.season == 'ap'">
+					<span class="progress-label">Season {{playerprogress.season}}</span>
+					<div class="progress" style="width: 100%">
+						<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{(playerprogress.pfs / playerprogress.total) * 100}}%">
+				    		{{playerprogress.pfs}}/{{playerprogress.total}}
+				  		</div>
+			  		</div>
+			  	</div>
+			</div>
+		</div>
+	</div>		
 </div>

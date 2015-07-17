@@ -166,3 +166,24 @@ body {
 	left: 42px;
 	
 }
+
+.progress-label {
+	float: left;
+	margin-right: 1em;
+	text-align: right;
+	width: 10em;
+}
+
+.progress {
+	margin-bottom: 5px;
+	left: 12em;
+	position: absolute;
+}
+
+.progress-bar-danger {
+	background-color: #964646;
+}
+
+.playedprogress {
+	margin-bottom: 5px;
+}
