@@ -9,5 +9,14 @@
     {
     	var vm = this;
     	vm.$state = $state;
-    }   
+    	vm.playername = "";
+    	vm.playernumer = "";
+    }
+    
+    RegisterController.prototype.savePlayer = function()
+    {
+    	console.log('ik werk!');
+
+    }
+    
 })();
