@@ -2,13 +2,19 @@
 <div class="container-fluid">
 	<div class="row">
 		<ng-include src="'./views/partials/logo.html'"></ng-include>
-		<div class="col-sm-4 report_playersearch">
-			<label class="control-label">Select a player</label> 
-			<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" placeholder="Search for a player"><i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
-			<button class="btn btn-default col-sm-12" ng-click="vm.selectPlayer()()">Select</button>
+		<div class="form-inline col-sm-10">
+			<div class="form-group">
+				<div class="input-group">
+					<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" placeholder="Select a player by username or pfsnumber">
+					<span class="input-group-btn">
+						<button class="btn btn-primary btn-add" ng-click="vm.selectPlayer()()">Select</button>
+					</span>
+				</div>
+			</div>
 		</div>
 	</div>
 	<div>
+								<i class="glyphicon glyphicon-search input-lg" style="color: grey;"></i>
 		<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
 	</div>
 	<div class="row" ng-hide="vm.player == null">
@@ -41,7 +47,7 @@
 				<div class="col-sm-4" ng-hide="playerprogress.season == 'mod' || playerprogress.season == 'ap'">
 					<span class="progress-label">Season {{playerprogress.season}}</span>
 					<div class="progress" style="width: 100%">
-						<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{(playerprogress.pfs / playerprogress.total) * 100}}%">
+						<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{(playerprogress.pfs / playerprogress.total) * 100}}%; min-width: 5%;">
 				    		{{playerprogress.pfs}}/{{playerprogress.total}}
 				  		</div>
 			  		</div>

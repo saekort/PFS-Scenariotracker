@@ -264,6 +264,31 @@ WHERE `scenarios`.`id` NOT IN(
     		$this->response(array('error' => 'Person could not be found'), 404);
     	}
     }
+    
+    function person_post()
+    {
+    	if(!$this->post('pfsnumber') && !$this->post('name'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	$person = new Person();
+    	
+    	// Test to see if the pfsnumber is already in use
+    	$person->get_by_pfsnumber($this->post('pfsnumber'));
+    	
+    	if($person->exists())
+    	{
+    		$this->response('Pfsnumber already registered', 400);
+    	}
+    	
+    	$person->pfsnumber = $this->post('pfsnumber');
+    	$person->name = $this->post('name');
+    	
+    	$person->save();
+    	
+    	$this->response($person->id, 200);
+    }
 
     function reportscenarios_get()
     {
@@ -356,6 +381,40 @@ WHERE `scenarios`.`id` NOT IN(
     	
     	$this->response('', 200);
     }
+    
+    function reportscenario_delete()
+    {
+    	if(!$this->delete('state') || !$this->delete('pfsnumber') || !$this->delete('scenario'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	// Does a relationship exists yet?
+    	$scenario = new Scenario($this->delete('scenario'));
+    	 
+    	$player = new Person();
+    	$player->where('pfsnumber', $this->delete('pfsnumber'))->where_related_scenarios($scenario)->get();
+    	
+    	$player->set_join_field($scenario, $this->delete('state'), NULL);
+    	
+    	// See if there is a relationship left or that we have to delete
+    	$player
+    		->where('pfsnumber', $this->delete('pfsnumber'))
+    		->where_related_scenarios($scenario)
+    		->where_join_field($scenario, 'pfs', NULL)
+    		->where_join_field($scenario, 'pfs_gm', NULL)
+    		->where_join_field($scenario, 'core', NULL)
+    		->where_join_field($scenario, 'core_gm', NULL)
+    		->get();
+    	
+    	if($player->exists())
+    	{
+    		// No more played things in the relationship, so delete
+    		$player->delete_scenarios($scenario);
+    	}
+    	
+    	$this->response('', 200);
+    }    
     
     function playerprogress_get()
     {

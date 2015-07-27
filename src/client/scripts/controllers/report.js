@@ -19,8 +19,8 @@
     			{name: 'Season 5', id: 's5'},
     			{name: 'Season 6', id: 's6'},
     			{name: 'Season 7', id: 's7'},		
-    			{name: 'Modules', id: 'mod'},
-    			{name: 'Adventure paths', id: 'ap'}
+    			//{name: 'Modules', id: 'mod'},
+    			//{name: 'Adventure paths', id: 'ap'}
     			];
     	vm.overview = {name: '<< Back to overview', id: 'overview'};
     	vm.atOverview = true;
@@ -94,17 +94,21 @@
     {
     	var vm = this;
     	
-    	console.log(state);
-    	console.log(vm.content[$index].state[state]);
+    	var method = 'POST';
     	
+    	if(!vm.content[$index].state[state])
+    	{
+    		method = 'DELETE';
+    	}
+
         var req = {
-                method: 'POST',
+                method: method,
                 url: 'http://pfs.campaigncodex.com/api/v1/reportscenario',
                 data: $.param({state: state, pfsnumber: vm.player.pfsnumber, scenario: scenario_id}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
-            };
+            };    	
     	
     	vm.$http(req).
 			success(function(data, status, headers, config) {

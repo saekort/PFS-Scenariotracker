@@ -19,14 +19,14 @@
     	vm.filters.levelRangeMin = 1;
     	vm.filters.levelRangeMax = 12;
     	vm.filters.seasons = [
-    	                      {key: 0, name: 0, checked: false},
-    	                      {key: 1, name: 1, checked: false},
-    	                      {key: 2, name: 2, checked: false},
-    	                      {key: 3, name: 3, checked: false},
-    	                      {key: 4, name: 4, checked: false},
-    	                      {key: 5, name: 5, checked: false},
-    	                      {key: 6, name: 6, checked: false},
-    	                      {key: 7, name: 7, checked: false}];
+    	                      {key: 0, name: 0, checked: false, col: 1},
+    	                      {key: 1, name: 1, checked: false, col: 1},
+    	                      {key: 2, name: 2, checked: false, col: 1},
+    	                      {key: 3, name: 3, checked: false, col: 1},
+    	                      {key: 4, name: 4, checked: false, col: 2},
+    	                      {key: 5, name: 5, checked: false, col: 2},
+    	                      {key: 6, name: 6, checked: false, col: 2},
+    	                      {key: 7, name: 7, checked: false, col: 2}];
     	vm.filters.authors = [];
     	vm.filters.players = [];
     	vm.filters.search = null;
@@ -37,7 +37,7 @@
     	vm.pagination = [];
     	vm.pagination.totalItems = 0;
     	vm.pagination.currentPage = 1;
-    	vm.pagination.pageSize = 20;
+    	vm.pagination.pageSize = 10;
     	
     	vm.getScenarios();
     }
@@ -114,6 +114,10 @@
     		  {
     		  	  vm.noScenarios = true;
     		  }
+    		  
+    		  angular.forEach(vm.scenarios, function(value, key) {
+    			  value.collapsed = true;
+    		  });
     		  
     		  vm.usSpinnerService.stop('spinner-1');
     	  }).

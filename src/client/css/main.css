@@ -34,7 +34,7 @@ body {
 	background-color: #FFEFDB;
 	border-radius: 15px;
 	border: 2px solid #BA6B6B;
-	margin: 10px;
+	margin: 10px 10px 0 10px;
 	padding: 10px;
 }
 
@@ -66,7 +66,7 @@ body {
 }
 
 .evergreen {
-	cursor: help; 
+	cursor: help;
 	color: green;
 }
 
@@ -83,15 +83,49 @@ body {
 	margin: 10px;
 }
 
+.filter_player {
+	padding: 5px;
+}
+
 .filter_player a:hover, .filter_player a:link, .filter_player a:visited, .filter_player a:active {
 	color: white;
 	text-decoration: none;
 }
 
+.playersearch {
+	margin-bottom: 0px;
+}
+
+.playersearch-container {
+	margin-left: 5px;
+	padding-left: 0px;
+}
+
 .found {
 	border-radius: 15px;
+	border: 2px solid #BA6B6B;	
 	margin: 10px;
 	padding: 10px;
+}
+
+.button {
+	display: inline-block;
+	padding: 0 10px;
+	font-size: 15px;
+	font-weight: bold;
+	line-height: 30px;
+	text-decoration: none !important;
+	text-shadow: none !important;
+	color: #FFF;
+	background-color: #6E2D2D;
+    transition: none;
+    border: 0;	
+}
+
+.button:hover {
+	text-decoration: none;
+	color: #FFF;
+	background-color: #A32A28;
 }
 
 .search-button .report-button {
@@ -171,12 +205,11 @@ body {
 	float: left;
 	margin-right: 1em;
 	text-align: right;
-	width: 10em;
 }
 
 .progress {
 	margin-bottom: 5px;
-	left: 12em;
+	left: 6em;
 	position: absolute;
 }
 
@@ -186,4 +219,22 @@ body {
 
 .playedprogress {
 	margin-bottom: 5px;
+}
+
+.color-dark {
+	
+}
+
+.color-light {
+	
+}
+
+.color-background-dark {
+	background-color: #6E2D2D;
+	color: #FFF;
+}
+
+.color-background-light {
+	background-color: #FFEFDB;
+	color: #333333;
 }
