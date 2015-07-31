@@ -1,57 +1,76 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <div class="container-fluid">
-	<div class="row">
-		<ng-include src="'./views/partials/logo.html'"></ng-include>
-		<div class="form-inline col-sm-10">
-			<div class="form-group">
-				<div class="input-group">
-					<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" placeholder="Select a player by username or pfsnumber">
-					<span class="input-group-btn">
-						<button class="btn btn-primary btn-add" ng-click="vm.selectPlayer()()">Select</button>
-					</span>
+	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 filterbar">
+			<ng-include src="'./views/partials/logo.html'"></ng-include>
+			<div class="reportcategories">
+				<h2 class="text-center">Report categories</h2>
+				<div class="text-center" ng-show="vm.player == null">Please select a player first</div>
+				<div ng-hide="vm.player == null">
+				<button class="button col-sm-12" ng-hide="vm.atOverview" ng-click="vm.changeReportType('overview')">{{vm.overview.name}}</button>
+				<button class="button col-sm-12" ng-repeat="reportoption in vm.reportoptions" ng-click="vm.changeReportType(reportoption)">{{reportoption.name}}</button>
 				</div>
 			</div>
 		</div>
-	</div>
 	<div>
-								<i class="glyphicon glyphicon-search input-lg" style="color: grey;"></i>
 		<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
 	</div>
-	<div class="row" ng-hide="vm.player == null">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-10 reportingfor">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
-	</div>
-	<div class="row" ng-hide="vm.player == null">
-		<div class="col-sm-2">
-			<button class="btn btn-default col-sm-12" ng-hide="vm.atOverview" ng-click="vm.changeReportType('overview')">{{vm.overview.name}}</button>
-			<button class="btn btn-default col-sm-12" ng-repeat="reportoption in vm.reportoptions" ng-click="vm.changeReportType(reportoption)">{{reportoption.name}}</button>
-		</div>
-		<div class="col-sm-10" ng-hide="vm.atOverview">
-			<div class="row vertical-container">
-				<span class="vertical pfs">PFS</span>&nbsp;&nbsp;&nbsp;
-				<span class="vertical core">CORE</span>&nbsp;&nbsp;&nbsp;
-				<span class="vertical pfsgm">PFS GM</span>&nbsp;&nbsp;
-				<span class="vertical coregm">CORE GM</span>
+	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
+		<div class="row">
+			<div class="playersearch-container">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 input-group has-feedback playersearch">
+					<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" 
+						typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" placeholder="Select a player by username or pfsnumber">			
+					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey; margin-right: 65px;"></i>
+					<span class="input-group-btn">
+						<button class="button" ng-click="vm.selectPlayer()()">Select</button>
+					</span>
+				</div>
 			</div>
-			<div ng-repeat="content in vm.content track by $index" class="reportoption">
-				<input ng-model="content.state.pfs" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs', $index)">&nbsp;&nbsp;
-				<input ng-model="content.state.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)">&nbsp;&nbsp;
-				<input ng-model="content.state.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)">&nbsp;&nbsp;
-				<input ng-model="content.state.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)">&nbsp;&nbsp;
-				#{{content.season}}-{{content.number}} {{content.name}}
-			</div>
+		</div>	
+		
+		<div class="row" ng-hide="vm.player == null">
+			<div class="reportingfor">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
 		</div>
-		<div class="col-sm-10" ng-show="vm.atOverview && vm.player != null">
-			<div class="row playedprogress" ng-repeat="playerprogress in vm.playerprogress">
-				<div ng-show="playerprogress.season == 'mod' || playerprogress.season == 'ap'"></div>
-				<div class="col-sm-4" ng-hide="playerprogress.season == 'mod' || playerprogress.season == 'ap'">
-					<span class="progress-label">Season {{playerprogress.season}}</span>
-					<div class="progress" style="width: 100%">
-						<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{(playerprogress.pfs / playerprogress.total) * 100}}%; min-width: 5%;">
-				    		{{playerprogress.pfs}}/{{playerprogress.total}}
-				  		</div>
-			  		</div>
-			  	</div>
+		
+		<div class="row" ng-hide="vm.player == null">
+			<h4 class="capitalize" ng-show="vm.atOverview">Overview</h4>
+			<h4 class="capitalize" ng-hide="vm.atOverview">{{vm.reporttype.name}}</h4>
+		</div>
+		<div class="row" ng-hide="vm.player == null">
+			<div class="col-sm-10" ng-hide="vm.atOverview">
+				<div class="row vertical-container">
+					<span class="vertical pfs">PFS</span>&nbsp;&nbsp;&nbsp;
+					<span class="vertical core">CORE</span>&nbsp;&nbsp;&nbsp;
+					<span class="vertical pfsgm">PFS GM</span>&nbsp;&nbsp;
+					<span class="vertical coregm">CORE GM</span>
+				</div>
+				<div ng-repeat="content in vm.content track by $index" class="reportoption">
+					<input id="pfs{{content.id}}" ng-model="content.state.pfs" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs', $index)"><label class="report-title" for="pfs{{content.id}}"></label>&nbsp;&nbsp;
+					<input id="core{{content.id}}" ng-model="content.state.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)"><label class="report-title" for="core{{content.id}}"></label>&nbsp;&nbsp;
+					<input id="pfs_gm{{content.id}}" ng-model="content.state.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)"><label class="report-title" for="pfs_gm{{content.id}}"></label>&nbsp;&nbsp;
+					<input id="core_gm{{content.id}}" ng-model="content.state.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp;
+					<span class="report-title">#{{content.season}}-{{content.number}} {{content.name}}</span>					
+				</div>
+			</div>
+			<div ng-show="vm.atOverview && vm.player != null">
+				<p>Select a playtype to show player progress</p>
+				<div class="playedprogress">
+					<button class="button" ng-click="vm.getPlayerprogress('pfs')">PFS</button> <button class="button" ng-click="vm.getPlayerprogress('core')">CORE</button> <button class="button" ng-click="vm.getPlayerprogress('pfs_gm')">PFS GM</button> <button class="button" ng-click="vm.getPlayerprogress('core_gm')">CORE GM</button>
+					<h4>Player progress for: {{vm.progresstype.name | uppercase}}</h4>
+				</div>
+				<div>
+					<div class="row playedprogress" ng-repeat="playerprogress in vm.playerprogress">
+						<div ng-show="playerprogress.season == 'mod' || playerprogress.season == 'ap'"></div>
+						<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6" ng-hide="playerprogress.season == 'mod' || playerprogress.season == 'ap'">
+							<span class="progress-label">Season {{playerprogress.season}}</span>
+							<div class="progress" style="width: 100%">
+								<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{(playerprogress.completed / playerprogress.total) * 100}}%; min-width: 5%;">
+						    		{{playerprogress.completed}}/{{playerprogress.total}}
+						  		</div>
+					  		</div>
+					  	</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>		

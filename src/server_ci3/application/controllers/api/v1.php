@@ -106,12 +106,12 @@ WHERE `scenarios`.`id` NOT IN(
 	        }
 	        
 	        // Filter: Players
-	        if($this->get('player'))
+	        if($this->get('player') && $this->get('campaign'))
 	        {
 	        	$pfsnumbers = array();
 	        
 	        	$subq_players = new Scenario();
-	        	$subq_players->select('id')->where_in_related_players('pfsnumber', $this->get('player'));
+	        	$subq_players->select('id')->where_join_field('players', $this->get('campaign') . ' IS NOT NULL', null)->where_in_related_players('pfsnumber', $this->get('player'));
 	        	
 	        	$scenarios->where_not_in_subquery('id', $subq_players);
 	        }
@@ -219,6 +219,8 @@ WHERE `scenarios`.`id` NOT IN(
     	$people = new Person();
     	$people->or_like('name', $this->get('search'));
     	$people->or_like('pfsnumber', $this->get('search'));
+    	$people->order_by('name','asc');
+    	$people->limit(5);
     	$people->get();
     
     	if($people->exists())
@@ -321,7 +323,7 @@ WHERE `scenarios`.`id` NOT IN(
     				$state[$played_scenario->id]['pfs'] = (bool)$played_scenario->join_pfs;
     				$state[$played_scenario->id]['core'] = (bool)$played_scenario->join_core;
     				$state[$played_scenario->id]['pfs_gm'] = (bool)$played_scenario->join_pfs_gm;
-    				$state[$played_scenario->id]['core_gm'] = (bool)$played_scenario->join_pfs_gm;
+    				$state[$played_scenario->id]['core_gm'] = (bool)$played_scenario->join_core_gm;
     			}    			
     			
     			$scenarios = new Scenario();
@@ -418,7 +420,7 @@ WHERE `scenarios`.`id` NOT IN(
     
     function playerprogress_get()
     {
-    	if(!$this->get('pfsnumber'))
+    	if(!$this->get('pfsnumber') || !$this->get('type'))
     	{
     		$this->response(NULL, 400);
     	}
@@ -451,12 +453,8 @@ AND `scenarios`.`season` = '0'
     	
     	foreach($scenario as $s)
     	{
-    		$response[$s->season] = array('season' => $s->season, 'total' => 0, 'pfs' => 0, 'core' => 0, 'pfs_gm' => 0, 'core_gm' => 0);
-    		
-    		$response[$s->season]['pfs'] = $playerprogress->scenarios->where_join_field('players', 'pfs IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();
-    		$response[$s->season]['core'] = $playerprogress->scenarios->where_join_field('players', 'core IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();;
-    		$response[$s->season]['pfs_gm'] = $playerprogress->scenarios->where_join_field('players', 'pfs_gm IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();;
-    		$response[$s->season]['core_gm'] = $playerprogress->scenarios->where_join_field('players', 'core_gm IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();;    		
+    		$response[$s->season] = array('season' => $s->season, 'total' => 0, 'completed' => 0);
+    		$response[$s->season]['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();    		
     		$response[$s->season]['total'] = $scen->where('season', $s->season)->count();
     	}
     	

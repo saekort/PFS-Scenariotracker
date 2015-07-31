@@ -30,5 +30,7 @@
         
         $urlRouterProvider.otherwise("/search");
     });
+    
+    scenariotracker.filter('unsafe', function($sce) { return $sce.trustAsHtml; });
 
 })();

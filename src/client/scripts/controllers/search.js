@@ -33,6 +33,7 @@
     	vm.filters.playersearch = null;
     	vm.filters.evergreen = false;
     	vm.filters.retired = false;
+    	vm.filters.campaign = 'pfs';
     	
     	vm.pagination = [];
     	vm.pagination.totalItems = 0;
@@ -81,6 +82,12 @@
     		}
     	}
     	
+    	// Filter: Campaign
+    	if(vm.filters.campaign)
+    	{
+    		query = query + '&campaign=' + vm.filters.campaign;
+    	}      	
+    	
     	// Filter: Evergreen
     	if(vm.filters.evergreen)
     	{
@@ -91,7 +98,7 @@
     	if(vm.filters.retired)
     	{
     		query = query + '&retired=true';
-    	}
+    	}  	
     	
     	// Filter: Players
     	if(vm.people)
@@ -135,15 +142,7 @@
     	
     	return vm.$http.get('http://pfs.campaigncodex.com/api/v1/people?search=' + search).then(
     			function(response){
-    				return response.data.map(function(item)
-    				{
-    					if(item.pfsnumber == null)
-    					{
-    						return item.name + ' (unknown)';
-    					}
-    					
-    					return item.name + ' (' + item.pfsnumber + ')';
-    				});
+    				return response.data
     			});
     }
     
@@ -168,24 +167,22 @@
     SearchController.prototype.addPlayer = function()
     {
     	var vm = this;
-    	
-    	if(vm.filters.playersearch != null && vm.filters.playersearch != '')	
-    	{
-    		var searcharray = vm.filters.playersearch.split(" ");
-    		var name = searcharray[0];
-    		var pfsnumber = searcharray[1];
-    		pfsnumber = pfsnumber.replace('(', '');
-    		pfsnumber = pfsnumber.replace(')', '');
-    		
-    		if(pfsnumber != null && pfsnumber != 'unknown' && pfsnumber != '')
-    		{
-    			vm.$http.get('http://pfs.campaigncodex.com/api/v1/person/pfsnumber/' + pfsnumber).then(function(response){
-    				vm.people.push(response.data[0]);
-    				vm.filters.playersearch = '';
-    				vm.getScenarios();
-    				focus('playersearch');
-    			});
-    		}
+
+    	if( Object.prototype.toString.call( vm.filters.playersearch ) === '[object Object]' ) {
+    		vm.people.push(vm.filters.playersearch);
+			vm.getScenarios();
     	}
+    	
+		vm.filters.playersearch = '';    	
     }
+    
+    SearchController.prototype.formatPlayersearch = function($model)
+    {
+    	if($model)
+    	{
+    		return $model.name + ' - ' + $model.pfsnumber;
+    	}
+    	
+    	return '';
+    }    
 })();
