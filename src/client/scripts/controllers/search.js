@@ -27,7 +27,7 @@
     	                      {key: 5, name: 5, checked: false, col: 2},
     	                      {key: 6, name: 6, checked: false, col: 2},
     	                      {key: 7, name: 7, checked: false, col: 2}];
-    	vm.filters.authors = [];
+    	vm.filters.author;
     	vm.filters.players = [];
     	vm.filters.search = null;
     	vm.filters.playersearch = null;
@@ -86,7 +86,13 @@
     	if(vm.filters.campaign)
     	{
     		query = query + '&campaign=' + vm.filters.campaign;
-    	}      	
+    	}
+    	
+    	// Filter: Author
+    	if(vm.filters.author)
+    	{
+    		query = query + '&author=' + vm.filters.author;
+    	}    	
     	
     	// Filter: Evergreen
     	if(vm.filters.evergreen)
@@ -98,7 +104,7 @@
     	if(vm.filters.retired)
     	{
     		query = query + '&retired=true';
-    	}  	
+    	}
     	
     	// Filter: Players
     	if(vm.people)

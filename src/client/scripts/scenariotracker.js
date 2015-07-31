@@ -20,7 +20,11 @@
         		templateUrl: "views/register.html",
         		controller: 'RegisterController',
         		controllerAs: 'vm'        		
-        	})        	
+        	})
+        	.state('knownissues', {
+        		url: '/knownissues',
+        		templateUrl: "views/knownissues.html"
+        	})          	
         	.state('report', {
         		url: '/report',
         		templateUrl: "views/report.html",

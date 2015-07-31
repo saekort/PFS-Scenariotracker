@@ -84,6 +84,12 @@ WHERE `scenarios`.`id` NOT IN(
 	        	$scenarios->like('name', $this->get('search'));
 	        }
 	        
+	        // Filter: Author
+	        if($this->get('author'))
+	        {
+	        	$scenarios->like_related_authors('name', $this->get('author'))->distinct();
+	        }	        
+	        
 	        // Filter: Level range
 	        if($this->get('levelRangeMin') && $this->get('levelRangeMax'))
 	        {
