@@ -75,6 +75,16 @@ body {
 	color: red;
 }
 
+.modules {
+	cursor: help;
+	color: #434BB2;
+}
+
+.aps {
+	cursor: help;
+	color: #884B96;
+}
+
 .spinner {
 	margin-top: 150px;
 }
@@ -199,15 +209,15 @@ body {
 }
 
 .pfs {
-	left: 10px;
+	left: -13px;
 }
 
 .core {
-	left: 27px;
+	left: 4px;
 }
 
 .pfsgm {
-	left: 41px;
+	left: 42px;
 }
 
 .coregm {

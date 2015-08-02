@@ -27,8 +27,8 @@
     			{name: 'Season 5', id: 's5'},
     			{name: 'Season 6', id: 's6'},
     			{name: 'Season 7', id: 's7'},		
-    			//{name: 'Modules', id: 'mod'},
-    			//{name: 'Adventure paths', id: 'ap'}
+    			{name: 'Modules', id: 'mod'},
+    			{name: 'Adventure paths', id: 'ap'}
     			];
     	vm.overview = {name: '<< Back to overview', id: 'overview'};
     	vm.atOverview = true;
@@ -47,6 +47,7 @@
     	if(type == 'overview')
     	{
     		vm.reporttype = 'overview';
+    		vm.getPlayerprogress('pfs');
     		vm.atOverview = true;
     	}
     	else

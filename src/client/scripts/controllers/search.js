@@ -31,9 +31,11 @@
     	vm.filters.players = [];
     	vm.filters.search = null;
     	vm.filters.playersearch = null;
+    	vm.filters.campaign = 'pfs';    	
     	vm.filters.evergreen = false;
     	vm.filters.retired = false;
-    	vm.filters.campaign = 'pfs';
+    	vm.filters.modules = false;
+    	vm.filters.aps = false;
     	
     	vm.pagination = [];
     	vm.pagination.totalItems = 0;
@@ -105,6 +107,12 @@
     	{
     		query = query + '&retired=true';
     	}
+    	
+    	// Filter: Modules
+    	if(vm.filters.modules)
+    	{
+    		query = query + '&modules=false';
+    	}    	
     	
     	// Filter: Players
     	if(vm.people)

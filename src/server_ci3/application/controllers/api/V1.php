@@ -315,13 +315,21 @@ WHERE `scenarios`.`id` NOT IN(
     		// Normal content
     		if(is_numeric(substr($this->get('type'),1,1)))
     		{
-    			
     			// Season
     			$season = substr($this->get('type'),1,1);
     			
     			// Get all the scenarios played for this player in this season
     			$played_scenarios = $player->scenarios->where('season', $season)->include_join_fields()->get();
+    		} 
+    		else 
+    		{
+    			// Module or Adventure path
+    			$content = $this->get('type');
     			
+    			// Get all the modules and adventure paths played for this player
+    			$played_scenarios = $player->scenarios->where('type', $content)->include_join_fields()->get();    			
+    		}
+    		
     			$state = array();
 
     			foreach($played_scenarios as $played_scenario)
@@ -333,7 +341,15 @@ WHERE `scenarios`.`id` NOT IN(
     			}    			
     			
     			$scenarios = new Scenario();
-    			$scenarios->get_by_season($season);
+				if(is_numeric(substr($this->get('type'),1,1)))
+				{
+					$scenarios->order_by('cast(number as unsigned)', 'asc')->get_by_season($season);
+				}
+				else
+				{
+					$scenarios->order_by('name', 'asc')->get_by_type($content);
+				}
+				
     			$scenarios_array = $scenarios->all_to_array();
     			
     			foreach($scenarios_array as $index => $scenario)
@@ -350,18 +366,6 @@ WHERE `scenarios`.`id` NOT IN(
     			
     			$this->response($scenarios_array, 200);
     		}
-    		else
-    		{
-    			// Modules or adventure paths
-    			//TODO
-    			$this->response('Not yet implemented', 200);
-    		}
-    	}
-    	else
-    	{
-    		// Generate overview
-    		echo 'overview';
-    	}
     }
     
     function reportscenario_post()
@@ -432,8 +436,9 @@ WHERE `scenarios`.`id` NOT IN(
     	}
     	
     	$scenario = new Scenario();
-    	$scenario->select('season')->distinct()->get();
-    	
+
+    	$scenario->select('season, type')->distinct()->get();
+
     	$types = array();
     	
     	foreach($scenario as $s)
@@ -441,9 +446,14 @@ WHERE `scenarios`.`id` NOT IN(
     		$types[] = $s->season;
     	}
     	
+    	$types[] = 'mod';
+    	$types[] = 'ap';
+    	
     	$response = array();
     	$playerprogress = new Person();
     	$scen = new Scenario();
+
+//     	if($this->get('type') == 'mod' || $this->get('type') == 'ap')
     	
     	/*
 SELECT count(*) as `numrows`
@@ -459,9 +469,28 @@ AND `scenarios`.`season` = '0'
     	
     	foreach($scenario as $s)
     	{
-    		$response[$s->season] = array('season' => $s->season, 'total' => 0, 'completed' => 0);
-    		$response[$s->season]['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();    		
-    		$response[$s->season]['total'] = $scen->where('season', $s->season)->count();
+    		if($s->type == 'mod')
+    		{
+    			// Modules
+				$response['mod'] = array('season' => 'Modules', 'total' => 0, 'completed' => 0);
+				$response['mod']['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('type', 'mod')->get()->result_count();
+				$response['mod']['total'] = $scen->where('type', 'mod')->count();				
+    		}
+    		elseif($s->type == 'ap')
+    		{
+    			// Adventure paths
+    			$response['ap'] = array('season' => 'APs', 'total' => 0, 'completed' => 0);
+    			$response['ap']['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('type', 'ap')->get()->result_count();
+    			$response['ap']['total'] = $scen->where('type', 'ap')->count();
+    		}
+    		else
+    		{
+    			// Seasons
+    			$response[$s->season] = array('season' => $s->season, 'total' => 0, 'completed' => 0, 'contenttype' => $s->type);
+    			$response[$s->season]['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();
+    			$response[$s->season]['total'] = $scen->where('season', $s->season)->count();
+    		}
+
     	}
     	
     	$this->response($response, 200);

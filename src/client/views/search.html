@@ -70,13 +70,17 @@
 							<label class="report-title" for="retired"></label>
 							<span class="report-title"><span class="glyphicon glyphicon-remove archived"></span> Include retired scenarios</span>
 						</div>
-					</div>
-					<div class="checkbox" ng-hide="1==1">
-						<label class="checkbox"><input type="checkbox" value="" ng-click="vm.getScenarios()">Include modules (NYI)</label>
-					</div>
-					<div class="checkbox" ng-hide="1==1">
-						<label class="checkbox"><input type="checkbox" value="" ng-click="vm.getScenarios()">Include adventure paths (NYI)</label>
-					</div>
+						<!-- <div class="checkbox">
+							<input id="modules" type="checkbox" ng-model="vm.filters.modules" value="" ng-click="vm.getScenarios()">
+							<label class="report-title" for="modules"></label>
+							<span class="report-title"><span class="glyphicon glyphicon-tower modules"></span> Include modules</span>
+						</div>
+						<div class="checkbox">
+							<input id="aps" type="checkbox" ng-model="vm.filters.aps" value="" ng-click="vm.getScenarios()">
+							<label class="report-title" for="aps"></label>
+							<span class="report-title"><span class="glyphicon glyphicon-globe aps"></span> Include adventure paths</span>
+						</div> -->			
+					</div>						
 				</div>
 			</form>
 	</div>             
@@ -115,9 +119,11 @@
 			<div ng-repeat="scenario in vm.scenarios">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scenario"> 
 					<div class="title">
+						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower modules" title="This is a module, it is longer then a scenario, but rewards more experience"></span>
+						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe aps" title="This is an adventure path, it is longer then a scenario, but rewards more experience"></span>								
 						<span ng-if='scenario.archived != NULL' class="glyphicon glyphicon-remove archived" title="You cannot play this scenario for credit, it was retired on {{scenario.archived}}"></span>					
-						<span ng-if='scenario.evergreen == 1' class="glyphicon glyphicon-leaf evergreen" title="Evergreen"></span>
-						#{{scenario.season}}-{{scenario.number}} {{scenario.name}} 
+						<span ng-if='scenario.evergreen == 1' class="glyphicon glyphicon-leaf evergreen" title="This is a evergreen, you can play it more then once"></span>
+						<span ng-if='scenario.type == "scenario"'>#{{scenario.season}}-{{scenario.number}} </span>{{scenario.name}} 
 						<span class="authors">by </span><span class="authors" ng-show="scenario.authors.length == 0">Unknown</span><span class="authors" ng-repeat="author in scenario.authors">{{$first ? '' : $last ? ' and ' : ', '}}{{author}}</span>
 						<button class="button pull-right" ng-click="scenario.collapsed = !scenario.collapsed">Toggle description</button>
 					</div>	

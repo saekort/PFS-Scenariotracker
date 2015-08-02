@@ -39,8 +39,8 @@
 		<div class="row" ng-hide="vm.player == null">
 			<div class="col-sm-10" ng-hide="vm.atOverview">
 				<div class="row vertical-container">
-					<span class="vertical pfs">PFS</span>&nbsp;&nbsp;&nbsp;
-					<span class="vertical core">CORE</span>&nbsp;&nbsp;&nbsp;
+					<span class="vertical pfs">PFS PC</span>&nbsp;&nbsp;&nbsp;
+					<span class="vertical core">CORE PC</span>&nbsp;&nbsp;&nbsp;
 					<span class="vertical pfsgm">PFS GM</span>&nbsp;&nbsp;
 					<span class="vertical coregm">CORE GM</span>
 				</div>
@@ -49,20 +49,20 @@
 					<input id="core{{content.id}}" ng-model="content.state.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)"><label class="report-title" for="core{{content.id}}"></label>&nbsp;&nbsp;
 					<input id="pfs_gm{{content.id}}" ng-model="content.state.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)"><label class="report-title" for="pfs_gm{{content.id}}"></label>&nbsp;&nbsp;
 					<input id="core_gm{{content.id}}" ng-model="content.state.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp;
-					<span class="report-title">#{{content.season}}-{{content.number}} {{content.name}}</span>					
+					<span class="report-title"><span ng-hide="!content.season">#{{content.season}}-{{content.number}}</span> {{content.name}}</span>					
 				</div>
 			</div>
 			<div ng-show="vm.atOverview && vm.player != null">
 				<p>Select a playtype to show player progress</p>
 				<div class="playedprogress">
-					<button class="button" ng-click="vm.getPlayerprogress('pfs')">PFS</button> <button class="button" ng-click="vm.getPlayerprogress('core')">CORE</button> <button class="button" ng-click="vm.getPlayerprogress('pfs_gm')">PFS GM</button> <button class="button" ng-click="vm.getPlayerprogress('core_gm')">CORE GM</button>
+					<button class="button" ng-click="vm.getPlayerprogress('pfs')">PFS PC</button> <button class="button" ng-click="vm.getPlayerprogress('core')">CORE PC</button> <button class="button" ng-click="vm.getPlayerprogress('pfs_gm')">PFS GM</button> <button class="button" ng-click="vm.getPlayerprogress('core_gm')">CORE GM</button>
 					<h4>Player progress for: {{vm.progresstype.name | uppercase}}</h4>
 				</div>
 				<div>
 					<div class="row playedprogress" ng-repeat="playerprogress in vm.playerprogress">
-						<div ng-show="playerprogress.season == 'mod' || playerprogress.season == 'ap'"></div>
-						<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6" ng-hide="playerprogress.season == 'mod' || playerprogress.season == 'ap'">
-							<span class="progress-label">Season {{playerprogress.season}}</span>
+						<div class="col-xs-12 col-sm-12 col-md-8 col-lg-6">
+							<span  ng-hide="playerprogress.season == 'Modules' || playerprogress.season == 'APs'" class="progress-label">Season {{playerprogress.season}}</span>
+							<span  ng-show="playerprogress.season == 'Modules' || playerprogress.season == 'APs'" class="progress-label">{{playerprogress.season}}</span>
 							<div class="progress" style="width: 100%">
 								<div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: {{(playerprogress.completed / playerprogress.total) * 100}}%; min-width: 5%;">
 						    		{{playerprogress.completed}}/{{playerprogress.total}}
