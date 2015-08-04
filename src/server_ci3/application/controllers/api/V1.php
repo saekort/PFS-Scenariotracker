@@ -36,36 +36,48 @@ class V1 extends REST_Controller
     
     function scenarios_get()
     {
-
-    	
-/**
- * THIS WORKS!
- 
-SELECT *
-FROM `scenarios`
-WHERE `scenarios`.`id` NOT IN(
-    SELECT `scenarios`.`id`
-    FROM `scenarios`
-    LEFT OUTER JOIN `j_scenario_person`
-        `players_j_scenario_person` ON `scenarios`.`id` = `players_j_scenario_person`.`scenario_id`
-    WHERE
-        `players_j_scenario_person`.`person_id` IN(1, 2, 3, 4, 5)    
-    ) 
- 
- 
- */    	
-    	
     	// Set a limit, could be expanded later on
-    	$limit = 20;
+    	$limit = 15;
     	
         $scenarios = new Scenario();
-        
-        // Always limit the amount of scenarios to a maximum of 20
-        //$scenarios->limit(20);
 
         $i = 0;
         while($i < 2)
         {
+        	if($this->get('scenarios') || $this->get('modules') || $this->get('aps'))
+        	{
+        		$scenarios->group_start();
+        	}
+        	
+        	// Filter: Scenarios
+        	if($this->get('scenarios'))
+        	{
+        		$scenarios->or_where('type', 'scenario');
+        	}
+        	
+        	// Filter: Modules
+        	if($this->get('modules'))
+        	{
+        		$scenarios->or_where('type', 'mod');
+        	}
+
+        	// Filter: Adventure paths
+        	if($this->get('aps'))
+        	{
+        		$scenarios->or_where('type', 'ap');
+        	}
+
+        	if($this->get('scenarios') || $this->get('modules') || $this->get('aps'))
+        	{
+        		$scenarios->group_end();
+        	}
+        	
+        	if(!$this->get('scenarios') && !$this->get('modules') && !$this->get('aps'))
+        	{
+        		// Dirty, but works
+        		$scenarios->where('type', 'nonexistent');
+        	}
+        	
 	        // Filter: Season
 	        if($this->get('season'))
 	        {
@@ -91,6 +103,15 @@ WHERE `scenarios`.`id` NOT IN(
 	        }	        
 	        
 	        // Filter: Level range
+	        if($this->get('levels'))
+	        {
+	        	$levels = $this->get('levels');
+	        	foreach($levels as $level)
+	        	{
+	        		$scenarios->like('levelrange', $level);
+	        	}
+	        }
+	        
 	        if($this->get('levelRangeMin') && $this->get('levelRangeMax'))
 	        {
 	        	$scenarios->group_start();
@@ -122,6 +143,31 @@ WHERE `scenarios`.`id` NOT IN(
 	        	$scenarios->where_not_in_subquery('id', $subq_players);
 	        }
 	        
+	        // Sorting
+	        if($this->get('sorting'))
+	        {
+	        	if($this->get('sorting') == 'name_asc')
+	        	{
+	        		$scenarios->order_by('name', 'asc');
+	        	}
+	        	elseif($this->get('sorting') == 'name_desc')
+	        	{
+	        		$scenarios->order_by('name', 'desc');
+	        	}
+	        	elseif($this->get('sorting') == 'season_asc')
+	        	{
+	        		$scenarios->order_by('season', 'asc');
+	        		$scenarios->order_by('cast(number as unsigned)', 'asc');
+	        		$scenarios->order_by('name', 'asc');
+	        	}
+	        	elseif($this->get('sorting') == 'season_desc')
+	        	{
+	        		$scenarios->order_by('season', 'desc');
+	        		$scenarios->order_by('cast(number as unsigned)', 'desc');
+	        		$scenarios->order_by('name', 'desc');
+	        	}
+	        }
+	        
 	    	// Pagination
 	    	if($i == 0)
 	    	{
@@ -138,11 +184,12 @@ WHERE `scenarios`.`id` NOT IN(
 	    		}
 	    		else
 	    		{
-	    			// Just limit it to 20 scenarios
+	    			// Just limit it to X scenarios
 	    			$scenarios->limit($limit);
 	    		}
 	    		
 	    		$scenarios->get();
+	    		//$scenarios->check_last_query();
 	    	}
 	    	
 	    	$i++;
@@ -297,6 +344,35 @@ WHERE `scenarios`.`id` NOT IN(
     	
     	$this->response($person->id, 200);
     }
+    
+    function authors_get()
+    {
+    	if(!$this->get('search'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	 
+    	$authors = new Author();
+    	$authors->like('name', $this->get('search'));
+    	$authors->order_by('name','asc');
+    	$authors->limit(5);
+    	$authors->get();
+    
+    	if($authors->exists())
+    	{
+    		foreach($authors as $author)
+    		{
+    			$authors_array[] = $author->name;
+    		}
+    		
+    		 
+    		$this->response($authors_array, 200); // 200 being the HTTP response code
+    	}
+    	else
+    	{
+    		$this->response(array('error' => 'Authors could not be found'), 404);
+    	}
+    }    
 
     function reportscenarios_get()
     {

@@ -2,7 +2,7 @@
 (function(){
     'use strict';
 
-    var scenariotracker = angular.module('scenariotracker', ['ui.bootstrap','ui-rangeSlider', 'angularSpinner','ui.router','ui.check']);
+    var scenariotracker = angular.module('scenariotracker', ['ui.bootstrap','ui-rangeSlider', 'angularSpinner','ui.router','ui.check','ngStorage']);
     
     // Standard config of modules
     scenariotracker.config(function (usSpinnerConfigProvider, $stateProvider, $urlRouterProvider, $locationProvider) {
@@ -21,9 +21,11 @@
         		controller: 'RegisterController',
         		controllerAs: 'vm'        		
         	})
-        	.state('knownissues', {
-        		url: '/knownissues',
-        		templateUrl: "views/knownissues.html"
+        	.state('issues', {
+        		url: '/issues',
+        		templateUrl: "views/issues.html",
+            	controller: 'IssuesController',
+            	controllerAs: 'vm'        			
         	})          	
         	.state('report', {
         		url: '/report',

@@ -11,6 +11,8 @@
     	vm.playerselect = '';
     	vm.player = null;
     	vm.playerprogress = null;
+    	vm.totalplayed = 0;
+    	vm.totalavailable = 0;
     	vm.progresstype = null;
     	vm.progresstypes = [
     	                    {key: 'pfs', name: 'PFS PC'},
@@ -99,6 +101,17 @@
     		success(function(data, status, headers, config) {
     		// Assign scenarios
     		vm.playerprogress = data;
+
+    		vm.totalplayed = 0;
+    		vm.totalavailable = 0;
+    		for (var key in vm.playerprogress) {
+    			if(vm.playerprogress.hasOwnProperty(key))
+    			{
+        			vm.totalplayed += vm.playerprogress[key].completed;
+        			vm.totalavailable += vm.playerprogress[key].total;    				
+    			}
+    		}
+    		
   		  	vm.usSpinnerService.stop('spinner-1');
     	}).
   	  	error(function(data, status, headers, config) {

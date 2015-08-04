@@ -19,10 +19,11 @@
 			<div class="playersearch-container">
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 input-group has-feedback playersearch">
 					<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" 
-						typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" placeholder="Select a player by username or pfsnumber">			
+						typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" placeholder="Select a player by username or pfsnumber"
+						typeahead-on-select="vm.selectPlayer()">			
 					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey; margin-right: 65px;"></i>
 					<span class="input-group-btn">
-						<button class="button" ng-click="vm.selectPlayer()()">Select</button>
+						<button class="button" ng-click="vm.selectPlayer()">Select</button>
 					</span>
 				</div>
 			</div>
@@ -49,7 +50,7 @@
 					<input id="core{{content.id}}" ng-model="content.state.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)"><label class="report-title" for="core{{content.id}}"></label>&nbsp;&nbsp;
 					<input id="pfs_gm{{content.id}}" ng-model="content.state.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)"><label class="report-title" for="pfs_gm{{content.id}}"></label>&nbsp;&nbsp;
 					<input id="core_gm{{content.id}}" ng-model="content.state.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp;
-					<span class="report-title"><span ng-hide="!content.season">#{{content.season}}-{{content.number}}</span> {{content.name}}</span>					
+					<span class="report-title"><span ng-hide="!content.season || content.season == '99'">#{{content.season}}-{{content.number}}</span> {{content.name}}</span>					
 				</div>
 			</div>
 			<div ng-show="vm.atOverview && vm.player != null">
@@ -70,6 +71,7 @@
 					  		</div>
 					  	</div>
 					</div>
+					<div><strong>Grand total: {{vm.totalplayed}} / {{vm.totalavailable}}</strong></div>
 				</div>
 			</div>
 		</div>
