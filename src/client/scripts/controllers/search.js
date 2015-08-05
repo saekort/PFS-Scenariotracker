@@ -5,37 +5,73 @@
         .module('scenariotracker')
         .controller('SearchController', SearchController );
     
-    function SearchController($http, $state, $location, usSpinnerService)
+    function SearchController($http, $state, $location, usSpinnerService, $localStorage)
     {
     	var vm = this;
     	vm.$http = $http;
     	vm.$state = $state;
+    	vm.$storage = $localStorage;
     	vm.$location = $location;
     	vm.usSpinnerService = usSpinnerService;
     	vm.scenarios = [];
     	vm.noScenarios = false;
     	vm.people = [];
     	vm.filters = [];
+    	vm.filters.lowestPlayerLevel = null;
+    	vm.filters.highestPlayerLevel = null;
     	vm.filters.levelRangeMin = 1;
     	vm.filters.levelRangeMax = 12;
+    	vm.filters.levels = [
+    	                     {key: '01', name: 1, checked: false, col: 1},
+    	                     {key: '02', name: 2, checked: false, col: 1},
+    	                     {key: '03', name: 3, checked: false, col: 1},
+    	                     {key: '04', name: 4, checked: false, col: 1},
+    	                     {key: '05', name: 5, checked: false, col: 1},
+    	                     {key: '06', name: 6, checked: false, col: 2},
+    	                     {key: '07', name: 7, checked: false, col: 2},
+    	                     {key: '08', name: 8, checked: false, col: 2},
+    	                     {key: '09', name: 9, checked: false, col: 2},
+    	                     {key: '10', name: 10, checked: false, col: 2},
+    	                     {key: '11', name: 11, checked: false, col: 3},
+    	                     {key: '12', name: 12, checked: false, col: 3},
+    	                     {key: '13', name: 13, checked: false, col: 3},
+    	                     {key: '14', name: 14, checked: false, col: 3},
+    	                     {key: '15', name: 15, checked: false, col: 3},
+    	                     {key: '16', name: 16, checked: false, col: 4},
+    	                     {key: '17', name: 17, checked: false, col: 4},
+    	                     {key: '18', name: 18, checked: false, col: 4},
+    	                     {key: '19', name: 19, checked: false, col: 4},
+    	                     {key: '20', name: 20, checked: false, col: 4}
+    	                     ];
     	vm.filters.seasons = [
     	                      {key: 0, name: 0, checked: false, col: 1},
     	                      {key: 1, name: 1, checked: false, col: 1},
-    	                      {key: 2, name: 2, checked: false, col: 1},
-    	                      {key: 3, name: 3, checked: false, col: 1},
-    	                      {key: 4, name: 4, checked: false, col: 2},
-    	                      {key: 5, name: 5, checked: false, col: 2},
-    	                      {key: 6, name: 6, checked: false, col: 2},
-    	                      {key: 7, name: 7, checked: false, col: 2}];
+    	                      {key: 2, name: 2, checked: false, col: 2},
+    	                      {key: 3, name: 3, checked: false, col: 2},
+    	                      {key: 4, name: 4, checked: false, col: 3},
+    	                      {key: 5, name: 5, checked: false, col: 3},
+    	                      {key: 6, name: 6, checked: false, col: 4},
+    	                      {key: 7, name: 7, checked: false, col: 4}
+    	                      ];
     	vm.filters.author;
     	vm.filters.players = [];
     	vm.filters.search = null;
     	vm.filters.playersearch = null;
-    	vm.filters.campaign = 'pfs';    	
-    	vm.filters.evergreen = false;
+    	vm.filters.campaign = 'pfs';
+    	vm.filters.scenarios = true;
+    	vm.filters.modules = true;
+    	vm.filters.aps = true;
     	vm.filters.retired = false;
-    	vm.filters.modules = false;
-    	vm.filters.aps = false;
+    	vm.filters.evergreen = false;
+    	
+    	vm.sortoptions = [
+    	                  {key: 'name_asc', label: 'Name A-Z'},
+    	                  {key: 'name_desc', label: 'Name Z-A'},
+    	                  {key: 'season_asc', label: 'Number low-high'},
+    	                  {key: 'season_desc', label: 'Number high-low'}
+    	                  ];
+    	
+    	vm.sorting = vm.sortoptions[0];
     	
     	vm.pagination = [];
     	vm.pagination.totalItems = 0;
@@ -65,11 +101,58 @@
     		query = query + '&search=' + vm.filters.search;
     	}
     	
-    	// Filter: Level range
-    	if(vm.filters.levelRangeMin)
+    	// Filters: Level range
+    	if(vm.filters.lowestPlayerLevel != 0 && vm.filters.lowestPlayerLevel)
     	{
-    		query = query + '&levelRangeMin=' + vm.filters.levelRangeMin;
-    		query = query + '&levelRangeMax=' + vm.filters.levelRangeMax;
+    		if(String(vm.filters.lowestPlayerLevel).length == 1)
+    		{
+    			// Add leading zero
+    			query = query + '&levels[]=0' + vm.filters.lowestPlayerLevel;	
+    		}
+    		else
+    		{
+    			query = query + '&levels[]=' + vm.filters.lowestPlayerLevel;	
+    		}
+    		
+    		if(vm.filters.highestPlayerLevel != 0 && vm.filters.highestPlayerLevel)
+    		{
+    			query = query + '&levels[]=' + vm.filters.highestPlayerLevel;
+    		}
+    	}
+//    	if(vm.filters.levels)
+//    	{
+//    		for (var index = 0; index < vm.filters.levels.length; ++index)
+//    		{
+//    			if(vm.filters.levels[index].checked)
+//    			{
+//    				query = query + '&levels[]=' + vm.filters.levels[index].key;
+//    			}
+//    		}
+//    	}
+    	
+//    	// Filter: Level range
+//    	if(vm.filters.levelRangeMin)
+//    	{
+//    		query = query + '&levelRangeMin=' + vm.filters.levelRangeMin;
+//    		query = query + '&levelRangeMax=' + vm.filters.levelRangeMax;
+//    	}
+    	
+    	// Filter: Scenarios
+    	if(vm.filters.scenarios)
+    	{
+    		query = query + '&scenarios=true';
+    	}
+    	
+    	// Filter: Modules
+    	if(vm.filters.modules)
+    	{
+    		query = query + '&modules=true';
+    	}
+    	
+    	// Filter: Adventure paths
+    	if(vm.filters.aps)
+    	{
+    		query = query + '&aps=true';
     	}
     	
     	// Filter: Seasons
@@ -106,13 +189,7 @@
     	if(vm.filters.retired)
     	{
     		query = query + '&retired=true';
-    	}
-    	
-    	// Filter: Modules
-    	if(vm.filters.modules)
-    	{
-    		query = query + '&modules=false';
-    	}    	
+    	} 	
     	
     	// Filter: Players
     	if(vm.people)
@@ -121,6 +198,12 @@
     		{
     			query = query + '&player[]=' + vm.people[index].pfsnumber;
     		}
+    	}
+    	
+    	// Filter: Sorting
+    	if(vm.sorting)
+    	{
+    		query = query + '&sorting=' + vm.sorting.key;
     	}
     	
     	vm.$http.get('http://pfs.campaigncodex.com/api/v1/scenarios' + '?' + query).
@@ -159,6 +242,16 @@
     				return response.data
     			});
     }
+
+    SearchController.prototype.getAuthors = function(search)
+    {
+    	var vm = this;
+    	
+    	return vm.$http.get('http://pfs.campaigncodex.com/api/v1/authors?search=' + search).then(
+    			function(response){
+    				return response.data
+    			});
+    }    
     
     SearchController.prototype.changePage = function()
     {
@@ -198,5 +291,5 @@
     	}
     	
     	return '';
-    }    
+    }     
 })();

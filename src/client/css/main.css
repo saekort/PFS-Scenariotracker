@@ -5,6 +5,10 @@ body {
 	padding-top: 70px;
 }
 
+a, a:hover, a:active, a:visited {
+	color: #6E2D2D;
+}
+
 .navbar {
 	background-color: #6E2D2D;
 }
@@ -80,6 +84,11 @@ body {
 	color: #434BB2;
 }
 
+.scenarioicon {
+	cursor: help;
+	color: #8C602A;
+}
+
 .aps {
 	cursor: help;
 	color: #884B96;
@@ -98,6 +107,7 @@ body {
 }
 
 .filter_player {
+	cursor: pointer;
 	padding: 5px;
 }
 
@@ -232,6 +242,9 @@ body {
 }
 
 .progress {
+	background-color: #FFEFDB;
+	border: 1px solid #6E2D2D;
+	box-shadow: 0px;
 	margin-bottom: 5px;
 	left: 6em;
 	position: absolute;
@@ -392,3 +405,7 @@ input[type=checkbox]:checked + label:after {
 .has-feedback label ~ .form-control-feedback {
 	top: 20px;
 }
+
+.dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+	background-color: #FFEFDB
+	}
