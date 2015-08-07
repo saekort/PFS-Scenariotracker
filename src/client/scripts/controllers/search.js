@@ -17,32 +17,11 @@
     	vm.noScenarios = false;
     	vm.people = [];
     	vm.filters = [];
-    	vm.filters.lowestPlayerLevel = null;
-    	vm.filters.highestPlayerLevel = null;
+    	vm.filters.lowestPlayerLevel = '';
+    	vm.filters.highestPlayerLevel = '';
     	vm.filters.levelRangeMin = 1;
-    	vm.filters.levelRangeMax = 12;
-    	vm.filters.levels = [
-    	                     {key: '01', name: 1, checked: false, col: 1},
-    	                     {key: '02', name: 2, checked: false, col: 1},
-    	                     {key: '03', name: 3, checked: false, col: 1},
-    	                     {key: '04', name: 4, checked: false, col: 1},
-    	                     {key: '05', name: 5, checked: false, col: 1},
-    	                     {key: '06', name: 6, checked: false, col: 2},
-    	                     {key: '07', name: 7, checked: false, col: 2},
-    	                     {key: '08', name: 8, checked: false, col: 2},
-    	                     {key: '09', name: 9, checked: false, col: 2},
-    	                     {key: '10', name: 10, checked: false, col: 2},
-    	                     {key: '11', name: 11, checked: false, col: 3},
-    	                     {key: '12', name: 12, checked: false, col: 3},
-    	                     {key: '13', name: 13, checked: false, col: 3},
-    	                     {key: '14', name: 14, checked: false, col: 3},
-    	                     {key: '15', name: 15, checked: false, col: 3},
-    	                     {key: '16', name: 16, checked: false, col: 4},
-    	                     {key: '17', name: 17, checked: false, col: 4},
-    	                     {key: '18', name: 18, checked: false, col: 4},
-    	                     {key: '19', name: 19, checked: false, col: 4},
-    	                     {key: '20', name: 20, checked: false, col: 4}
-    	                     ];
+    	vm.filters.levelRangeMax = 20;
+    	vm.filters.levels = ['', 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
     	vm.filters.seasons = [
     	                      {key: 0, name: 0, checked: false, col: 1},
     	                      {key: 1, name: 1, checked: false, col: 1},

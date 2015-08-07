@@ -408,4 +408,8 @@ input[type=checkbox]:checked + label:after {
 
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
 	background-color: #FFEFDB
-	}
+}
+
+.ui-slider {
+	
+}

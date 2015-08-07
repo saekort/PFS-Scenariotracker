@@ -10,48 +10,17 @@
 					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
 				</div>			
 				<div class="form-group filter">
-					<strong>Level range</strong><br>
-					<div class="form-group">
-						<label for="lowestPlayerLevel">Lowest PC level</label><input id="lowestPlayerLevel" ng-model="vm.filters.lowestPlayerLevel" ng-change="vm.getScenarios()" class="form-control" type="number">
-						<label for="highestPlayerLevel">Highest PC level</label><input id="highestPlayerLevel" ng-model="vm.filters.highestPlayerLevel" ng-change="vm.getScenarios()" class="form-control" type="number">
-					</div>
-				 	<!-- <div class="col-xs-6 col-sm-12 col-md-3 col-lg-3">
-						<div class="checkbox" ng-repeat="level in vm.filters.levels | filter: {col: 1}">
-							<input id="level-{{level.key}}" type="checkbox" name="level" ng-model="level.checked" value="{{level.key}}" ng-click="vm.getScenarios()">
-							<label class="report-title" for="level-{{level.key}}" title="{{ level.name }}"></label>
-							<span class="report-title">{{ level.name }}</span>
+					<strong>Level range</strong><br>					
+					<div class="form-inline">
+						<div class="form-group">
+							<label for="lowestPlayerLevel">Lowest</label>
+							<select class="form-control" ng-options="level for level in vm.filters.levels" ng-model="vm.filters.lowestPlayerLevel" ng-change="vm.getScenarios()"></select>
+						</div>
+						<div class="form-group">
+							<label for="highestPlayerLevel">Highest</label>
+							<select class="form-control" ng-options="level for level in vm.filters.levels" ng-model="vm.filters.highestPlayerLevel" ng-change="vm.getScenarios()"></select>
 						</div>
 					</div>
-					<div class="col-xs-6 col-sm-12 col-md-3 col-lg-3">
-						<div class="checkbox " ng-repeat="level in vm.filters.levels | filter: {col: 2}">
-							<input id="level-{{level.key}}" type="checkbox" name="level" ng-model="level.checked" value="{{level.key}}" ng-click="vm.getScenarios()">
-							<label class="report-title" for="level-{{level.key}}" title="{{ level.name }}"></label>
-							<span class="report-title">{{ level.name }}</span>
-						</div>
-					</div>
-					<div class="col-xs-6 col-sm-12 col-md-3 col-lg-3">
-						<div class="checkbox " ng-repeat="level in vm.filters.levels | filter: {col: 3}">
-							<input id="level-{{level.key}}" type="checkbox" name="level" ng-model="level.checked" value="{{level.key}}" ng-click="vm.getScenarios()">
-							<label class="report-title" for="level-{{level.key}}" title="{{ level.name }}"></label>
-							<span class="report-title">{{ level.name }}</span>
-						</div>
-					</div>
-					<div class="col-xs-6 col-sm-12 col-md-3 col-lg-3">
-						<div class="checkbox " ng-repeat="level in vm.filters.levels | filter: {col: 4}">
-							<input id="level-{{level.key}}" type="checkbox" name="level" ng-model="level.checked" value="{{level.key}}" ng-click="vm.getScenarios()">
-							<label class="report-title" for="level-{{level.key}}" title="{{ level.name }}"></label>
-							<span class="report-title">{{ level.name }}</span>
-						</div>
-					</div> -->
-					<!-- <div range-slider 
-						min="1" 
-						max="20"
-						step="1" 
-						model-min="vm.filters.levelRangeMin" 
-						model-max="vm.filters.levelRangeMax" 
-						attach-handle-values="true"
-						show-values="true"
-						on-handle-up="vm.getScenarios()"></div> -->
 				</div>
 				<div class="form-group filter">
 					<strong>Include</strong><br>
