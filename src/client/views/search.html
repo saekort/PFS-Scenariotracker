@@ -44,28 +44,28 @@
 				</div>				
 				<div class="form-group filter">
 					<strong>Season</strong><br>
-				 	<div class="col-xs-6 col-sm-12 col-md-3">
+				 	<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
 						<div class="checkbox" ng-repeat="season in vm.filters.seasons | filter: {col: 1}">
 							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="season.checked" value="{{season.key}}" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
 					</div>
-					<div class="col-xs-6 col-sm-12 col-md-3">
+					<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
 						<div class="checkbox " ng-repeat="season in vm.filters.seasons | filter: {col: 2}">
 							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="season.checked" value="{{season.key}}" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
 					</div>
-				 	<div class="col-xs-6 col-sm-12 col-md-3">
+				 	<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
 						<div class="checkbox" ng-repeat="season in vm.filters.seasons | filter: {col: 3}">
 							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="season.checked" value="{{season.key}}" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
 					</div>
-					<div class="col-xs-6 col-sm-12 col-md-3">
+					<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
 						<div class="checkbox " ng-repeat="season in vm.filters.seasons | filter: {col: 4}">
 							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="season.checked" value="{{season.key}}" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
