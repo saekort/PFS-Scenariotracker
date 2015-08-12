@@ -132,6 +132,12 @@ class V1 extends REST_Controller
 	        	$scenarios->where('evergreen', 1);
 	        }
 	        
+	        // Filter: Quests
+	        if($this->get('quests'))
+	        {
+	        	$scenarios->where('number', 'Q');
+	        }	        
+	        
 	        // Filter: Players
 	        if($this->get('player') && $this->get('campaign'))
 	        {

@@ -42,6 +42,7 @@
     	vm.filters.aps = true;
     	vm.filters.retired = false;
     	vm.filters.evergreen = false;
+    	vm.filters.quests = false;
     	
     	vm.sortoptions = [
     	                  {key: 'name_asc', label: 'Name A-Z'},
@@ -163,6 +164,12 @@
     	{
     		query = query + '&evergreen=true';
     	}
+    	
+    	// Filter: Quests
+    	if(vm.filters.quests)
+    	{
+    		query = query + '&quests=true';
+    	}    	
     	
     	// Filter: Retired
     	if(vm.filters.retired)

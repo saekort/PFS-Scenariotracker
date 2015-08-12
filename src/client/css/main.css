@@ -2,6 +2,8 @@
 
 body {
 	background-color: #DADADA;
+	margin-bottom: 10px;
+	min-height: 100%;
 	padding-top: 70px;
 }
 
@@ -70,28 +72,31 @@ a, a:hover, a:active, a:visited {
 }
 
 .evergreen {
-	cursor: help;
 	color: green;
 }
 
+.quest {
+	color: #6B6B6B;
+}
+
 .archived {
-	cursor: help;
 	color: red;
 }
 
 .modules {
-	cursor: help;
 	color: #434BB2;
 }
 
 .scenarioicon {
-	cursor: help;
 	color: #8C602A;
 }
 
 .aps {
-	cursor: help;
 	color: #884B96;
+}
+
+.question {
+	cursor: help;
 }
 
 .spinner {
@@ -408,8 +413,4 @@ input[type=checkbox]:checked + label:after {
 
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
 	background-color: #FFEFDB
-}
-
-.ui-slider {
-	
 }

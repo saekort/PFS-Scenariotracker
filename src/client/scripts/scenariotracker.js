@@ -26,7 +26,13 @@
         		templateUrl: "views/issues.html",
             	controller: 'IssuesController',
             	controllerAs: 'vm'        			
-        	})          	
+        	})
+        	.state('about', {
+        		url: '/about',
+        		templateUrl: "views/about.html",
+        		controller: 'AboutController',
+        		controllerAs: 'vm'        		
+        	})        	
         	.state('report', {
         		url: '/report',
         		templateUrl: "views/report.html",

@@ -1,5 +1,5 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
-<div class="container-fluid">
+<div id="main" class="container-fluid">
 	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 filterbar">
 		<ng-include src="'./views/partials/logo.html'"></ng-include>
 		<h2>Filters</h2>
@@ -102,6 +102,11 @@
 							<span class="report-title"><span class="glyphicon glyphicon-leaf evergreen"></span> Only evergreens</span>
 						</div>
 						<div class="checkbox">
+							<input id="quest" type="checkbox" ng-model="vm.filters.quests" value="" ng-click="vm.getScenarios()">
+							<label class="report-title" for="quest"></label>
+							<span class="report-title"><span class="glyphicon glyphicon-tent quest"></span> Only quests</span>
+						</div>						
+						<div class="checkbox">
 							<input id="retired" type="checkbox" ng-model="vm.filters.retired" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="retired"></label>
 							<span class="report-title"><span class="glyphicon glyphicon-remove archived"></span> Include retired scenarios</span>
@@ -156,16 +161,17 @@
 			<div ng-repeat="scenario in vm.scenarios">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scenario"> 
 					<div class="title">
-						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower modules" title="This is a module, it is longer then a scenario, but rewards more experience"></span>
-						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe aps" title="This is an adventure path, it is longer then a scenario, but rewards more experience"></span>													
-						<span ng-if='scenario.type == "scenario"' class="glyphicon glyphicon-file scenarioicon" title="This is a scenario, a 4-5 hour Pathfinder Society experience"></span>
-						<span ng-if='scenario.evergreen == 1' class="glyphicon glyphicon-leaf evergreen" title="This is a evergreen, you can play it more then once"></span>
-						<span ng-if='scenario.archived != NULL' class="glyphicon glyphicon-remove archived" title="You cannot play this scenario for credit, it was retired on {{scenario.archived}}"></span>						
+						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower modules question" title="This is a module, it is longer then a scenario, but rewards more experience"></span>
+						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe aps question" title="This is an adventure path, it is longer then a scenario, but rewards more experience"></span>													
+						<span ng-if='scenario.type == "scenario" && scenario.number != "Q"' class="glyphicon glyphicon-file scenarioicon question" title="This is a scenario, a 4-5 hour Pathfinder Society experience"></span>
+						<span ng-if='scenario.number == "Q"' class="glyphicon glyphicon-tent quest question" title="This is a quest, a series of 1 hour Pathfinder Society scenarios well suited for new players"></span>
+						<span ng-if='scenario.evergreen == 1' class="glyphicon glyphicon-leaf evergreen question" title="This is a evergreen, you can play it more then once"></span>
+						<span ng-if='scenario.archived != NULL' class="glyphicon glyphicon-remove archived question" title="You cannot play this scenario for credit, it was retired on {{scenario.archived}}"></span>						
 						<span ng-if='scenario.type == "scenario"'>#{{scenario.season}}-{{scenario.number}} </span>{{scenario.name}}
 						<span class="authors">by </span><span class="authors" ng-show="scenario.authors.length == 0">Unknown</span><span class="authors" ng-repeat="author in scenario.authors">{{$first ? '' : $last ? ' and ' : ', '}}{{author}}</span>
 						<button class="button pull-right" ng-click="scenario.collapsed = !scenario.collapsed">Toggle description</button>
 					</div>	
-					<span>Tier: <span ng-show="!scenario.tier">Unknown</span>{{scenario.tier}} (<span ng-show="scenario.subtiers.length == 0">Unknown</span><span ng-repeat="subtier in scenario.subtiers">{{$first ? '' : ', '}}{{subtier}}</span>)</span>
+					<span>Tier: <span ng-show="!scenario.tier">Unknown</span>{{scenario.tier}}</span>
 					<span ng-if='scenario.link'>| Link: <a href="{{scenario.link}}" target="_blank">Paizo store</a></span>
 					<span collapse="scenario.collapsed"><br>{{scenario.description}}</span>						
 				</div>
