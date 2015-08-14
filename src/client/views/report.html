@@ -50,7 +50,7 @@
 					<input id="core{{content.id}}" ng-model="content.state.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)"><label class="report-title" for="core{{content.id}}"></label>&nbsp;&nbsp;
 					<input id="pfs_gm{{content.id}}" ng-model="content.state.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)"><label class="report-title" for="pfs_gm{{content.id}}"></label>&nbsp;&nbsp;
 					<input id="core_gm{{content.id}}" ng-model="content.state.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp;
-					<span class="report-title"><span ng-hide="!content.season || content.season == '99'">#{{content.season}}-{{content.number}}</span> {{content.name}}</span>					
+					<span class="report-title"><span ng-hide="!content.season || content.season == '99'">#{{content.season}}-{{content.number}}</span> {{content.name}}</span><span ng-show="content.archived"> <strong>(Retired)</strong></span>			
 				</div>
 			</div>
 			<div ng-show="vm.atOverview && vm.player != null">

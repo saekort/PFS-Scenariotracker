@@ -392,7 +392,7 @@ input[type=checkbox]:checked + label:after {
 
 .pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
 	background-color: #E2E0DE;
-	border-color: #BA6B6B;	
+	border-color: #BA6B6B;
 	color: #333333;
 }
 
@@ -412,5 +412,9 @@ input[type=checkbox]:checked + label:after {
 }
 
 .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
-	background-color: #FFEFDB
+	background-color: #FFEFDB;
+}
+
+.navbar-default {
+	border-color: #A32A28;
 }

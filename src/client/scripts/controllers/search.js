@@ -40,9 +40,9 @@
     	vm.filters.scenarios = true;
     	vm.filters.modules = true;
     	vm.filters.aps = true;
+    	vm.filters.quests = true;    	
     	vm.filters.retired = false;
     	vm.filters.evergreen = false;
-    	vm.filters.quests = false;
     	
     	vm.sortoptions = [
     	                  {key: 'name_asc', label: 'Name A-Z'},

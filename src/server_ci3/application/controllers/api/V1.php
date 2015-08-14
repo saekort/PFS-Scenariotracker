@@ -44,7 +44,7 @@ class V1 extends REST_Controller
         $i = 0;
         while($i < 2)
         {
-        	if($this->get('scenarios') || $this->get('modules') || $this->get('aps'))
+        	if($this->get('scenarios') || $this->get('modules') || $this->get('aps') || $this->get('quests'))
         	{
         		$scenarios->group_start();
         	}
@@ -66,13 +66,19 @@ class V1 extends REST_Controller
         	{
         		$scenarios->or_where('type', 'ap');
         	}
+        	
+        	// Filter: Quests
+        	if($this->get('quests'))
+        	{
+        		$scenarios->or_where('type', 'quest');
+        	}   	
 
-        	if($this->get('scenarios') || $this->get('modules') || $this->get('aps'))
+        	if($this->get('scenarios') || $this->get('modules') || $this->get('aps') || $this->get('quests'))
         	{
         		$scenarios->group_end();
         	}
         	
-        	if(!$this->get('scenarios') && !$this->get('modules') && !$this->get('aps'))
+        	if(!$this->get('scenarios') && !$this->get('modules') && !$this->get('aps') && !$this->get('quests'))
         	{
         		// Dirty, but works
         		$scenarios->where('type', 'nonexistent');
@@ -100,7 +106,7 @@ class V1 extends REST_Controller
 	        if($this->get('author'))
 	        {
 	        	$scenarios->like_related_authors('name', $this->get('author'))->distinct();
-	        }	        
+	        }
 	        
 	        // Filter: Level range
 	        if($this->get('levels'))
@@ -131,12 +137,6 @@ class V1 extends REST_Controller
 	        {
 	        	$scenarios->where('evergreen', 1);
 	        }
-	        
-	        // Filter: Quests
-	        if($this->get('quests'))
-	        {
-	        	$scenarios->where('number', 'Q');
-	        }	        
 	        
 	        // Filter: Players
 	        if($this->get('player') && $this->get('campaign'))
@@ -535,18 +535,6 @@ class V1 extends REST_Controller
     	$playerprogress = new Person();
     	$scen = new Scenario();
 
-//     	if($this->get('type') == 'mod' || $this->get('type') == 'ap')
-    	
-    	/*
-SELECT count(*) as `numrows`
-FROM `j_scenario_person`
-LEFT OUTER JOIN `scenarios` ON `scenarios`.`id` = `j_scenario_person`.`scenario_id`
-WHERE ( 
-`j_scenario_person`.`pfs` IS NOT NULL
-AND `scenarios`.`season` = '0'
- )
-    	 */
-    	
 		$playerprogress->where('pfsnumber', $this->get('pfsnumber'))->get();
     	
     	foreach($scenario as $s)
@@ -555,22 +543,22 @@ AND `scenarios`.`season` = '0'
     		{
     			// Modules
 				$response['mod'] = array('season' => 'Modules', 'total' => 0, 'completed' => 0);
-				$response['mod']['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('type', 'mod')->get()->result_count();
-				$response['mod']['total'] = $scen->where('type', 'mod')->count();				
+				$response['mod']['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('type', 'mod')->where('archived IS NULL', NULL)->get()->result_count();
+				$response['mod']['total'] = $scen->where('type', 'mod')->where('archived IS NULL', NULL)->count();				
     		}
     		elseif($s->type == 'ap')
     		{
     			// Adventure paths
     			$response['ap'] = array('season' => 'APs', 'total' => 0, 'completed' => 0);
-    			$response['ap']['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('type', 'ap')->get()->result_count();
-    			$response['ap']['total'] = $scen->where('type', 'ap')->count();
+    			$response['ap']['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('type', 'ap')->where('archived IS NULL', NULL)->get()->result_count();
+    			$response['ap']['total'] = $scen->where('type', 'ap')->where('archived IS NULL', NULL)->count();
     		}
     		else
     		{
     			// Seasons
     			$response[$s->season] = array('season' => $s->season, 'total' => 0, 'completed' => 0, 'contenttype' => $s->type);
-    			$response[$s->season]['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();
-    			$response[$s->season]['total'] = $scen->where('season', $s->season)->count();
+    			$response[$s->season]['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('season', $s->season)->where('archived IS NULL', NULL)->get()->result_count();
+    			$response[$s->season]['total'] = $scen->where('season', $s->season)->where('archived IS NULL', NULL)->count();
     		}
 
     	}
