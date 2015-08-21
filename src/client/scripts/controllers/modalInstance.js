@@ -5,15 +5,16 @@
         .module('scenariotracker')
         .controller('ModalInstanceController', ModalInstanceController );
     
-    function ModalInstanceController($state, $modalInstance)
+    function ModalInstanceController($modalInstance)
     {
     	var vm = this;
-    	vm.$state = $state;	
+    	vm.$modalInstance = $modalInstance;
     }
     
     ModalInstanceController.prototype.close = function()
     {
-    	$modelInstance.dismiss();
+    	var vm = this;
+    	vm.$modalInstance.dismiss();
     }
     
 })();

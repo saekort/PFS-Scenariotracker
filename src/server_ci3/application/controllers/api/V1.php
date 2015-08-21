@@ -96,6 +96,12 @@ class V1 extends REST_Controller
 	        	$scenarios->where('archived IS NULL', NULL);
 	        }
 	        
+	        // Filter: Specials
+	        if(!$this->get('specials'))
+	        {
+	        	$scenarios->not_like('name', '%Special: %');
+	        }	        
+	        
 	        // Filter: Search
 	        if($this->get('search'))
 	        {

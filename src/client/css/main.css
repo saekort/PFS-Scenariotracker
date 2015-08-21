@@ -95,6 +95,10 @@ a, a:hover, a:active, a:visited {
 	color: #884B96;
 }
 
+.special {
+	color: #F29900;
+}
+
 .question {
 	cursor: help;
 }
@@ -417,4 +421,17 @@ input[type=checkbox]:checked + label:after {
 
 .navbar-default {
 	border-color: #A32A28;
+}
+
+.help {
+	color: #6E2D2D;	
+	cursor: pointer;
+	font-size: 25px;
+}
+
+.help-search {
+	color: #6E2D2D;
+	cursor: pointer;
+	font-size: 25px;
+	top: 7px;
 }

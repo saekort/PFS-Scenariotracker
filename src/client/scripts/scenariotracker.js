@@ -15,6 +15,12 @@
         		controller: 'SearchController',
         		controllerAs: 'vm'        		
         	})
+        	.state('plan', {
+        		url: '/plan',
+        		templateUrl: "views/plan.html",
+        		controller: 'PlanController',
+        		controllerAs: 'vm'        		
+        	})        	
         	.state('register', {
         		url: '/register',
         		templateUrl: "views/register.html",

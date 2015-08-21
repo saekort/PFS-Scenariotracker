@@ -23,11 +23,34 @@
     		var modalInstance = vm.$modal.open({
     			animation: vm.animate,
     			templateUrl: 'help_filters.html',
-    			controller: 'ModalInstanceController',
+    			controller: 'ModalInstanceController as help',
     			size: 'lg'
     		});
     	}
     	
+    	if(vm.type=='search')
+    	{
+    		var modalInstance = vm.$modal.open({
+    			animation: vm.animate,
+    			templateUrl: 'help_search.html',
+    			controller: 'ModalInstanceController as help',
+    			size: 'lg'
+    		});
+    	}
+    	
+    	if(vm.type=='report')
+    	{
+    		var modalInstance = vm.$modal.open({
+    			animation: vm.animate,
+    			templateUrl: 'help_report.html',
+    			controller: 'ModalInstanceController as help',
+    			size: 'lg'
+    		});
+    	}
+    	
+    	modalInstance.result.then(function(data) {
+    	      console.log(data);
+    	    });    	
     }
     
 })();

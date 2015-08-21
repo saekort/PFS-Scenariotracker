@@ -1,12 +1,13 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <div id="main" class="container-fluid">
 	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 filterbar">
-		<ng-include src="'./views/partials/logo.html'"></ng-include>
-		<h2>Filters</h2>
-		<div ng-controller="HelpController as help">
-			<button class="button" ng-click="help.open('filters');">Help</button>
-			<ng-include src="'./views/partials/help_filters.html'"></ng-include>
-		</div>
+		<ng-include src="'./views/partials/logo.html'"></ng-include>	
+		<h2>Filters
+			<span ng-controller="HelpController as help">
+				<span class="glyphicon glyphicon-question-sign help" ng-click="help.open('filters');"></span>
+				<ng-include src="'./views/partials/help_filters.html'"></ng-include>
+			</span>			
+		</h2>
 			<form>
 				<div class="form-group has-feedback">
 					<label for="scenarioSelect">Scenario name</label>
@@ -14,13 +15,13 @@
 					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
 				</div>			
 				<div class="form-group filter">
-					<strong>Level range</strong><br>					
+					<strong>Player level range</strong><br>					
 					<div class="form-inline">
 						<div class="form-group">
 							<label for="lowestPlayerLevel">Lowest</label>
 							<select class="form-control" ng-options="level for level in vm.filters.levels" ng-model="vm.filters.lowestPlayerLevel" ng-change="vm.getScenarios()"></select>
 						</div>
-						<div class="form-group">
+						<div class="form-group" ng-show="vm.filters.lowestPlayerLevel != ''">
 							<label for="highestPlayerLevel">Highest</label>
 							<select class="form-control" ng-options="level for level in vm.filters.levels" ng-model="vm.filters.highestPlayerLevel" ng-change="vm.getScenarios()"></select>
 						</div>
@@ -109,12 +110,17 @@
 							<input id="evergreen" type="checkbox" ng-model="vm.filters.evergreen" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="evergreen"></label>
 							<span class="report-title"><span class="glyphicon glyphicon-leaf evergreen"></span> Only evergreens</span>
-						</div>				
+						</div>
+						<div class="checkbox">
+							<input id="specials" type="checkbox" ng-model="vm.filters.specials" value="" ng-click="vm.getScenarios()">
+							<label class="report-title" for="specials"></label>
+							<span class="report-title"><span class="glyphicon glyphicon-star special"></span> Include multi-table specials</span>
+						</div>						
 						<div class="checkbox">
 							<input id="retired" type="checkbox" ng-model="vm.filters.retired" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="retired"></label>
 							<span class="report-title"><span class="glyphicon glyphicon-remove archived"></span> Include retired scenarios</span>
-						</div>							
+						</div>						
 					</div>						
 				</div>
 			</form>
@@ -140,6 +146,10 @@
 					<label for="sortOptions">Sort: </label>
 					<select id="sortOptions" class="form-control" ng-model="vm.sorting" ng-options="option.label for option in vm.sortoptions" ng-change="vm.getScenarios()"></select>
 				</div>
+				<span ng-controller="HelpController as help">
+					<span class="glyphicon glyphicon-question-sign help-search" ng-click="help.open('search');"></span>
+					<ng-include src="'./views/partials/help_search.html'"></ng-include>
+				</span>				
 			</form>
 		</div>
 
@@ -153,7 +163,7 @@
 		</div>		
 
 				<div class="pfs-pagination form-group">
-					<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="20" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
+					<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
 				</div>
 			</form>
 		<div class="row">
@@ -165,12 +175,13 @@
 			<div ng-repeat="scenario in vm.scenarios">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scenario"> 
 					<div class="title">
-						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower modules question" title="This is a module, it is longer then a scenario, but rewards more experience"></span>
-						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe aps question" title="This is an adventure path, it is longer then a scenario, but rewards more experience"></span>													
-						<span ng-if='scenario.type == "scenario" && scenario.number != "Q"' class="glyphicon glyphicon-file scenarioicon question" title="This is a scenario, a 4-5 hour Pathfinder Society experience"></span>
-						<span ng-if='scenario.type == "quest"' class="glyphicon glyphicon-tent quest question" title="This is a quest, a series of 1 hour Pathfinder Society scenarios well suited for new players"></span>
-						<span ng-if='scenario.evergreen == 1' class="glyphicon glyphicon-leaf evergreen question" title="This is a evergreen, you can play it more then once"></span>
-						<span ng-if='scenario.archived != NULL' class="glyphicon glyphicon-remove archived question" title="You cannot play this scenario for credit, it was retired on {{scenario.archived}}"></span>						
+						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower modules question" tooltip="This is a module, it is longer then a scenario, but rewards more experience"></span>
+						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe aps question" tooltip="This is an adventure path, it is longer then a scenario, but rewards more experience"></span>													
+						<span ng-if='scenario.type == "scenario" && scenario.number != "Q"' class="glyphicon glyphicon-file scenarioicon question" tooltip="This is a scenario, a 4-5 hour Pathfinder Society experience"></span>
+						<span ng-if='scenario.name.indexOf("Special") > -1' class="glyphicon glyphicon glyphicon-star special question" tooltip="This is a multi table special, it is special and will only be available for play on conventions"></span>						
+						<span ng-if='scenario.type == "quest"' class="glyphicon glyphicon-tent quest question" tooltip="This is a quest, a series of 1 hour Pathfinder Society scenarios well suited for new players"></span>
+						<span ng-if='scenario.evergreen == 1' class="glyphicon glyphicon-leaf evergreen question" tooltip="This is a evergreen, you can play it more then once"></span>
+						<span ng-if='scenario.archived != NULL' class="glyphicon glyphicon-remove archived question" tooltip="You cannot play this scenario for credit, it was retired on {{scenario.archived | limitTo: 10 : 0}}"></span>						
 						<span ng-if='scenario.type == "scenario"'>#{{scenario.season}}-{{scenario.number}} </span><span ng-if='scenario.type == "quest"'>S{{scenario.season}} </span>{{scenario.name}}
 						<span class="authors">by </span><span class="authors" ng-show="scenario.authors.length == 0">Unknown</span><span class="authors" ng-repeat="author in scenario.authors">{{$first ? '' : $last ? ' and ' : ', '}}{{author}}</span>
 						<button class="button pull-right" ng-click="scenario.collapsed = !scenario.collapsed">Toggle description</button>
@@ -182,7 +193,7 @@
 			</div>			
 		</div>
 			<div class="pfs-pagination">
-				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="20" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
+				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
 			</div>		
 	</div>
 </div>
