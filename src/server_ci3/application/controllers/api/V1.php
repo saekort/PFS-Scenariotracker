@@ -36,36 +36,54 @@ class V1 extends REST_Controller
     
     function scenarios_get()
     {
-
-    	
-/**
- * THIS WORKS!
- 
-SELECT *
-FROM `scenarios`
-WHERE `scenarios`.`id` NOT IN(
-    SELECT `scenarios`.`id`
-    FROM `scenarios`
-    LEFT OUTER JOIN `j_scenario_person`
-        `players_j_scenario_person` ON `scenarios`.`id` = `players_j_scenario_person`.`scenario_id`
-    WHERE
-        `players_j_scenario_person`.`person_id` IN(1, 2, 3, 4, 5)    
-    ) 
- 
- 
- */    	
-    	
     	// Set a limit, could be expanded later on
-    	$limit = 20;
+    	$limit = 15;
     	
         $scenarios = new Scenario();
-        
-        // Always limit the amount of scenarios to a maximum of 20
-        //$scenarios->limit(20);
 
         $i = 0;
         while($i < 2)
         {
+        	if($this->get('scenarios') || $this->get('modules') || $this->get('aps') || $this->get('quests'))
+        	{
+        		$scenarios->group_start();
+        	}
+        	
+        	// Filter: Scenarios
+        	if($this->get('scenarios'))
+        	{
+        		$scenarios->or_where('type', 'scenario');
+        	}
+        	
+        	// Filter: Modules
+        	if($this->get('modules'))
+        	{
+        		$scenarios->or_where('type', 'mod');
+        	}
+
+        	// Filter: Adventure paths
+        	if($this->get('aps'))
+        	{
+        		$scenarios->or_where('type', 'ap');
+        	}
+        	
+        	// Filter: Quests
+        	if($this->get('quests'))
+        	{
+        		$scenarios->or_where('type', 'quest');
+        	}   	
+
+        	if($this->get('scenarios') || $this->get('modules') || $this->get('aps') || $this->get('quests'))
+        	{
+        		$scenarios->group_end();
+        	}
+        	
+        	if(!$this->get('scenarios') && !$this->get('modules') && !$this->get('aps') && !$this->get('quests'))
+        	{
+        		// Dirty, but works
+        		$scenarios->where('type', 'nonexistent');
+        	}
+        	
 	        // Filter: Season
 	        if($this->get('season'))
 	        {
@@ -78,13 +96,34 @@ WHERE `scenarios`.`id` NOT IN(
 	        	$scenarios->where('archived IS NULL', NULL);
 	        }
 	        
+	        // Filter: Specials
+	        if(!$this->get('specials'))
+	        {
+	        	$scenarios->not_like('name', '%Special: %');
+	        }	        
+	        
 	        // Filter: Search
 	        if($this->get('search'))
 	        {
 	        	$scenarios->like('name', $this->get('search'));
 	        }
 	        
+	        // Filter: Author
+	        if($this->get('author'))
+	        {
+	        	$scenarios->like_related_authors('name', $this->get('author'))->distinct();
+	        }
+	        
 	        // Filter: Level range
+	        if($this->get('levels'))
+	        {
+	        	$levels = $this->get('levels');
+	        	foreach($levels as $level)
+	        	{
+	        		$scenarios->like('levelrange', $level);
+	        	}
+	        }
+	        
 	        if($this->get('levelRangeMin') && $this->get('levelRangeMax'))
 	        {
 	        	$scenarios->group_start();
@@ -106,14 +145,39 @@ WHERE `scenarios`.`id` NOT IN(
 	        }
 	        
 	        // Filter: Players
-	        if($this->get('player'))
+	        if($this->get('player') && $this->get('campaign'))
 	        {
 	        	$pfsnumbers = array();
 	        
 	        	$subq_players = new Scenario();
-	        	$subq_players->select('id')->where_in_related_players('pfsnumber', $this->get('player'));
+	        	$subq_players->select('id')->where_join_field('players', $this->get('campaign') . ' IS NOT NULL', null)->where_in_related_players('pfsnumber', $this->get('player'));
 	        	
 	        	$scenarios->where_not_in_subquery('id', $subq_players);
+	        }
+	        
+	        // Sorting
+	        if($this->get('sorting'))
+	        {
+	        	if($this->get('sorting') == 'name_asc')
+	        	{
+	        		$scenarios->order_by('name', 'asc');
+	        	}
+	        	elseif($this->get('sorting') == 'name_desc')
+	        	{
+	        		$scenarios->order_by('name', 'desc');
+	        	}
+	        	elseif($this->get('sorting') == 'season_asc')
+	        	{
+	        		$scenarios->order_by('season', 'asc');
+	        		$scenarios->order_by('cast(number as unsigned)', 'asc');
+	        		$scenarios->order_by('name', 'asc');
+	        	}
+	        	elseif($this->get('sorting') == 'season_desc')
+	        	{
+	        		$scenarios->order_by('season', 'desc');
+	        		$scenarios->order_by('cast(number as unsigned)', 'desc');
+	        		$scenarios->order_by('name', 'desc');
+	        	}
 	        }
 	        
 	    	// Pagination
@@ -132,11 +196,12 @@ WHERE `scenarios`.`id` NOT IN(
 	    		}
 	    		else
 	    		{
-	    			// Just limit it to 20 scenarios
+	    			// Just limit it to X scenarios
 	    			$scenarios->limit($limit);
 	    		}
 	    		
 	    		$scenarios->get();
+	    		//$scenarios->check_last_query();
 	    	}
 	    	
 	    	$i++;
@@ -219,6 +284,8 @@ WHERE `scenarios`.`id` NOT IN(
     	$people = new Person();
     	$people->or_like('name', $this->get('search'));
     	$people->or_like('pfsnumber', $this->get('search'));
+    	$people->order_by('name','asc');
+    	$people->limit(5);
     	$people->get();
     
     	if($people->exists())
@@ -264,6 +331,60 @@ WHERE `scenarios`.`id` NOT IN(
     		$this->response(array('error' => 'Person could not be found'), 404);
     	}
     }
+    
+    function person_post()
+    {
+    	if(!$this->post('pfsnumber') && !$this->post('name'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	$person = new Person();
+    	
+    	// Test to see if the pfsnumber is already in use
+    	$person->get_by_pfsnumber($this->post('pfsnumber'));
+    	
+    	if($person->exists())
+    	{
+    		$this->response('Pfsnumber already registered', 400);
+    	}
+    	
+    	$person->pfsnumber = $this->post('pfsnumber');
+    	$person->name = $this->post('name');
+    	
+    	$person->save();
+    	
+    	$this->response($person->id, 200);
+    }
+    
+    function authors_get()
+    {
+    	if(!$this->get('search'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	 
+    	$authors = new Author();
+    	$authors->like('name', $this->get('search'));
+    	$authors->order_by('name','asc');
+    	$authors->limit(5);
+    	$authors->get();
+    
+    	if($authors->exists())
+    	{
+    		foreach($authors as $author)
+    		{
+    			$authors_array[] = $author->name;
+    		}
+    		
+    		 
+    		$this->response($authors_array, 200); // 200 being the HTTP response code
+    	}
+    	else
+    	{
+    		$this->response(array('error' => 'Authors could not be found'), 404);
+    	}
+    }    
 
     function reportscenarios_get()
     {
@@ -282,13 +403,21 @@ WHERE `scenarios`.`id` NOT IN(
     		// Normal content
     		if(is_numeric(substr($this->get('type'),1,1)))
     		{
-    			
     			// Season
     			$season = substr($this->get('type'),1,1);
     			
     			// Get all the scenarios played for this player in this season
     			$played_scenarios = $player->scenarios->where('season', $season)->include_join_fields()->get();
+    		} 
+    		else 
+    		{
+    			// Module or Adventure path
+    			$content = $this->get('type');
     			
+    			// Get all the modules and adventure paths played for this player
+    			$played_scenarios = $player->scenarios->where('type', $content)->include_join_fields()->get();    			
+    		}
+    		
     			$state = array();
 
     			foreach($played_scenarios as $played_scenario)
@@ -296,11 +425,19 @@ WHERE `scenarios`.`id` NOT IN(
     				$state[$played_scenario->id]['pfs'] = (bool)$played_scenario->join_pfs;
     				$state[$played_scenario->id]['core'] = (bool)$played_scenario->join_core;
     				$state[$played_scenario->id]['pfs_gm'] = (bool)$played_scenario->join_pfs_gm;
-    				$state[$played_scenario->id]['core_gm'] = (bool)$played_scenario->join_pfs_gm;
+    				$state[$played_scenario->id]['core_gm'] = (bool)$played_scenario->join_core_gm;
     			}    			
     			
     			$scenarios = new Scenario();
-    			$scenarios->get_by_season($season);
+				if(is_numeric(substr($this->get('type'),1,1)))
+				{
+					$scenarios->order_by('cast(number as unsigned)', 'asc')->get_by_season($season);
+				}
+				else
+				{
+					$scenarios->order_by('name', 'asc')->get_by_type($content);
+				}
+				
     			$scenarios_array = $scenarios->all_to_array();
     			
     			foreach($scenarios_array as $index => $scenario)
@@ -317,18 +454,6 @@ WHERE `scenarios`.`id` NOT IN(
     			
     			$this->response($scenarios_array, 200);
     		}
-    		else
-    		{
-    			// Modules or adventure paths
-    			//TODO
-    			$this->response('Not yet implemented', 200);
-    		}
-    	}
-    	else
-    	{
-    		// Generate overview
-    		echo 'overview';
-    	}
     }
     
     function reportscenario_post()
@@ -357,16 +482,51 @@ WHERE `scenarios`.`id` NOT IN(
     	$this->response('', 200);
     }
     
+    function reportscenario_delete()
+    {
+    	if(!$this->delete('state') || !$this->delete('pfsnumber') || !$this->delete('scenario'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	// Does a relationship exists yet?
+    	$scenario = new Scenario($this->delete('scenario'));
+    	 
+    	$player = new Person();
+    	$player->where('pfsnumber', $this->delete('pfsnumber'))->where_related_scenarios($scenario)->get();
+    	
+    	$player->set_join_field($scenario, $this->delete('state'), NULL);
+    	
+    	// See if there is a relationship left or that we have to delete
+    	$player
+    		->where('pfsnumber', $this->delete('pfsnumber'))
+    		->where_related_scenarios($scenario)
+    		->where_join_field($scenario, 'pfs', NULL)
+    		->where_join_field($scenario, 'pfs_gm', NULL)
+    		->where_join_field($scenario, 'core', NULL)
+    		->where_join_field($scenario, 'core_gm', NULL)
+    		->get();
+    	
+    	if($player->exists())
+    	{
+    		// No more played things in the relationship, so delete
+    		$player->delete_scenarios($scenario);
+    	}
+    	
+    	$this->response('', 200);
+    }    
+    
     function playerprogress_get()
     {
-    	if(!$this->get('pfsnumber'))
+    	if(!$this->get('pfsnumber') || !$this->get('type'))
     	{
     		$this->response(NULL, 400);
     	}
     	
     	$scenario = new Scenario();
-    	$scenario->select('season')->distinct()->get();
-    	
+
+    	$scenario->select('season, type')->distinct()->get();
+
     	$types = array();
     	
     	foreach($scenario as $s)
@@ -374,31 +534,39 @@ WHERE `scenarios`.`id` NOT IN(
     		$types[] = $s->season;
     	}
     	
+    	$types[] = 'mod';
+    	$types[] = 'ap';
+    	
     	$response = array();
     	$playerprogress = new Person();
     	$scen = new Scenario();
-    	
-    	/*
-SELECT count(*) as `numrows`
-FROM `j_scenario_person`
-LEFT OUTER JOIN `scenarios` ON `scenarios`.`id` = `j_scenario_person`.`scenario_id`
-WHERE ( 
-`j_scenario_person`.`pfs` IS NOT NULL
-AND `scenarios`.`season` = '0'
- )
-    	 */
-    	
+
 		$playerprogress->where('pfsnumber', $this->get('pfsnumber'))->get();
     	
     	foreach($scenario as $s)
     	{
-    		$response[$s->season] = array('season' => $s->season, 'total' => 0, 'pfs' => 0, 'core' => 0, 'pfs_gm' => 0, 'core_gm' => 0);
-    		
-    		$response[$s->season]['pfs'] = $playerprogress->scenarios->where_join_field('players', 'pfs IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();
-    		$response[$s->season]['core'] = $playerprogress->scenarios->where_join_field('players', 'core IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();;
-    		$response[$s->season]['pfs_gm'] = $playerprogress->scenarios->where_join_field('players', 'pfs_gm IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();;
-    		$response[$s->season]['core_gm'] = $playerprogress->scenarios->where_join_field('players', 'core_gm IS NOT NULL', NULL)->where('season', $s->season)->get()->result_count();;    		
-    		$response[$s->season]['total'] = $scen->where('season', $s->season)->count();
+    		if($s->type == 'mod')
+    		{
+    			// Modules
+				$response['mod'] = array('season' => 'Modules', 'total' => 0, 'completed' => 0);
+				$response['mod']['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('type', 'mod')->where('archived IS NULL', NULL)->get()->result_count();
+				$response['mod']['total'] = $scen->where('type', 'mod')->where('archived IS NULL', NULL)->count();				
+    		}
+    		elseif($s->type == 'ap')
+    		{
+    			// Adventure paths
+    			$response['ap'] = array('season' => 'APs', 'total' => 0, 'completed' => 0);
+    			$response['ap']['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('type', 'ap')->where('archived IS NULL', NULL)->get()->result_count();
+    			$response['ap']['total'] = $scen->where('type', 'ap')->where('archived IS NULL', NULL)->count();
+    		}
+    		else
+    		{
+    			// Seasons
+    			$response[$s->season] = array('season' => $s->season, 'total' => 0, 'completed' => 0, 'contenttype' => $s->type);
+    			$response[$s->season]['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('season', $s->season)->where('archived IS NULL', NULL)->get()->result_count();
+    			$response[$s->season]['total'] = $scen->where('season', $s->season)->where('archived IS NULL', NULL)->count();
+    		}
+
     	}
     	
     	$this->response($response, 200);

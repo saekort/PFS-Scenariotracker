@@ -10,6 +10,16 @@
     	var vm = this;
     	vm.playerselect = '';
     	vm.player = null;
+    	vm.playerprogress = null;
+    	vm.totalplayed = 0;
+    	vm.totalavailable = 0;
+    	vm.progresstype = null;
+    	vm.progresstypes = [
+    	                    {key: 'pfs', name: 'PFS PC'},
+    	                    {key: 'core', name: 'CORE PC'},
+    	                    {key: 'pfs_gm', name: 'PFS GM'},
+    	                    {key: 'core_gm', name: 'CORE GM'}
+    	                    ];
     	vm.reportoptions = [
     			{name: 'Season 0', id: 's0'}, 
     			{name: 'Season 1', id: 's1'},
@@ -39,7 +49,7 @@
     	if(type == 'overview')
     	{
     		vm.reporttype = 'overview';
-    		vm.getPlayerprogress();
+    		vm.getPlayerprogress('pfs');
     		vm.atOverview = true;
     	}
     	else
@@ -70,16 +80,38 @@
   	  	});
     }
   
-    ReportController.prototype.getPlayerprogress = function()
+    ReportController.prototype.getPlayerprogress = function(type)
     {
     	var vm = this;
     	
     	vm.usSpinnerService.spin('spinner-1');
     	
-    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/playerprogress' + '?pfsnumber=' + vm.player.pfsnumber).
+    	var index = 0;
+    	
+    	for(var i = 0, len = vm.progresstypes.length; i < len; i++) {
+    	    if (vm.progresstypes[i].key == type) {
+    	        index = i;
+    	        break;
+    	    }
+    	}
+    	
+    	vm.progresstype = vm.progresstypes[index]; 
+    	
+    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/playerprogress' + '?pfsnumber=' + vm.player.pfsnumber + '&type=' + type).
     		success(function(data, status, headers, config) {
     		// Assign scenarios
     		vm.playerprogress = data;
+
+    		vm.totalplayed = 0;
+    		vm.totalavailable = 0;
+    		for (var key in vm.playerprogress) {
+    			if(vm.playerprogress.hasOwnProperty(key))
+    			{
+        			vm.totalplayed += vm.playerprogress[key].completed;
+        			vm.totalavailable += vm.playerprogress[key].total;    				
+    			}
+    		}
+    		
   		  	vm.usSpinnerService.stop('spinner-1');
     	}).
   	  	error(function(data, status, headers, config) {
@@ -94,17 +126,21 @@
     {
     	var vm = this;
     	
-    	console.log(state);
-    	console.log(vm.content[$index].state[state]);
+    	var method = 'POST';
     	
+    	if(!vm.content[$index].state[state])
+    	{
+    		method = 'DELETE';
+    	}
+
         var req = {
-                method: 'POST',
+                method: method,
                 url: 'http://pfs.campaigncodex.com/api/v1/reportscenario',
                 data: $.param({state: state, pfsnumber: vm.player.pfsnumber, scenario: scenario_id}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
-            };
+            };    	
     	
     	vm.$http(req).
 			success(function(data, status, headers, config) {
@@ -122,15 +158,7 @@
     	
     	return vm.$http.get('http://pfs.campaigncodex.com/api/v1/people?search=' + search).then(
     			function(response){
-    				return response.data.map(function(item)
-    				{
-    					if(item.pfsnumber == null)
-    					{
-    						return item.name + ' (unknown)';
-    					}
-    					
-    					return item.name + ' (' + item.pfsnumber + ')';
-    				});
+    				return response.data;
     			});
     }
     
@@ -138,18 +166,22 @@
     {
     	var vm = this;
     	
-    	if(vm.playerselect != null && vm.playerselect != '')	
+    	if( Object.prototype.toString.call( vm.playerselect ) === '[object Object]' ) {
+    		vm.player = vm.playerselect;
+    		vm.changeReportType('overview');
+    		vm.getPlayerprogress('pfs');
+    	}
+    
+    	vm.playerselect = '';
+    }
+    
+    ReportController.prototype.formatPlayersearch = function($model)
+    {
+    	if($model)
     	{
-    		var searcharray = vm.playerselect.split(" ");
-    		var name = searcharray[0];
-    		var pfsnumber = searcharray[1];
-    		pfsnumber = pfsnumber.replace('(', '');
-    		pfsnumber = pfsnumber.replace(')', '');
-    		
-    		vm.player = {name: name, pfsnumber: pfsnumber};
+    		return $model.name + ' - ' + $model.pfsnumber;
     	}
     	
-    	vm.changeReportType('overview');
-    	vm.playerselect = '';
-    } 
+    	return '';
+    }
 })();

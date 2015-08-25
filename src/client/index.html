@@ -11,16 +11,22 @@
 
 	<link rel="stylesheet" href="./css/bootstrap.css">
 	<link rel="stylesheet" href="./css/main.css">
+	
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.2/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>	
 	<script src="./scripts/vendor/bootstrap.js"></script>
 	<script src="./scripts/vendor/ui-bootstrap-tpls-0.13.0.min.js"></script>
 	<script src="./scripts/scenariotracker.js"></script>
 	<script src="./scripts/controllers/report.js"></script>	
 	<script src="./scripts/controllers/search.js"></script>
-	<script src="./scripts/controllers/home.js"></script>
+	<script src="./scripts/controllers/plan.js"></script>
 	<script src="./scripts/controllers/register.js"></script>
+	<script src="./scripts/controllers/issues.js"></script>
+	<script src="./scripts/controllers/about.js"></script>
 	<script src="./scripts/controllers/nav.js"></script>
+	<script src="./scripts/controllers/help.js"></script>
+	<script src="./scripts/controllers/modalInstance.js"></script>
 	<script src="./scripts/vendor/angular-ui-router.min.js"></script>
 	
 	<!-- iCheck: https://github.com/fronteed/icheck/issues/62 -->
@@ -28,17 +34,14 @@
 	<script src="./scripts/directives/ui-icheck.js"></script>
 	<link rel="stylesheet" href="./css/check.css">
 	
-	<!-- RangeSlider: https://github.com/danielcrisp/angular-rangeslider -->
-	<link rel="stylesheet" href="./css/angular.rangeSlider.css">
-	<script src="./scripts/vendor/angular.rangeSlider.js"></script>
-	
 	<!-- Angular Spinner: https://github.com/urish/angular-spinner -->
 	<script src="./scripts/vendor/spin.min.js"></script>
 	<script src="./scripts/vendor/angular-spinner.js"></script>
 </head>
 <body>
-	<ui-view><br><br><br><center>Loading PFS Sessiontracker...
-		<div><img width="50%" src="./images/logo_pfs.png"></div></center>
-	</ui-view>
+	<div id="wrap">
+		<ui-view><br><br><br><h2 class="text-center">Loading PFS Sessiontracker...</h2></ui-view>
+		<ng-include src="'./views/partials/playersearchTemplate.html'"></ng-include>
+	</div>	
 </body>
 </html>

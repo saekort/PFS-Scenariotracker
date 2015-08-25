@@ -1,0 +1,63 @@
+<ng-include src="'./views/partials/nav.html'"></ng-include>
+<div id="main" class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
+			<ng-include src="'./views/partials/logo.html'"></ng-include>
+		</div>
+	</div>
+	<div class="row scenario">
+	
+			<h2>Known issues</h2>
+			<div class="alert alert-danger"><strong>Warning:</strong> Before you report something as a bug please force refresh your browser to download all the latest files. Sometimes browsers cache, which is totally not cool!</div>
+			<p>This is a <strong>beta</strong> mail suggestions and/or bug reports to <a href="mailto:simon.kort@gmail.com">Simon</a>.</p>
+			<h3>Features in development</h3>
+			<ul>
+				<li>On the search screen see if players have GMed a scenario or maybe played it in the other campaign already</li>
+				<li>Actually always include evergreens even if players have already played them, maybe with option to turn it off and exclude them anyway</li>
+				<li>Add authors to all content</li>
+				<li>Add store links to all content</li>
+			</ul>
+			<h3>Bugs</h3>
+			<ul>
+				<li>When turning the description on a scenario off again it leaves space in some browsers</li>
+				<li>Optimize extra small resolution layout (possibly also the small resolution layout)</li>
+			</ul>
+			<h3>Roadmap (far future)</h3>
+			<ul>
+				<li>Possibly register what character did what scenario. Though that is also on paizo.com...</li>
+				<li>Implement something like a wishlist of what to play</li>
+				<li>See if we can possibly report for an entire party from the search screen</li>
+			</ul>
+			<h2>Changelog</h2>
+			<ul>
+				<li>Completed the help texts/modals</li>
+				<li>Implement fancier tooltips, touchdevice friendly</li>
+				<li>Add quests neatly to report categories -> They are now listed under the season they are a part of</li>
+				<li>Bugfix: In the pagination if there is a page with 1 scenario it is frequently left out</li>
+				<li>Added a 'other' filter for specials. By default they are not included in searches, but you can toggle it on</li>
+				<li>Now excluding retired scenarios from player progress</li>
+				<li>Added 'retired' to retired scenarios at the report page</li>
+				<li>Added a filter for quests and introduced a icon for them</li>
+				<li>Removed subtiers from everywhere. Due to the paizo store link it is one click away and the subtiers are predictable anyway</li>
+				<li>Added a 'about' page with the community use disclaimer</li>
+				<li>More styling for smaller devices done</li>
+				<li>Added level range select rework</li>
+				<li>Bugfix: Fixed a sorting bug where numbers would sort like: 0,1,11,12,13 instead of 1,2,3,4,5</li>
+				<li>Bugfix: Untrack a player on search screen oughta be the entire button not just the X</li>			
+				<li>Added grand total to player progress pages</li>
+				<li>Changed the definition of a evergreen, removed 'The Emerald Spire: #2 The Cellars' and 'The Dragon's Demand (Part 1)' as evergreens</li>
+				<li>Removed the exclusive scenarios that are no longer exclusive. They can only be played once, players who played the exclusive can register it with the normal scenario a season later</li>
+				<li>Added sorting options</li>			
+				<li>Quality of life: When you hit enter to select a suggestion in the 'player select'(report page) or 'player search'(search page) bars it will automatically select/add the currently selected player</li>  
+				<li>Added suggestions for authors filter</li>
+				<li>Added support for adventure paths and modules</li>			
+				<li>Added support for links to the paizo store</li>
+				<li>Added The Emerald Spire</li>
+				<li>Bugfix: Make language usage more consistent</li>
+				<li>Bugfix: On report: If you go back to overview after reporting a scenario in a category it does not auto update</li>
+				<li>Added search by author</li>
+				<li>Added known issues page</li>
+			</ul>
+			
+	</div>
+</div>

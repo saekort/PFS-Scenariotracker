@@ -1,15 +1,15 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
-<div class="container-fluid">
-		<div class="row">
-		<ng-include src="'./views/partials/logo.html'"></ng-include>
-		<div class="col-sm-4 report_playersearch">
-			<label class="control-label">Name</label> 
-			<input id="playername" class="playerselect form-control" placeholder="Add you name here" required>
-			<br>
-			<label class="control-label">PFS number</label>
-			<input id="playernumber" class="playerselect form-control" placeholder="PFS number" type="number" required>
-			<button class="btn btn-default" ng-click="vm.savePlayer()">Add</button>
-		</div>
+
+<div id="main" class="container-fluid">
+	<ng-include src="'./views/partials/logo.html'"></ng-include>
+	<div class="col-sm-4 report_playersearch">
+		<label class="control-label">Name</label> 
+		<input id="playername" class="playerselect form-control" placeholder="Add you name here" required>
+		<br>
+		<label class="control-label">PFS number</label>
+		<input id="playernumber" class="playerselect form-control" placeholder="PFS number" type="number" required>
+		<button class="btn btn-default" ng-click="vm.savePlayer()">Add</button>
 	</div>
 </div>
+
 
