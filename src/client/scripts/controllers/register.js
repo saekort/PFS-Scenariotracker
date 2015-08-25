@@ -10,13 +10,15 @@
     	var vm = this;
     	vm.$state = $state;
     	vm.playername = "";
-    	vm.playernumer = "";
+    	vm.playernumber = "";
+    	vm.playeremail = "";
+    	vm.playerpassword = "";
+    	vm.checkpassword = "";
     }
     
     RegisterController.prototype.savePlayer = function()
     {
     	console.log('ik werk!');
-
     }
     
 })();
