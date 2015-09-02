@@ -334,7 +334,7 @@ class V1 extends REST_Controller
     
     function person_post()
     {
-    	if(!$this->post('pfsnumber') && !$this->post('name'))
+    	if(!$this->post('pfsnumber') && !$this->post('name') && !$this->post('password') && !$this->post('test'))
     	{
     		$this->response(NULL, 400);
     	}
