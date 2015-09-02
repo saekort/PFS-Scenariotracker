@@ -334,7 +334,7 @@ class V1 extends REST_Controller
     
     function person_post()
     {
-    	if(!$this->post('pfsnumber') && !$this->post('name') && !$this->post('password') && !$this->post('test'))
+    	if(!$this->post('pfsnumber') && !$this->post('name') && !$this->post('password') && !$this->post('public') && !$this->post('email'))
     	{
     		$this->response(NULL, 400);
     	}
@@ -343,18 +343,26 @@ class V1 extends REST_Controller
     	
     	// Test to see if the pfsnumber is already in use
     	$person->get_by_pfsnumber($this->post('pfsnumber'));
-    	
     	if($person->exists())
     	{
     		$this->response('Pfsnumber already registered', 400);
     	}
     	
-    	$person->pfsnumber = $this->post('pfsnumber');
-    	$person->name = $this->post('name');
+    	$person->get_by_email($this->post('email'));
+    	if($person->exists())
+    	{
+    		$this->response('E-mail already registered', 400);
+    	}    	
     	
-    	$person->save();
+    	$this->load->library('ion_auth');
+
+    	$extra = array(
+    				'pfsnumber' => $this->post('pfsnumber'),
+    				'public' => $this->post('public'),
+    				'name' => $this->post('name')
+    			);
     	
-    	$this->response($person->id, 200);
+    	$this->response($this->ion_auth->register($this->post('name'), $this->post('password'), $this->post('email'), $extra, 200));
     }
     
     function authors_get()
