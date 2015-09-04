@@ -7,12 +7,12 @@
  * @category	Models
  * @author		Simon Kort
  */
-class Scenario extends DataMapper {
+class Scenario_played extends DataMapper {
 
 	// Uncomment and edit these two if the class has a model name that
 	//   doesn't convert properly using the inflector_helper.
-	// var $model = 'scenario';
-	var $table = 'scenarios';
+	// var $model = 'Scenario_played_played';
+	var $table = 'j_scenario_person';
 
 	// You can override the database connections with this option
 	// var $db_params = 'db_config_name';
@@ -26,32 +26,7 @@ class Scenario extends DataMapper {
 	var $has_one = array();
 
 	// Insert related models that Scenario can have more than one of.
-	var $has_many = array(
-			'authors' => array(
-					'class' => 'author',
-					'other_field' => 'scenarios',
-					'join_self_as' => 'scenario',
-					'join_other_as' => 'author',
-					'join_table' => 'j_author_scenario'
-					),
-			'subtiers' => array(
-					'class' => 'subtier',
-					'other_field' => 'scenarios',
-					'join_self_as' => 'scenario',
-					'join_other_as' => 'subtier',
-					'join_table' => 'j_scenario_subtier'
-					),
-			'players' => array(
-					'class' => 'person',
-					'other_field' => 'scenarios',
-					'join_self_as' => 'scenario',
-					'join_other_as' => 'person',
-					'join_table' => 'j_scenario_person'
-			),
-			'statistics' => array(
-					'class' => 'statistic',
-					'other_field' => 'scenario'
-			)			
+	var $has_many = array(		
 		);
 	
 	/* Relationship Examples
@@ -63,12 +38,12 @@ class Scenario extends DataMapper {
 	 *   $has_one = array(
 	 *   	'creator' => array(
 	 *   		'class' => 'user',
-	 *   		'other_field' => 'created_scenario'
+	 *   		'other_field' => 'created_Scenario_played_played'
 	 *   	)
 	 *   );
 	 *
-	 * Don't forget to add 'created_scenario' to User, with class set to
-	 * 'scenario', and the other_field set to 'creator'!
+	 * Don't forget to add 'created_Scenario_played_played' to User, with class set to
+	 * 'Scenario_played_played', and the other_field set to 'creator'!
 	 *
 	 */
 
@@ -137,5 +112,5 @@ class Scenario extends DataMapper {
 	*/
 }
 
-/* End of file scenario.php */
-/* Location: ./application/models/scenario.php */
+/* End of file Scenario_played_played.php */
+/* Location: ./application/models/Scenario_played_played.php */
