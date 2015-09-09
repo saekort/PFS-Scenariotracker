@@ -334,7 +334,7 @@ class V1 extends REST_Controller
     
     function person_post()
     {
-    	if(!$this->post('pfsnumber') && !$this->post('name'))
+    	if(!$this->post('pfsnumber') && !$this->post('name') && !$this->post('password') && !$this->post('public') && !$this->post('email'))
     	{
     		$this->response(NULL, 400);
     	}
@@ -343,18 +343,44 @@ class V1 extends REST_Controller
     	
     	// Test to see if the pfsnumber is already in use
     	$person->get_by_pfsnumber($this->post('pfsnumber'));
-    	
     	if($person->exists())
     	{
     		$this->response('Pfsnumber already registered', 400);
     	}
     	
-    	$person->pfsnumber = $this->post('pfsnumber');
-    	$person->name = $this->post('name');
+    	$person->get_by_email($this->post('email'));
+    	if($person->exists())
+    	{
+    		$this->response('E-mail already registered', 400);
+    	}    	
     	
-    	$person->save();
+    	$this->load->library('ion_auth');
+
+    	$extra = array(
+    				'pfsnumber' => $this->post('pfsnumber'),
+    				'public' => $this->post('public'),
+    				'name' => $this->post('name')
+    			);
     	
-    	$this->response($person->id, 200);
+    	$this->response($this->ion_auth->register($this->post('name'), $this->post('password'), $this->post('email'), $extra, 200));
+    }
+    
+    function person_login_get()
+    {
+    	if(!$this->get('login') && !$this->get('password'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	$this->session->set_userdata('player_id', 1);
+    	
+    	$this->response($this->session->played_id, 200);
+    }
+    
+    function person_logout_get()
+    {
+    	// Kill the current user session
+    	session_destroy();
     }
     
     function authors_get()
@@ -566,9 +592,40 @@ class V1 extends REST_Controller
     			$response[$s->season]['completed'] = $playerprogress->scenarios->where_join_field('players', $this->get('type') . ' IS NOT NULL', NULL)->where('season', $s->season)->where('archived IS NULL', NULL)->get()->result_count();
     			$response[$s->season]['total'] = $scen->where('season', $s->season)->where('archived IS NULL', NULL)->count();
     		}
-
     	}
     	
     	$this->response($response, 200);
+    }
+    
+    function statistics_get()
+    {
+    	if(!$this->get('type'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	$statistics = new Statistic();
+    	$statistics->order_by('number', 'asc')->get_by_type($this->get('type'));
+    	
+    	$scenario_options = array('played_most', 'played_least', 'season', 'evergreen');
+    	$person_options = array('player_complete_pfs', 'player_complete_core', 'gm_complete_pfs', 'gm_complete_core');
+    	
+    	$result = array();
+    	
+    	foreach($statistics as $statistic)
+    	{
+    		$result[$statistic->id] = $statistic->to_array();
+    		
+    		if(in_array($this->get('type'), $person_options))
+    		{
+    			$result[$statistic->id]['person'] = $statistic->person->to_array();
+    		}
+    		else
+    		{
+				$result[$statistic->id]['scenario'] = $statistic->scenario->to_array();
+    		}
+    	}
+    	
+    	$this->response($result, 200);
     }
 }

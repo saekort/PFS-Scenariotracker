@@ -20,16 +20,6 @@ class Welcome extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->output->enable_profiler(TRUE);
-		
-		$scenarios = new Scenario();
-		$scenarios->get();
-		
-		foreach($scenarios as $scenario)
-		{
-			echo $scenario . ' (' . $scenario->authors . ')' . '<br>';
-		}
-		
-		$this->load->view('welcome_message');
+		redirect('http://tracker.campaigncodex.com');
 	}
 }

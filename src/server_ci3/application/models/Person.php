@@ -33,7 +33,11 @@ class Person extends DataMapper {
 					'join_self_as' => 'person',
 					'join_other_as' => 'scenario',
 					'join_table' => 'j_scenario_person'
-			)			
+			),
+			'statistics' => array(
+					'class' => 'statistic',
+					'other_field' => 'person'
+			)
 		);
 
 	/* Relationship Examples

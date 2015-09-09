@@ -44,6 +44,17 @@ a, a:hover, a:active, a:visited {
 	padding: 10px;
 }
 
+.statistic-container {
+	padding: 10px 10px 0 10px;
+}
+
+.statistic {
+	background-color: #FFEFDB;
+	border-radius: 15px;
+	border: 2px solid #BA6B6B;
+	padding: 10px;
+}
+
 .scenario .title {
 	font-size: 25px;
 }
