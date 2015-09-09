@@ -9,19 +9,22 @@
 	<div class="row scenario">
 		<h2>Register</h2>
 		<p>To start reporting your own progress, please fill in the form below</p>
-		<form class="form-horizontal">
+		<form class="form-horizontal" name="myForm">
 			<div class="register">
 				<label class="control-label">Email</label> 
 				<input id="email" type="email" class="playerselect form-control" placeholder="Email" required ng-model="vm.playeremail">
 			</div>
 			<div class="register">
 				<label class="control-label">Password</label> 
-				<input id="password" type="password" class="playerselect form-control" placeholder="Password" required ng-model="vm.playerpassword">
+				<input id="password" type="password" name="password" class="playerselect form-control" placeholder="Password" required 
+					ng-model="vm.playerpassword" data-ng-class="{'ng-invalid':myForm.confirmPassword.$error.match}" pattern=".{8,20}">
 			</div>
 			<div class="register">				
 				<label class="control-label">Repeat Password</label> 
-				<input id="password" type="password" class="playerselect form-control" placeholder="Repeat password" required ng-model="vm.checkpassword">
+				<input id="password" type="password" name="confirmPassword" class="playerselect form-control" placeholder="Repeat password" required ng-model="vm.checkpassword" match="vm.playerpassword">
 			</div>
+			<div data-ng-show="myForm.confirmPassword.$error.match">Passwords do not match!</div>
+			<div ng-show="myForm.password.$error.pattern">Password should be between 8 and 20 characters!</div>
 			<div class="register">				
 				<label class="control-label">Username</label>
 				<p>The username does not need to be unique, please use the name that your fellow pathfinders know you by.</p> 
