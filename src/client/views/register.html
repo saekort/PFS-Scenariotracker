@@ -6,31 +6,41 @@
 			<ng-include src="'./views/partials/logo.html'"></ng-include>
 		</div>
 	</div>
-	<div class="scenario">
+	<div class="row scenario">
 		<h2>Register</h2>
-		<p>Bla bla bla lorem ipsum more stuff</p>
-		<form class="form-horizontal">
-			<div class="form-group">
+		<p>To start reporting your own progress, please fill in the form below</p>
+		<form class="form-horizontal" name="myForm">
+			<div class="register">
 				<label class="control-label">Email</label> 
 				<input id="email" type="email" class="playerselect form-control" placeholder="Email" required ng-model="vm.playeremail">
 			</div>
-			<div class="form-group">
+			<div class="register">
 				<label class="control-label">Password</label> 
-				<input id="password" type="password" class="playerselect form-control" placeholder="Password" required ng-model="vm.playerpassword">
+				<input id="password" type="password" name="password" class="playerselect form-control" placeholder="Password" required 
+					ng-model="vm.playerpassword" data-ng-class="{'ng-invalid':myForm.confirmPassword.$error.match}" pattern=".{8,20}">
 			</div>
-			<div class="form-group">				
-			<label class="control-label">Repeat Password</label> 
-			<input id="password" type="password" class="playerselect form-control" placeholder="Repeat password" required ng-model="vm.checkpassword">
+			<div class="register">				
+				<label class="control-label">Repeat Password</label> 
+				<input id="password" type="password" name="confirmPassword" class="playerselect form-control" placeholder="Repeat password" required ng-model="vm.checkpassword" match="vm.playerpassword">
 			</div>
-			<div class="form-group">				
-			<label class="control-label">Username</label> 
-			<input id="playername" class="playerselect form-control" placeholder="Add your name here" required  ng-model="vm.playername">
+			<div data-ng-show="myForm.confirmPassword.$error.match">Passwords do not match!</div>
+			<div ng-show="myForm.password.$error.pattern">Password should be between 8 and 20 characters!</div>
+			<div class="register">				
+				<label class="control-label">Username</label>
+				<p>The username does not need to be unique, please use the name that your fellow pathfinders know you by.</p> 
+				<input id="playername" class="playerselect form-control" placeholder="Add your name here" required  ng-model="vm.playername">
 			</div>
-			<div class="form-group">				
-			<label class="control-label">PFS number</label>
-			<input id="playernumber" class="playerselect form-control" placeholder="PFS number" type="number" required ng-model="vm.playernumber">
+			<div class="register">				
+				<label class="control-label">PFS number</label>
+				<input id="playernumber" class="playerselect form-control" placeholder="PFS number" required ng-model="vm.playernumber">
 			</div>
-			<div class="form-group">				
+			<div class="checkbox">
+				<input id="scenarios" type="checkbox" ng-model="vm.othersmayreport" value="">
+				<label class="report-title" for="scenarios"></label>
+				<b>Others may report for me</b>
+			</div>
+			<p>If you check this box, other people (for example your GM) may edit the scenarios that you have played.</p>
+			<div class="register">				
 				<button class="button" ng-click="vm.savePlayer()">Add</button>
 			</div>
 		</form>	
