@@ -48,7 +48,7 @@ a, a:hover, a:active, a:visited {
 	padding: 10px 10px 0 10px;
 }
 
-.statistic {
+.statistic, .login {
 	background-color: #FFEFDB;
 	border-radius: 15px;
 	border: 2px solid #BA6B6B;
@@ -164,6 +164,11 @@ a, a:hover, a:active, a:visited {
 	background-color: #6E2D2D;
     transition: none;
     border: 0;
+}
+
+button[disabled], button[disabled]:hover {
+	background-color: grey;
+	cursor: not-allowed;
 }
 
 .button:hover {
@@ -416,6 +421,11 @@ input[type=checkbox]:checked + label:after {
 	color: #333333;
 	cursor: pointer;
 }
+	
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+	background-color: #FFEFDB;
+	color: #333333;
+}	
 	
 .form-control:focus {
 	border-color: #BA6B6B;

@@ -21,6 +21,8 @@ class V1 extends REST_Controller
         // Construct our parent class
         parent::__construct();
         
+        $this->load->library('ion_auth');
+        
         // Configure limits on our controller methods. Ensure
         // you have created the 'limits' table and enabled 'limits'
         // within application/config/rest.php
@@ -31,6 +33,12 @@ class V1 extends REST_Controller
        	if($this->request->method == 'options')
        	{
        		$this->response('', 200);
+       	}
+       	
+       	if($this->ion_auth->logged_in())
+       	{
+			$this->user = new Person($this->ion_auth->user()->row()->id);
+			print_r($this->user());
        	}
     }
     
@@ -353,8 +361,6 @@ class V1 extends REST_Controller
     	{
     		$this->response('E-mail already registered', 400);
     	}    	
-    	
-    	$this->load->library('ion_auth');
 
     	$extra = array(
     				'pfsnumber' => $this->post('pfsnumber'),
@@ -372,15 +378,30 @@ class V1 extends REST_Controller
     		$this->response(NULL, 400);
     	}
     	
-    	$this->session->set_userdata('player_id', 1);
+    	// Set 'remember me' boolean
+    	$remember = false;
+    	if($this->get('remember'))
+    	{
+    		$remember = true;
+    	}
     	
-    	$this->response($this->session->played_id, 200);
+    	if($this->ion_auth->login($this->get('login'), $this->get('password'), $remember))
+    	{
+    		$this->session->set_userdata('player_id', $this->ion_auth->user()->row()->id);
+    		$this->response('Login succesful', 200);
+    	}
+    	else
+    	{
+    		$this->response('Invalid credentials', 401);
+    	}
     }
     
     function person_logout_get()
     {
     	// Kill the current user session
-    	session_destroy();
+    	$this->ion_auth->logout();
+    	
+    	$this->response('Logout succesful', 200);
     }
     
     function authors_get()

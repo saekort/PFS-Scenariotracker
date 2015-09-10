@@ -1,0 +1,25 @@
+<ng-include src="'./views/partials/nav.html'"></ng-include>
+<div id="main" class="container">
+	<div class="row">
+		<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
+			<ng-include src="'./views/partials/logo.html'"></ng-include>
+		</div>
+	</div>
+	<div class="login col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
+		<h2>Login</h2>
+		<form name="login">
+			<div class="form-group">
+				<label for="email">Email address</label>
+				<input type="email" class="form-control" id="email" ng-model="username" placeholder="Use your Email address to login" required>
+			</div>
+			<div class="form-group">
+				<label for="password">Password</label>
+				<input type="password" class="form-control" id="password" ng-model="password" placeholder="Password" required>
+			</div>
+			<div class="form-group">
+				<button ng-disabled="login.$invalid" type="submit" class="button" ng-click="vm.doLogin(main)">Login</button>
+			</div>
+			<p>No account yet? <a href="" ui-sref="register">register now!</a>
+		</form>
+	</div>
+</div>

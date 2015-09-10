@@ -10,6 +10,7 @@
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
+    	vm.othermenu = false;
     }
 
     NavController.prototype.goto = function(state)

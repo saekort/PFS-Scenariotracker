@@ -19,10 +19,18 @@
         <li ng-class="nav.getClass('/plan')"><a href="" ng-click="nav.goto('plan')">Plan (convention)</a></li>        
       </ul>
       <ul class="nav navbar-nav navbar-right">
-      	<li ng-class="nav.getClass('/statistics')"><a href="" ng-click="nav.goto('statistics')">Statistics</a></li>
-      	<li ng-class="nav.getClass('/about')"><a href="" ng-click="nav.goto('about')">About</a></li>
-        <li ng-class="nav.getClass('/issues')"><a href="" ng-click="nav.goto('issues')">Known Issues</a></li>
-        <li ng-class="nav.getClass('/register')"><a href="" ng-click="nav.goto('register')">Register</a></li>
+      	<li class="dropdown" dropdown is-open="nav.othermenu">
+			<a href="#" id="other-menu" dropdown-toggle aria-haspopup="true" aria-expanded="false">Other <span class="caret"></span></a>
+	        <ul class="dropdown-menu" role="menu" aria-labelledby="other-menu">
+				<li ng-class="nav.getClass('/statistics')"><a href="" ng-click="nav.goto('statistics')">Statistics</a></li>	        
+	            <li ng-class="nav.getClass('/about')"><a href="" ng-click="nav.goto('about')">About</a></li>
+	            <li class="divider"></li>
+        		<li ng-class="nav.getClass('/issues')"><a href="" ng-click="nav.goto('issues')">Known Issues</a></li>	            
+	        </ul>
+	    </li>
+	    <li ng-hide="main.loggedin" ng-class="nav.getClass('/login')"><a href="" ng-click="nav.goto('login')">Login</a></li>
+        <li ng-hide="main.loggedin" ng-class="nav.getClass('/register')"><a href="" ng-click="nav.goto('register')">Register</a></li>
+        <li ng-show="main.loggedin"><a href="" "><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
