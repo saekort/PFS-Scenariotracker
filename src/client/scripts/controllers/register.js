@@ -13,6 +13,7 @@
     	vm.playername = "";
     	vm.playernumber = "";
     	vm.playeremail = "";
+    	vm.checkemail= "";
     	vm.playerpassword = "";
     	vm.checkpassword = "";
     	vm.othersmayreport = false;

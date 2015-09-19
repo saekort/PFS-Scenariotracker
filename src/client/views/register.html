@@ -15,6 +15,11 @@
 				<input id="email" type="email" class="playerselect form-control" placeholder="Email" required ng-model="vm.playeremail">
 			</div>
 			<div class="register">
+				<label class="control-label">Repeat Email</label> 
+				<input id="email" type="email" name="confirmEmail" class="playerselect form-control" placeholder="Repeat Email" required ng-model="vm.checkemail" match="vm.playeremail">
+			</div>
+			<div data-ng-show="myForm.confirmEmail.$error.match">Emails do not match!</div>
+			<div class="register">
 				<label class="control-label">Password</label> 
 				<input id="password" type="password" name="password" class="playerselect form-control" placeholder="Password" required 
 					ng-model="vm.playerpassword" data-ng-class="{'ng-invalid':myForm.confirmPassword.$error.match}" pattern=".{8,20}">
@@ -41,7 +46,7 @@
 			</div>
 			<p>If you check this box, other people (for example your GM) may edit the scenarios that you have played.</p>
 			<div class="register">				
-				<button class="button" ng-click="vm.savePlayer()">Add</button>
+				<button class="button" ng-disabled="myForm.confirmEmail.$error.match || myForm.confirmPassword.$error.match || myForm.password.$error.pattern" ng-click="vm.savePlayer()">Add</button>
 			</div>
 		</form>	
 	</div>
