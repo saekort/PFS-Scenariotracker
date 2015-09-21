@@ -30,7 +30,7 @@
 	    </li>
 	    <li ng-hide="main.loggedin" ng-class="nav.getClass('/login')"><a href="" ng-click="nav.goto('login')">Login</a></li>
         <li ng-hide="main.loggedin" ng-class="nav.getClass('/register')"><a href="" ng-click="nav.goto('register')">Register</a></li>
-        <li ng-show="main.loggedin"><a href="" "><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a></li>
+        <li ng-hide="main.loggedin" ng-class="nav.getClass('/profile')"><a href="" ng-click="nav.goto('profile')"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span>Profile</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
