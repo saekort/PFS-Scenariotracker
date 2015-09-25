@@ -649,4 +649,18 @@ class V1 extends REST_Controller
     	
     	$this->response($result, 200);
     }
+    
+    function forgotten_password_post()
+    {
+    	if(!$this->post('email'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	$this->load->library('ion_auth');
+    	
+    	$this->ion_auth->forgotten_password($this->post('email'));
+    	
+    	$this->response('Recovery mail sent', 200);
+    }
 }

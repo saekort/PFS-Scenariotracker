@@ -11,6 +11,7 @@
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.othermenu = false;
+    	vm.profilemenu = false;
     }
 
     NavController.prototype.goto = function(state)

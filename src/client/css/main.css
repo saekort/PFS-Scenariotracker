@@ -456,3 +456,12 @@ input[type=checkbox]:checked + label:after {
 	font-size: 25px;
 	top: 7px;
 }
+
+.dangerzone {
+	color: #CE4844;
+	text-transform: uppercase;
+}
+
+hr {
+	border: 1px solid #BA6B6B;
+}

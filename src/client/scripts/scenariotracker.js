@@ -62,7 +62,13 @@
         		templateUrl: "views/report.html",
         		controller: 'ReportController',
         		controllerAs: 'vm'        		
-        	});
+        	})
+	    	.state('passwordrecover', {
+	    		url: '/passwordrecover',
+	    		templateUrl: "views/passwordrecover.html",
+	    		controller: 'PasswordrecoverController',
+	    		controllerAs: 'vm'	
+	    	});        
         
         $urlRouterProvider.otherwise("/search");
     });

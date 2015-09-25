@@ -155,6 +155,7 @@ class Statistic extends DataMapper {
 				$this->number = $number;
 				$this->scenario_id = $key;
 				$this->comment = $option;
+				$this->created_on = date("Y-m-d H:i:s");
 				$this->save();
 				$number++;
 			}

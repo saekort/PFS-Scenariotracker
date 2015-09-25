@@ -8,23 +8,12 @@
 	</div>
 	<div class="row scenario">
 		<h2>Profile</h2>
-		<p>Edit your personal information here.</p>
+		<p>Edit your profile information here.</p>
 		<form class="form-horizontal" name="myForm">
-			<div class="register">
-				<label class="control-label">Password</label> 
-				<input id="password" type="password" name="password" class="playerselect form-control" placeholder="Password"
-					ng-model="vm.playerpassword" data-ng-class="{'ng-invalid':myForm.confirmPassword.$error.match}" pattern=".{8,20}">
-			</div>
 			<div class="register">				
-				<label class="control-label">Repeat Password</label> 
-				<input id="password" type="password" name="confirmPassword" class="playerselect form-control" placeholder="Repeat password" ng-model="vm.checkpassword" match="vm.playerpassword">
-			</div>
-			<div data-ng-show="myForm.confirmPassword.$error.match">Passwords do not match!</div>
-			<div ng-show="myForm.password.$error.pattern">Password should be between 8 and 20 characters!</div>
-			<div class="register">				
+				<p>Your username does not need to be unique, use the name that your fellow pathfinders know you by.</p>
 				<label class="control-label">Username</label>
-				<p>The username does not need to be unique, please use the name that your fellow pathfinders know you by.</p> 
-				<input id="playername" class="playerselect form-control" placeholder="Add your name here" required ng-model="vm.playername">
+				<input id="playername" class="playerselect form-control" placeholder="Add your username here" required ng-model="vm.playername">
 			</div>
 			<div class="register">				
 				<label class="control-label">PFS number</label>
@@ -35,9 +24,32 @@
 				<label class="report-title" for="scenarios"></label>
 				<b>Others may report for me</b>
 			</div>
-			<p>If you check this box, other people (for example your GM) may edit the scenarios that you have played.</p>
+			<p>If you check this box, other people (for example your GM) may report the scenarios that you have played.</p>
+
+			<div class="register">
+				<button class="button" ng-disabled="myForm.confirmPassword.$error.match || myForm.password.$error.pattern" ng-click="vm.savePlayer()">Update profile</button>
+			</div>
+
+			<hr>
+			<p><strong class="dangerzone">Danger zone (this will reset your password)</strong></p>
+			<div class="register">
+				<label class="control-label">Old password</label> 
+				<input id="old_password" type="password" name="old_password" class="playerselect form-control" placeholder="Old password"
+					ng-model="vm.old_password" data-ng-class="{'ng-invalid':myForm.confirmPassword.$error.match}" pattern=".{8,20}">
+			</div>			
+			<div class="register">
+				<label class="control-label">New password</label> 
+				<input id="password" type="password" name="password" class="playerselect form-control" placeholder="Password"
+					ng-model="vm.playerpassword" data-ng-class="{'ng-invalid':myForm.confirmPassword.$error.match}" pattern=".{8,20}">
+			</div>
 			<div class="register">				
-				<button class="button" ng-disabled="myForm.confirmPassword.$error.match || myForm.password.$error.pattern" ng-click="vm.savePlayer()">Edit</button>
+				<label class="control-label">Repeat new password</label> 
+				<input id="password" type="password" name="confirmPassword" class="playerselect form-control" placeholder="Repeat password" ng-model="vm.checkpassword" match="vm.playerpassword">
+			</div>
+			<div data-ng-show="myForm.confirmPassword.$error.match">Passwords do not match!</div>
+			<div ng-show="myForm.password.$error.pattern">Password should be between 8 and 20 characters!</div>
+			<div style="padding-top: 10px;">
+				<button class="button" ng-disabled="myForm.confirmPassword.$error.match || myForm.password.$error.pattern" ng-click="vm.savePlayer()">Update password</button>
 			</div>
 		</form>	
 	</div>

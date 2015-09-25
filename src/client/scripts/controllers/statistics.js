@@ -12,6 +12,7 @@
     	vm.$location = $location;
     	vm.$http = $http;
     	vm.usSpinnerService = usSpinnerService;
+    	vm.lastupdated = 'unknown';
     	
     	vm.statistics = [];
     	vm.statistics.played_most;
@@ -30,7 +31,7 @@
     	vm.getStatistic('player_complete_pfs');
     	vm.getStatistic('gm_complete_pfs');
     	vm.getStatistic('player_complete_core');
-    	vm.getStatistic('gm_complete_core');    	
+    	vm.getStatistic('gm_complete_core');
     }
     
     StatisticsController.prototype.getStatistic = function(type)
@@ -44,6 +45,16 @@
   	  	  success(function(data, status, headers, config) {
   		  // Assign statistic
   		  vm.statistics[type] = data;
+  		  
+  		  // Update the last updated on text
+  		  if(type == 'played_most')
+  		  {
+  			  for (var key in vm.statistics.played_most)
+  			  {
+  				  vm.lastupdated = vm.statistics.played_most[key].created_on;
+  				  break;
+  			  }
+  		  }
   		  
   		  vm.usSpinnerService.stop('spinner-1');
   	  }).
