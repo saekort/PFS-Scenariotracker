@@ -8,13 +8,14 @@
 	<div class="login col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
 		<h2>Login</h2>
 		<form name="login">
+			<strong class="dangerzone">{{vm.status}}</strong>
 			<div class="form-group">
 				<label for="email">Email address</label>
-				<input type="email" class="form-control" id="email" ng-model="username" placeholder="Use your Email address to login" required>
+				<input type="email" class="form-control" id="email" ng-model="vm.username" placeholder="Use your Email address to login" required>
 			</div>
 			<div class="form-group">
 				<label for="password">Password</label>
-				<input type="password" class="form-control" id="password" ng-model="password" placeholder="Password" required>
+				<input type="password" class="form-control" id="password" ng-model="vm.password" placeholder="Password" required>
 			</div>
 			<div class="form-group">
 				<button ng-disabled="login.$invalid" type="submit" class="button" ng-click="vm.doLogin(main)">Login</button>

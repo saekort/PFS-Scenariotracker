@@ -68,7 +68,13 @@
 	    		templateUrl: "views/passwordrecover.html",
 	    		controller: 'PasswordrecoverController',
 	    		controllerAs: 'vm'	
-	    	});        
+	    	})
+	    	.state('passwordreset', {
+	    		url: '/passwordreset',
+	    		templateUrl: "views/passwordreset.html",
+	    		controller: 'PasswordresetController',
+	    		controllerAs: 'vm'	
+	    	}); 	    	
         
         $urlRouterProvider.otherwise("/search");
     });

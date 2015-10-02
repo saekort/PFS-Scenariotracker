@@ -955,7 +955,7 @@ class Ion_auth_model extends CI_Model
 	 * @author Mathew
 	 **/
 	public function login($identity, $password, $remember=FALSE)
-	{
+	{	
 		$this->trigger_events('pre_login');
 
 		if (empty($identity) || empty($password))

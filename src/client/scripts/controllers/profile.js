@@ -10,7 +10,7 @@
     	var vm = this;
     	vm.$state = $state;
     	vm.$http = $http;
-     	
+    	
     	vm.getPlayer();
     }
     

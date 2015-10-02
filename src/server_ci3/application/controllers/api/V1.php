@@ -388,11 +388,26 @@ class V1 extends REST_Controller
     	if($this->ion_auth->login($this->get('login'), $this->get('password'), $remember))
     	{
     		$this->session->set_userdata('player_id', $this->ion_auth->user()->row()->id);
-    		$this->response('Login succesful', 200);
+    		$this->response($key, 200);
     	}
     	else
     	{
     		$this->response('Invalid credentials', 401);
+    	}
+    }
+    
+    function person_logincheck_get()
+    {
+    	// See if the user is logged in
+    	$user = $this->ion_auth->logged_in();
+    	
+    	if($user)
+    	{
+    		$this->response($user, 200);
+    	}
+    	else
+    	{
+    		$this->response('', 401);
     	}
     }
     
@@ -659,8 +674,44 @@ class V1 extends REST_Controller
     	
     	$this->load->library('ion_auth');
     	
-    	$this->ion_auth->forgotten_password($this->post('email'));
+    	if($this->ion_auth->forgotten_password($this->post('email')))
+    	{
+    		$this->response('Recovery mail sent', 200);
+    	}
+    	else
+    	{
+    		$this->response('Something has gone wrong', 500);
+    	}
+    }
+    
+    function reset_password_post()
+    {
+    	if(!$this->post('password') || !$this->post('resetcode'))
+    	{
+    		$this->response(NULL, 400);
+    	}
     	
-    	$this->response('Recovery mail sent', 200);
+    	$this->load->library('ion_auth');
+
+    	$user = $this->ion_auth->forgotten_password_check($this->post('resetcode'));
+    	
+    	if($user)
+    	{
+    		$identity = $user->{$this->config->item('identity', 'ion_auth')};
+    		$change = $this->ion_auth->reset_password($identity, $this->input->post('password'));
+    		
+    		if($change)
+    		{
+    			$this->response('Recovery mail sent', 200);    			
+    		}
+    		else
+    		{
+    			$this->response('Something has gone wrong', 500);
+    		}
+    	}
+    	else
+    	{
+    		$this->response('Something has gone wrong', 500);
+    	}    	
     }
 }

@@ -1351,6 +1351,7 @@ abstract class REST_Controller extends CI_Controller
      */
     protected function _perform_library_auth($username = '', $password = NULL)
     {
+    	echo 'Library auth';
         if (empty($username)) {
             log_message('error', 'Library Auth: failure, empty username');
             return FALSE;
@@ -1373,6 +1374,7 @@ abstract class REST_Controller extends CI_Controller
             $this->load->library($auth_library_class);
         }
 
+        echo '$this->'. $auth_library_class . '->' . $auth_library_function . '($username, $password)';
         return $this->{$auth_library_class}->$auth_library_function($username, $password);
     }
 
@@ -1386,6 +1388,7 @@ abstract class REST_Controller extends CI_Controller
      */
     protected function _check_login($username = '', $password = FALSE)
     {
+    	echo 'test';
         if (empty($username)) {
             return FALSE;
         }

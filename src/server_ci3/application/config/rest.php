@@ -71,7 +71,7 @@ $config['enable_emulate_request'] = TRUE;
 |	E.g: My Secret REST API
 |
 */
-$config['rest_realm'] = 'REST API';
+$config['rest_realm'] = 'PFS Sessiontracker API';
 
 /*
 |--------------------------------------------------------------------------
@@ -99,7 +99,7 @@ $config['rest_auth'] = false;
 */
 
 //change this to '' for wildcard unit test
-$config['auth_source'] = 'ldap';
+$config['auth_source'] = 'library';
 
 /*
 |--------------------------------------------------------------------------
@@ -115,8 +115,8 @@ $config['auth_source'] = 'ldap';
 |	E.g: md5('admin:REST API:1234') = '1e957ebc35631ab22d5bd6526bd14ea2'
 |
 */
-$config['auth_library_class'] = '';
-$config['auth_library_function'] = '';
+$config['auth_library_class'] = 'ion_auth';
+$config['auth_library_function'] = 'login';
 
 /*
 |--------------------------------------------------------------------------
