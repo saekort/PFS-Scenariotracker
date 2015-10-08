@@ -721,7 +721,7 @@ abstract class REST_Controller extends CI_Controller
         $this->rest->level = NULL;
         $this->rest->user_id = NULL;
         $this->rest->ignore_limits = FALSE;
-
+        
         // Find the key from server or arguments
         if (($key = isset($this->_args[$api_key_variable]) ? $this->_args[$api_key_variable] : $this->input->server($key_name))) {
             if ( ! ($row = $this->rest->db->where(config_item('rest_key_column'), $key)->get(config_item('rest_keys_table'))->row())) {

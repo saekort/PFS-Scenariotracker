@@ -239,7 +239,7 @@ $config['rest_database_group'] = 'default';
 |	'keys'
 |
 */
-$config['rest_keys_table'] = 'keys';
+$config['rest_keys_table'] = 'people';
 
 /*
 |--------------------------------------------------------------------------
@@ -299,7 +299,7 @@ $config['rest_key_length'] = 40;
 | Default: X-API-KEY
 |
 */
-$config['rest_key_name'] = 'X-API-KEY';
+$config['rest_key_name'] = 'CC-API-KEY';
 
 /*
 |--------------------------------------------------------------------------

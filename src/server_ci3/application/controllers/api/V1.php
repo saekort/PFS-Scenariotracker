@@ -20,6 +20,8 @@ class V1 extends REST_Controller
     {
         // Construct our parent class
         parent::__construct();
+        $headers = getallheaders();
+        $this->_check_key($headers['CC-API-KEY']);
         
         $this->load->library('ion_auth');
         
@@ -385,9 +387,11 @@ class V1 extends REST_Controller
     		$remember = true;
     	}
     	
-    	if($this->ion_auth->login($this->get('login'), $this->get('password'), $remember))
+    	if($this->ion_auth->login($this->get('login'), $this->get('password'), false))
     	{
-    		$this->session->set_userdata('player_id', $this->ion_auth->user()->row()->id);
+    		//Create a key for this session
+    		$key = $this->_generate_key($this->get('login'), $this->get('password'));
+
     		$this->response($key, 200);
     	}
     	else
@@ -713,5 +717,42 @@ class V1 extends REST_Controller
     	{
     		$this->response('Something has gone wrong', 500);
     	}    	
+    }
+    
+    function auth_get()
+    {
+    	$this->load->library('Cc_Auth');
+    	
+    	$this->cc_auth->authenticate('12345678', '12345678', '12345678');
+    	
+    	$this->response('Authenticated', 200);
+    }
+    
+    private function _generate_key($username, $password)
+    {
+    	$person = new Person();
+    	$person->get_by_email($username);
+    	
+    	$person->key = hash_hmac('sha256', $username . time(), $password);
+    	$person->date_created = time() + 72000;
+    	$person->save();
+    	
+    	return $person->key;
+    }
+    
+    private function _check_key($key)
+    {
+		$person = new Person();
+		$person->where('key_expire >', time());
+		$person->get_by_key();
+    	
+		if($person->exists())
+		{
+			$this->user = $person;
+		}
+		else
+		{
+			$this->user = FALSE;
+		}
     }
 }
