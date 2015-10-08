@@ -5,35 +5,51 @@
         .module('scenariotracker')
         .controller('MainController', MainController );
     
-    function MainController($state, $location, $http)
+    function MainController($state, $location, $http, $scope)
     {
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$http = $http;
-    	
-    	vm.loggedin = false;
-    	
-    	vm.checkLogin();
-    }
     
-    MainController.prototype.checkLogin = function()
-    {
+    	console.log(localStorage.getItem("api_key"));
+    	if(localStorage.getItem("api_key")  !== 'undefined')
+    	{
+    		vm.api_key = localStorage.getItem("api_key");
+    	}
+    	else
+    	{
+    		vm.api_key = false;
+    	}
+    	
+    	$scope.$watch('main.api_key', function(){
+    		console.log('API_KEY changed');
+    		if(vm.api_key != false)
+    		{
+    			localStorage.api_key = vm.api_key;
+    		}
+    		else
+    		{
+    			localStorage.removeItem("api_key");
+    			vm.api_key = false;
+    		}
+        });
+    }
+
+    MainController.prototype.logout = function() {
     	var vm = this;
-    	console.log('Checking login');
-    	// Do the login check
-    	//vm.$http.get('http://pfs.campaigncodex.com/Cron/test').
-    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/person_logincheck').
+    	
+    	// Do the logout
+    	var query = 'key=' + vm.api_key;
+    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/person_logout' + '?' + query).
   	  	  success(function(data, status, headers, config) {
   	  	  
-  	  	  vm.loggedin = true;
+  	  	  vm.api_key = false;
+  	  	  vm.$state.go('search');
   	  }).
   	  error(function(data, status, headers, config) {
   	    // called asynchronously if an error occurs
   	    // or server returns response with an error status.
-  		  console.log('Not currently logged in');
-  	  });  
-    	
+  	  });
     }
- 
 })();

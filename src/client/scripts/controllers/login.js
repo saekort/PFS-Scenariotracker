@@ -27,7 +27,7 @@
     	vm.$http.get('http://pfs.campaigncodex.com/api/v1/person_login' + '?' + query).
   	  	  success(function(data, status, headers, config) {
   	  	  
-  	  	  main.loggedin = true;
+  	  	  main.api_key = data;
   	  	  vm.$state.go('search');
   	  	  
   		  vm.usSpinnerService.stop('spinner-1');

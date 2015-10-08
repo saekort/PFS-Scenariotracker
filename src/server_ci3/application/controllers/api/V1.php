@@ -400,25 +400,26 @@ class V1 extends REST_Controller
     	}
     }
     
-    function person_logincheck_get()
-    {
-    	// See if the user is logged in
-    	$user = $this->ion_auth->logged_in();
-    	
-    	if($user)
-    	{
-    		$this->response($user, 200);
-    	}
-    	else
-    	{
-    		$this->response('', 401);
-    	}
-    }
-    
     function person_logout_get()
     {
-    	// Kill the current user session
-    	$this->ion_auth->logout();
+    	if(!$this->get('key'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	// Kill the current user's key
+    	$person = new Person();
+    	$person->get_by_key($this->input->get('key'));
+    	
+    	if($person->exists())
+    	{
+    		if($person->key)
+    		{
+    			$person->key = null;
+    			$person->key_expire = null;
+    			$person->save();
+    		}
+    	}
     	
     	$this->response('Logout succesful', 200);
     }
@@ -734,7 +735,7 @@ class V1 extends REST_Controller
     	$person->get_by_email($username);
     	
     	$person->key = hash_hmac('sha256', $username . time(), $password);
-    	$person->date_created = time() + 72000;
+    	$person->key_expire = time() + 72000;
     	$person->save();
     	
     	return $person->key;
