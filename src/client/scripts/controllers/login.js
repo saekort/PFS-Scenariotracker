@@ -26,8 +26,11 @@
     	var query = 'login=' + vm.username + '&password=' + vm.password;
     	vm.$http.get('http://pfs.campaigncodex.com/api/v1/person_login' + '?' + query).
   	  	  success(function(data, status, headers, config) {
+  	  	  main.api_key = data.key;
   	  	  
-  	  	  main.api_key = data;
+  	  	  var temp = {'pfsnumber': data.pfsnumber, 'name': data.name};
+  	  	  main.player = temp;
+  	  	  console.log(main.player);
   	  	  vm.$state.go('search');
   	  	  
   		  vm.usSpinnerService.stop('spinner-1');

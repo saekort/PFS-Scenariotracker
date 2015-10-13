@@ -5,9 +5,10 @@
         .module('scenariotracker')
         .controller('ReportController', ReportController );
     
-    function ReportController($http, $state, $location, usSpinnerService)
+    function ReportController($http, $scope, $state, $location, usSpinnerService)
     {
     	var vm = this;
+    	vm.main = $scope.main;
     	vm.playerselect = '';
     	vm.player = null;
     	vm.playerprogress = null;
@@ -174,6 +175,16 @@
     
     	vm.playerselect = '';
     }
+    
+    ReportController.prototype.selectYourself = function()
+    {
+    	var vm = this;
+    	console.log(vm.main);
+    	vm.player = vm.main.player;
+    	
+    	vm.changeReportType('overview');
+    	vm.getPlayerprogress('pfs');
+    }    
     
     ReportController.prototype.formatPlayersearch = function($model)
     {

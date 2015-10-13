@@ -18,10 +18,12 @@ class V1 extends REST_Controller
 {
 	function __construct()
     {
+    	header('Access-Control-Allow-Headers: CC-API-KEY');
+    	
         // Construct our parent class
         parent::__construct();
-        $headers = getallheaders();
-        $this->_check_key($headers['CC-API-KEY']);
+        $this->headers = getallheaders();
+        $this->_check_key($this->headers['CC-API-KEY']);
         
         $this->load->library('ion_auth');
         
@@ -292,6 +294,7 @@ class V1 extends REST_Controller
     	}
     	
     	$people = new Person();
+    	$people->select('id, name, pfsnumber, public');
     	$people->or_like('name', $this->get('search'));
     	$people->or_like('pfsnumber', $this->get('search'));
     	$people->order_by('name','asc');
@@ -332,9 +335,12 @@ class V1 extends REST_Controller
     	 
     	if($person->exists())
     	{
-    		$person_array = $person->all_to_array();
+    		//$person_array = $person->all_to_array();
+    		$data['name'] = $person->name;
+    		$data['pfsnumber'] = $person->pfsnumber;
+    		$data['public'] = $person->public;
     		    		 
-    		$this->response($person_array, 200); // 200 being the HTTP response code
+    		$this->response($data, 200); // 200 being the HTTP response code
     	}
     	else
     	{
@@ -342,6 +348,7 @@ class V1 extends REST_Controller
     	}
     }
     
+    // For registering
     function person_post()
     {
     	if(!$this->post('pfsnumber') && !$this->post('name') && !$this->post('password') && !$this->post('public') && !$this->post('email'))
@@ -373,6 +380,40 @@ class V1 extends REST_Controller
     	$this->response($this->ion_auth->register($this->post('name'), $this->post('password'), $this->post('email'), $extra, 200));
     }
     
+    function profile_post()
+    {
+    	if(!$this->post('name') || !$this->post('pfsnumber') || !$this->post('public'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	$person = new Person();
+    	$person->get_by_pfsnumber($this->post('pfsnumber'));
+    	
+    	if($person->exists())
+    	{
+    		$person->name = $this->post('name');
+    		$person->pfsnumber = $this->post('pfsnumber');
+    		
+    		if($this->post('public') == 'true')
+    		{
+    			$person->public = 1;
+    		}
+    		else
+    		{
+    			$person->public = 0;
+    		}
+    		
+    		$person->save();
+    		
+    		$this->response('Profile updated, 200');
+    	}
+    	else 
+    	{
+    		$this->response(NULL, 400);
+    	}
+    }
+    
     function person_login_get()
     {
     	if(!$this->get('login') && !$this->get('password'))
@@ -392,7 +433,10 @@ class V1 extends REST_Controller
     		//Create a key for this session
     		$key = $this->_generate_key($this->get('login'), $this->get('password'));
 
-    		$this->response($key, 200);
+    		$person = new Person();
+    		$person->get_by_key($key);
+    		
+    		$this->response(array('key' => $key, 'pfsnumber' => $person->pfsnumber, 'name' => $person->name), 200);
     	}
     	else
     	{
@@ -718,6 +762,21 @@ class V1 extends REST_Controller
     	{
     		$this->response('Something has gone wrong', 500);
     	}    	
+    }
+    
+    function change_password_post()
+    {
+    	if(!$this->post('old_password') || !$this->post('new_password'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	 
+    	$this->load->library('ion_auth');
+    	
+    	$person = new Person();
+    	$person->get_by_key($this->headers['CC-API-KEY']);
+    	
+    	$this->result($person->name, 200);
     }
     
     function auth_get()

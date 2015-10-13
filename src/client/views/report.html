@@ -1,4 +1,3 @@
-<button ng-click="main.checkLogin()">CHECK</button>
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <div id="main" class="container-fluid">
 	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 filterbar">
@@ -22,21 +21,25 @@
 	</div>
 	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
 		<div class="row">
-			<div class="playersearch-container">
-				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 input-group has-feedback playersearch">
+			<div class="playersearch-container form-inline">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 input-group playersearch form-group">
 					<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" 
 						typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" placeholder="Select a player by username or pfsnumber"
 						typeahead-on-select="vm.selectPlayer()">			
-					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey; margin-right: 65px;"></i>
-					<span class="input-group-btn">
-						<button class="button" ng-click="vm.selectPlayer()">Select</button>
-					</span>
+					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
+				</div>
+				<div class="form-group"  ng-show="main.player">
+					or <button class="button" ng-click="vm.selectYourself()">Select yourself</button>
 				</div>
 			</div>
 		</div>	
 		
 		<div class="row" ng-hide="vm.player == null">
-			<div class="reportingfor">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.player.pfsnumber" class="reportingfor">Checking out {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.player.pfsnumber">You cannot report for <strong>{{vm.player.name}}</strong> because he/she has not allowed public reporting in his/her profile.</div>		
+			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.player.pfsnumber" class="reportingfor">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 1 && vm.player.pfsnumber != main.player.pfsnumber">You can report for <strong>{{vm.player.name}}</strong> because he/she has chosen to allow public reporting in his/her profile.</div>
+			<div ng-show="vm.player.pfsnumber == main.player.pfsnumber">You are now reporting for yourself</div>
 		</div>
 		
 		<div class="row" ng-hide="vm.player == null">
@@ -51,11 +54,11 @@
 					<span class="vertical pfsgm">PFS GM</span>&nbsp;&nbsp;
 					<span class="vertical coregm">CORE GM</span>
 				</div>
-				<div ng-repeat="content in vm.content track by $index" class="reportoption">
-					<input id="pfs{{content.id}}" ng-model="content.state.pfs" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs', $index)"><label class="report-title" for="pfs{{content.id}}"></label>&nbsp;&nbsp;
-					<input id="core{{content.id}}" ng-model="content.state.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)"><label class="report-title" for="core{{content.id}}"></label>&nbsp;&nbsp;
-					<input id="pfs_gm{{content.id}}" ng-model="content.state.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)"><label class="report-title" for="pfs_gm{{content.id}}"></label>&nbsp;&nbsp;
-					<input id="core_gm{{content.id}}" ng-model="content.state.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp;
+				<div ng-repeat="content in vm.content track by $index" class="reportoption" ng-class="{'disabled-checkbox': vm.player.public == 0}">
+					<input id="pfs{{content.id}}" ng-model="content.state.pfs" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs', $index)" ng-disabled="vm.player.public == 0"><label class="report-title disabled-checkbox" for="pfs{{content.id}}"></label>&nbsp;&nbsp;
+					<input id="core{{content.id}}" ng-model="content.state.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="core{{content.id}}"></label>&nbsp;&nbsp;
+					<input id="pfs_gm{{content.id}}" ng-model="content.state.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="pfs_gm{{content.id}}"></label>&nbsp;&nbsp;
+					<input id="core_gm{{content.id}}" ng-model="content.state.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp;
 					<span class="report-title"><span ng-hide="!content.season || content.season == '99'">#{{content.season}}-{{content.number}}</span> {{content.name}}</span><span ng-show="content.archived"> <strong>(Retired)</strong></span>			
 				</div>
 			</div>

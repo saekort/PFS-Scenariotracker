@@ -344,6 +344,13 @@ input[type=checkbox] + label:after {
 	border: 1px solid #6E2D2D;
 }
 
+.disabled-checkbox input[type=checkbox] + label:after {
+	line-height: 0;
+	background: #474747;
+	border: 1px solid black;
+	cursor: not-allowed;
+}
+
 input[type=checkbox] + label:before {
 	position: absolute;
 	top: 0px;
@@ -356,6 +363,12 @@ input[type=checkbox] + label:before {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	border: 1px solid #6E2D2D;	
+}
+
+.disabled-checkbox input[type=checkbox] + label:before {
+	border: 1px solid black;
+	background: #F2F2F2;
+	cursor: not-allowed;	
 }
 
 input[type=checkbox]:checked + label:before {

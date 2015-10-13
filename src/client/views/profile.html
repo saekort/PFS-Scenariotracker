@@ -8,8 +8,9 @@
 	</div>
 	<div class="row scenario">
 		<h2>Profile</h2>
+		<strong class="dangerzone" ng-show="vm.profileUpdated">Profile information successfully updated</strong>
 		<p>Edit your profile information here.</p>
-		<form class="form-horizontal" name="myForm">
+		<form class="form-horizontal" name="updateProfile">
 			<div class="register">				
 				<p>Your username does not need to be unique, use the name that your fellow pathfinders know you by.</p>
 				<label class="control-label">Username</label>
@@ -17,19 +18,20 @@
 			</div>
 			<div class="register">				
 				<label class="control-label">PFS number</label>
-				<input id="playernumber" class="playerselect form-control" placeholder="PFS number" required ng-model="vm.playernumber">
+				<input id="playernumber" class="playerselect form-control" placeholder="PFS number" required ng-model="vm.pfsnumber">
 			</div>
 			<div class="checkbox">
-				<input id="scenarios" type="checkbox" ng-model="vm.othersmayreport" value="">
+				<input id="scenarios" type="checkbox" ng-model="vm.playerreporting">
 				<label class="report-title" for="scenarios"></label>
 				<b>Others may report for me</b>
 			</div>
 			<p>If you check this box, other people (for example your GM) may report the scenarios that you have played.</p>
 
 			<div class="register">
-				<button class="button" ng-disabled="myForm.confirmPassword.$error.match || myForm.password.$error.pattern" ng-click="vm.savePlayer()">Update profile</button>
+				<button class="button" ng-disabled="!vm.playername || !vm.pfsnumber" ng-click="vm.savePlayer()">Update profile</button>
 			</div>
-
+		</form>	
+		<form name="changePassword">
 			<hr>
 			<p><strong class="dangerzone">Danger zone (this will reset your password)</strong></p>
 			<div class="register">
@@ -49,7 +51,7 @@
 			<div data-ng-show="myForm.confirmPassword.$error.match">Passwords do not match!</div>
 			<div ng-show="myForm.password.$error.pattern">Password should be between 8 and 20 characters!</div>
 			<div style="padding-top: 10px;">
-				<button class="button" ng-disabled="myForm.confirmPassword.$error.match || myForm.password.$error.pattern" ng-click="vm.savePlayer()">Update password</button>
+				<button class="button" ng-disabled="myForm.confirmPassword.$error.match || myForm.password.$error.pattern" ng-click="vm.changePassword()">Update password</button>
 			</div>
 		</form>	
 	</div>

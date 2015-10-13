@@ -11,27 +11,35 @@
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$http = $http;
-    
-    	console.log(localStorage.getItem("api_key"));
+    	
     	if(localStorage.getItem("api_key")  !== 'undefined')
     	{
     		vm.api_key = localStorage.getItem("api_key");
+    		var temp = localStorage.getItem("player");
+    		vm.player = JSON.parse(temp);
+    		$http.defaults.headers.common = {'CC-API-KEY': vm.api_key}
     	}
     	else
     	{
+    		vm.player = false;
     		vm.api_key = false;
+    		$http.defaults.headers.common = {'CC-API-KEY': ''}
     	}
     	
     	$scope.$watch('main.api_key', function(){
-    		console.log('API_KEY changed');
     		if(vm.api_key != false)
     		{
+    			console.log('KEY changed!');
     			localStorage.api_key = vm.api_key;
+    			localStorage.player = JSON.stringify(vm.player);
+    			$http.defaults.headers.common = {'CC-API-KEY': vm.api_key}
     		}
     		else
     		{
+    			console.log('KEY removed!');
     			localStorage.removeItem("api_key");
-    			vm.api_key = false;
+    			localStorage.removeItem("player");
+    			$http.defaults.headers.common = {'CC-API-KEY': ''}
     		}
         });
     }
@@ -45,6 +53,7 @@
   	  	  success(function(data, status, headers, config) {
   	  	  
   	  	  vm.api_key = false;
+  	  	  vm.player = false;
   	  	  vm.$state.go('search');
   	  }).
   	  error(function(data, status, headers, config) {
@@ -52,4 +61,5 @@
   	    // or server returns response with an error status.
   	  });
     }
+    
 })();
