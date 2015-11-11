@@ -19,6 +19,7 @@ class V1 extends REST_Controller
 	function __construct()
     {
     	header('Access-Control-Allow-Headers: CC-API-KEY');
+    	header('Access-Control-Expose-Headers: Authorized');
     	
         // Construct our parent class
         parent::__construct();
@@ -360,12 +361,14 @@ class V1 extends REST_Controller
     	
     	// Test to see if the pfsnumber is already in use
     	$person->get_by_pfsnumber($this->post('pfsnumber'));
+    	
     	if($person->exists())
     	{
     		$this->response('Pfsnumber already registered', 400);
     	}
     	
     	$person->get_by_email($this->post('email'));
+    	
     	if($person->exists())
     	{
     		$this->response('E-mail already registered', 400);
@@ -770,22 +773,58 @@ class V1 extends REST_Controller
     	{
     		$this->response(NULL, 400);
     	}
-    	 
+    	
+    	// Server side validation
+    	if(strlen($this->post('new_password')) > 20 || strlen($this->post('new_password')) < 8)
+    	{
+    		echo 'hier dus';
+    		$this->response(NULL, 400);
+    	}
+
     	$this->load->library('ion_auth');
     	
     	$person = new Person();
     	$person->get_by_key($this->headers['CC-API-KEY']);
     	
-    	$this->result($person->name, 200);
+    	if($person->exists())
+    	{
+    		$this->load->library('ion_auth');
+    		
+    		// Change the password
+    		if($this->ion_auth->change_password($person->email, $this->post('old_password'), $this->post('new_password')))
+    		{
+    			$this->response(NULL, 200);
+    		}
+    		else
+    		{
+    			$this->response(NULL, 401);
+    		}
+    	}
+    	else
+    	{
+    		$this->response(NULL, 401);
+    	}
+    	
     }
     
-    function auth_get()
+    function pfsnumber_get()
     {
-    	$this->load->library('Cc_Auth');
+    	if(!$this->get('pfsnumber'))
+    	{
+    		$this->response(NULL, 400);
+    	}
     	
-    	$this->cc_auth->authenticate('12345678', '12345678', '12345678');
+    	$person = new Person();
+    	$person->get_by_pfsnumber($this->get('pfsnumber'));
     	
-    	$this->response('Authenticated', 200);
+    	if(!$person->exists())
+    	{
+    		$this->response('available', 200);
+    	}
+    	else
+    	{
+    		$this->response('unavailable', 200);
+    	}
     }
     
     private function _generate_key($username, $password)
@@ -802,17 +841,27 @@ class V1 extends REST_Controller
     
     private function _check_key($key)
     {
-		$person = new Person();
-		$person->where('key_expire >', time());
-		$person->get_by_key();
-    	
-		if($person->exists())
-		{
-			$this->user = $person;
-		}
-		else
-		{
-			$this->user = FALSE;
-		}
+    	if($key != '' && $key != 'nokey')
+    	{
+			$person = new Person();
+			$person->where('key_expire >', time());
+			$person->get_by_key($key);
+	    	
+			if($person->exists())
+			{
+				header('Authorized: Valid');
+				$this->user = $person;
+			}
+			else
+			{
+				header('Authorized: Invalid api-key');
+				$this->user = FALSE;
+			}
+    	}
+    	else
+    	{
+    		header('Authorized: nokey');
+    		$this->user = FALSE;
+    	}
     }
 }

@@ -16,6 +16,8 @@
     	vm.pfsnumber = '';
     	vm.playerreporting = false;
     	vm.profileUpdated = false;
+    	vm.invalidpfsnumber = false;
+    	vm.changedPassword = false;
     	
     	if(!vm.main.player)
     	{
@@ -92,8 +94,8 @@
     	
     	vm.$http(req).
 			success(function(data, status, headers, config) {
-				console.log('Updated profile');
-				vm.profileUpdated = true;
+				console.log('Changed password');
+				vm.changedPassword = true;
 		}).
 	  	error(function(data, status, headers, config) {
 	  		// called asynchronously if an error occurs
@@ -102,4 +104,27 @@
 	  	});
     }
     
+    ProfileController.prototype.checkPfsnumber = function()
+    {
+    	var vm = this;
+    	
+    	if(vm.pfsnumber == vm.main.player.pfsnumber)
+    	{
+    		vm.invalidpfsnumber = false;
+    	}
+    	else
+    	{
+    		vm.$http.get('http://pfs.campaigncodex.com/api/v1/pfsnumber?pfsnumber=' + vm.pfsnumber).then(
+    			function(response){
+    				if(response.data != 'available')
+    				{
+    					vm.invalidpfsnumber = true;
+    				}
+    				else
+    				{
+    					vm.invalidpfsnumber = false;
+    				}
+    		});
+    	}
+    }
 })();

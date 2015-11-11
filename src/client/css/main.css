@@ -342,6 +342,7 @@ input[type=checkbox] + label:after {
 	color: #F0F6FC;
 	text-align: center;
 	border: 1px solid #6E2D2D;
+	cursor: pointer;
 }
 
 .disabled-checkbox input[type=checkbox] + label:after {
@@ -363,6 +364,7 @@ input[type=checkbox] + label:before {
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	border: 1px solid #6E2D2D;	
+	cursor: pointer;
 }
 
 .disabled-checkbox input[type=checkbox] + label:before {
@@ -477,4 +479,35 @@ input[type=checkbox]:checked + label:after {
 
 hr {
 	border: 1px solid #BA6B6B;
+}
+
+.red {
+	color: red;
+}
+
+.draggable {
+	background-color: #FFEFDB;
+	cursor: move;
+	list-style: none;
+	padding: 5px;
+}
+
+.draggable:hover {
+	background-color: #EDD5B8;
+}
+
+.table-container {
+	background-color: #C4C4C4;
+	list-style: none;
+	padding: 0px;
+	min-height: 210px;
+}
+
+.table-header {
+	background-color: #6E2D2D;
+	color: #fff;
+	font-weight: bold;
+	list-style: none;
+	padding: 5px;
+	text-align: center;
 }

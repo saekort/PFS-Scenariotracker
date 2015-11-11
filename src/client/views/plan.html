@@ -1,5 +1,95 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <div id="main" class="container-fluid">
 		<center><h2>Convention planning coming soon!</h2></center>
-		<ng-include src="'./views/partials/logo.html'"></ng-include>	
+		<center><h3>This is just technology testing</h3></center>
+		<div class="col-md-4">
+			<pre>vm.players
+				{{vm.players | json }}
+				<br>vm.players2
+				{{vm.players2 | json }}
+				<br>vm.players3
+				{{vm.players3 | json }}
+				<br>vm.players4
+				{{vm.players4 | json }}
+			</pre>
+		</div>
+		<div class="col-md-8">
+			<div class="row">
+				<div class="col-md-6">
+					<ol class="table-container"
+						dnd-list="vm.players"
+						dnd-disable-if="vm.players.length >= 6">
+						<li class="table-header">TAFEL 1</li>
+						<li class="draggable"
+							ng-repeat="player in vm.players" 
+							dnd-draggable="player"
+							dnd-moved="vm.players.splice($index, 1)"
+							dnd-effect-allowed="move"
+							dnd-selected="vm.selected = player">
+							<td>{{player.name}}</td>
+							<td>{{player.pfsnumber}}</td>
+							<td>{{player.char}}</td>
+							<td>{{player.descr}}</td>
+						</li>			
+					</ol>
+				</div>
+				<div class="col-md-6">
+					<ol class="table-container"
+						dnd-list="vm.players2"
+						dnd-disable-if="vm.players2.length >= 6">
+						<li class="table-header">TAFEL 2</li>
+						<li class="draggable"
+							ng-repeat="player in vm.players2" 
+							dnd-draggable="player"
+							dnd-moved="vm.players2.splice($index, 1)"
+							dnd-effect-allowed="move"
+							dnd-selected="vm.selected = player">
+							<td>{{player.name}}</td>
+							<td>{{player.pfsnumber}}</td>
+							<td>{{player.char}}</td>
+							<td>{{player.descr}}</td>
+						</li>			
+					</ol>
+				</div>
+			</div>
+			<br>
+			<div class="row">
+				<div class="col-md-6">
+					<ol class="table-container"
+						dnd-list="vm.players3"
+						dnd-disable-if="vm.players3.length >= 6">
+						<li class="table-header">TAFEL 3</li>
+						<li class="draggable"
+							ng-repeat="player in vm.players3" 
+							dnd-draggable="player"
+							dnd-moved="vm.players3.splice($index, 1)"
+							dnd-effect-allowed="move"
+							dnd-selected="vm.selected = player">
+							<td>{{player.name}}</td>
+							<td>{{player.pfsnumber}}</td>
+							<td>{{player.char}}</td>
+							<td>{{player.descr}}</td>
+						</li>			
+					</ol>
+				</div>			
+				<div class="col-md-6">
+					<ol class="table-container"
+						dnd-list="vm.players4"
+						dnd-disable-if="vm.players4.length >= 6">
+						<li class="table-header">TAFEL 4</li>
+						<li class="draggable"
+							ng-repeat="player in vm.players4" 
+							dnd-draggable="player"
+							dnd-moved="vm.players4.splice($index, 1)"
+							dnd-effect-allowed="move"
+							dnd-selected="vm.selected = player">
+							<td>{{player.name}}</td>
+							<td>{{player.pfsnumber}}</td>
+							<td>{{player.char}}</td>
+							<td>{{player.descr}}</td>
+						</li>			
+					</ol>
+				</div>
+			</div>		
+		</div>		
 </div>

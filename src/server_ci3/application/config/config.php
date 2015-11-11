@@ -17,7 +17,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | environments.
 |
 */
-$config['base_url'] = 'http://pfs.campaigncodex.com/';
+if(ENVIRONMENT == 'development')
+{
+	$config['base_url'] = 'http://localhost/PFS-Scenariotracker/src/server_ci3/index.php/';
+}
+else 
+{
+	$config['base_url'] = 'http://pfs.campaigncodex.com/';
+}
 
 /*
 |--------------------------------------------------------------------------

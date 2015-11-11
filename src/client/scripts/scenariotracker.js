@@ -2,10 +2,10 @@
 (function(){
     'use strict';
 
-    var scenariotracker = angular.module('scenariotracker', ['ui.bootstrap', 'angularSpinner','ui.router','ui.check','ngStorage','validation.match']);
+    var scenariotracker = angular.module('scenariotracker', ['ui.bootstrap', 'angularSpinner','ui.router','ui.check','ngStorage','validation.match','tracker.tools', 'dndLists']);
     
     // Standard config of modules
-    scenariotracker.config(function (usSpinnerConfigProvider, $stateProvider, $urlRouterProvider, $locationProvider) {
+    scenariotracker.config(function (usSpinnerConfigProvider, $stateProvider, $urlRouterProvider, $locationProvider, $provide, $httpProvider) {
         usSpinnerConfigProvider.setDefaults({color: '#521717'});
 
         $stateProvider
@@ -77,6 +77,9 @@
 	    	}); 	    	
         
         $urlRouterProvider.otherwise("/search");
+       
+        $httpProvider.interceptors.push('trackerInterceptor');        
+        
     });
     
     scenariotracker.filter('unsafe', function($sce) { return $sce.trustAsHtml; });
