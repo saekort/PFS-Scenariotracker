@@ -27,7 +27,10 @@
 				<b>Others may report for me</b>
 			</div>
 			<p>If you check this box, other people (for example your GM) may report the scenarios that you have played.</p>
-
+			<div class="register">
+				<label class="control-label">Country (optional)</label>
+				<select class="form-control" ng-options="country.name for country in vm.countries" ng-model="main.player.country"></select>
+			</div>
 			<div class="register">
 				<button class="button" ng-disabled="!vm.playername || !vm.pfsnumber || vm.invalidpfsnumber" ng-click="vm.savePlayer()">Update profile</button>
 			</div>

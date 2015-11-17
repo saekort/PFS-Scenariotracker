@@ -26,7 +26,7 @@
     		console.log('No API key in localstorage');
     		vm.player = false;
     		vm.api_key = false;
-    		$http.defaults.headers.common = {'CC-API-KEY': 'nokey'}
+    		$http.defaults.headers.common = {'CC-API-KEY': 'nokey'};
     	}
     	    	
     	$scope.$watch('main.api_key', function(){

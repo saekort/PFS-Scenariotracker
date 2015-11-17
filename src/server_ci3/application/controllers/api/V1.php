@@ -230,7 +230,7 @@ class V1 extends REST_Controller
         			if($scenario->id == $value['id'])
         			{
         				$scenarios_array[$key]['authors'] = $scenario->authors->all_to_single_array('name');
-        				$scenarios_array[$key]['subtiers'] = $scenario->subtiers->all_to_single_array('name');        				
+        				//$scenarios_array[$key]['subtiers'] = $scenario->subtiers->all_to_single_array('name');        				
         			}
         		}
         	}
@@ -276,7 +276,7 @@ class V1 extends REST_Controller
         	foreach($scenario_array as $key => $value)
         	{
         		$scenario_array[$key]['authors'] = $scenario->authors->all_to_single_array('name');
-        		$scenario_array[$key]['subtiers'] = $scenario->subtiers->all_to_single_array('name');
+        		//$scenario_array[$key]['subtiers'] = $scenario->subtiers->all_to_single_array('name');
         	}
         	
             $this->response($scenario_array, 200); // 200 being the HTTP response code
@@ -498,7 +498,62 @@ class V1 extends REST_Controller
     	{
     		$this->response(array('error' => 'Authors could not be found'), 404);
     	}
-    }    
+    }
+    
+    function characters_get()
+    {
+    	if(!$this->get('pfsnumber'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	// Permission check
+    	if($this->user->pfsnumber != $this->get('pfsnumber'))
+    	{
+    		$this->response(NULL, 401);
+    	}
+    	
+    	$characters = new Character();
+    	$characters->where_related_player('pfsnumber', $this->get('pfsnumber'))->order_by('number','asc')->get();
+    	
+    	$this->response($characters->all_to_array(), 200);	
+    }
+    
+    function character_post()
+    {
+    	if(!$this->get('name') || !$this->get('campaign'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	// Only allow new/edit characters when a user is logged in
+    	if(!$this->user->exists())
+    	{
+    		$this->response(NULL, 401);
+    	}
+    	
+    	if(!$this->get('id'))
+    	{
+    		// New character
+    		$character = new Character();
+    		$character->player_id = $this->user->id;
+    	}
+    	else
+    	{
+    		// Edit character
+    		$character = new Character($this->get('id'));
+    	}
+    	
+    	$character->name = $this->get('name');
+    	$character->number = $this->get('number');
+    	$character->level = $this->get('level');
+    	$character->faction = $this->get('faction');
+    	$character->class = $this->get('class');
+    	$character->campaign = $this->get('campaign');
+    	$character->save();
+    	
+    	$this->response(NULL, 200);
+    }
 
     function reportscenarios_get()
     {

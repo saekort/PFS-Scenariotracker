@@ -34,13 +34,6 @@ class Scenario extends DataMapper {
 					'join_other_as' => 'author',
 					'join_table' => 'j_author_scenario'
 					),
-			'subtiers' => array(
-					'class' => 'subtier',
-					'other_field' => 'scenarios',
-					'join_self_as' => 'scenario',
-					'join_other_as' => 'subtier',
-					'join_table' => 'j_scenario_subtier'
-					),
 			'players' => array(
 					'class' => 'person',
 					'other_field' => 'scenarios',
@@ -51,7 +44,7 @@ class Scenario extends DataMapper {
 			'statistics' => array(
 					'class' => 'statistic',
 					'other_field' => 'scenario'
-			)			
+			),		
 		);
 	
 	/* Relationship Examples

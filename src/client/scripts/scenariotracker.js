@@ -63,6 +63,12 @@
         		controller: 'ReportController',
         		controllerAs: 'vm'        		
         	})
+        	.state('characters', {
+        		url: '/characters',
+        		templateUrl: "views/characters.html",
+        		controller: 'CharacterController',
+        		controllerAs: 'vm'        		
+        	})        	
 	    	.state('passwordrecover', {
 	    		url: '/passwordrecover',
 	    		templateUrl: "views/passwordrecover.html",

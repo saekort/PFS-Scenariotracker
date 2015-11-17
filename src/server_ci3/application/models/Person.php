@@ -37,7 +37,11 @@ class Person extends DataMapper {
 			'statistics' => array(
 					'class' => 'statistic',
 					'other_field' => 'person'
-			)
+			),
+			'characters' => array(
+					'class' => 'character',
+					'other_field' => 'player'
+			)			
 		);
 
 	/* Relationship Examples

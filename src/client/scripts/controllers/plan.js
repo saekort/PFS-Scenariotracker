@@ -20,6 +20,12 @@
     	              {name: 'Simon', pfsnumber: '25642', char: 'Tomlin', descr: 'Wizard (Illusionist)(3)'}
     	              ];
     	
+    	vm.gm1;
+    	vm.gm2;
+    	vm.gm3;
+    	vm.gm4;
+    	
+    	vm.apl1 = 0;
     	vm.players2 = [{name: 'Alleen', pfsnumber: '1', char: 'McAlleen', descr: 'Expert(1)'}];
     	vm.players3 = [{name: 'Minder alleen', pfsnumber: '1', char: 'McAlleen', descr: 'Expert(1)'}];
     	vm.players4 = [{name: 'Nieske', pfsnumber: '1', char: 'McAlleen', descr: 'Expert(1)'}];

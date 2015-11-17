@@ -166,6 +166,17 @@ a, a:hover, a:active, a:visited {
     border: 0;
 }
 
+.li-button {
+	font-size: 15px;
+	font-weight: bold;
+	text-decoration: none !important;
+	text-shadow: none !important;
+	color: #FFF;
+	background-color: #6E2D2D !important;
+    transition: none;
+    border: 0;
+}
+
 button[disabled], button[disabled]:hover {
 	background-color: grey;
 	cursor: not-allowed;
@@ -500,7 +511,7 @@ hr {
 	background-color: #C4C4C4;
 	list-style: none;
 	padding: 0px;
-	min-height: 210px;
+	min-height: 240px;
 }
 
 .table-header {
@@ -510,4 +521,29 @@ hr {
 	list-style: none;
 	padding: 5px;
 	text-align: center;
+}
+
+.characters-list {
+	font-size: 1.2em;
+	list-style: none;
+	padding-left: 0px;
+}
+
+.characters-list li {
+	background-color: #EAD4B9;
+	margin: 10px 0 10px 0;
+	padding: 10px;
+}
+
+.characters-list li:hover {
+	background-color: #E8B9B9;
+	cursor: pointer;
+}
+
+.character-page-faction {
+	height: 21px;
+}
+
+.gm {
+	background-color: #FFC9C9;
 }
