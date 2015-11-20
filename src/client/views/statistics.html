@@ -10,32 +10,6 @@
 			</center>
 		</div>
 	</div>
-	<div class="row statistic-container">
-		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<strong>Most played</strong>
-			<ol>
-				<li ng-repeat="stat in vm.statistics.played_most">{{stat.scenario.name}} <i>({{stat.comment}} times)</i></li>
-			</ol>
-		</div>
-		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<strong>Least played</strong>
-			<ol>
-				<li ng-repeat="stat in vm.statistics.played_least">{{stat.scenario.name}} <i>({{stat.comment}} times)</i></li>
-			</ol>			
-		</div>
-		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<strong>Busiest seasons</strong>
-			<ol>
-				<li>WIP</li>
-			</ol>			
-		</div>
-		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<strong>Favorite evergreens</strong>
-			<ol>
-				<li ng-repeat="stat in vm.statistics.evergreen">{{stat.scenario.name}} <i>({{stat.comment}} times)</i></li>
-			</ol>			
-		</div>
-	</div>
 	<div class="row statistic-container">	
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
 			<strong>Most complete PFS players</strong>
@@ -62,4 +36,18 @@
 			</ol>			
 		</div>		
 	</div>
+	<div class="row statistic-container">
+		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
+			<strong>Most played</strong>
+			<ol>
+				<li ng-repeat="stat in vm.statistics.played_most">{{stat.scenario.name}} <i>({{stat.comment}} times)</i></li>
+			</ol>
+		</div>
+		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
+			<strong>Favorite evergreens</strong>
+			<ol>
+				<li ng-repeat="stat in vm.statistics.evergreen">{{stat.scenario.name}} <i>({{stat.comment}} times)</i></li>
+			</ol>			
+		</div>
+	</div>	
 </div>

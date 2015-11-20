@@ -48,9 +48,9 @@
     		});
     	}
     	
-    	modalInstance.result.then(function(data) {
-    	      console.log(data);
-    	    });    	
+//    	modalInstance.result.then(function(data) {
+//    	      console.log(data);
+//    	    });    	
     }
     
 })();

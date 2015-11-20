@@ -5,7 +5,7 @@
         .module('scenariotracker')
         .controller('CharacterController', CharacterController );
     
-    function CharacterController($http, $state, $filter, $location, $scope, usSpinnerService)
+    function CharacterController($http, $state, $filter, $location, $scope, $modal, usSpinnerService)
     {
     	var vm = this;
     	vm.main = $scope.main;
@@ -13,6 +13,7 @@
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$filter = $filter;
+    	vm.$modal = $modal;
     	vm.characters = [];
     	vm.usSpinnerService = usSpinnerService;
     	
@@ -32,6 +33,7 @@
     	
     	vm.status = 'overview';
     	vm.character = {};
+    	vm.character.id = '';
     	vm.character.name = '';
     	vm.character.number = '';
     	vm.character.class = '';
@@ -56,6 +58,7 @@
     	vm.$http.get('http://pfs.campaigncodex.com/api/v1/characters?pfsnumber=' + vm.main.player.pfsnumber).
 	  	success(function(data, status, headers, config) {
 		  // Assign characters to model
+	  	
 		  vm.characters = data;
 		  
 		  vm.usSpinnerService.stop('spinner-1');
@@ -72,6 +75,7 @@
     {
     	var vm = this;
     	
+    	vm.character.id = vm.characters[index].id;
     	vm.character.name = vm.characters[index].name;
     	vm.character.number = parseInt(vm.characters[index].number);
     	vm.character.class = vm.characters[index].class;
@@ -86,6 +90,7 @@
     {
     	var vm = this;
 
+    	vm.character.id = '';
     	vm.character.name = '';
     	vm.character.number = '';
     	vm.character.class = '';
@@ -99,9 +104,86 @@
     CharacterController.prototype.saveCharacter = function()
     {
     	var vm = this;
+
+    	// Determine if we are saving or creating
+    	if(vm.status == 'new')
+    	{
+    		// We are creating
+    		var post_data = {name: vm.character.name, number: vm.character.number, class: vm.character.class, level: vm.character.level, faction: vm.character.faction.code, campaign: vm.character.campaign};
+    	}
+    	else
+    	{
+    		// We are updating
+    		var post_data = {id: vm.character.id, name: vm.character.name, number: vm.character.number, class: vm.character.class, level: vm.character.level, faction: vm.character.faction.code, campaign: vm.character.campaign};
+    	}
     	
+        var req = {
+                method: 'POST',
+                url: 'http://pfs.campaigncodex.com/api/v1/character',
+                data: $.param(post_data),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            };    	
     	
+    	vm.$http(req).
+			success(function(data, status, headers, config) {
+				console.log('Character saved');
+				vm.getCharacters();
+		}).
+	  	error(function(data, status, headers, config) {
+	  		// called asynchronously if an error occurs
+	  		// or server returns response with an error status.
+	  		console.log('ERROR saving content');
+	  	});
+        
     	vm.status = 'overview';
-    }   
+    }
+    
+    CharacterController.prototype.confirmDeleteCharacter = function(index)
+    {
+    	var vm = this;
+    	
+		var modalInstance = vm.$modal.open({
+			animation: true,
+			templateUrl: 'confirmDeleteCharacter.html',
+			controller: 'ModalInstanceController as confirmDelete',
+			resolve: {
+				character: function() {return vm.characters[index];}
+			},
+			size: 'md'
+		});
+		
+    	modalInstance.result.then(function(character) {
+	      vm.deleteCharacter(character.id);
+	    });    
+    }
+    
+    CharacterController.prototype.deleteCharacter = function(id)
+    {
+    	var vm = this;
+
+        var req = {
+                method: 'DELETE',
+                url: 'http://pfs.campaigncodex.com/api/v1/character',
+                data: $.param({id: id}),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            };    	
+    	
+    	vm.$http(req).
+			success(function(data, status, headers, config) {
+				console.log('Character deleted');
+				vm.getCharacters();
+		}).
+	  	error(function(data, status, headers, config) {
+	  		// called asynchronously if an error occurs
+	  		// or server returns response with an error status.
+	  		console.log('ERROR deleting content');
+	  	});
+        
+    	vm.status = 'overview';
+    }
     
 })();

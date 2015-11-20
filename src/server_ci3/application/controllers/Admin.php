@@ -33,10 +33,23 @@ class Admin extends CI_Controller {
 			
 			echo 'Created author:' . $_POST['author'];
 		}
+		elseif(isset($_POST['storelink']))
+		{
+			print_r($_POST);
+			$scenario = new Scenario($_POST['storelink_scenario']);
+			$scenario->link = $_POST['storelink'];
+			$scenario->save();
+			
+			echo 'Added storelink to: ' . $_POST['storelink_scenario'];
+		}
 		
 		$data['scenarios'] = new Scenario();
 		$data['scenarios']->where_related('authors', 'id IS NULL', null)->order_by('name', 'asc')->get();
 		$data['scenarios'] = $data['scenarios']->all_to_single_array('name');
+
+		$data['storelink_scenarios'] = new Scenario();
+		$data['storelink_scenarios']->where('link IS NULL', null)->order_by('name', 'asc')->get();
+		$data['storelink_scenarios'] = $data['storelink_scenarios']->all_to_single_array('name');		
 		
 		$data['authors'] = new Author();
 		$data['authors']->order_by('name', 'asc')->get();

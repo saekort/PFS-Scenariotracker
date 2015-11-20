@@ -1,4 +1,5 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
+<ng-include src="'./views/partials/confirmDeleteCharacter.html'"></ng-include>
 <div id="main" class="container">
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
@@ -10,12 +11,12 @@
 			<div>
 				<h3 ng-show="vm.status == 'edit'">Editing character</h3>
 				<h3 ng-show="vm.status == 'new'">New character</h3>
-				<form  ng-show="vm.status == 'new' || vm.status == 'edit'">
+				<form  ng-show="vm.status == 'new' || vm.status == 'edit'" name="character">
 					<div class="form-group">
-						<label>Name:</label> <input type="text" class="form-control" ng-model="vm.character.name">
+						<label>Name:</label> <input type="text" class="form-control" required ng-model="vm.character.name">
 					</div>
 					<div class="form-group">
-						<label>Character #:</label> <select class="form-control" ng-options="number for number in vm.options.numbers" ng-model="vm.character.number"></select>
+						<label>Character #:</label> <select class="form-control" required ng-options="number for number in vm.options.numbers" ng-model="vm.character.number"></select>
 					</div>				
 					<div class="form-group">
 						<label>Class:</label> <input type="text" class="form-control" ng-model="vm.character.class">
@@ -30,8 +31,8 @@
 						<label>Campaign:</label> <select class="form-control" ng-options="campaign for campaign in vm.options.campaigns" ng-model="vm.character.campaign"></select>
 					</div>
 					<div class="form-group">
-						<button class="button" ng-show="vm.status == 'new'" ng-click="vm.saveCharacter()">Create</button>
-						<button class="button" ng-show="vm.status == 'edit'" ng-click="vm.saveCharacter()">Save</button>
+						<button class="button" ng-disabled="character.$invalid" ng-show="vm.status == 'new'" ng-click="vm.saveCharacter()">Create</button>
+						<button class="button" ng-disabled="character.$invalid" ng-show="vm.status == 'edit'" ng-click="vm.saveCharacter()">Save</button>
 					</div>
 				</form>
 			</div>
@@ -47,13 +48,17 @@
 			
 			<center ng-show="vm.characters.length == 0"><h3>No characters found</h3></center>
 			<ul class="characters-list">
-				<li class="row" ng-repeat="character in vm.characters | orderBy:'number'">
+				<li class="row" ng-repeat="character in vm.characters">
 					<span class="col-xs-1">#{{character.number}}</span>				
-					<span class="col-xs-2">{{character.name | limitTo : 20 : 0}}</span>
-					<span class="col-xs-1 text-center"><img class="character-page-faction" src="./images/factions/{{character.faction}}.png"></span>
+					<span class="col-xs-2">{{character.name | limitTo : 15 : 0}}</span>
+					<span ng-show="character.faction" class="col-xs-1 text-center"><img class="character-page-faction" src="./images/factions/{{character.faction}}.png"></span>
+					<span ng-hide="character.faction" class="col-xs-1 text-center">?</span>
 					<span class="col-xs-1">{{character.campaign}}</span>					
-					<span class="col-xs-5">{{character.class}} ({{character.level}})</span>
-					<span class="col-xs-2 text-center"><span class="glyphicon glyphicon-pencil" ng-click="vm.editCharacter($index)"></span>&nbsp&nbsp<span class="glyphicon glyphicon-trash red"></span></span>
+					<span class="col-xs-5">{{character.class || "?"}} ({{character.level || "?"}})</span>
+					<span class="col-xs-2 text-center">
+						<span class="glyphicon glyphicon-pencil" ng-click="vm.editCharacter($index)"></span>&nbsp&nbsp
+						<span class="glyphicon glyphicon-trash red" ng-click="vm.confirmDeleteCharacter($index)"></span>
+					</span>
 				</li>
 				<li class="text-center row li-button" ng-show="vm.status != 'new'" ng-click="vm.newCharacter()"><span class="glyphicon glyphicon-plus"></span> NEW CHARACTER</li>				
 								
@@ -61,10 +66,3 @@
 		</div>
 	</div>
 </div>
-
-<pre>
-	{{vm.characters[0] | json }}
-</pre>
-<pre>
-	{{vm.character | json }}
-</pre>

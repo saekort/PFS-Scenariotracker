@@ -166,6 +166,14 @@ a, a:hover, a:active, a:visited {
     border: 0;
 }
 
+.cancel {
+	background-color: #ADADAD;
+}
+
+.cancel:hover, .cancel:active {
+	background-color: #D1D1D1 !important;
+}
+
 .li-button {
 	font-size: 15px;
 	font-weight: bold;

@@ -295,7 +295,7 @@ class V1 extends REST_Controller
     	}
     	
     	$people = new Person();
-    	$people->select('id, name, pfsnumber, public');
+    	$people->select('id, name, pfsnumber, public, country');
     	$people->or_like('name', $this->get('search'));
     	$people->or_like('pfsnumber', $this->get('search'));
     	$people->order_by('name','asc');
@@ -340,6 +340,7 @@ class V1 extends REST_Controller
     		$data['name'] = $person->name;
     		$data['pfsnumber'] = $person->pfsnumber;
     		$data['public'] = $person->public;
+    		$data['country'] = $person->country;
     		    		 
     		$this->response($data, 200); // 200 being the HTTP response code
     	}
@@ -406,6 +407,15 @@ class V1 extends REST_Controller
     		{
     			$person->public = 0;
     		}
+    		
+    		if($this->post('country'))
+    		{
+    			$person->country = $this->post('country');
+    		}
+			else
+			{
+				$person->country = null;
+			}
     		
     		$person->save();
     		
@@ -521,7 +531,7 @@ class V1 extends REST_Controller
     
     function character_post()
     {
-    	if(!$this->get('name') || !$this->get('campaign'))
+    	if(!$this->post('name') || !$this->post('campaign'))
     	{
     		$this->response(NULL, 400);
     	}
@@ -532,7 +542,7 @@ class V1 extends REST_Controller
     		$this->response(NULL, 401);
     	}
     	
-    	if(!$this->get('id'))
+    	if(!$this->post('id'))
     	{
     		// New character
     		$character = new Character();
@@ -541,18 +551,44 @@ class V1 extends REST_Controller
     	else
     	{
     		// Edit character
-    		$character = new Character($this->get('id'));
+    		$character = new Character($this->post('id'));
     	}
     	
-    	$character->name = $this->get('name');
-    	$character->number = $this->get('number');
-    	$character->level = $this->get('level');
-    	$character->faction = $this->get('faction');
-    	$character->class = $this->get('class');
-    	$character->campaign = $this->get('campaign');
+    	$character->name = $this->post('name');
+    	$character->number = $this->post('number');
+    	$character->level = $this->post('level');
+    	$character->faction = $this->post('faction');
+    	$character->class = $this->post('class');
+    	$character->campaign = $this->post('campaign');
     	$character->save();
     	
     	$this->response(NULL, 200);
+    }
+    
+    function character_delete()
+    {
+    	if(!$this->delete('id'))
+    	{
+    		$this->response('', 400);
+    	}
+    	
+		// Are we logged in?
+    	if(!$this->user->exists())
+    	{
+    		$this->response(NULL, 401);
+    	}
+    	
+    	$character = new Character($this->delete('id'));
+    	
+    	// Only allow deleting of your own characters
+    	if($this->user->id != $character->player_id)
+    	{
+    		$this->response(NULL, 401);
+    	}
+    	
+    	$character->delete();
+    	
+    	$this->response('Character deleted', 200);
     }
 
     function reportscenarios_get()

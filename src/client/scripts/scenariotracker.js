@@ -7,7 +7,7 @@
     // Standard config of modules
     scenariotracker.config(function (usSpinnerConfigProvider, $stateProvider, $urlRouterProvider, $locationProvider, $provide, $httpProvider) {
         usSpinnerConfigProvider.setDefaults({color: '#521717'});
-
+        
         $stateProvider
         	.state('search', {
         		url: '/search',
@@ -90,4 +90,11 @@
     
     scenariotracker.filter('unsafe', function($sce) { return $sce.trustAsHtml; });
 
+    scenariotracker.run(['$rootScope', function($rootScope) 
+    {
+    	$rootScope.$on('$stateChangeSuccess',function(){
+    	    $("html, body").animate({ scrollTop: 0 }, 200);
+    	});
+    }])
+    
 })();

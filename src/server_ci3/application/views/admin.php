@@ -11,7 +11,14 @@
 	<input type="submit" value="Add authors to scenario">
 	<?php echo form_close();?>
 	
-	<h1>New author</h1>
+	<h2>Store links</h2>
+	<?php echo form_open(site_url('admin/index'));?>
+	<p>Scenario: <?php echo form_dropdown('storelink_scenario', $storelink_scenarios, '');?></p>
+	<p>Store link: <?php echo form_input('storelink');?>
+	<input type="submit" value="Store link">
+	<?php echo form_close();?>	
+	
+	<h2>New author</h2>
 	<?php echo form_open(site_url('admin/index'));?>
 	<p>New author name: <?php echo form_input('author');?>
 	<input type="submit" value="Create new author">

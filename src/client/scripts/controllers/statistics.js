@@ -25,8 +25,8 @@
     	vm.statistics.gm_complete_core;
     	
     	vm.getStatistic('played_most');
-    	vm.getStatistic('played_least');
-    	vm.getStatistic('season');    	
+    	//vm.getStatistic('played_least');
+    	//vm.getStatistic('season');    	
     	vm.getStatistic('evergreen');
     	vm.getStatistic('player_complete_pfs');
     	vm.getStatistic('gm_complete_pfs');
