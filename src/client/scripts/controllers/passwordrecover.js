@@ -22,7 +22,7 @@
     	
         var req = {
                 method: 'POST',
-                url: 'http://pfs.campaigncodex.com/api/v1/forgotten_password',
+                url: 'https://api.campaigncodex.com/api/v1/forgotten_password',
                 data: $.param({email: vm.playeremail}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

@@ -41,7 +41,7 @@
     	var query = 'type=' + type;
     	
     	// Get a statistic by type
-    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/statistics' + '?' + query).
+    	vm.$http.get('https://api.campaigncodex.com/api/v1/statistics' + '?' + query).
   	  	  success(function(data, status, headers, config) {
   		  // Assign statistic
   		  vm.statistics[type] = data;

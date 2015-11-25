@@ -59,7 +59,7 @@
     	console.log('Logging out');
     	// Do the logout
     	var query = 'key=' + vm.api_key;
-    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/person_logout' + '?' + query).
+    	vm.$http.get('https://api.campaigncodex.com/api/v1/person_logout' + '?' + query).
   	  	  success(function(data, status, headers, config) {
   	  	  
   	  	  vm.api_key = false;

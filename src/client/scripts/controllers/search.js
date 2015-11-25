@@ -199,7 +199,7 @@
     		query = query + '&sorting=' + vm.sorting.key;
     	}
     	
-    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/scenarios' + '?' + query).
+    	vm.$http.get('https://api.campaigncodex.com/api/v1/scenarios' + '?' + query).
     	  success(function(data, status, headers, config) {
     		  // Assign scenarios
     		  vm.scenarios = data.scenarios;
@@ -230,7 +230,7 @@
     {
     	var vm = this;
     	
-    	return vm.$http.get('http://pfs.campaigncodex.com/api/v1/people?search=' + search).then(
+    	return vm.$http.get('https://api.campaigncodex.com/api/v1/people?search=' + search).then(
     			function(response){
     				return response.data
     			});
@@ -240,7 +240,7 @@
     {
     	var vm = this;
     	
-    	return vm.$http.get('http://pfs.campaigncodex.com/api/v1/authors?search=' + search).then(
+    	return vm.$http.get('https://api.campaigncodex.com/api/v1/authors?search=' + search).then(
     			function(response){
     				return response.data
     			});

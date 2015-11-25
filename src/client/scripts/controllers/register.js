@@ -42,7 +42,7 @@
       	
       	var req = {
                 method: method,
-                url: 'http://pfs.campaigncodex.com/api/v1/person',
+                url: 'https://api.campaigncodex.com/api/v1/person',
                 data: $.param({pfsnumber : vm.pfsnumber, name : vm.playername, password : vm.playerpassword, public : report, email : vm.playeremail}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -65,7 +65,7 @@
     {
     	var vm = this;
     	
-    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/pfsnumber?pfsnumber=' + vm.pfsnumber).then(
+    	vm.$http.get('https://api.campaigncodex.com/api/v1/pfsnumber?pfsnumber=' + vm.pfsnumber).then(
     		function(response){
     			if(response.data != 'available')
     			{

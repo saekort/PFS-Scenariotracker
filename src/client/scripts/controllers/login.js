@@ -24,7 +24,7 @@
     	
     	// Do the login
     	var query = 'login=' + vm.username + '&password=' + vm.password;
-    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/person_login' + '?' + query).
+    	vm.$http.get('https://api.campaigncodex.com/api/v1/person_login' + '?' + query).
   	  	  success(function(data, status, headers, config) {
   	  	  main.api_key = data.key;
   	  	  

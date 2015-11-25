@@ -67,7 +67,7 @@
     	
     	vm.usSpinnerService.spin('spinner-1');
     	
-    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/reportscenarios' + '?type=' + vm.reporttype.id + '&pfsnumber=' + vm.player.pfsnumber).
+    	vm.$http.get('https://api.campaigncodex.com/api/v1/reportscenarios' + '?type=' + vm.reporttype.id + '&pfsnumber=' + vm.player.pfsnumber).
     		success(function(data, status, headers, config) {
     		// Assign scenarios
     		vm.content = data;
@@ -98,7 +98,7 @@
     	
     	vm.progresstype = vm.progresstypes[index]; 
     	
-    	vm.$http.get('http://pfs.campaigncodex.com/api/v1/playerprogress' + '?pfsnumber=' + vm.player.pfsnumber + '&type=' + type).
+    	vm.$http.get('https://api.campaigncodex.com/api/v1/playerprogress' + '?pfsnumber=' + vm.player.pfsnumber + '&type=' + type).
     		success(function(data, status, headers, config) {
     		// Assign scenarios
     		vm.playerprogress = data;
@@ -136,7 +136,7 @@
 
         var req = {
                 method: method,
-                url: 'http://pfs.campaigncodex.com/api/v1/reportscenario',
+                url: 'https://api.campaigncodex.com/api/v1/reportscenario',
                 data: $.param({state: state, pfsnumber: vm.player.pfsnumber, scenario: scenario_id}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -157,7 +157,7 @@
     {
     	var vm = this;
     	
-    	return vm.$http.get('http://pfs.campaigncodex.com/api/v1/people?search=' + search).then(
+    	return vm.$http.get('https://api.campaigncodex.com/api/v1/people?search=' + search).then(
     			function(response){
     				return response.data;
     			});

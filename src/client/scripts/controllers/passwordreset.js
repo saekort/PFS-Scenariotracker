@@ -35,7 +35,7 @@
     	
         var req = {
                 method: 'POST',
-                url: 'http://pfs.campaigncodex.com/api/v1/reset_password',
+                url: 'https://api.campaigncodex.com/api/v1/reset_password',
                 data: $.param({password: vm.playerpassword, resetcode: vm.resetcode}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
