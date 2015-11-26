@@ -14,7 +14,7 @@ function match ($parse) {
         link: function(scope, elem, attrs, ctrl) {
             if(!ctrl) {
                 if(console && console.warn){
-                    console.warn('Match validation requires ngModel to be on the element');
+                    //console.warn('Match validation requires ngModel to be on the element');
                 }
                 return;
             }

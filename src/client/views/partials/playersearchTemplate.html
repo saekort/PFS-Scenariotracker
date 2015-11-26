@@ -1,7 +1,7 @@
 <script type="text/ng-template" id="playersearchTemplate.html">
 	<a tabindex="-1">
 		<i class="glyphicon glyphicon-user color-dark" style="top:3px"></i>
-		<img ng-show="match.model.country != NULL" src="./images/flags/{{match.model.country | lowercase}}.svg" style="height: 15px; padding-bottom: 2px;">
+		<img ng-if="match.model.country != NULL" ng-src="./images/flags/{{match.model.country | lowercase}}.svg" style="height: 15px; padding-bottom: 2px;">
 		<span ng-bind-html="match.model.name | typeaheadHighlight:query | unsafe"></span> - <span ng-bind-html="match.model.pfsnumber | typeaheadHighlight:query | unsafe"></span>
 	</a>
 </script>

@@ -7,14 +7,15 @@ function trackerInterceptor($q, $rootScope) {
 	return {
 		'request': function(config) {
 			// do something on success
+	
 			return config;
   	    },
 
   	   'requestError': function(rejection) {
   		   // do something on error
-  		   if (canRecover(rejection)) {
-  			   return responseOrNewPromise
-  		   }
+//  		   if (canRecover(rejection)) {
+//  			   return responseOrNewPromise
+//  		   }
   		   
   		   return $q.reject(rejection);
   	    },
@@ -36,9 +37,9 @@ function trackerInterceptor($q, $rootScope) {
 
   	   'responseError': function(rejection) {
   		   // do something on error
-  		   if (canRecover(rejection)) {
-  			   return responseOrNewPromise
-  		   }
+//  		   if (canRecover(rejection)) {
+//  			   return responseOrNewPromise
+//  		   }
   		   
   		   return $q.reject(rejection);
   	    }

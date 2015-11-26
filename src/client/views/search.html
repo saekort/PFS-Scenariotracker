@@ -132,7 +132,7 @@
 				<div class="form-group">
 					<div class="playersearch-container">
 						<div class="input-group has-feedback playersearch"  style="width: 340px;">
-							<input id="playersearch" class="search form-control" ng-model="vm.filters.playersearch" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" 
+							<input id="playersearch" class="search form-control" ng-model="vm.filters.playersearch" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="2" 
 								typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" 
 								typeahead-on-select="vm.addPlayer()" placeholder="Search for players"">
 							<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey; margin-right:62px"></i>

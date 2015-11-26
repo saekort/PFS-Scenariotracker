@@ -22,14 +22,14 @@
     	                    {key: 'core_gm', name: 'CORE GM'}
     	                    ];
     	vm.reportoptions = [
-    			{name: 'Season 0', id: 's0'}, 
+    			{name: 'Season 0', id: 's0'},
     			{name: 'Season 1', id: 's1'},
     			{name: 'Season 2', id: 's2'},
     			{name: 'Season 3', id: 's3'},
     			{name: 'Season 4', id: 's4'},
     			{name: 'Season 5', id: 's5'},
     			{name: 'Season 6', id: 's6'},
-    			{name: 'Season 7', id: 's7'},		
+    			{name: 'Season 7', id: 's7'},
     			{name: 'Modules', id: 'mod'},
     			{name: 'Adventure paths', id: 'ap'}
     			];
@@ -157,7 +157,7 @@
     {
     	var vm = this;
     	
-    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'people?search=' + search).then(
+    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'people?search=' + encodeURIComponent(search)).then(
     			function(response){
     				return response.data;
     			});

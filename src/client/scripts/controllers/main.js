@@ -29,7 +29,7 @@
     		vm.api_key = false;
     		$http.defaults.headers.common = {'CC-API-KEY': 'nokey'};
     	}
-    	    	
+    	
     	$scope.$watch('main.api_key', function(){
     		if(vm.api_key != false)
     		{

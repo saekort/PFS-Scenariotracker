@@ -24,6 +24,9 @@
     			animation: vm.animate,
     			templateUrl: 'help_filters.html',
     			controller: 'ModalInstanceController as help',
+    			resolve: {
+    				character: function() {return null;}
+    			},    			
     			size: 'lg'
     		});
     	}
@@ -34,6 +37,9 @@
     			animation: vm.animate,
     			templateUrl: 'help_search.html',
     			controller: 'ModalInstanceController as help',
+    			resolve: {
+    				character: function() {return null;}
+    			},    			
     			size: 'lg'
     		});
     	}
@@ -44,6 +50,9 @@
     			animation: vm.animate,
     			templateUrl: 'help_report.html',
     			controller: 'ModalInstanceController as help',
+    			resolve: {
+    				character: function() {return null;}
+    			},    			
     			size: 'lg'
     		});
     	}

@@ -230,8 +230,8 @@
     SearchController.prototype.getPeople = function(search)
     {
     	var vm = this;
-    	
-    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'people?search=' + search).then(
+
+    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'people?search=' + encodeURIComponent(search)).then(
     			function(response){
     				return response.data
     			});
@@ -241,7 +241,7 @@
     {
     	var vm = this;
     	
-    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'authors?search=' + search).then(
+    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'authors?search=' + encodeURIComponent(search)).then(
     			function(response){
     				return response.data
     			});

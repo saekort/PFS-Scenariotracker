@@ -294,6 +294,8 @@ class V1 extends REST_Controller
     		$this->response(NULL, 400);
     	}
     	
+    	//echo $this->get('search');
+    	
     	$people = new Person();
     	$people->select('id, name, pfsnumber, public, country');
     	$people->or_like('name', $this->get('search'));
@@ -301,7 +303,7 @@ class V1 extends REST_Controller
     	$people->order_by('name','asc');
     	$people->limit(5);
     	$people->get();
-    
+    	
     	if($people->exists())
     	{
     		$people_array = $people->all_to_array();
