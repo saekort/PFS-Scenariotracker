@@ -52,7 +52,7 @@
     	                  {key: 'season_desc', label: 'Number high-low'}
     	                  ];
     	
-    	vm.sorting = vm.sortoptions[0];
+    	vm.sorting = vm.sortoptions[2];
     	
     	vm.pagination = [];
     	vm.pagination.totalItems = 0;

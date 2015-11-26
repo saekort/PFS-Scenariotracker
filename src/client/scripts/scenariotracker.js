@@ -92,6 +92,8 @@
 
     scenariotracker.run(['$rootScope', function($rootScope) 
     {
+    	$rootScope.apiUrl = 'https://api.campaigncodex.com/';
+    	
     	$rootScope.$on('$stateChangeSuccess',function(){
     	    $("html, body").animate({ scrollTop: 0 }, 200);
     	});
