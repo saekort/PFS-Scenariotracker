@@ -5,12 +5,13 @@
         .module('scenariotracker')
         .controller('MainController', MainController );
     
-    function MainController($state, $location, $http, $scope, $rootScope)
+    function MainController($state, $location, $http, $scope, $rootScope, trackerConfig)
     {
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$http = $http;
+    	vm.trackerConfig = trackerConfig;
 
     	if(localStorage.getItem("api_key"))
     	{
@@ -59,7 +60,7 @@
     	console.log('Logging out');
     	// Do the logout
     	var query = 'key=' + vm.api_key;
-    	vm.$http.get('https://api.campaigncodex.com/api/v1/person_logout' + '?' + query).
+    	vm.$http.get(vm.trackerConfig.apiUrl + 'person_logout' + '?' + query).
   	  	  success(function(data, status, headers, config) {
   	  	  
   	  	  vm.api_key = false;

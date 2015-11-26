@@ -5,12 +5,13 @@
         .module('scenariotracker')
         .controller('LoginController', LoginController );
     
-    function LoginController($state, $location, $http, usSpinnerService)
+    function LoginController($state, $location, $http, usSpinnerService, $scope)
     {
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$http = $http;
+    	vm.main = $scope.main;
     	vm.usSpinnerService = usSpinnerService;
     	
     	vm.username = '';
@@ -24,7 +25,7 @@
     	
     	// Do the login
     	var query = 'login=' + vm.username + '&password=' + vm.password;
-    	vm.$http.get('https://api.campaigncodex.com/api/v1/person_login' + '?' + query).
+    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'person_login' + '?' + query).
   	  	  success(function(data, status, headers, config) {
   	  	  main.api_key = data.key;
   	  	  

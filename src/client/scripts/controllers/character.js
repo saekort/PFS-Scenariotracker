@@ -55,7 +55,7 @@
     	var vm = this;
     	vm.usSpinnerService.spin('spinner-1');
     	
-    	vm.$http.get('https://api.campaigncodex.com/api/v1/characters?pfsnumber=' + vm.main.player.pfsnumber).
+    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'characters?pfsnumber=' + vm.main.player.pfsnumber).
 	  	success(function(data, status, headers, config) {
 		  // Assign characters to model
 	  	
@@ -119,7 +119,7 @@
     	
         var req = {
                 method: 'POST',
-                url: 'https://api.campaigncodex.com/api/v1/character',
+                url: vm.main.trackerConfig.apiUrl + 'character',
                 data: $.param(post_data),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -165,7 +165,7 @@
 
         var req = {
                 method: 'DELETE',
-                url: 'https://api.campaigncodex.com/api/v1/character',
+                url: vm.main.trackerConfig.apiUrl + 'character',
                 data: $.param({id: id}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

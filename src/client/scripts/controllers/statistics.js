@@ -5,12 +5,13 @@
         .module('scenariotracker')
         .controller('StatisticsController', StatisticsController );
     
-    function StatisticsController($http, $state, $location, usSpinnerService)
+    function StatisticsController($http, $state, $location, $scope, usSpinnerService)
     {
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$http = $http;
+    	vm.main = $scope.main;
     	vm.usSpinnerService = usSpinnerService;
     	vm.lastupdated = 'unknown';
     	
@@ -41,7 +42,7 @@
     	var query = 'type=' + type;
     	
     	// Get a statistic by type
-    	vm.$http.get('https://api.campaigncodex.com/api/v1/statistics' + '?' + query).
+    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'statistics' + '?' + query).
   	  	  success(function(data, status, headers, config) {
   		  // Assign statistic
   		  vm.statistics[type] = data;

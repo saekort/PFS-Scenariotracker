@@ -5,13 +5,14 @@
         .module('scenariotracker')
         .controller('SearchController', SearchController );
     
-    function SearchController($http, $state, $location, usSpinnerService, $localStorage)
+    function SearchController($http, $state, $location, usSpinnerService, $localStorage, $scope)
     {
     	var vm = this;
     	vm.$http = $http;
     	vm.$state = $state;
     	vm.$storage = $localStorage;
     	vm.$location = $location;
+    	vm.main = $scope.main;
     	vm.usSpinnerService = usSpinnerService;
     	vm.scenarios = [];
     	vm.noScenarios = false;
@@ -199,7 +200,7 @@
     		query = query + '&sorting=' + vm.sorting.key;
     	}
     	
-    	vm.$http.get('https://api.campaigncodex.com/api/v1/scenarios' + '?' + query).
+    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'scenarios' + '?' + query).
     	  success(function(data, status, headers, config) {
     		  // Assign scenarios
     		  vm.scenarios = data.scenarios;
@@ -230,7 +231,7 @@
     {
     	var vm = this;
     	
-    	return vm.$http.get('https://api.campaigncodex.com/api/v1/people?search=' + search).then(
+    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'people?search=' + search).then(
     			function(response){
     				return response.data
     			});
@@ -240,7 +241,7 @@
     {
     	var vm = this;
     	
-    	return vm.$http.get('https://api.campaigncodex.com/api/v1/authors?search=' + search).then(
+    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'authors?search=' + search).then(
     			function(response){
     				return response.data
     			});

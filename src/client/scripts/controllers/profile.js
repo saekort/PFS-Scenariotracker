@@ -121,7 +121,7 @@
     {
     	var vm = this;
     	
-    vm.$http.get('https://api.campaigncodex.com/api/v1/person?pfsnumber=' + vm.main.player.pfsnumber).
+    vm.$http.get(vm.main.trackerConfig.apiUrl + 'person?pfsnumber=' + vm.main.player.pfsnumber).
   	  	success(function(data, status, headers, config) {
   		  // Assign profile
   		  vm.playername = data.name;
@@ -153,7 +153,7 @@
 
         var req = {
                 method: 'POST',
-                url: 'https://api.campaigncodex.com/api/v1/profile',
+                url: vm.main.trackerConfig.apiUrl + 'profile',
                 data: $.param({name: vm.playername, pfsnumber: vm.pfsnumber, country: vm.country.code, public: vm.playerreporting}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -178,7 +178,7 @@
     	var vm = this;
     	var req = {
                 method: 'POST',
-                url: 'https://api.campaigncodex.com/api/v1/change_password',
+                url: vm.main.trackerConfig.apiUrl + 'change_password',
                 data: $.param({old_password: vm.old_password, new_password: vm.playerpassword}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -207,7 +207,7 @@
     	}
     	else
     	{
-    		vm.$http.get('https://api.campaigncodex.com/api/v1/pfsnumber?pfsnumber=' + vm.pfsnumber).then(
+    		vm.$http.get(vm.main.trackerConfig.apiUrl + 'pfsnumber?pfsnumber=' + vm.pfsnumber).then(
     			function(response){
     				if(response.data != 'available')
     				{

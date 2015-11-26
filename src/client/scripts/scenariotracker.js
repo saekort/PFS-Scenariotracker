@@ -4,6 +4,9 @@
 
     var scenariotracker = angular.module('scenariotracker', ['ui.bootstrap', 'angularSpinner','ui.router','ui.check','ngStorage','validation.match','tracker.tools', 'dndLists']);
     
+    // Set config
+    scenariotracker.constant('trackerConfig', {'apiUrl': 'https://api.campaigncodex.com/api/v1/'});    
+    
     // Standard config of modules
     scenariotracker.config(function (usSpinnerConfigProvider, $stateProvider, $urlRouterProvider, $locationProvider, $provide, $httpProvider) {
         usSpinnerConfigProvider.setDefaults({color: '#521717'});
@@ -92,8 +95,6 @@
 
     scenariotracker.run(['$rootScope', function($rootScope) 
     {
-    	$rootScope.apiUrl = 'https://api.campaigncodex.com/';
-    	
     	$rootScope.$on('$stateChangeSuccess',function(){
     	    $("html, body").animate({ scrollTop: 0 }, 200);
     	});

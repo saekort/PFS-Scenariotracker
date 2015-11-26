@@ -5,11 +5,12 @@
         .module('scenariotracker')
         .controller('RegisterController', RegisterController );
     
-    function RegisterController($http, $state, usSpinnerService)
+    function RegisterController($http, $state, $scope, usSpinnerService)
     {
     	var vm = this;
     	vm.$state = $state;
     	vm.$http = $http;
+    	vm.main = $scope.main;
     	vm.playername = "";
     	vm.pfsnumber = "";
     	vm.playeremail = "";
@@ -42,7 +43,7 @@
       	
       	var req = {
                 method: method,
-                url: 'https://api.campaigncodex.com/api/v1/person',
+                url: vm.main.trackerConfig.apiUrl + 'person',
                 data: $.param({pfsnumber : vm.pfsnumber, name : vm.playername, password : vm.playerpassword, public : report, email : vm.playeremail}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -65,7 +66,7 @@
     {
     	var vm = this;
     	
-    	vm.$http.get('https://api.campaigncodex.com/api/v1/pfsnumber?pfsnumber=' + vm.pfsnumber).then(
+    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'pfsnumber?pfsnumber=' + vm.pfsnumber).then(
     		function(response){
     			if(response.data != 'available')
     			{

@@ -5,12 +5,13 @@
         .module('scenariotracker')
         .controller('PasswordresetController', PasswordresetController );
     
-    function PasswordresetController($state, $location, $http)
+    function PasswordresetController($state, $location, $http, $scope)
     {
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$http = $http;
+    	vm.main = $scope.main;
     	
     	vm.resetcode = '';
     	vm.playerpassword = '';
@@ -35,7 +36,7 @@
     	
         var req = {
                 method: 'POST',
-                url: 'https://api.campaigncodex.com/api/v1/reset_password',
+                url: vm.main.trackerConfig.apiUrl + 'reset_password',
                 data: $.param({password: vm.playerpassword, resetcode: vm.resetcode}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

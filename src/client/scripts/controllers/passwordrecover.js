@@ -5,12 +5,13 @@
         .module('scenariotracker')
         .controller('PasswordrecoverController', PasswordrecoverController );
     
-    function PasswordrecoverController($state, $location, $http)
+    function PasswordrecoverController($state, $location, $http, $scope)
     {
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$http = $http;
+    	vm.main = $scope.main;
     	
     	vm.playeremail = '';
     	vm.status = '';
@@ -22,7 +23,7 @@
     	
         var req = {
                 method: 'POST',
-                url: 'https://api.campaigncodex.com/api/v1/forgotten_password',
+                url: vm.main.trackerConfig.apiUrl + 'forgotten_password',
                 data: $.param({email: vm.playeremail}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
