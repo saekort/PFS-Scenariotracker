@@ -71,6 +71,7 @@
     		success(function(data, status, headers, config) {
     		// Assign scenarios
     		vm.content = data;
+    		vm.atOverview = false;
   		  	vm.usSpinnerService.stop('spinner-1');
     	}).
   	  	error(function(data, status, headers, config) {

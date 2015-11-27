@@ -4,7 +4,7 @@ body {
 	background-color: #DADADA;
 	margin-bottom: 10px;
 	min-height: 100%;
-	padding-top: 70px;
+	padding-top: 60px;
 }
 
 a, a:hover, a:active, a:visited {
@@ -34,6 +34,45 @@ a, a:hover, a:active, a:visited {
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
 	color: white;
+}
+
+.navbar-default .navbar-toggle {
+	border: 0;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: white;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+	background-color: #DFD3C5;
+}
+
+.navbar-default .navbar-toggle:hover .icon-bar, .navbar-default .navbar-toggle:focus .icon-bar {
+	background-color: black;
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: white;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #333;
+    background-color: transparent;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #555;
+    background-color: #e7e7e7;
+  }
+  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: #ccc;
+    background-color: transparent;
+  }
 }
 
 .scenario {
@@ -292,6 +331,36 @@ button[disabled], button[disabled]:hover {
 	margin-bottom: 5px;
 	left: 6em;
 	position: absolute;
+}
+
+.progress-xs {
+	content:'\A';
+	background-color: #FFEFDB;
+	border: 2px solid #BA6B6B;
+	margin: 5px 0 5px 0;
+	padding: 5px;
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+}
+
+.progress-xs-bar {
+    content:'\A';
+	border: 2px solid #FF9B59;
+    position:absolute;
+    background-color: #FF9B59;
+    top:0; bottom:0;
+    left:0; 
+    z-index: 998;
+}
+
+.progress-xs-label {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	z-index: 999;
 }
 
 .progress-bar-danger {
