@@ -1,48 +1,48 @@
 <div>    
     <script type="text/ng-template" id="help_filters.html">
         <div class="modal-header">
-            <h3 class="modal-title">Help: Filters</h3>
+            <h3 class="modal-title" translate>Help: Filters</h3>
         </div>
         <div class="modal-body">
 			<center><img src="./images/logo_pfs.png" width="80%"></center>
-			<p>To search for scenarios and to find out who played what the sessiontracker has a lot of filters to help you narrow down your searches. Here is a quick overview of what each filter does.</p>
+			<p translate>To search for scenarios and to find out who played what the sessiontracker has a lot of filters to help you narrow down your searches. Here is a quick overview of what each filter does.</p>
 	       
-			<h4>Filter options</h4>
+			<h4 translate>Filter options</h4>
 			<dl>
-				<dt>Scenario name</dt>
-				<dd>Searches in the name of scenarios, modules, adventure paths and quests. It will filter out anything that does not include what you type in this field in its name.</dd>
+				<dt translate>Scenario name</dt>
+				<dd translate>Searches in the name of scenarios, modules, adventure paths and quests. It will filter out anything that does not include what you type in this field in its name.</dd>
 
-				<dt>Player level range</dt>
-				<dd>Take the lowest player level you are looking for some content for and select it from the 'lowest' dropdown. If you have a different highest player level, select that from the 'highest' dropdown. The sessiontracker will now filter out any content does that not include at least that level range.<br>Example: <i>I am looking for a scenario to run for my friends. My friends are level 3, 4 and 5. I set the lowest value on 3 and the highest on 5. The sessiontracker now shows me mostly tier 1-5 scenarios.</i></dd>
+				<dt translate>Player level range</dt>
+				<dd translate>Take the lowest player level you are looking for some content for and select it from the 'lowest' dropdown. If you have a different highest player level, select that from the 'highest' dropdown. The sessiontracker will now filter out any content does that not include at least that level range.<br>Example: <i>I am looking for a scenario to run for my friends. My friends are level 3, 4 and 5. I set the lowest value on 3 and the highest on 5. The sessiontracker now shows me mostly tier 1-5 scenarios.</i></dd>
 
-				<dt>Include</dt>
-				<dd>By default the sessiontracker will take into account scenarios, quests, modules and adventure paths. If you are looking for content that falls into a specific category you can remove the checks to remove any content of that type from showing up.</dd>
+				<dt translate>Include</dt>
+				<dd translate>By default the sessiontracker will take into account scenarios, quests, modules and adventure paths. If you are looking for content that falls into a specific category you can remove the checks to remove any content of that type from showing up.</dd>
 
-				<dt>Season</dt>
-				<dd>With the season checkboxes you can include specific seasons. If you do not check any season checkbox the sessiontracker will assume you want to see them all. Please note that if you check any season checkbox then any content not tied to seasons will be filtered out, adventure paths and modules are among those.</dd>
+				<dt translate>Season</dt>
+				<dd translate>With the season checkboxes you can include specific seasons. If you do not check any season checkbox the sessiontracker will assume you want to see them all. Please note that if you check any season checkbox then any content not tied to seasons will be filtered out, adventure paths and modules are among those.</dd>
 
-				<dt>Type campaign</dt>
-				<dd>Pathfinder Society has two types of campaign: 'Pathfinder Society' and 'Core'. The 'Core' campaign restricts players to use only content from the core rulebook, for more information see the current season guide. The big plus of these campaigns is that you can play a scenario twice, once in the PFS campaign and once in the CORE campaign. The sessiontracker will compare the player progress of each player with the specific campaign you are searching in.<br>Example: <i>I am looking for a nice scenario to run, but cannot find anything my 6 players have not already played. So I press 'core' and find out that most of them have not played a lot of the core campaign yet. I select a scenario and inform my players that it is the best I can do. They should not play that much!</i></dd>
+				<dt translate>Type campaign</dt>
+				<dd translate>Pathfinder Society has two types of campaign: 'Pathfinder Society' and 'Core'. The 'Core' campaign restricts players to use only content from the core rulebook, for more information see the current season guide. The big plus of these campaigns is that you can play a scenario twice, once in the PFS campaign and once in the CORE campaign. The sessiontracker will compare the player progress of each player with the specific campaign you are searching in.<br>Example: <i>I am looking for a nice scenario to run, but cannot find anything my 6 players have not already played. So I press 'core' and find out that most of them have not played a lot of the core campaign yet. I select a scenario and inform my players that it is the best I can do. They should not play that much!</i></dd>
 
-				<dt>Author</dt>
-				<dd>Search by author. You can search by one author at a time and the field also gives you suggestions as to what authors match your current searchterm. The sessiontracker will show only content written by the selected author.</dd>
+				<dt translate>Author</dt>
+				<dd translate>Search by author. You can search by one author at a time and the field also gives you suggestions as to what authors match your current searchterm. The sessiontracker will show only content written by the selected author.</dd>
 
-				<dt>Other</dt>
-				<dd>These are filters you will not use nearly as often:
+				<dt translate>Other</dt>
+				<dd><translate>These are filters you will not use nearly as often:</translate>
 					<dl>
-						<dt>Only evergreens</dt>
-						<dd>This option will filter out any content that is not a evergreen.</dd>
-						<dt>Include multi-table specials</dt>
-						<dd>By default the multi-table specials are not in the content listing. This is because they are only played very sparingly. If you want to search them, not a problem, just check this filter!</dd>
-						<dt>Include retired scenarios</dt>
-						<dd>By default the retired content is not in the content listing. This is because it is hardly ever played anymore and you cannot earn credit for it. You know what to check if you want to include them anyway!</dd>
+						<dt translate>Only evergreens</dt>
+						<dd translate>This option will filter out any content that is not a evergreen.</dd>
+						<dt translate>Include multi-table specials</dt>
+						<dd translate>By default the multi-table specials are not in the content listing. This is because they are only played very sparingly. If you want to search them, not a problem, just check this filter!</dd>
+						<dt translate>Include retired scenarios</dt>
+						<dd translate>By default the retired content is not in the content listing. This is because it is hardly ever played anymore and you cannot earn credit for it. You know what to check if you want to include them anyway!</dd>
 					</dl>
 				</dd>
 			</dl>
 
         </div>
         <div class="modal-footer">
-            <button class="button" ng-click="help.close()" type="button">Dismiss</button>
+            <button class="button" ng-click="help.close()" type="button" translate>Dismiss</button>
         </div>
     </script>
 </div>

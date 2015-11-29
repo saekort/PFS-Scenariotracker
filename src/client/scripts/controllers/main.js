@@ -5,13 +5,17 @@
         .module('scenariotracker')
         .controller('MainController', MainController );
     
-    function MainController($state, $location, $http, $scope, $rootScope, trackerConfig)
+    function MainController($state, $location, $http, $scope, $rootScope, trackerConfig, gettextCatalog)
     {
+
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$http = $http;
     	vm.trackerConfig = trackerConfig;
+
+		//TODO: fk - remove that static french language and manage user-defined language via interface (stock in cookie?)
+		gettextCatalog.setCurrentLanguage("fr");
 
     	if(localStorage.getItem("api_key"))
     	{

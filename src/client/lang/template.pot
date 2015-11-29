@@ -1,0 +1,224 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Project-Id-Version: \n"
+
+#: src/client/views/partials/nav.html:26
+msgid "About"
+msgstr ""
+
+#: src/client/views/partials/help_report.html:13
+msgid "And that's all there is to it!"
+msgstr ""
+
+#: src/client/views/partials/confirmDeleteCharacter.html:4
+msgid "Are you sure?"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:27
+msgid "Author"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:36
+msgid "By default the multi-table specials are not in the content listing. This is because they are only played very sparingly. If you want to search them, not a problem, just check this filter!"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:38
+msgid "By default the retired content is not in the content listing. This is because it is hardly ever played anymore and you cannot earn credit for it. You know what to check if you want to include them anyway!"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:19
+msgid "By default the sessiontracker will take into account scenarios, quests, modules and adventure paths. If you are looking for content that falls into a specific category you can remove the checks to remove any content of that type from showing up."
+msgstr ""
+
+#: src/client/views/partials/confirmDeleteCharacter.html:11
+msgid "Cancel"
+msgstr ""
+
+#: src/client/views/partials/confirmDeleteCharacter.html:10
+msgid "Delete"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:45
+#: src/client/views/partials/help_report.html:16
+#: src/client/views/partials/help_search.html:15
+msgid "Dismiss"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:10
+msgid "Filter options"
+msgstr ""
+
+#: src/client/views/partials/help_report.html:10
+msgid "First select a player either by name or PFS number in the 'select player' bar."
+msgstr ""
+
+#: src/client/views/partials/help_search.html:11
+msgid "For the players you have selected the sessiontracker will make sure to filter out any content they have already played based on what they have reported (see the report page) as having played.<br>Example: <i>Bob has played 50 scenarios, if someone selects Bob as a search criteria the sessiontracker will filter out all 50 of the scenarios Bob has played already.</i>"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:4
+msgid "Help: Filters"
+msgstr ""
+
+#: src/client/views/partials/help_report.html:4
+msgid "Help: Report"
+msgstr ""
+
+#: src/client/views/partials/help_search.html:4
+msgid "Help: Search"
+msgstr ""
+
+#: src/client/views/partials/help_report.html:9
+msgid "How to report?"
+msgstr ""
+
+#: src/client/views/partials/help_search.html:9
+msgid "How to search?"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:18
+msgid "Include"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:35
+msgid "Include multi-table specials"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:37
+msgid "Include retired scenarios"
+msgstr ""
+
+#: src/client/views/partials/nav.html:28
+msgid "Known Issues"
+msgstr ""
+
+#: src/client/views/partials/nav.html:31
+msgid "Login"
+msgstr ""
+
+#: src/client/views/partials/nav.html:39
+msgid "Logout"
+msgstr ""
+
+#: src/client/views/partials/help_search.html:12
+msgid "Note: Do not add the GM to the search. You can GM a scenario more then once. In the future we might introduce some features to help out with this."
+msgstr ""
+
+#: src/client/views/partials/help_report.html:8
+msgid "On this page you can register what content you have played or GMed. You can also look at your progress over all seasons, modules and adventure paths. You can of course also look at all of this for someone else, or even report for a player who doesn't mind."
+msgstr ""
+
+#: src/client/views/partials/help_report.html:12
+msgid "Once you select a category you see all the content in the category and once again the four types you can play it as. You can check anything and it will automatically save it on the server. No need to press a save button or anything!"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:33
+msgid "Only evergreens"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:30
+#: src/client/views/partials/nav.html:23
+msgid "Other"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:25
+msgid "Pathfinder Society has two types of campaign: 'Pathfinder Society' and 'Core'. The 'Core' campaign restricts players to use only content from the core rulebook, for more information see the current season guide. The big plus of these campaigns is that you can play a scenario twice, once in the PFS campaign and once in the CORE campaign. The sessiontracker will compare the player progress of each player with the specific campaign you are searching in.<br>Example: <i>I am looking for a nice scenario to run, but cannot find anything my 6 players have not already played. So I press 'core' and find out that most of them have not played a lot of the core campaign yet. I select a scenario and inform my players that it is the best I can do. They should not play that much!</i>"
+msgstr ""
+
+#: src/client/views/partials/nav.html:11
+msgid "PFS Scenariotracker"
+msgstr ""
+
+#: src/client/views/partials/nav.html:19
+msgid "Plan (NYI)"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:15
+msgid "Player level range"
+msgstr ""
+
+#: src/client/views/partials/nav.html:32
+msgid "Register"
+msgstr ""
+
+#: src/client/views/partials/nav.html:17
+msgid "Report"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:12
+msgid "Scenario name"
+msgstr ""
+
+#: src/client/views/partials/nav.html:18
+msgid "Search"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:28
+msgid "Search by author. You can search by one author at a time and the field also gives you suggestions as to what authors match your current searchterm. The sessiontracker will show only content written by the selected author."
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:13
+msgid "Searches in the name of scenarios, modules, adventure paths and quests. It will filter out anything that does not include what you type in this field in its name."
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:21
+msgid "Season"
+msgstr ""
+
+#: src/client/views/partials/nav.html:25
+msgid "Statistics"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:16
+msgid "Take the lowest player level you are looking for some content for and select it from the 'lowest' dropdown. If you have a different highest player level, select that from the 'highest' dropdown. The sessiontracker will now filter out any content does that not include at least that level range.<br>Example: <i>I am looking for a scenario to run for my friends. My friends are level 3, 4 and 5. I set the lowest value on 3 and the highest on 5. The sessiontracker now shows me mostly tier 1-5 scenarios.</i>"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:31
+msgid "These are filters you will not use nearly as often:"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:34
+msgid "This option will filter out any content that is not a evergreen."
+msgstr ""
+
+#: src/client/views/partials/help_search.html:8
+msgid "This search bar is your key to filtering for your players."
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:8
+msgid "To search for scenarios and to find out who played what the sessiontracker has a lot of filters to help you narrow down your searches. Here is a quick overview of what each filter does."
+msgstr ""
+
+#: src/client/views/partials/nav.html:6
+msgid "Toggle navigation"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:24
+msgid "Type campaign"
+msgstr ""
+
+#: src/client/views/partials/help_filters.html:22
+msgid "With the season checkboxes you can include specific seasons. If you do not check any season checkbox the sessiontracker will assume you want to see them all. Please note that if you check any season checkbox then any content not tied to seasons will be filtered out, adventure paths and modules are among those."
+msgstr ""
+
+#: src/client/views/partials/confirmDeleteCharacter.html:7
+msgid "You are about to delete <strong>{{confirmDelete.character.name}}</strong>. Deleting a character can not be undone!"
+msgstr ""
+
+#: src/client/views/partials/help_search.html:10
+msgid "You can add any number of registered players to your search queries by selecting them by name or PFS number in the search player bar. After you select one, press enter to select a second one, and so on. You can remove players from your search again by clicking/pressing their name under the add player bar."
+msgstr ""
+
+#: src/client/views/partials/help_report.html:11
+msgid "You now see the player progress for the player. You can check out his progress in four categories: PFS PC, PFS GM, CORE PC, CORE GM. These correspond to the four types you can play content as. On the left categories have appeared. All content is part of these categories."
+msgstr ""
+
+#: src/client/views/partials/nav.html:37
+msgid "Your characters"
+msgstr ""
+
+#: src/client/views/partials/nav.html:36
+msgid "Your profile"
+msgstr ""
