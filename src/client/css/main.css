@@ -103,6 +103,13 @@ a, a:hover, a:active, a:visited {
 	font-style: italic;
 }
 
+.options {
+	background-color: #FFEFDB;
+	border: 2px solid #BA6B6B;
+	margin: 10px 10px 0 0px;
+	padding: 10px;
+}
+
 .filterbar {
 	background-color: #DADADA;
 }

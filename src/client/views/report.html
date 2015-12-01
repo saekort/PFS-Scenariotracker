@@ -87,11 +87,25 @@
 					</span>
 					<span class="hidden-xs report-title">
 						<span ng-hide="!content.season || content.season == '99'">
-							#{{content.season}}-{{content.number}}</span> {{content.name}}
-						</span>
-						<span ng-show="content.archived"> 
-							<strong>(Retired)</strong>
-						</span>			
+							#{{content.season}}-{{content.number}}
+						</span> {{content.name}}
+					</span>
+					<span ng-show="content.archived"> 
+						<strong>(Retired)</strong>
+					</span>			
+				</div>
+				<div class="options">
+					<strong>Batch options</strong><br>
+					<select ng-model="vm.option.check">
+						<option></option>
+						<option value="pfs">PFS PC</option>
+						<option value="pfs_gm">PFS GM</option>
+						<option value="core">CORE PC</option>
+						<option value="core_gm">CORE GM</option>
+					</select>
+					<span>
+						<button class="button" ng-disabled="!vm.option.check" ng-click="vm.checkAll()">Check</button> / <button ng-disabled="!vm.option.check" class="button" ng-click="vm.uncheckAll()">Uncheck</button> all
+					</span>									
 				</div>
 			</div>
 			<div ng-show="vm.atOverview && vm.player != null">

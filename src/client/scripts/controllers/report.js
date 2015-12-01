@@ -41,6 +41,8 @@
     	vm.$location = $location;
     	vm.usSpinnerService = usSpinnerService;
     	vm.content = false;
+    	vm.option = {};
+    	vm.option.check = null;
     }
     
     ReportController.prototype.changeReportType = function(type)
@@ -180,7 +182,6 @@
     ReportController.prototype.selectYourself = function()
     {
     	var vm = this;
-    	console.log(vm.main);
     	vm.player = vm.main.player;
     	
     	vm.changeReportType('overview');
@@ -196,4 +197,41 @@
     	
     	return '';
     }
+    
+    ReportController.prototype.checkAll = function()
+    {
+    	var vm = this;
+    	
+    	angular.forEach(vm.content, function(value, key) {
+    		var type = vm.option.check;
+    		
+    		if(!value.state[type])
+    		{
+    			// Only check if not already checked
+    			vm.content[key].state[type] = true;    			
+    			
+    			// Save it to the server
+    			vm.saveScenario(value.id, type, key);
+    		}
+    	});
+    }
+    
+    ReportController.prototype.uncheckAll = function()
+    {
+    	var vm = this;
+    	var vm = this;
+    	
+    	angular.forEach(vm.content, function(value, key) {
+    		var type = vm.option.check;
+    		
+    		if(value.state[type])
+    		{
+    			// Only check if not already checked
+    			vm.content[key].state[type] = false;    			
+    			
+    			// Save it to the server
+    			vm.saveScenario(value.id, type, key);
+    		}
+    	});
+    }    
 })();
