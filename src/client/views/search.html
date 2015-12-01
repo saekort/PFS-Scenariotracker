@@ -173,7 +173,7 @@
 				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
 			</div>
 			<div ng-repeat="scenario in vm.scenarios">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scenario"> 
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scenario">
 					<div class="title">
 						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower modules question" tooltip="This is a module, it is longer then a scenario, but rewards more experience"></span>
 						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe aps question" tooltip="This is an adventure path, it is longer then a scenario, but rewards more experience"></span>													
@@ -190,7 +190,7 @@
 					<span ng-if='scenario.link'>| Link: <a href="{{scenario.link}}" target="_blank">Paizo store</a></span>
 					<span collapse="scenario.collapsed"><br>{{scenario.description}}</span>						
 				</div>
-			</div>			
+			</div>
 		</div>
 			<div class="pfs-pagination">
 				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
