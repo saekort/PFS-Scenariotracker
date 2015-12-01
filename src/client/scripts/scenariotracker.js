@@ -2,7 +2,7 @@
 (function(){
     'use strict';
 
-    var scenariotracker = angular.module('scenariotracker', ['ui.bootstrap', 'angularSpinner','ui.router','ui.check','ngStorage','validation.match','tracker.tools', 'dndLists']);
+    var scenariotracker = angular.module('scenariotracker', ['ui.bootstrap', 'angularSpinner','ui.router','ui.check','ngStorage','validation.match','tracker.tools', 'dndLists', 'gettext']);
     
     // Set config
     scenariotracker.constant('trackerConfig', {'apiUrl': 'https://api.campaigncodex.com/api/v1/'});    

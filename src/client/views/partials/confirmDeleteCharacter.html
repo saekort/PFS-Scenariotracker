@@ -1,14 +1,14 @@
 <div>
     <script type="text/ng-template" id="confirmDeleteCharacter.html">
         <div class="modal-header">
-            <h3 class="modal-title">Are you sure?</h3>
+            <h3 class="modal-title" translate>Are you sure?</h3>
         </div>
         <div class="modal-body">
-			<p>You are about to delete <strong>{{confirmDelete.character.name}}</strong>. Deleting a character can not be undone!</p>
+			<p translate>You are about to delete <strong>{{confirmDelete.character.name}}</strong>. Deleting a character can not be undone!</p>
 		</div>
         <div class="modal-footer">
-			<button class="button" ng-click="confirmDelete.deleteCharacter()">Delete</button>&nbsp;&nbsp;
-			<button class="button cancel" ng-click="confirmDelete.close()">Cancel</button>
+			<button class="button" ng-click="confirmDelete.deleteCharacter()" translate>Delete</button>&nbsp;&nbsp;
+			<button class="button cancel" ng-click="confirmDelete.close()" translate>Cancel</button>
         </div>
     </script>
 </div>
