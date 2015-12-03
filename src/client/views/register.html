@@ -37,11 +37,11 @@
 			<div class="register">							
 				<label class="control-label">Username</label>
  				<p>Your username does not need to be unique, use the name that your fellow pathfinders know you by.</p>
-				<input id="playername" class="playerselect form-control" placeholder="Add your name here" required  ng-model="vm.playername">
+				<input id="playername" name="playername" class="playerselect form-control" placeholder="Add your name here" required  ng-model="vm.playername">
 			</div>
 			<div class="register">				
 				<label class="control-label">PFS number</label>
-				<input id="playernumber" class="playerselect form-control" ng-change="vm.checkPfsnumber()" placeholder="PFS number" required ng-model="vm.pfsnumber">
+				<input id="playernumber" name="playernumber" class="playerselect form-control" ng-change="vm.checkPfsnumber()" placeholder="PFS number" required ng-model="vm.pfsnumber">
 				<span class="red" ng-show="vm.invalidpfsnumber">PFS number is already registered, use a different one</span>				
 			</div>
 			<div class="checkbox">
@@ -51,7 +51,7 @@
 			</div>
 			<p>If you check this box, other people (for example your GM) may report the scenarios that you have played.</p>
 			<div class="register">				
-				<button class="button" ng-disabled="myForm.confirmEmail.$error.match || myForm.confirmPassword.$error.match || myForm.password.$error.pattern || vm.invalidpfsnumber" ng-click="vm.savePlayer()">Register</button>
+				<button class="button" ng-disabled="myForm.confirmEmail.$error.match || myForm.confirmPassword.$error.match || myForm.password.$error.pattern || vm.invalidpfsnumber || myForm.email.$error.required || myForm.password.$error.required || myForm.playername.$error.required || myForm.playernumber.$error.required" ng-click="vm.savePlayer()">Register</button>
 			</div>
 			
 			<div class="register">
