@@ -96,18 +96,19 @@ class Statistic extends DataMapper {
 	
 	public function generate_all()
 	{
-		$types = array('played_most', 'played_least', 'evergreen', 'player_complete_pfs', 'gm_complete_pfs', 'player_complete_core', 'gm_complete_core');
+		$types = array('played_most', 'evergreen', 'player_complete_pfs', 'gm_complete_pfs', 'player_complete_core', 'gm_complete_core');
 		
 		foreach($types as $type)
 		{
 			echo 'Generating: ' . $type. '<br>';
 			$this->generate($type);
+			echo 'Done generating ' . $type . '<br>';
 		}
 	}
 	
 	public function generate($type=0)
 	{
-		$scenario_options = array('played_most', 'played_least', 'season', 'evergreen');
+		$scenario_options = array('played_most', 'evergreen');
 		$person_options = array('player_complete_pfs', 'player_complete_core', 'gm_complete_pfs', 'gm_complete_core');
 
 		if(in_array($type, $scenario_options))
@@ -131,16 +132,9 @@ class Statistic extends DataMapper {
 			}
 			
 			// Sort
-			if($type == 'played_least')
-			{
-				asort($options);
-			}
-			else
-			{
-				arsort($options);
-			}
+			arsort($options);
 			
-			// Select only top 5
+			// Select only top 10
 			$options = array_slice($options, 0, 10, true);
 			
 			// Delete old data
@@ -206,7 +200,7 @@ class Statistic extends DataMapper {
 			
 			// Get total amount of scenarios
 			$scenarios = new Scenario();
-			$total = $scenarios->where('archived IS NULL', NULL)->count();
+			$total = $scenarios->where('archived IS NULL', NULL)->get()->result_count();
 			
 			foreach($options as $key => $option)
 			{

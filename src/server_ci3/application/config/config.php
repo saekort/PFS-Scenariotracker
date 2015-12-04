@@ -23,7 +23,7 @@ if(ENVIRONMENT == 'development')
 }
 else 
 {
-	$config['base_url'] = 'http://pfs.campaigncodex.com/';
+	$config['base_url'] = 'https://api.campaigncodex.com/';
 }
 
 /*

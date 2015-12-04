@@ -94,7 +94,7 @@
 						<strong>(Retired)</strong>
 					</span>			
 				</div>
-				<div class="options">
+				<div class="options" ng-hide="vm.player.public == 0 && vm.player.pfsnumber != main.player.pfsnumber">
 					<strong>Batch options</strong><br>
 					<select ng-model="vm.option.check">
 						<option></option>
