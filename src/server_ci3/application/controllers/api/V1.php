@@ -165,7 +165,10 @@ class V1 extends REST_Controller
 	        	$subq_players = new Scenario();
 	        	$subq_players->select('id')->where_join_field('players', $this->get('campaign') . ' IS NOT NULL', null)->where_in_related_players('pfsnumber', $this->get('player'));
 	        	
+	        	$scenarios->group_start();
 	        	$scenarios->where_not_in_subquery('id', $subq_players);
+	        	$scenarios->or_where('evergreen', 1);
+	        	$scenarios->group_end();
 	        }
 	        
 	        // Sorting
