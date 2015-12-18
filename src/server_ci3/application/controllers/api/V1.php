@@ -39,7 +39,7 @@ class V1 extends REST_Controller
        	{
        		$this->response('', 200);
        	}
-       	
+
        	if($this->ion_auth->logged_in())
        	{
 			$this->user = new Person($this->ion_auth->user()->row()->id);
@@ -163,12 +163,18 @@ class V1 extends REST_Controller
 	        	$pfsnumbers = array();
 	        
 	        	$subq_players = new Scenario();
-	        	$subq_players->select('id')->where_join_field('players', $this->get('campaign') . ' IS NOT NULL', null)->where_in_related_players('pfsnumber', $this->get('player'));
-	        	
+	        	$subq_players->select('id')->where_join_field('players', $this->get('campaign') . ' IS NOT NULL', null)->where_in_related_players('pfsnumber', $this->get('player'))->get();
+ 	        	
+ 	        	
 	        	$scenarios->group_start();
-	        	$scenarios->where_not_in_subquery('id', $subq_players);
+	        	$scenarios->where_not_in('id', $subq_players->all_to_single_array('id'));
 	        	$scenarios->or_where('evergreen', 1);
 	        	$scenarios->group_end();
+	        	
+// 	        	$scenarios->group_start();
+// 	        	$scenarios->where_not_in_subquery('id', $subq_players);
+// 	        	$scenarios->or_where('evergreen', 1);
+// 	        	$scenarios->group_end();
 	        }
 	        
 	        // Sorting
@@ -199,8 +205,7 @@ class V1 extends REST_Controller
 	    	// Pagination
 	    	if($i == 0)
 	    	{
-	    		$scenarios->get();
-	    		$response['count'] = $scenarios->result_count();
+	    		$response['count'] = $scenarios->count();
 	    	}
 	    	else
 	    	{
@@ -222,9 +227,10 @@ class V1 extends REST_Controller
 	    	
 	    	$i++;
         }
+
         if($scenarios->exists())
         {
-        	$scenarios_array = $scenarios->all_to_array();
+         	$scenarios_array = $scenarios->all_to_array();
         	
         	foreach($scenarios_array as $key => $value)
         	{
@@ -233,12 +239,55 @@ class V1 extends REST_Controller
         			if($scenario->id == $value['id'])
         			{
         				$scenarios_array[$key]['authors'] = $scenario->authors->all_to_single_array('name');
-        				//$scenarios_array[$key]['subtiers'] = $scenario->subtiers->all_to_single_array('name');        				
+        				
+        				if($this->get('player'))
+        				{
+        					foreach($this->get('player') as $player)
+        					{
+        						$person = new Person();
+        						$person->get_by_pfsnumber($player);
+        						
+        						if($person->exists())
+        						{
+        							$played = $scenario->players->where('pfsnumber', $player)->include_join_fields()->get();
+
+        							if($played->exists())
+        							{
+        								$scenarios_array[$key]['played'][$player] = array('player' => $played->name . ' (' . $played->pfsnumber . ')', 'pfs' => $played->join_pfs, 'pfs_gm' => $played->join_pfs_gm, 'core' => $played->join_core, 'core_gm' => $played->join_core_gm);
+        							}
+        							else
+        							{
+        								$scenarios_array[$key]['played'][$player] = array('player' => $person->name . ' (' . $person->pfsnumber . ')', 'pfs' => null, 'pfs_gm' => null, 'core' => null, 'core_gm' => null);
+        							}
+        						}
+        					}
+        				}
+        				
+        				if($this->get('gm'))
+        				{
+	       					if(!in_array($this->get('gm'), $this->get('player')) || !$this->get('player'))
+        					{   
+        						$person = new Person();
+        						$person->get_by_pfsnumber($this->get('gm'));        						
+        						
+        						$played = $scenario->players->where('pfsnumber', $this->get('gm'))->include_join_fields()->get();
+        						
+        						if($played->exists())
+        						{
+        							$scenarios_array[$key]['gm'][$this->get('gm')] = array('player' => $played->name . ' (' . $played->pfsnumber . ')', 'pfs' => $played->join_pfs, 'pfs_gm' => $played->join_pfs_gm, 'core' => $played->join_core, 'core_gm' => $played->join_core_gm);
+        						}
+        						else
+        						{
+        							$scenarios_array[$key]['gm'][$this->get('gm')] = array('player' => null, 'pfs' => null, 'pfs_gm' => null, 'core' => null, 'core_gm' => null);
+        						}
+        					}
+        				}
         			}
         		}
         	}
         	
         	$response['scenarios'] = $scenarios_array;
+        	
         	
             $this->response($response, 200); // 200 being the HTTP response code
         }

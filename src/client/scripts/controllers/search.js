@@ -17,6 +17,7 @@
     	vm.scenarios = [];
     	vm.noScenarios = false;
     	vm.people = [];
+    	vm.gm = null;
     	vm.filters = [];
     	vm.filters.lowestPlayerLevel = '';
     	vm.filters.highestPlayerLevel = '';
@@ -37,6 +38,7 @@
     	vm.filters.players = [];
     	vm.filters.search = null;
     	vm.filters.playersearch = null;
+    	vm.filters.gmsearch = null;
     	vm.filters.campaign = 'pfs';
     	vm.filters.scenarios = true;
     	vm.filters.modules = true;
@@ -194,6 +196,12 @@
     		}
     	}
     	
+    	// Filter: GM
+    	if(vm.gm)
+    	{
+    		query = query + '&gm=' + vm.gm.pfsnumber;
+    	}
+    	
     	// Filter: Sorting
     	if(vm.sorting)
     	{
@@ -265,6 +273,15 @@
     	vm.getScenarios();
     }
     
+    SearchController.prototype.removeGm = function()
+    {
+    	var vm = this;
+    	
+    	vm.gm = null;
+    	
+    	vm.getScenarios();
+    }    
+    
     SearchController.prototype.addPlayer = function()
     {
     	var vm = this;
@@ -275,6 +292,18 @@
     	}
     	
 		vm.filters.playersearch = '';    	
+    }
+
+    SearchController.prototype.addGm = function()
+    {
+    	var vm = this;
+
+    	if( Object.prototype.toString.call( vm.filters.gmsearch ) === '[object Object]' ) {
+    		vm.gm = vm.filters.gmsearch;
+    		vm.getScenarios();
+    	}
+    	
+		vm.filters.gmsearch = '';
     }
     
     SearchController.prototype.formatPlayersearch = function($model)

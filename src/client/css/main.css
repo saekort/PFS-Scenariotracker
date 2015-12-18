@@ -83,6 +83,28 @@ a, a:hover, a:active, a:visited {
 	padding: 10px;
 }
 
+.gmed-box {
+	background-color: green;
+	border-bottom-right-radius: 15px;
+	border-bottom-left-radius: 15px;	
+	border-top: 2px solid #BA6B6B;
+	margin-left: -10px;
+	margin-right: -10px;
+	margin-bottom: -10px;
+	margin-top: 10px;
+	padding: 10px 10px 10px 10px;
+}
+
+.gm-green {
+	background-color: #A7F99F;
+	color: #21591A;
+}
+
+.gm-red {
+	background-color: #F79E9E;
+	color: #561A1A;
+}
+
 .statistic-container {
 	padding: 10px 10px 0 10px;
 }
@@ -630,4 +652,27 @@ hr {
 
 .gm {
 	background-color: #FFC9C9;
+}
+
+.search_played {
+	border: 2px solid #FFEFDB;
+	color: #3A3A3A;
+	padding: 3px;
+	margin: 0px;
+}
+
+.search_played_not_played {
+	background-color: #D8D8D8;
+}
+
+.search_played_played {
+	background-color: #CFFFB2;
+}
+
+.search_played_player {
+	background-color: #FFDBB2;
+}
+
+.search_played_gm {
+	background-color: rgba(255, 147, 145, 0.6);
 }
