@@ -195,7 +195,9 @@
 						<span ng-if='scenario.archived != NULL' class="glyphicon glyphicon-remove archived question" tooltip="You cannot play this scenario for credit, it was retired on {{scenario.archived | limitTo: 10 : 0}}"></span>						
 						<span ng-if='scenario.type == "scenario"'>#{{scenario.season}}-{{scenario.number}} </span><span ng-if='scenario.type == "quest"'>S{{scenario.season}} </span>{{scenario.name}}
 						<span class="authors">by </span><span class="authors" ng-show="scenario.authors.length == 0">Unknown</span><span class="authors" ng-repeat="author in scenario.authors">{{$first ? '' : $last ? ' and ' : ', '}}{{author}}</span>
-						<button class="button pull-right" ng-click="scenario.collapsed = !scenario.collapsed">Toggle description</button>
+						<button class="button pull-right" style="display: none" ng-click="scenario.collapsed = !scenario.collapsed">Toggle description</button>
+						<span ng-show="scenario.collapsed" class="pull-right glyphicon glyphicon-triangle-top toggle_description" ng-click="scenario.collapsed = !scenario.collapsed" tooltip="Toggle description"></span>
+						<span ng-show="!scenario.collapsed" class="pull-right glyphicon glyphicon-triangle-bottom toggle_description" ng-click="scenario.collapsed = !scenario.collapsed" tooltip="Toggle description"></span>						
 					</div>	
 					<span>Tier: <span ng-show="!scenario.tier">Unknown</span>{{scenario.tier}}</span>
 					<span ng-if='scenario.link'>| Link: <a href="{{scenario.link}}" target="_blank">Paizo store</a></span>
