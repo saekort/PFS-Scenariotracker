@@ -1,0 +1,136 @@
+<ng-include src="'./views/partials/nav.html'"></ng-include>
+<div id="main" class="container-fluid">
+	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 filterbar">
+		<ng-include src="'./views/partials/logo.html'"></ng-include>
+		<h2 style="margin-top: 3px">Options
+			<span ng-controller="HelpController as help">
+					<span class="glyphicon glyphicon-question-sign help" ng-click="help.open('filters');"></span>
+					<ng-include src="'./views/partials/help_filters.html'"></ng-include>
+			</span>
+		</h2>
+		<div ng-show="vm.player == null">Please select a player first</div>
+		<div ng-show="vm.player !== null">
+			<div class="form-group">
+				<label style="width:100%">Options</label>
+				<span style="width: 50%" checked><input  type="radio">Basic</span>
+				<span style="width: 50%"><input  type="radio">Advanced</span>
+			</div>
+			<div class="form-group has-feedback">
+				<label for="scenarioSelect">Search by scenario name</label>
+				<input type="text" class="form-control" id="scenarioSelect" ng-model="vm.filters.search" ng-change="vm.getScenarios()" ng-model-options="{debounce: 300}" placeholder="Search scenarios">
+				<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
+			</div>
+			<div class="form-group">
+				<label>or select by category</label>
+				<button class="button col-sm-12" style="margin-bottom: 5px" ng-repeat="reportoption in vm.reportoptions" ng-click="vm.changeReportType(reportoption)">{{reportoption.name}}</button>
+			</div>
+		</div>
+	</div>             
+	
+	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+		<div class="row">
+			<h2>Report played content</h2>
+		</div>
+		<div class="row">
+			<div class="hidden-sm hidden-md hidden-lg" ng-show="main.player">
+				<button class="button col-xs-12" ng-click="vm.selectYourself()">Select yourself</button>
+			</div>
+			<div class="hidden-sm hidden-md hidden-lg text-center">or</div>
+			<div class="playersearch-container form-inline">
+				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 input-group playersearch form-group">
+					<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" 
+						typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" placeholder="Select by username or pfsnumber"
+						typeahead-on-select="vm.selectPlayer()">			
+					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>				
+				</div>
+				<div class="form-group hidden-xs"  ng-show="main.player">
+					or <button class="button" ng-click="vm.selectYourself()">Select yourself</button>
+				</div>
+			</div>
+			<div class="hidden-sm hidden-md hidden-lg" ng-hide="vm.player == null">
+				<hr style="border: 1px solid black;">			
+				<span class="hidden-xs text-center">Select category</span>
+				<h4 class="hidden-sm hidden-md hidden-lg text-center">Select category</h4>
+				<select class="form-control" ng-model="vm.reporttype" ng-options="reportoption.name for reportoption in vm.reportoptions" ng-change="vm.getContent()"></select>
+				<button class="button col-xs-12" ng-hide="vm.atOverview" ng-click="vm.changeReportType('overview')" style="margin-top: 5px;">{{vm.overview.name}}</button>				
+			</div>				
+		</div>		
+
+		<div class="row" ng-hide="vm.player == null">
+			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.player.pfsnumber" class="reportingfor">Checking out {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.player.pfsnumber">You cannot report for <strong>{{vm.player.name}}</strong> because he/she has not allowed public reporting in his/her profile.</div>		
+			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.player.pfsnumber" class="hidden-xs reportingfor">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.player.pfsnumber" class="hidden-sm hidden-md hidden-lg reportingfor text-center">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 1 && vm.player.pfsnumber != main.player.pfsnumber">You can report for <strong>{{vm.player.name}}</strong> because he/she has chosen to allow public reporting in his/her profile.</div>
+			<div ng-show="vm.player.pfsnumber == main.player.pfsnumber">You are now reporting for yourself.</div>
+		</div>
+		
+		<div class="row" ng-show="vm.player && vm.atOverview">
+			<h4>Progress</h4>
+			<p>Click any of the progress display options to change to a different perspective.</p>
+			<button class="button" ng-click="vm.getPlayerprogress('pfs')">PFS PC</button> 
+			<button class="button" ng-click="vm.getPlayerprogress('pfs_gm')">PFS GM</button> 
+			<button class="button" ng-click="vm.getPlayerprogress('core')">CORE PC</button> 
+			<button class="button" ng-click="vm.getPlayerprogress('core_gm')">CORE GM</button>
+			
+			<div class="col-xs-12 text-center">
+				<strong>Grand total: {{vm.totalplayed}} / {{vm.totalavailable}}</strong>
+			</div>
+			<div class="col-xs-12" ng-repeat="playerprogress in vm.playerprogress">
+				<span ng-hide="playerprogress.season == 'Modules' || playerprogress.season == 'APs'" class="col-xs-12 progress-xs">
+					&nbsp;
+					<span class="progress-xs-label">Season {{playerprogress.season}} ({{playerprogress.completed}}/{{playerprogress.total}})</span>							
+					<span class="progress-xs-bar" style="width: {{(playerprogress.completed / playerprogress.total) * 100}}%; min-width: 5%;"></span>
+				</span>
+				<span ng-show="playerprogress.season == 'Modules' || playerprogress.season == 'APs'" class="col-xs-12 progress-xs"><span class="progress-xs-bar" style="width: {{(playerprogress.completed / playerprogress.total) * 100}}%; min-width: 5%;"></span>{{playerprogress.season}} ({{playerprogress.completed}}/{{playerprogress.total}})</span>
+			</div>				
+		</div>
+		
+		<div ng-show="vm.player && !vm.atOverview">
+			<div class="pfs-pagination form-group">
+				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
+			</div>
+			<div>
+				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
+			</div>
+			
+			<div class="col-xs-12">
+				<h4>Basic</h4>
+			</div>
+			<div class="col-xs-12 scenario">
+				<span class="col-xs-12">#0-1 Silent Tide</span>
+				<div>
+					<span class="col-xs-3">PFS: V</span>
+					<span class="col-xs-3">PFS GM: -</span>
+					<span class="col-xs-3">CORE: -</span> 
+					<span class="col-xs-3">CORE GM: V</span>
+				</div>   
+			</div>
+			<div class="col-xs-12">
+				<h4>Advanced</h4>
+			</div>			
+			<div class="col-xs-12 scenario">
+				<span class="col-xs-12">#0-1 Silent Tide</span>
+				<div>
+					<div class="col-xs-3">PFS: 3 times
+					<ul>
+						<li>Wulfgar - 2015-12-02</li>
+						<li>Assyra - 2013-10-01</li>
+						<li>Tomlin - 2012-02-12</li>
+					</ul></div>
+					<span class="col-xs-3">PFS GM: -</span>
+					<span class="col-xs-3">CORE: -</span> 
+					<div class="col-xs-3">CORE GM: 2 times
+						<ul>
+							<li>Wulfgar - 2015-12-02</li>
+							<li>Assyra - 2013-10-01</li>
+						</ul>
+					</div>
+				</div>   
+			</div>						
+			<div class="pfs-pagination">
+				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
+			</div>
+		</div>	
+	</div>
+</div>
