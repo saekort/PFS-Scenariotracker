@@ -96,7 +96,7 @@ class Statistic extends DataMapper {
 	
 	public function generate_all()
 	{
-		$types = array('played_most', 'evergreen', 'player_complete_pfs', 'gm_complete_pfs', 'player_complete_core', 'gm_complete_core');
+		$types = array('played_most', 'evergreen', 'player_complete_pfs', 'gm_complete_pfs', 'player_complete_core', 'gm_complete_core','totals');
 		
 		foreach($types as $type)
 		{
@@ -154,7 +154,7 @@ class Statistic extends DataMapper {
 				$number++;
 			}
 		}
-		else
+		elseif(in_array($type, $person_options))
 		{
 			// This is a person based statistic
 			$people = new Person();
@@ -186,7 +186,6 @@ class Statistic extends DataMapper {
 					$scenarios = $person->scenarios->where_join_field('players', 'core_gm IS NOT NULL', NULL, FALSE)->where('archived IS NULL', NULL)->get();
 					$options[$person->id] = $scenarios->result_count();
 				}								
-				
 			}			
 			
 			// Sort
@@ -213,6 +212,58 @@ class Statistic extends DataMapper {
 				$number++;
 			}			
 		}
+		elseif($type == 'totals')
+		{
+			// Number
+			// 1: Accounts
+			// 2: Countries
+			// 3: Scenarios reported
+			// 4: Characters created
+			
+			// Delete old data
+			$this->where('type', $type)->get()->delete_all();
+			
+			// 1: Count total accounts
+			$totals = new Person();
+			
+			$this->clear();
+			$this->type = $type;
+			$this->number = 1;
+			$this->comment = $totals->count();
+			$this->created_on = date("Y-m-d H:i:s");			
+			$this->save();
+			
+			// 2: Count total countries
+			$totals = new Person();
+			$totals->clear();
+				
+			$this->clear();
+			$this->type = $type;
+			$this->number = 2;
+			$this->comment = $totals->select('country')->distinct('country')->where('country IS NOT NULL', null)->get()->result_count();
+			$this->created_on = date("Y-m-d H:i:s");			
+			$this->save();
+			
+			// 3: Scenarios reported
+			$reported = $this->db->get('j_scenario_person');
+			
+			$this->clear();
+			$this->type = $type;
+			$this->number = 4;
+			$this->comment = $reported->num_rows();
+			$this->created_on = date("Y-m-d H:i:s");			
+			$this->save();
+			
+			// 4: Characters created
+			$characters = new Character();
+			
+			$this->clear();
+			$this->type = $type;
+			$this->number = 4;
+			$this->comment = $characters->count();
+			$this->created_on = date("Y-m-d H:i:s");			
+			$this->save();
+		}		
 
 		return TRUE;		
 	}

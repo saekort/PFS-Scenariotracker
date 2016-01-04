@@ -124,7 +124,7 @@ class V1 extends REST_Controller
 	        // Filter: Author
 	        if($this->get('author'))
 	        {
-	        	$scenarios->like_related_authors('name', $this->get('author'))->distinct();
+	        	$scenarios->like_related('authors', 'name', $this->get('author'))->distinct();
 	        }
 	        
 	        // Filter: Level range
