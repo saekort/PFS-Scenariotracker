@@ -10,29 +10,34 @@
 			</center>
 		</div>
 	</div>
+	<div class="scenario">
+		<p><strong>Some simple statistics</strong></p>
+		<p>Did you know <strong>{{vm.statistics.totals.players}}</strong> players have registered? Those players come from <strong>{{vm.statistics.totals.countries}}</strong> countries, have reported <strong>{{vm.statistics.totals.sessions}}</strong> sessions and have created <strong>{{vm.statistics.totals.characters}}</strong> characters.</p>
+		<p><i>Check out some more specific statistics below!</i></p>	
+	</div>
 	<div class="row statistic-container">	
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
 			<strong>Most complete PFS players</strong>
 			<ol>
-				<li ng-repeat="stat in vm.statistics.player_complete_pfs">{{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
+				<li ng-repeat="stat in vm.statistics.player_complete_pfs"><img ng-if="stat.person.country != NULL" ng-src="./images/flags/{{stat.person.country | lowercase}}.svg" style="height: 15px; padding-bottom: 2px;"> {{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
 			</ol>			
 		</div>
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
 			<strong>Most complete PFS GMs</strong>
 			<ol>
-				<li ng-repeat="stat in vm.statistics.gm_complete_pfs">{{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
+				<li ng-repeat="stat in vm.statistics.gm_complete_pfs"><img ng-if="stat.person.country != NULL" ng-src="./images/flags/{{stat.person.country | lowercase}}.svg" style="height: 15px; padding-bottom: 2px;"> {{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
 			</ol>			
 		</div>			
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
 			<strong>Most complete CORE players</strong>
 			<ol>
-				<li ng-repeat="stat in vm.statistics.player_complete_core">{{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
+				<li ng-repeat="stat in vm.statistics.player_complete_core"><img ng-if="stat.person.country != NULL" ng-src="./images/flags/{{stat.person.country | lowercase}}.svg" style="height: 15px; padding-bottom: 2px;"> {{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
 			</ol>			
 		</div>		
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
 			<strong>Most complete CORE GMs</strong>
 			<ol>
-				<li ng-repeat="stat in vm.statistics.gm_complete_core">{{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
+				<li ng-repeat="stat in vm.statistics.gm_complete_core"><img ng-if="stat.person.country != NULL" ng-src="./images/flags/{{stat.person.country | lowercase}}.svg" style="height: 15px; padding-bottom: 2px;"> {{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
 			</ol>			
 		</div>		
 	</div>

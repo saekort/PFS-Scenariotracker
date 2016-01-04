@@ -845,18 +845,30 @@ class V1 extends REST_Controller
     	
     	$result = array();
     	
-    	foreach($statistics as $statistic)
+    	if($this->get('type') == 'totals')
     	{
-    		$result[$statistic->id] = $statistic->to_array();
-    		
-    		if(in_array($this->get('type'), $person_options))
+    		foreach($statistics as $statistic)
     		{
-    			$result[$statistic->id]['person'] = $statistic->person->to_array();
+    			$result[$statistic->number] = $statistic->comment;
     		}
-    		else
-    		{
-				$result[$statistic->id]['scenario'] = $statistic->scenario->to_array();
-    		}
+    	}
+    	else
+    	{
+	    	foreach($statistics as $statistic)
+	    	{
+	    		$result[$statistic->id] = $statistic->to_array();
+	    		
+	    		if(in_array($this->get('type'), $person_options))
+	    		{
+	    			$result[$statistic->id]['person']['name'] = $statistic->person->name;
+	    			$result[$statistic->id]['person']['pfsnumber'] = $statistic->person->pfsnumber;
+	    			$result[$statistic->id]['person']['country'] = $statistic->person->country;
+	    		}
+	    		else
+	    		{
+					$result[$statistic->id]['scenario'] = $statistic->scenario->to_array();
+	    		}
+	    	}
     	}
     	
     	$this->response($result, 200);
