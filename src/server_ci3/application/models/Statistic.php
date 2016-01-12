@@ -251,7 +251,7 @@ class Statistic extends DataMapper {
 			$this->type = $type;
 			$this->number = 3;
 			$this->comment = $reported->num_rows();
-			$this->created_on = date("Y-m-d H:i:s");			
+			$this->created_on = date("Y-m-d H:i:s");		
 			$this->save();
 			
 			// 4: Characters created

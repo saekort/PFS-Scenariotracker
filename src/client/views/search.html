@@ -196,33 +196,39 @@
 						<span ng-if='scenario.type == "scenario"'>#{{scenario.season}}-{{scenario.number}} </span><span ng-if='scenario.type == "quest"'>S{{scenario.season}} </span>{{scenario.name}}
 						<span class="authors">by </span><span class="authors" ng-show="scenario.authors.length == 0">Unknown</span><span class="authors" ng-repeat="author in scenario.authors">{{$first ? '' : $last ? ' and ' : ', '}}{{author}}</span>
 						<span ng-show="scenario.collapsed" class="pull-right glyphicon glyphicon-triangle-top toggle_description" ng-click="scenario.collapsed = !scenario.collapsed" tooltip="Toggle description"></span>
-						<span ng-show="!scenario.collapsed" class="pull-right glyphicon glyphicon-triangle-bottom toggle_description" ng-click="scenario.collapsed = !scenario.collapsed" tooltip="Toggle description"></span>						
+						<span ng-show="!scenario.collapsed" class="pull-right glyphicon glyphicon-triangle-bottom toggle_description" ng-click="scenario.collapsed = !scenario.collapsed" tooltip="Toggle description"></span>
 					</div>
-					<span>Tier: <span ng-show="!scenario.tier">Unknown</span>{{scenario.tier}}</span>
+					<span>Tier: <span ng-show="!scenario.tier">Unknown</span>{{scenario.tier}}</span>					
 					<span ng-if='scenario.link'>| Link: <a href="{{scenario.link}}" target="_blank">Paizo store</a></span>
+					<span ng-show="vm.gm || scenario.played">|
+						<span class="toggle_description" ng-show="scenario.playedinfo" ng-click="scenario.playedinfo = !scenario.playedinfo" tooltip="Toggle played info"><span class="glyphicon glyphicon-triangle-top"></span> Toggle played info</span>					
+						<span class="toggle_description" ng-show="!scenario.playedinfo" ng-click="scenario.playedinfo = !scenario.playedinfo" tooltip="Toggle played info"><span class="glyphicon glyphicon-triangle-bottom"></span> Toggle played info</span>
+					</span>					
 					<span collapse="scenario.collapsed"><br>{{scenario.description}}</span>
-					<div ng-show="vm.gm">
-						<span class="col-xs-12 search_played search_played_gm col-sm-4"><span class="glyphicon glyphicon-bookmark"></span> <strong>{{vm.gm.name}} ({{vm.gm.pfsnumber}})</strong></span>
-						<span ng-hide="scenario.gm[vm.gm.pfsnumber].pfs" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-						<span ng-show="scenario.gm[vm.gm.pfsnumber].pfs" class="col-xs-3 col-sm-2 search_played search_played_played">PFS: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].pfs | limitTo: 10}}"></span></span>
-						<span ng-hide="scenario.gm[vm.gm.pfsnumber].pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-						<span ng-show="scenario.gm[vm.gm.pfsnumber].pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_played">PFS GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].pfs_gm | limitTo: 10}}"></span></span>
-						<span ng-hide="scenario.gm[vm.gm.pfsnumber].core" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-						<span ng-show="scenario.gm[vm.gm.pfsnumber].core" class="col-xs-3 col-sm-2 search_played search_played_played">CORE: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].core | limitTo: 10}}"></span></span>
-						<span ng-hide="scenario.gm[vm.gm.pfsnumber].core_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-						<span ng-show="scenario.gm[vm.gm.pfsnumber].core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].core_gm | limitTo: 10}}"></span></span>						
-					</div>					
-					<div ng-show="player.player" ng-repeat="player in scenario.played">
-						<span class="col-xs-12 search_played search_played_player col-sm-4"><span class="glyphicon glyphicon-user"></span> <strong>{{player.player}}</strong></span>
-						<span ng-hide="player.pfs" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-						<span ng-show="player.pfs" class="col-xs-3 col-sm-2 search_played search_played_played">PFS: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.pfs | limitTo: 10}}"></span></span>
-						<span ng-hide="player.pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-						<span ng-show="player.pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_played">PFS GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.pfs_gm | limitTo: 10}}"></span></span>
-						<span ng-hide="player.core" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-						<span ng-show="player.core" class="col-xs-3 col-sm-2 search_played search_played_played">CORE: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.core | limitTo: 10}}"></span></span>
-						<span ng-hide="player.core_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-						<span ng-show="player.core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.core_gm | limitTo: 10}}"></span></span>						
-					</div>
+					<span collapse="!scenario.playedinfo">
+						<div ng-show="vm.gm">
+							<span class="col-xs-12 search_played search_played_gm col-sm-4"><span class="glyphicon glyphicon-bookmark"></span> <strong>{{vm.gm.name}} ({{vm.gm.pfsnumber}})</strong></span>
+							<span ng-hide="scenario.gm[vm.gm.pfsnumber].pfs" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+							<span ng-show="scenario.gm[vm.gm.pfsnumber].pfs" class="col-xs-3 col-sm-2 search_played search_played_played">PFS: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].pfs | limitTo: 10}}"></span></span>
+							<span ng-hide="scenario.gm[vm.gm.pfsnumber].pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+							<span ng-show="scenario.gm[vm.gm.pfsnumber].pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_played">PFS GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].pfs_gm | limitTo: 10}}"></span></span>
+							<span ng-hide="scenario.gm[vm.gm.pfsnumber].core" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+							<span ng-show="scenario.gm[vm.gm.pfsnumber].core" class="col-xs-3 col-sm-2 search_played search_played_played">CORE: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].core | limitTo: 10}}"></span></span>
+							<span ng-hide="scenario.gm[vm.gm.pfsnumber].core_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+							<span ng-show="scenario.gm[vm.gm.pfsnumber].core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].core_gm | limitTo: 10}}"></span></span>						
+						</div>					
+						<div ng-show="player.player" ng-repeat="player in scenario.played">
+							<span class="col-xs-12 search_played search_played_player col-sm-4"><span class="glyphicon glyphicon-user"></span> <strong>{{player.player}}</strong></span>
+							<span ng-hide="player.pfs" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+							<span ng-show="player.pfs" class="col-xs-3 col-sm-2 search_played search_played_played">PFS: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.pfs | limitTo: 10}}"></span></span>
+							<span ng-hide="player.pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+							<span ng-show="player.pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_played">PFS GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.pfs_gm | limitTo: 10}}"></span></span>
+							<span ng-hide="player.core" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+							<span ng-show="player.core" class="col-xs-3 col-sm-2 search_played search_played_played">CORE: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.core | limitTo: 10}}"></span></span>
+							<span ng-hide="player.core_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+							<span ng-show="player.core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.core_gm | limitTo: 10}}"></span></span>						
+						</div>
+					</span>
 				</div>
 			</div>
 		</div>
