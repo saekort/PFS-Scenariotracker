@@ -7,22 +7,22 @@
 		</div>
 	</div>
 	<div class="row scenario">
-		<h2>Profile</h2>
-		<strong class="dangerzone" ng-show="vm.profileUpdated">Profile information successfully updated</strong>
-		<p>Edit your profile information here.</p>
+		<h2 translate>Profile</h2>
+		<strong class="dangerzone" ng-show="vm.profileUpdated"translate>Profile information successfully updated</strong>
+		<p translate>Edit your profile information here.</p>
 		<form class="form-horizontal" name="updateProfile">
 			<div class="register">				
-				<p>Your username does not need to be unique, use the name that your fellow pathfinders know you by.</p>
-				<label class="control-label">Username</label>
-				<input id="playername" class="playerselect form-control" placeholder="Add your username here" required ng-model="vm.playername">
+				<p translate>Your username does not need to be unique, use the name that your fellow pathfinders know you by.</p>
+				<label class="control-label" translate>Username</label>
+				<input id="playername" class="playerselect form-control" placeholder="{{'Add your username here'|translate}}" required ng-model="vm.playername">
 			</div>
 			<div class="register">
-				<label class="control-label">PFS number</label>
-				<input id="playernumber" class="playerselect form-control" ng-change="vm.checkPfsnumber()" placeholder="PFS number" required ng-model="vm.pfsnumber">
-				<span class="red" ng-show="vm.invalidpfsnumber">PFS number is already registered, use a different one</span>
+				<label class="control-label" translate>PFS number</label>
+				<input id="playernumber" class="playerselect form-control" ng-change="vm.checkPfsnumber()" placeholder="{{'PFS number'|translate}}" required ng-model="vm.pfsnumber">
+				<span class="red" ng-show="vm.invalidpfsnumber" translate>PFS number is already registered, use a different one</span>
 			</div>
 			<div class="register">
-				<label class="control-label">Country (optional)</label>
+				<label class="control-label" translate>Country (optional)</label>
 				<select class="form-control" ng-options="country.name for country in vm.countries" ng-model="vm.country" style="width:30%">
 					<option value="" selected hidden />
 				</select>
@@ -30,36 +30,36 @@
 			<div class="checkbox">
 				<input id="scenarios" type="checkbox" ng-model="vm.playerreporting">
 				<label class="report-title" for="scenarios"></label>
-				<b>Others may report for me</b>
+				<b translate>Others may report for me</b>
 			</div>
-			<p>If you check this box, other people (for example your GM) may report the scenarios that you have played.</p>
+			<p translate>If you check this box, other people (for example your GM) may report the scenarios that you have played.</p>
 			<div class="register">
-				<button class="button" ng-disabled="!vm.playername || !vm.pfsnumber || vm.invalidpfsnumber" ng-click="vm.savePlayer()">Update profile</button>
+				<button class="button" ng-disabled="!vm.playername || !vm.pfsnumber || vm.invalidpfsnumber" ng-click="vm.savePlayer()" translate>Update profile</button>
 			</div>
 		</form>	
 		<form name="changePassword">
 			<hr>
-			<p><strong class="dangerzone">Danger zone (this will reset your password)</strong></p>
-			<p>Note: The new password cannot be the same as the old password.</p>			
+			<p><strong class="dangerzone" translate>Danger zone (this will reset your password)</strong></p>
+			<p translate>Note: The new password cannot be the same as the old password.</p>
 			<div class="register">
-				<label class="control-label">Old password</label> 
-				<input id="old_password" type="password" name="old_password" class="playerselect form-control" placeholder="Old password"
+				<label class="control-label" translate>Old password</label>
+				<input id="old_password" type="password" name="old_password" class="playerselect form-control" placeholder="{{'Old password'|translate}}"
 					ng-model="vm.old_password" data-ng-class="{'ng-invalid':changePassword.confirmPassword.$error.match}" pattern=".{8,20}">
 			</div>						
 			<div class="register">
-				<label class="control-label">New password</label> 
-				<input id="password" type="password" name="password" class="playerselect form-control" placeholder="Password"
+				<label class="control-label" translate>New password</label>
+				<input id="password" type="password" name="password" class="playerselect form-control" placeholder="{{'Password'|translate}}"
 					ng-model="vm.playerpassword" data-ng-class="{'ng-invalid':changePassword.confirmPassword.$error.match}" pattern=".{8,20}">
 			</div>
 			<div class="register">
-				<label class="control-label">Repeat new password</label> 
-				<input id="password" type="password" name="confirmPassword" class="playerselect form-control" placeholder="Repeat password" ng-model="vm.checkpassword" match="vm.playerpassword">
+				<label class="control-label" translate>Repeat new password</label>
+				<input id="password" type="password" name="confirmPassword" class="playerselect form-control" placeholder="{{'Repeat password'|translate}}" ng-model="vm.checkpassword" match="vm.playerpassword">
 			</div>
-			<div class="red" data-ng-show="changePassword.confirmPassword.$error.match">Passwords do not match!</div>
-			<div class="red" ng-show="changePassword.password.$error.pattern">Password should be between 8 and 20 characters!</div>
-			<strong class="red" ng-show="vm.changedPassword">Password changed</strong>
+			<div class="red" data-ng-show="changePassword.confirmPassword.$error.match" translate>Passwords do not match!</div>
+			<div class="red" ng-show="changePassword.password.$error.pattern" translate>Password should be between 8 and 20 characters!</div>
+			<strong class="red" ng-show="vm.changedPassword" translate>Password changed</strong>
 			<div style="padding-top: 10px;">
-				<button class="button" ng-disabled="changePassword.confirmPassword.$error.match || changePassword.password.$error.pattern" ng-click="vm.changePassword()">Update password</button>
+				<button class="button" ng-disabled="changePassword.confirmPassword.$error.match || changePassword.password.$error.pattern" ng-click="vm.changePassword()" translate>Update password</button>
 			</div>
 		</form>	
 	</div>

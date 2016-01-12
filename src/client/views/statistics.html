@@ -5,32 +5,32 @@
 		<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
 			<ng-include src="'./views/partials/logo.html'"></ng-include>
 			<center>
-				<h2>Statistics</h2>
-				<span>(Last updated on: <i>{{vm.lastupdated}})</i></span>
+				<h2 translate>Statistics</h2>
+				<span translate>(Last updated on: <i>{{vm.lastupdated}})</i></span>
 			</center>
 		</div>
 	</div>
 	<div class="row statistic-container">	
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<strong>Most complete PFS players</strong>
+			<strong translate>Most complete PFS players</strong>
 			<ol>
 				<li ng-repeat="stat in vm.statistics.player_complete_pfs">{{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
 			</ol>			
 		</div>
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<strong>Most complete PFS GMs</strong>
+			<strong translate>Most complete PFS GMs</strong>
 			<ol>
 				<li ng-repeat="stat in vm.statistics.gm_complete_pfs">{{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
 			</ol>			
 		</div>			
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<strong>Most complete CORE players</strong>
+			<strong translate>Most complete CORE players</strong>
 			<ol>
 				<li ng-repeat="stat in vm.statistics.player_complete_core">{{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
 			</ol>			
 		</div>		
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<strong>Most complete CORE GMs</strong>
+			<strong translate>Most complete CORE GMs</strong>
 			<ol>
 				<li ng-repeat="stat in vm.statistics.gm_complete_core">{{stat.person.name}} - {{stat.person.pfsnumber}} <i>({{stat.comment}})</i></li>
 			</ol>			
@@ -38,13 +38,13 @@
 	</div>
 	<div class="row statistic-container">
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<strong>Most played</strong>
+			<strong translate>Most played</strong>
 			<ol>
 				<li ng-repeat="stat in vm.statistics.played_most">{{stat.scenario.name}} <i>({{stat.comment}} times)</i></li>
 			</ol>
 		</div>
 		<div class="statistic col-lg-3 col-md-4 col-sm-6 col-xs-12">
-			<strong>Favorite evergreens</strong>
+			<strong translate>Favorite evergreens</strong>
 			<ol>
 				<li ng-repeat="stat in vm.statistics.evergreen">{{stat.scenario.name}} <i>({{stat.comment}} times)</i></li>
 			</ol>			

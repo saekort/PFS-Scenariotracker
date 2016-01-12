@@ -10,50 +10,50 @@
 		</h2>
 			<form>
 				<div class="form-group has-feedback">
-					<label for="scenarioSelect">Scenario name</label>
-					<input type="text" class="form-control" id="scenarioSelect" ng-model="vm.filters.search" ng-change="vm.getScenarios()" ng-model-options="{debounce: 300}" placeholder="Search scenarios">
+					<label for="scenarioSelect" translate>Scenario name</label>
+					<input type="text" class="form-control" id="scenarioSelect" ng-model="vm.filters.search" ng-change="vm.getScenarios()" ng-model-options="{debounce: 300}" placeholder="{{'Search scenarios'|translate}}">
 					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
 				</div>			
 				<div class="form-group filter">
-					<strong>Player level range</strong><br>					
+					<strong translate>Player level range</strong><br>
 					<div class="form-inline">
 						<div class="form-group">
-							<label for="lowestPlayerLevel">Lowest</label>
+							<label for="lowestPlayerLevel" translate>Lowest</label>
 							<select class="form-control" ng-options="level for level in vm.filters.levels" ng-model="vm.filters.lowestPlayerLevel" ng-change="vm.getScenarios()"></select>
 						</div>
 						<div class="form-group" ng-show="vm.filters.lowestPlayerLevel != ''">
-							<label for="highestPlayerLevel">Highest</label>
+							<label for="highestPlayerLevel" translate>Highest</label>
 							<select class="form-control" ng-options="level for level in vm.filters.levels" ng-model="vm.filters.highestPlayerLevel" ng-change="vm.getScenarios()"></select>
 						</div>
 					</div>
 				</div>
 				<div class="form-group filter">
-					<strong>Include</strong><br>
+					<strong translate>Include</strong><br>
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						<div class="checkbox">
 							<input id="scenarios" type="checkbox" ng-model="vm.filters.scenarios" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="scenarios"></label>
-							<span class="report-title"><span class="glyphicon glyphicon-file scenarioicon"></span> Scenarios</span>
+							<span class="report-title"><span class="glyphicon glyphicon-file scenarioicon"></span> <translate>Scenarios</translate></span>
 						</div>
 						<div class="checkbox">
 							<input id="quest" type="checkbox" ng-model="vm.filters.quests" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="quest"></label>
-							<span class="report-title"><span class="glyphicon glyphicon-tent quest"></span> Quests</span>
+							<span class="report-title"><span class="glyphicon glyphicon-tent quest"></span> <translate>Quests</translate></span>
 						</div>								
 						<div class="checkbox">
 							<input id="modules" type="checkbox" ng-model="vm.filters.modules" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="modules"></label>
-							<span class="report-title"><span class="glyphicon glyphicon-tower modules"></span> Modules</span>
+							<span class="report-title"><span class="glyphicon glyphicon-tower modules"></span> <translate>Modules</translate></span>
 						</div>
 						<div class="checkbox">
 							<input id="aps" type="checkbox" ng-model="vm.filters.aps" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="aps"></label>
-							<span class="report-title"><span class="glyphicon glyphicon-globe aps"></span> Adventure paths</span>
+							<span class="report-title"><span class="glyphicon glyphicon-globe aps"></span> <translate>Adventure paths</translate></span>
 						</div>						
 					</div>						
 				</div>				
 				<div class="form-group filter">
-					<strong>Season</strong><br>
+					<strong translate>Season</strong><br>
 				 	<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
 						<div class="checkbox" ng-repeat="season in vm.filters.seasons | filter: {col: 1}">
 							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="season.checked" value="{{season.key}}" ng-click="vm.getScenarios()">
@@ -84,42 +84,42 @@
 					</div>						
 				</div>
 				<div class="form-group filter">
-					<strong>Type campaign</strong><br>
+					<strong translate>Type campaign</strong><br>
 					<div class="col-xs-6 col-sm-12 col-md-6">
 						<input id="type_pfs" type="radio" name="campaign" value="pfs" ng-model="vm.filters.campaign" ng-click="vm.getScenarios()">
 						<label for="type_pfs" class=""></label>
-						<span class="report-title">PFS</span>
+						<span class="report-title" translate>PFS</span>
 					</div>
 					<div class="col-xs-6 col-sm-12 col-md-6">						
 						<input id="type_core" type="radio" name="campaign" value="core" ng-model="vm.filters.campaign" ng-click="vm.getScenarios()">
 						<label for="type_core" class=""></label>
-						<span class="report-title">Core</span>
+						<span class="report-title" translate>Core</span>
 					</div>
 				</div>
 				<div class="form-group has-feedback">
-					<label for="authorSelect">Author</label>
+					<label for="authorSelect" translate>Author</label>
 					
 					<input id="authorSelect" class="form-control" ng-model="vm.filters.author" typeahead="author for author in vm.getAuthors($viewValue)" typeahead-min-length="1" 
-						placeholder="Search authors" ng-change="vm.getScenarios()" typeahead-on-select="vm.getScenarios()" ng-model-options="{debounce: 300}">
+						placeholder="{{'Search authors'|translate}}" ng-change="vm.getScenarios()" typeahead-on-select="vm.getScenarios()" ng-model-options="{debounce: 300}">
 					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey; margin-top: 10px;"></i>
 				</div>				
 				<div class="form-group filter">
-					<strong>Other:</strong><br>
+					<strong translate>Other:</strong><br>
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 						<div class="checkbox">
 							<input id="evergreen" type="checkbox" ng-model="vm.filters.evergreen" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="evergreen"></label>
-							<span class="report-title"><span class="glyphicon glyphicon-leaf evergreen"></span> Only evergreens</span>
+							<span class="report-title"><span class="glyphicon glyphicon-leaf evergreen"></span> <translate>Only evergreens</translate></span>
 						</div>
 						<div class="checkbox">
 							<input id="specials" type="checkbox" ng-model="vm.filters.specials" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="specials"></label>
-							<span class="report-title"><span class="glyphicon glyphicon-star special"></span> Include multi-table specials</span>
+							<span class="report-title"><span class="glyphicon glyphicon-star special"></span> <translate>Include multi-table specials</translate></span>
 						</div>						
 						<div class="checkbox">
 							<input id="retired" type="checkbox" ng-model="vm.filters.retired" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="retired"></label>
-							<span class="report-title"><span class="glyphicon glyphicon-remove archived"></span> Include retired scenarios</span>
+							<span class="report-title"><span class="glyphicon glyphicon-remove archived"></span> <translate>Include retired scenarios</translate></span>
 						</div>						
 					</div>						
 				</div>
@@ -134,16 +134,16 @@
 						<div class="input-group has-feedback playersearch"  style="width: 340px;">
 							<input id="playersearch" class="search form-control" ng-model="vm.filters.playersearch" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="2" 
 								typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" 
-								typeahead-on-select="vm.addPlayer()" placeholder="Search for players"">
+								typeahead-on-select="vm.addPlayer()" placeholder="{{'Search for players'|translate}}">
 							<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey; margin-right:62px"></i>
 							<span class="input-group-btn">
-								<button class="button" ng-click="vm.addPlayer()">Add</button>
+								<button class="button" ng-click="vm.addPlayer()" translate>Add</button>
 							</span>
 						</div>
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="sortOptions">Sort: </label>
+					<label for="sortOptions" translate>Sort: </label>
 					<select id="sortOptions" class="form-control" ng-model="vm.sorting" ng-options="option.label for option in vm.sortoptions" ng-change="vm.getScenarios()"></select>
 				</div>
 				<span ng-controller="HelpController as help">
@@ -154,11 +154,11 @@
 		</div>
 
 		<div class="row">
-			<div ng-show="vm.people.length > 0" class="filtering"><strong>Filtering:</strong> 
+			<div ng-show="vm.people.length > 0" class="filtering"><strong translate>Filtering:</strong>
 				<span ng-repeat="person in vm.people">
 					<span ng-click="vm.removePlayer($index)" class="filter_player label label-default color-background-dark">{{person.name}} ({{person.pfsnumber}})</span>&nbsp;
 				</span>
-				<span>(click player to remove)</span>
+				<span translate>(click player to remove)</span>
 			</div>
 		</div>		
 
@@ -167,33 +167,33 @@
 				</div>
 			</form>
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info color-background-light">Found a total of <strong>{{vm.pagination.totalItems}}</strong> scenarios<span ng-hide="vm.people.length == 0"> in the <strong>{{vm.filters.campaign}} campaign</strong> not yet played by any filtered players</span></div>		
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info color-background-light" ng-show="vm.noScenarios">No playable options were found. Try changing your search filters or selected players.</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info color-background-light" ><translate>Found a total of</translate> <strong>{{vm.pagination.totalItems}}</strong> <translate>scenarios</translate><span ng-hide="vm.people.length == 0"> <translate>in the</translate> <strong>{{vm.filters.campaign}} <translate>campaign</translate></strong> <translate>not yet played by any filtered players</translate></span></div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info color-background-light" ng-show="vm.noScenarios" translate>No playable options were found. Try changing your search filters or selected players.</div>
 			<div>
 				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
 			</div>
 			<div ng-repeat="scenario in vm.scenarios">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scenario"> 
 					<div class="title">
-						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower modules question" tooltip="This is a module, it is longer then a scenario, but rewards more experience"></span>
-						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe aps question" tooltip="This is an adventure path, it is longer then a scenario, but rewards more experience"></span>													
-						<span ng-if='scenario.type == "scenario" && scenario.number != "Q"' class="glyphicon glyphicon-file scenarioicon question" tooltip="This is a scenario, a 4-5 hour Pathfinder Society experience"></span>
-						<span ng-if='scenario.name.indexOf("Special") > -1' class="glyphicon glyphicon glyphicon-star special question" tooltip="This is a multi table special, it is special and will only be available for play on conventions"></span>						
-						<span ng-if='scenario.type == "quest"' class="glyphicon glyphicon-tent quest question" tooltip="This is a quest, a series of 1 hour Pathfinder Society scenarios well suited for new players"></span>
-						<span ng-if='scenario.evergreen == 1' class="glyphicon glyphicon-leaf evergreen question" tooltip="This is a evergreen, you can play it more then once"></span>
-						<span ng-if='scenario.archived != NULL' class="glyphicon glyphicon-remove archived question" tooltip="You cannot play this scenario for credit, it was retired on {{scenario.archived | limitTo: 10 : 0}}"></span>						
+						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower modules question" tooltip="{{'This is a module, it is longer then a scenario, but rewards more experience'|translate}}"></span>
+						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe aps question" tooltip="{{'This is an adventure path, it is longer then a scenario, but rewards more experience'|translate}}"></span>
+						<span ng-if='scenario.type == "scenario" && scenario.number != "Q"' class="glyphicon glyphicon-file scenarioicon question" tooltip="{{'This is a scenario, a 4-5 hour Pathfinder Society experience'|translate}}"></span>
+						<span ng-if='scenario.name.indexOf("Special") > -1' class="glyphicon glyphicon glyphicon-star special question" tooltip="{{'This is a multi table special, it is special and will only be available for play on conventions'|translate}}"></span>
+						<span ng-if='scenario.type == "quest"' class="glyphicon glyphicon-tent quest question" tooltip="{{'This is a quest, a series of 1 hour Pathfinder Society scenarios well suited for new players'|translate}}"></span>
+						<span ng-if='scenario.evergreen == 1' class="glyphicon glyphicon-leaf evergreen question" tooltip="{{'This is a evergreen, you can play it more then once'|translate}}"></span>
+						<span ng-if='scenario.archived != NULL' class="glyphicon glyphicon-remove archived question" tooltip="{{'You cannot play this scenario for credit, it was retired on'|translate}}{{scenario.archived | limitTo: 10 : 0}}"></span>
 						<span ng-if='scenario.type == "scenario"'>#{{scenario.season}}-{{scenario.number}} </span><span ng-if='scenario.type == "quest"'>S{{scenario.season}} </span>{{scenario.name}}
-						<span class="authors">by </span><span class="authors" ng-show="scenario.authors.length == 0">Unknown</span><span class="authors" ng-repeat="author in scenario.authors">{{$first ? '' : $last ? ' and ' : ', '}}{{author}}</span>
-						<button class="button pull-right" ng-click="scenario.collapsed = !scenario.collapsed">Toggle description</button>
+						<span class="authors">by </span><span class="authors" ng-show="scenario.authors.length == 0" translate>Unknown</span><span class="authors" ng-repeat="author in scenario.authors">{{$first ? '' : $last ? ' and ' : ', '}}{{author}}</span>
+						<button class="button pull-right" ng-click="scenario.collapsed = !scenario.collapsed" translate>Toggle description</button>
 					</div>	
-					<span>Tier: <span ng-show="!scenario.tier">Unknown</span>{{scenario.tier}}</span>
-					<span ng-if='scenario.link'>| Link: <a href="{{scenario.link}}" target="_blank">Paizo store</a></span>
+					<span>Tier: <span ng-show="!scenario.tier" translate>Unknown</span>{{scenario.tier}}</span>
+					<span ng-if='scenario.link'>| <translate>Link:</translate> <a href="{{scenario.link}}" target="_blank" translate>Paizo store</a></span>
 					<span collapse="scenario.collapsed"><br>{{scenario.description}}</span>						
 				</div>
 			</div>			
 		</div>
 			<div class="pfs-pagination">
-				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></pagination>
+				<pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="{{'Previous'|translate}}" next-text="{{'Next'|translate}}" first-text="{{'First'|translate}}" last-text="{{'Last'|translate}}" ng-change="vm.changePage()"></pagination>
 			</div>		
 	</div>
 </div>

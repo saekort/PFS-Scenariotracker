@@ -4,8 +4,120 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Project-Id-Version: \n"
 
+#: src/client/views/search.html:161
+msgid "(click player to remove)"
+msgstr ""
+
+#: src/client/views/statistics.html:9
+msgid "(Last updated on: <i>{{vm.lastupdated}})</i>"
+msgstr ""
+
+#: src/client/views/report.html:93
+msgid "(Retired)"
+msgstr ""
+
+#: src/client/views/register.html:14
+msgid "<strong>Important:</strong> If you used to have a column in the old Google spreadsheet then do <strong>not</strong> register. Instead mail to simon dot kort @ gmail dot com and state your email address and pfsnumber. Your account will then be claimed and you will not lose any data."
+msgstr ""
+
 #: src/client/views/partials/nav.html:26
 msgid "About"
+msgstr ""
+
+#: src/client/views/issues.html:14
+msgid "Actually always include evergreens even if players have already played them, maybe with option to turn it off and exclude them anyway"
+msgstr ""
+
+#: src/client/views/search.html:140
+msgid "Add"
+msgstr ""
+
+#: src/client/views/issues.html:15
+msgid "Add authors to all content"
+msgstr ""
+
+#: src/client/views/issues.html:49
+msgid "Add quests neatly to report categories -> They are now listed under the season they are a part of"
+msgstr ""
+
+#: src/client/views/issues.html:31
+msgid "Add support for the Pathfinder adventure cardgame"
+msgstr ""
+
+#: src/client/views/register.html:40
+msgid "Add your name here"
+msgstr ""
+
+#: src/client/views/profile.html:17
+msgid "Add your username here"
+msgstr ""
+
+#: src/client/views/issues.html:53
+msgid "Added 'retired' to retired scenarios at the report page"
+msgstr ""
+
+#: src/client/views/issues.html:56
+msgid "Added a 'about' page with the community use disclaimer"
+msgstr ""
+
+#: src/client/views/issues.html:51
+msgid "Added a 'other' filter for specials. By default they are not included in searches, but you can toggle it on"
+msgstr ""
+
+#: src/client/views/issues.html:54
+msgid "Added a filter for quests and introduced a icon for them"
+msgstr ""
+
+#: src/client/views/issues.html:42
+msgid "Added autoscrolling to top when changing pages"
+msgstr ""
+
+#: src/client/views/issues.html:41
+msgid "Added country option to profile and use of flag icons in several places"
+msgstr ""
+
+#: src/client/views/issues.html:61
+msgid "Added grand total to player progress pages"
+msgstr ""
+
+#: src/client/views/issues.html:73
+msgid "Added known issues page"
+msgstr ""
+
+#: src/client/views/issues.html:58
+msgid "Added level range select rework"
+msgstr ""
+
+#: src/client/views/issues.html:72
+msgid "Added search by author"
+msgstr ""
+
+#: src/client/views/issues.html:64
+msgid "Added sorting options"
+msgstr ""
+
+#: src/client/views/issues.html:39
+msgid "Added store links to all content"
+msgstr ""
+
+#: src/client/views/issues.html:66
+msgid "Added suggestions for authors filter"
+msgstr ""
+
+#: src/client/views/issues.html:67
+msgid "Added support for adventure paths and modules"
+msgstr ""
+
+#: src/client/views/issues.html:68
+msgid "Added support for links to the paizo store"
+msgstr ""
+
+#: src/client/views/issues.html:69
+msgid "Added The Emerald Spire"
+msgstr ""
+
+#: src/client/views/search.html:51
+msgid "Adventure paths"
 msgstr ""
 
 #: src/client/views/partials/help_report.html:13
@@ -17,7 +129,48 @@ msgid "Are you sure?"
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:27
+#: src/client/views/search.html:100
 msgid "Author"
+msgstr ""
+
+#: src/client/views/report.html:59
+msgid "because he/she has chosen to allow public reporting in his/her profile."
+msgstr ""
+
+#: src/client/views/report.html:56
+msgid "because he/she has not allowed public reporting in his/her profile."
+msgstr ""
+
+#: src/client/views/issues.html:10
+msgid "Before you report something as a bug please force refresh your browser to download all the latest files. Sometimes browsers cache, which is totally not cool!"
+msgstr ""
+
+#: src/client/views/issues.html:43
+msgid "Bugfix: Add hand cursor to checkboxes when hovering"
+msgstr ""
+
+#: src/client/views/issues.html:59
+msgid "Bugfix: Fixed a sorting bug where numbers would sort like: 0,1,11,12,13 instead of 1,2,3,4,5"
+msgstr ""
+
+#: src/client/views/issues.html:50
+msgid "Bugfix: In the pagination if there is a page with 1 scenario it is frequently left out"
+msgstr ""
+
+#: src/client/views/issues.html:70
+msgid "Bugfix: Make language usage more consistent"
+msgstr ""
+
+#: src/client/views/issues.html:71
+msgid "Bugfix: On report: If you go back to overview after reporting a scenario in a category it does not auto update"
+msgstr ""
+
+#: src/client/views/issues.html:60
+msgid "Bugfix: Untrack a player on search screen oughta be the entire button not just the X"
+msgstr ""
+
+#: src/client/views/issues.html:19
+msgid "Bugs"
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:36
@@ -32,8 +185,60 @@ msgstr ""
 msgid "By default the sessiontracker will take into account scenarios, quests, modules and adventure paths. If you are looking for content that falls into a specific category you can remove the checks to remove any content of that type from showing up."
 msgstr ""
 
+#: src/client/views/search.html:170
+msgid "campaign"
+msgstr ""
+
 #: src/client/views/partials/confirmDeleteCharacter.html:11
 msgid "Cancel"
+msgstr ""
+
+#: src/client/views/issues.html:62
+msgid "Changed the definition of a evergreen, removed 'The Emerald Spire: #2 The Cellars' and 'The Dragon's Demand (Part 1)' as evergreens"
+msgstr ""
+
+#: src/client/views/issues.html:33
+msgid "Changelog"
+msgstr ""
+
+#: src/client/views/report.html:55
+msgid "Checking out"
+msgstr ""
+
+#: src/client/views/issues.html:47
+msgid "Completed the help texts/modals"
+msgstr ""
+
+#: src/client/views/plan.html:3
+msgid "Convention planning coming soon!"
+msgstr ""
+
+#: src/client/views/issues.html:16
+msgid "Convention support"
+msgstr ""
+
+#: src/client/views/search.html:96
+msgid "Core"
+msgstr ""
+
+#: src/client/views/report.html:103
+#: src/client/views/report.html:110
+#: src/client/views/report.html:75
+msgid "CORE GM"
+msgstr ""
+
+#: src/client/views/report.html:101
+#: src/client/views/report.html:108
+#: src/client/views/report.html:73
+msgid "CORE PC"
+msgstr ""
+
+#: src/client/views/profile.html:25
+msgid "Country (optional)"
+msgstr ""
+
+#: src/client/views/profile.html:42
+msgid "Danger zone (this will reset your password)"
 msgstr ""
 
 #: src/client/views/partials/confirmDeleteCharacter.html:10
@@ -46,16 +251,63 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
+#: src/client/views/profile.html:12
+msgid "Edit your profile information here."
+msgstr ""
+
+#: src/client/views/passwordrecover.html:14
+#: src/client/views/register.html:18
+#: src/client/views/register.html:19
+msgid "Email"
+msgstr ""
+
+#: src/client/views/login.html:13
+msgid "Email address"
+msgstr ""
+
+#: src/client/views/register.html:25
+msgid "Emails do not match!"
+msgstr ""
+
+#: src/client/views/statistics.html:47
+msgid "Favorite evergreens"
+msgstr ""
+
+#: src/client/views/issues.html:12
+msgid "Features in development"
+msgstr ""
+
 #: src/client/views/partials/help_filters.html:10
 msgid "Filter options"
+msgstr ""
+
+#: src/client/views/search.html:157
+msgid "Filtering:"
+msgstr ""
+
+#: src/client/views/search.html:196
+msgid "First"
 msgstr ""
 
 #: src/client/views/partials/help_report.html:10
 msgid "First select a player either by name or PFS number in the 'select player' bar."
 msgstr ""
 
+#: src/client/views/issues.html:37
+msgid "Fixed a bug where UTF-8 characters were not displaying search results correctly"
+msgstr ""
+
 #: src/client/views/partials/help_search.html:11
 msgid "For the players you have selected the sessiontracker will make sure to filter out any content they have already played based on what they have reported (see the report page) as having played.<br>Example: <i>Bob has played 50 scenarios, if someone selects Bob as a search criteria the sessiontracker will filter out all 50 of the scenarios Bob has played already.</i>"
+msgstr ""
+
+#: src/client/views/search.html:170
+msgid "Found a total of"
+msgstr ""
+
+#: src/client/views/report.html:126
+#: src/client/views/report.html:139
+msgid "Grand total:"
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:4
@@ -70,6 +322,10 @@ msgstr ""
 msgid "Help: Search"
 msgstr ""
 
+#: src/client/views/search.html:25
+msgid "Highest"
+msgstr ""
+
 #: src/client/views/partials/help_report.html:9
 msgid "How to report?"
 msgstr ""
@@ -78,22 +334,72 @@ msgstr ""
 msgid "How to search?"
 msgstr ""
 
+#: src/client/views/profile.html:35
+#: src/client/views/register.html:52
+msgid "If you check this box, other people (for example your GM) may report the scenarios that you have played."
+msgstr ""
+
+#: src/client/views/issues.html:23
+msgid "If you rename your account and then 'select yourself' on reporting it will not display the new name"
+msgstr ""
+
+#: src/client/views/issues.html:48
+msgid "Implement fancier tooltips, touchdevice friendly"
+msgstr ""
+
+#: src/client/views/issues.html:30
+msgid "Implement scenario finder on the report screen"
+msgstr ""
+
+#: src/client/views/issues.html:28
+msgid "Implement something like a wishlist of what to play"
+msgstr ""
+
+#: src/client/views/issues.html:44
+msgid "Implemented accounts"
+msgstr ""
+
+#: src/client/views/issues.html:46
+msgid "Implemented statistics"
+msgstr ""
+
+#: src/client/views/search.html:170
+msgid "in the"
+msgstr ""
+
 #: src/client/views/partials/help_filters.html:18
+#: src/client/views/search.html:31
 msgid "Include"
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:35
+#: src/client/views/search.html:117
 msgid "Include multi-table specials"
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:37
+#: src/client/views/search.html:122
 msgid "Include retired scenarios"
+msgstr ""
+
+#: src/client/views/issues.html:9
+msgid "Known issues"
 msgstr ""
 
 #: src/client/views/partials/nav.html:28
 msgid "Known Issues"
 msgstr ""
 
+#: src/client/views/search.html:196
+msgid "Last"
+msgstr ""
+
+#: src/client/views/search.html:190
+msgid "Link:"
+msgstr ""
+
+#: src/client/views/login.html:21
+#: src/client/views/login.html:9
 #: src/client/views/partials/nav.html:31
 msgid "Login"
 msgstr ""
@@ -102,8 +408,77 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
+#: src/client/views/search.html:21
+msgid "Lowest"
+msgstr ""
+
+#: src/client/views/search.html:46
+msgid "Modules"
+msgstr ""
+
+#: src/client/views/issues.html:57
+msgid "More styling for smaller devices done"
+msgstr ""
+
+#: src/client/views/statistics.html:33
+msgid "Most complete CORE GMs"
+msgstr ""
+
+#: src/client/views/statistics.html:27
+msgid "Most complete CORE players"
+msgstr ""
+
+#: src/client/views/statistics.html:21
+msgid "Most complete PFS GMs"
+msgstr ""
+
+#: src/client/views/statistics.html:15
+msgid "Most complete PFS players"
+msgstr ""
+
+#: src/client/views/statistics.html:41
+msgid "Most played"
+msgstr ""
+
+#: src/client/views/profile.html:50
+msgid "New password"
+msgstr ""
+
+#: src/client/views/search.html:196
+msgid "Next"
+msgstr ""
+
+#: src/client/views/login.html:23
+msgid "No account yet?"
+msgstr ""
+
+#: src/client/views/search.html:171
+msgid "No playable options were found. Try changing your search filters or selected players."
+msgstr ""
+
+#: src/client/views/search.html:170
+msgid "not yet played by any filtered players"
+msgstr ""
+
 #: src/client/views/partials/help_search.html:12
 msgid "Note: Do not add the GM to the search. You can GM a scenario more then once. In the future we might introduce some features to help out with this."
+msgstr ""
+
+#: src/client/views/profile.html:43
+msgid "Note: The new password cannot be the same as the old password."
+msgstr ""
+
+#: src/client/views/issues.html:52
+msgid "Now excluding retired scenarios from player progress"
+msgstr ""
+
+#: src/client/views/profile.html:45
+#: src/client/views/profile.html:46
+msgid "Old password"
+msgstr ""
+
+#: src/client/views/issues.html:27
+msgid "On the search screen see if players have GMed a scenario or maybe played it in the other campaign already"
 msgstr ""
 
 #: src/client/views/partials/help_report.html:8
@@ -115,7 +490,20 @@ msgid "Once you select a category you see all the content in the category and on
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:33
+#: src/client/views/search.html:112
 msgid "Only evergreens"
+msgstr ""
+
+#: src/client/views/issues.html:22
+msgid "Optimize extra small resolution layout (possibly also the small resolution layout)"
+msgstr ""
+
+#: src/client/views/report.html:33
+msgid "or"
+msgstr ""
+
+#: src/client/views/login.html:24
+msgid "Or forgot your password?"
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:30
@@ -123,8 +511,88 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
+#: src/client/views/search.html:107
+msgid "Other:"
+msgstr ""
+
+#: src/client/views/profile.html:33
+#: src/client/views/register.html:50
+msgid "Others may report for me"
+msgstr ""
+
+#: src/client/views/report.html:65
+#: src/client/views/report.html:66
+msgid "Overview"
+msgstr ""
+
+#: src/client/views/search.html:190
+msgid "Paizo store"
+msgstr ""
+
+#: src/client/views/login.html:17
+#: src/client/views/passwordreset.html:14
+#: src/client/views/passwordreset.html:15
+#: src/client/views/profile.html:51
+#: src/client/views/register.html:27
+#: src/client/views/register.html:28
+msgid "Password"
+msgstr ""
+
+#: src/client/views/profile.html:60
+msgid "Password changed"
+msgstr ""
+
+#: src/client/views/passwordrecover.html:9
+msgid "Password Recovery"
+msgstr ""
+
+#: src/client/views/passwordreset.html:9
+msgid "Password Reset"
+msgstr ""
+
+#: src/client/views/register.html:36
+msgid "Password should be between 8 and 20 characters"
+msgstr ""
+
+#: src/client/views/profile.html:59
+msgid "Password should be between 8 and 20 characters!"
+msgstr ""
+
+#: src/client/views/profile.html:58
+#: src/client/views/register.html:35
+msgid "Passwords do not match!"
+msgstr ""
+
 #: src/client/views/partials/help_filters.html:25
 msgid "Pathfinder Society has two types of campaign: 'Pathfinder Society' and 'Core'. The 'Core' campaign restricts players to use only content from the core rulebook, for more information see the current season guide. The big plus of these campaigns is that you can play a scenario twice, once in the PFS campaign and once in the CORE campaign. The sessiontracker will compare the player progress of each player with the specific campaign you are searching in.<br>Example: <i>I am looking for a nice scenario to run, but cannot find anything my 6 players have not already played. So I press 'core' and find out that most of them have not played a lot of the core campaign yet. I select a scenario and inform my players that it is the best I can do. They should not play that much!</i>"
+msgstr ""
+
+#: src/client/views/search.html:91
+msgid "PFS"
+msgstr ""
+
+#: src/client/views/report.html:102
+#: src/client/views/report.html:109
+#: src/client/views/report.html:74
+msgid "PFS GM"
+msgstr ""
+
+#: src/client/views/profile.html:20
+#: src/client/views/profile.html:21
+#: src/client/views/register.html:43
+#: src/client/views/register.html:44
+msgid "PFS number"
+msgstr ""
+
+#: src/client/views/profile.html:22
+#: src/client/views/register.html:45
+msgid "PFS number is already registered, use a different one"
+msgstr ""
+
+#: src/client/views/report.html:100
+#: src/client/views/report.html:107
+#: src/client/views/report.html:72
+msgid "PFS PC"
 msgstr ""
 
 #: src/client/views/partials/nav.html:11
@@ -136,27 +604,151 @@ msgid "Plan (NYI)"
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:15
+#: src/client/views/search.html:18
 msgid "Player level range"
 msgstr ""
 
+#: src/client/views/report.html:104
+#: src/client/views/report.html:111
+msgid "Player progress for:"
+msgstr ""
+
+#: src/client/views/passwordreset.html:12
+msgid "Please choose a new password that is at between 8 and 20 characters long. Remember strong passwords are a good thing!"
+msgstr ""
+
+#: src/client/views/report.html:18
+msgid "Please select a player"
+msgstr ""
+
+#: src/client/views/search.html:196
+msgid "Previous"
+msgstr ""
+
+#: src/client/views/profile.html:10
+msgid "Profile"
+msgstr ""
+
+#: src/client/views/profile.html:11
+msgid "Profile information successfully updated"
+msgstr ""
+
+#: src/client/views/issues.html:65
+msgid "Quality of life: When you hit enter to select a suggestion in the 'player select'(report page) or 'player search'(search page) bars it will automatically select/add the currently selected player"
+msgstr ""
+
+#: src/client/views/search.html:41
+msgid "Quests"
+msgstr ""
+
+#: src/client/views/login.html:24
+msgid "Recover it now!"
+msgstr ""
+
+#: src/client/views/issues.html:36
+msgid "Reduced the footprint of the entire tracker by about 400KB"
+msgstr ""
+
 #: src/client/views/partials/nav.html:32
+#: src/client/views/register.html:10
+#: src/client/views/register.html:54
 msgid "Register"
 msgstr ""
 
+#: src/client/views/login.html:23
+msgid "Register now!"
+msgstr ""
+
+#: src/client/views/register.html:12
+#: src/client/views/register.html:58
+msgid "Registration successful, you may now login!"
+msgstr ""
+
+#: src/client/views/issues.html:17
+msgid "Remembering your settings when closing the window"
+msgstr ""
+
+#: src/client/views/issues.html:55
+msgid "Removed subtiers from everywhere. Due to the paizo store link it is one click away and the subtiers are predictable anyway"
+msgstr ""
+
+#: src/client/views/issues.html:63
+msgid "Removed the exclusive scenarios that are no longer exclusive. They can only be played once, players who played the exclusive can register it with the normal scenario a season later"
+msgstr ""
+
+#: src/client/views/register.html:22
+#: src/client/views/register.html:23
+msgid "Repeat Email"
+msgstr ""
+
+#: src/client/views/profile.html:55
+msgid "Repeat new password"
+msgstr ""
+
+#: src/client/views/passwordreset.html:20
+#: src/client/views/profile.html:56
+#: src/client/views/register.html:33
+msgid "Repeat password"
+msgstr ""
+
+#: src/client/views/passwordreset.html:19
+#: src/client/views/register.html:32
+msgid "Repeat Password"
+msgstr ""
+
 #: src/client/views/partials/nav.html:17
+#: src/client/views/report.html:12
 msgid "Report"
 msgstr ""
 
+#: src/client/views/report.html:6
+msgid "Report categories"
+msgstr ""
+
+#: src/client/views/report.html:57
+#: src/client/views/report.html:58
+msgid "Reporting for"
+msgstr ""
+
+#: src/client/views/passwordreset.html:23
+msgid "Reset password"
+msgstr ""
+
+#: src/client/views/issues.html:25
+msgid "Roadmap (far future)"
+msgstr ""
+
 #: src/client/views/partials/help_filters.html:12
+#: src/client/views/search.html:13
 msgid "Scenario name"
+msgstr ""
+
+#: src/client/views/search.html:170
+msgid "scenarios"
+msgstr ""
+
+#: src/client/views/search.html:36
+msgid "Scenarios"
 msgstr ""
 
 #: src/client/views/partials/nav.html:18
 msgid "Search"
 msgstr ""
 
+#: src/client/views/search.html:103
+msgid "Search authors"
+msgstr ""
+
 #: src/client/views/partials/help_filters.html:28
 msgid "Search by author. You can search by one author at a time and the field also gives you suggestions as to what authors match your current searchterm. The sessiontracker will show only content written by the selected author."
+msgstr ""
+
+#: src/client/views/search.html:137
+msgid "Search for players"
+msgstr ""
+
+#: src/client/views/search.html:14
+msgid "Search scenarios"
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:13
@@ -164,10 +756,56 @@ msgid "Searches in the name of scenarios, modules, adventure paths and quests. I
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:21
+#: src/client/views/report.html:116
+#: src/client/views/report.html:133
+#: src/client/views/search.html:56
 msgid "Season"
 msgstr ""
 
+#: src/client/views/issues.html:29
+msgid "See if we can possibly report for an entire party from the search screen"
+msgstr ""
+
+#: src/client/views/report.html:98
+msgid "Select a playtype to show player progress"
+msgstr ""
+
+#: src/client/views/report.html:37
+msgid "Select by username or pfsnumber"
+msgstr ""
+
+#: src/client/views/report.html:47
+#: src/client/views/report.html:48
+msgid "Select category"
+msgstr ""
+
+#: src/client/views/report.html:31
+#: src/client/views/report.html:42
+msgid "Select yourself"
+msgstr ""
+
+#: src/client/views/passwordrecover.html:18
+msgid "Send reset email"
+msgstr ""
+
+#: src/client/views/issues.html:35
+msgid "Serious optimizations of the 'report' page for phone resolutions, not quite done"
+msgstr ""
+
+#: src/client/views/issues.html:40
+msgid "Several backend improvements for adding content options"
+msgstr ""
+
+#: src/client/views/passwordrecover.html:13
+msgid "So you forgot your password? No problem! Just fill in the email address you used to register here and we will mail you instructions on how to reset your password."
+msgstr ""
+
+#: src/client/views/search.html:146
+msgid "Sort:"
+msgstr ""
+
 #: src/client/views/partials/nav.html:25
+#: src/client/views/statistics.html:8
 msgid "Statistics"
 msgstr ""
 
@@ -177,6 +815,38 @@ msgstr ""
 
 #: src/client/views/partials/help_filters.html:31
 msgid "These are filters you will not use nearly as often:"
+msgstr ""
+
+#: src/client/views/issues.html:11
+msgid "This is a <strong>beta</strong> mail suggestions and/or bug reports to <a href=\"mailto:simon.kort@gmail.com\">Simon</a>."
+msgstr ""
+
+#: src/client/views/search.html:183
+msgid "This is a evergreen, you can play it more then once"
+msgstr ""
+
+#: src/client/views/search.html:178
+msgid "This is a module, it is longer then a scenario, but rewards more experience"
+msgstr ""
+
+#: src/client/views/search.html:181
+msgid "This is a multi table special, it is special and will only be available for play on conventions"
+msgstr ""
+
+#: src/client/views/search.html:182
+msgid "This is a quest, a series of 1 hour Pathfinder Society scenarios well suited for new players"
+msgstr ""
+
+#: src/client/views/search.html:180
+msgid "This is a scenario, a 4-5 hour Pathfinder Society experience"
+msgstr ""
+
+#: src/client/views/search.html:179
+msgid "This is an adventure path, it is longer then a scenario, but rewards more experience"
+msgstr ""
+
+#: src/client/views/plan.html:4
+msgid "This is just technology testing"
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:34
@@ -191,12 +861,47 @@ msgstr ""
 msgid "To search for scenarios and to find out who played what the sessiontracker has a lot of filters to help you narrow down your searches. Here is a quick overview of what each filter does."
 msgstr ""
 
+#: src/client/views/register.html:15
+msgid "To start reporting your own progress, please register using the form below"
+msgstr ""
+
+#: src/client/views/search.html:187
+msgid "Toggle description"
+msgstr ""
+
 #: src/client/views/partials/nav.html:6
 msgid "Toggle navigation"
 msgstr ""
 
+#: src/client/views/issues.html:45
+msgid "Tweaked the menu for smaller resolution devices"
+msgstr ""
+
 #: src/client/views/partials/help_filters.html:24
+#: src/client/views/search.html:87
 msgid "Type campaign"
+msgstr ""
+
+#: src/client/views/search.html:186
+#: src/client/views/search.html:189
+msgid "Unknown"
+msgstr ""
+
+#: src/client/views/profile.html:62
+msgid "Update password"
+msgstr ""
+
+#: src/client/views/profile.html:37
+msgid "Update profile"
+msgstr ""
+
+#: src/client/views/profile.html:16
+#: src/client/views/register.html:38
+msgid "Username"
+msgstr ""
+
+#: src/client/views/issues.html:21
+msgid "When turning the description on a scenario off again it leaves space in some browsers"
 msgstr ""
 
 #: src/client/views/partials/help_filters.html:22
@@ -207,8 +912,28 @@ msgstr ""
 msgid "You are about to delete <strong>{{confirmDelete.character.name}}</strong>. Deleting a character can not be undone!"
 msgstr ""
 
+#: src/client/views/report.html:60
+msgid "You are now reporting for yourself."
+msgstr ""
+
 #: src/client/views/partials/help_search.html:10
 msgid "You can add any number of registered players to your search queries by selecting them by name or PFS number in the search player bar. After you select one, press enter to select a second one, and so on. You can remove players from your search again by clicking/pressing their name under the add player bar."
+msgstr ""
+
+#: src/client/views/issues.html:38
+msgid "You can now manage by selecting 'my characters' from the user menu when logged in"
+msgstr ""
+
+#: src/client/views/report.html:59
+msgid "You can report for"
+msgstr ""
+
+#: src/client/views/search.html:184
+msgid "You cannot play this scenario for credit, it was retired on"
+msgstr ""
+
+#: src/client/views/report.html:56
+msgid "You cannot report for"
 msgstr ""
 
 #: src/client/views/partials/help_report.html:11
@@ -219,6 +944,15 @@ msgstr ""
 msgid "Your characters"
 msgstr ""
 
+#: src/client/views/passwordrecover.html:15
+msgid "Your email address"
+msgstr ""
+
 #: src/client/views/partials/nav.html:36
 msgid "Your profile"
+msgstr ""
+
+#: src/client/views/profile.html:15
+#: src/client/views/register.html:39
+msgid "Your username does not need to be unique, use the name that your fellow pathfinders know you by."
 msgstr ""
