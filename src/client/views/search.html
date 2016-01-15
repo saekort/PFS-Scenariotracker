@@ -10,12 +10,12 @@
 		</h2>
 		<div class="form-group">
 			<label for="sortOptions">Sort by: </label>
-			<select id="sortOptions" class="form-control" ng-model="vm.sorting" ng-options="option.label for option in vm.sortoptions" ng-change="vm.getScenarios()"></select>
+			<select id="sortOptions" class="form-control" ng-model="vm.filters.sorting" ng-options="option.label for option in vm.data.sortoptions track by option.key" ng-change="vm.getScenarios()"></select>
 		</div>		
 			<form>
 				<div class="form-group has-feedback">
 					<label for="scenarioSelect">Scenario name</label>
-					<input type="text" class="form-control" id="scenarioSelect" ng-model="vm.filters.search" ng-change="vm.getScenarios()" ng-model-options="{debounce: 300}" placeholder="Search scenarios">
+					<input type="text" class="form-control" id="scenarioSelect" ng-model="vm.search.scenario" ng-change="vm.getScenarios()" ng-model-options="{debounce: 300}" placeholder="Search scenarios">
 					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
 				</div>			
 				<div class="form-group filter">
@@ -23,11 +23,11 @@
 					<div class="form-inline">
 						<div class="form-group">
 							<label for="lowestPlayerLevel">Lowest</label>
-							<select class="form-control" ng-options="level for level in vm.filters.levels" ng-model="vm.filters.lowestPlayerLevel" ng-change="vm.getScenarios()"></select>
+							<select class="form-control" ng-options="level for level in vm.data.levels" ng-model="vm.filters.lowestPlayerLevel" ng-change="vm.getScenarios()"></select>
 						</div>
 						<div class="form-group" ng-show="vm.filters.lowestPlayerLevel != ''">
 							<label for="highestPlayerLevel">Highest</label>
-							<select class="form-control" ng-options="level for level in vm.filters.levels" ng-model="vm.filters.highestPlayerLevel" ng-change="vm.getScenarios()"></select>
+							<select class="form-control" ng-options="level for level in vm.data.levels" ng-model="vm.filters.highestPlayerLevel" ng-change="vm.getScenarios()"></select>
 						</div>
 					</div>
 				</div>
@@ -53,35 +53,35 @@
 							<input id="aps" type="checkbox" ng-model="vm.filters.aps" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="aps"></label>
 							<span class="report-title"><span class="glyphicon glyphicon-globe aps"></span> Adventure paths</span>
-						</div>						
-					</div>						
+						</div>
+					</div>
 				</div>				
 				<div class="form-group filter">
 					<strong>Season</strong><br>
 				 	<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
-						<div class="checkbox" ng-repeat="season in vm.filters.seasons | filter: {col: 1}">
-							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="season.checked" value="{{season.key}}" ng-click="vm.getScenarios()">
+						<div class="checkbox" ng-repeat="season in vm.data.seasons | filter: {col: 1}">
+							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="vm.filters.seasons[season.key]" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
 					</div>
 					<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
-						<div class="checkbox " ng-repeat="season in vm.filters.seasons | filter: {col: 2}">
-							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="season.checked" value="{{season.key}}" ng-click="vm.getScenarios()">
+						<div class="checkbox " ng-repeat="season in vm.data.seasons | filter: {col: 2}">
+							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="vm.filters.seasons[season.key]" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
 					</div>
 				 	<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
-						<div class="checkbox" ng-repeat="season in vm.filters.seasons | filter: {col: 3}">
-							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="season.checked" value="{{season.key}}" ng-click="vm.getScenarios()">
+						<div class="checkbox" ng-repeat="season in vm.data.seasons | filter: {col: 3}">
+							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="vm.filters.seasons[season.key]" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
 					</div>
 					<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
-						<div class="checkbox " ng-repeat="season in vm.filters.seasons | filter: {col: 4}">
-							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="season.checked" value="{{season.key}}" ng-click="vm.getScenarios()">
+						<div class="checkbox " ng-repeat="season in vm.data.seasons | filter: {col: 4}">
+							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="vm.filters.seasons[season.key]" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
@@ -103,7 +103,7 @@
 				<div class="form-group has-feedback">
 					<label for="authorSelect">Author</label>
 					
-					<input id="authorSelect" class="form-control" ng-model="vm.filters.author" typeahead="author for author in vm.getAuthors($viewValue)" typeahead-min-length="1" 
+					<input id="authorSelect" class="form-control" ng-model="vm.search.author" typeahead="author for author in vm.getAuthors($viewValue)" typeahead-min-length="1" 
 						placeholder="Search authors" ng-change="vm.getScenarios()" typeahead-on-select="vm.getScenarios()" ng-model-options="{debounce: 300}">
 					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey; margin-top: 10px;"></i>
 				</div>				
@@ -125,7 +125,10 @@
 							<label class="report-title" for="retired"></label>
 							<span class="report-title"><span class="glyphicon glyphicon-remove archived"></span> Include retired scenarios</span>
 						</div>						
-					</div>						
+					</div>					
+				</div>
+				<div class="form-group filter">
+					<button class="button" ng-click="vm.resetFilters()">Reset filters</button>
 				</div>
 			</form>
 	</div>             
@@ -137,7 +140,7 @@
 				<div class="form-group">
 					<div class="playersearch-container">
 						<div class="col-xs-6 input-group has-feedback playersearch"  style="width: 250px;">
-							<input id="playersearch" class="search form-control" ng-model="vm.filters.playersearch" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="2" 
+							<input id="playersearch" class="search form-control" ng-model="vm.search.player" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="2" 
 								typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" 
 								typeahead-on-select="vm.addPlayer()" placeholder="Search for players" autocomplete="off">
 							<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
@@ -147,7 +150,7 @@
 							</span> -->
 						</div>
 						<div class="col-xs-6 input-group has-feedback playersearch"  style="width: 250px;">
-							<input id="gmsearch" class="search form-control" ng-model="vm.filters.gmsearch" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="2" 
+							<input id="gmsearch" class="search form-control" ng-model="vm.search.gm" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="2" 
 								typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" 
 								typeahead-on-select="vm.addGm()" placeholder="Search for a GM" autocomplete="off">
 							<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>

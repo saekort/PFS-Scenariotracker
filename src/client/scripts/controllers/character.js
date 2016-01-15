@@ -41,7 +41,7 @@
     	vm.character.faction = '';
     	vm.character.campaign = '';
     	
-    	if(!vm.main.player)
+    	if(typeof vm.main.$storage.player === 'undefined')
     	{
     		// Not logged in, redirect
     		vm.$state.go('search');
@@ -55,7 +55,7 @@
     	var vm = this;
     	vm.usSpinnerService.spin('spinner-1');
     	
-    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'characters?pfsnumber=' + vm.main.player.pfsnumber).
+    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'characters?pfsnumber=' + vm.main.$storage.player.pfsnumber).
 	  	success(function(data, status, headers, config) {
 		  // Assign characters to model
 	  	

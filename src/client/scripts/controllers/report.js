@@ -182,7 +182,7 @@
     ReportController.prototype.selectYourself = function()
     {
     	var vm = this;
-    	vm.player = vm.main.player;
+    	vm.player = vm.main.$storage.player;
     	
     	vm.changeReportType('overview');
     	vm.getPlayerprogress('pfs');

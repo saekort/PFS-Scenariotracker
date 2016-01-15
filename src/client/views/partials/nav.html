@@ -28,9 +28,9 @@
         		<li ng-class="nav.getClass('/issues')"><a href="" ng-click="nav.goto('issues')">Known Issues</a></li>	            
 	        </ul>
 	    </li>
-	    <li ng-hide="main.api_key" ng-class="nav.getClass('/login')"><a href="" ng-click="nav.goto('login')">Login</a></li>
-        <li ng-hide="main.api_key" ng-class="nav.getClass('/register')"><a href="" ng-click="nav.goto('register')">Register</a></li>
-      	<li ng-show="main.api_key" class="dropdown" dropdown is-open="nav.profilemenu">
+	    <li ng-hide="main.$storage.api_key" ng-class="nav.getClass('/login')"><a href="" ng-click="nav.goto('login')">Login</a></li>
+        <li ng-hide="main.$storage.api_key" ng-class="nav.getClass('/register')"><a href="" ng-click="nav.goto('register')">Register</a></li>
+      	<li ng-show="main.$storage.api_key" class="dropdown" dropdown is-open="nav.profilemenu">
 			<a href="#" id="profile-menu" dropdown-toggle aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> <span class="caret"></span></a>
 	        <ul class="dropdown-menu" role="menu" aria-labelledby="profile-menu">
 				<li ng-class="nav.getClass('/profile')"><a href="" ng-click="nav.goto('profile')">Your profile</a></li>

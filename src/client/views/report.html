@@ -27,7 +27,7 @@
 	</div>
 	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
 		<div class="row">
-			<div class="hidden-sm hidden-md hidden-lg" ng-show="main.player">
+			<div class="hidden-sm hidden-md hidden-lg" ng-show="main.$storage.player">
 				<button class="button col-xs-12" ng-click="vm.selectYourself()">Select yourself</button>
 			</div>
 			<div class="hidden-sm hidden-md hidden-lg text-center">or</div>
@@ -38,7 +38,7 @@
 						typeahead-on-select="vm.selectPlayer()">			
 					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>				
 				</div>
-				<div class="form-group hidden-xs"  ng-show="main.player">
+				<div class="form-group hidden-xs"  ng-show="main.$storage.player">
 					or <button class="button" ng-click="vm.selectYourself()">Select yourself</button>
 				</div>
 			</div>
@@ -52,12 +52,12 @@
 		</div>	
 		
 		<div class="row" ng-hide="vm.player == null">
-			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.player.pfsnumber" class="reportingfor">Checking out {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
-			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.player.pfsnumber">You cannot report for <strong>{{vm.player.name}}</strong> because he/she has not allowed public reporting in his/her profile.</div>		
-			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.player.pfsnumber" class="hidden-xs reportingfor">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
-			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.player.pfsnumber" class="hidden-sm hidden-md hidden-lg reportingfor text-center">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
-			<div ng-show="vm.player.public == 1 && vm.player.pfsnumber != main.player.pfsnumber">You can report for <strong>{{vm.player.name}}</strong> because he/she has chosen to allow public reporting in his/her profile.</div>
-			<div ng-show="vm.player.pfsnumber == main.player.pfsnumber">You are now reporting for yourself.</div>
+			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.player.pfsnumber" class="reportingfor">Checking out {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.player.pfsnumber">You cannot report for <strong>{{vm.player.name}}</strong> because he/she has not allowed public reporting in his/her profile.</div>		
+			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.$storage.player.pfsnumber" class="hidden-xs reportingfor">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.$storage.player.pfsnumber" class="hidden-sm hidden-md hidden-lg reportingfor text-center">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 1 && vm.player.pfsnumber != main.$storage.player.pfsnumber">You can report for <strong>{{vm.player.name}}</strong> because he/she has chosen to allow public reporting in his/her profile.</div>
+			<div ng-show="vm.player.pfsnumber == main.$storage.player.pfsnumber">You are now reporting for yourself.</div>
 		</div>
 		
 		<div class="row" ng-hide="vm.player == null">
@@ -94,7 +94,7 @@
 						<strong>(Retired)</strong>
 					</span>			
 				</div>
-				<div class="options" ng-hide="vm.player.public == 0 && vm.player.pfsnumber != main.player.pfsnumber">
+				<div class="options" ng-hide="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.player.pfsnumber">
 					<strong>Batch options</strong><br>
 					<select ng-model="vm.option.check">
 						<option></option>

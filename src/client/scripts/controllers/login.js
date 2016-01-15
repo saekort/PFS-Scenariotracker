@@ -27,11 +27,10 @@
     	var query = 'login=' + vm.username + '&password=' + vm.password;
     	vm.$http.get(vm.main.trackerConfig.apiUrl + 'person_login' + '?' + query).
   	  	  success(function(data, status, headers, config) {
-  	  	  main.api_key = data.key;
+  	  	  main.$storage.api_key = data.key;
   	  	  
   	  	  var temp = {'pfsnumber': data.pfsnumber, 'name': data.name};
-  	  	  main.player = temp;
-  	  	  console.log(main.player);
+  	  	  main.$storage.player = temp;
   	  	  vm.$state.go('search');
   	  	  
   		  vm.usSpinnerService.stop('spinner-1');

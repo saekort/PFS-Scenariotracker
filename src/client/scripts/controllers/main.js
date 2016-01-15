@@ -5,46 +5,34 @@
         .module('scenariotracker')
         .controller('MainController', MainController );
     
-    function MainController($state, $location, $http, $scope, $rootScope, trackerConfig)
+    function MainController($state, $location, $http, $scope, $rootScope, $localStorage, trackerConfig)
     {
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$http = $http;
     	vm.trackerConfig = trackerConfig;
-
-    	if(localStorage.getItem("api_key"))
-    	{
-    		console.log('Getting API key from localstorage');
-    		vm.api_key = localStorage.getItem("api_key");
-    		var temp = localStorage.getItem("player");
-    		console.log(localStorage.getItem("api_key"));
-    		vm.player = JSON.parse(temp);
-    		$http.defaults.headers.common = {'CC-API-KEY': vm.api_key}
-    	}
-    	else
-    	{
-    		console.log('No API key in localstorage');
-    		vm.player = false;
-    		vm.api_key = false;
-    		$http.defaults.headers.common = {'CC-API-KEY': 'nokey'};
-    	}
+    	vm.$storage = $localStorage;
     	
-    	$scope.$watch('main.api_key', function(){
-    		if(vm.api_key != false)
+//    	if(typeof(vm.$storage.api_key) !== 'undefined')
+//    	{
+//    		$http.defaults.headers.common = {'CC-API-KEY': vm.$storage.api_key}
+//    	}
+//    	else
+//    	{
+//    		delete vm.$storage.player;
+//    		delete vm.$storage.api_key;
+//    		$http.defaults.headers.common = {'CC-API-KEY': 'nokey'};
+//    	}
+    	
+    	// Set API-KEY headers based on value of api_key in $storage object
+    	$scope.$watch('main.$storage.api_key', function(){
+    		if(typeof(vm.$storage.api_key) !== 'undefined')
     		{
-    			console.log('KEY changed!');
-    			localStorage.api_key = vm.api_key;
-    			localStorage.player = JSON.stringify(vm.player);
-    			console.log('VM api key: ' + vm.api_key);
-    			console.log(localStorage.getItem("api_key"));
-    			$http.defaults.headers.common = {'CC-API-KEY': vm.api_key}
+    			$http.defaults.headers.common = {'CC-API-KEY': vm.$storage.api_key}
     		}
     		else
     		{
-    			console.log('KEY removed!');
-    			localStorage.removeItem("api_key");
-    			localStorage.removeItem("player");
     			$http.defaults.headers.common = {'CC-API-KEY': 'nokey'}
     		}
         });
@@ -57,19 +45,15 @@
 
     MainController.prototype.logout = function() {
     	var vm = this;
-    	console.log('Logging out');
+    	
     	// Do the logout
-    	var query = 'key=' + vm.api_key;
+    	var query = 'key=' + vm.$storage.api_key;
     	vm.$http.get(vm.trackerConfig.apiUrl + 'person_logout' + '?' + query).
   	  	  success(function(data, status, headers, config) {
   	  	  
-  	  	  vm.api_key = false;
-  	  	  vm.player = false;  	  	  
+  	  	  delete vm.$storage.api_key;
+  	  	  delete vm.$storage.player;  	  
   	  	  vm.$state.go('search', {}, {reload: true});
-  	  	  
-  	  	  console.log('KEY removed through logout!');
-  	  	  localStorage.removeItem("api_key");
-  	  	  localStorage.removeItem("player");
   	  	  vm.$http.defaults.headers.common = {'CC-API-KEY': 'nokey'}
   	  }).
   	  error(function(data, status, headers, config) {

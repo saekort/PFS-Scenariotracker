@@ -10,7 +10,7 @@
     	var vm = this;
     	vm.$http = $http;
     	vm.$state = $state;
-    	vm.$storage = $localStorage;
+    	vm.$localStorage = $localStorage;
     	vm.$location = $location;
     	vm.main = $scope.main;
     	vm.usSpinnerService = usSpinnerService;
@@ -18,13 +18,11 @@
     	vm.noScenarios = false;
     	vm.people = [];
     	vm.gm = null;
-    	vm.filters = [];
-    	vm.filters.lowestPlayerLevel = '';
-    	vm.filters.highestPlayerLevel = '';
-    	vm.filters.levelRangeMin = 1;
-    	vm.filters.levelRangeMax = 20;
-    	vm.filters.levels = ['', 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
-    	vm.filters.seasons = [
+    	
+    	// Start data, hardcoded, this does not change dynamically
+    	vm.data = {};
+    	vm.data.levels = ['', 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20];
+    	vm.data.seasons = [
     	                      {key: 0, name: 0, checked: false, col: 1},
     	                      {key: 1, name: 1, checked: false, col: 1},
     	                      {key: 2, name: 2, checked: false, col: 2},
@@ -34,35 +32,57 @@
     	                      {key: 6, name: 6, checked: false, col: 4},
     	                      {key: 7, name: 7, checked: false, col: 4}
     	                      ];
-    	vm.filters.author;
-    	vm.filters.players = [];
-    	vm.filters.search = null;
-    	vm.filters.playersearch = null;
-    	vm.filters.gmsearch = null;
-    	vm.filters.campaign = 'pfs';
-    	vm.filters.scenarios = true;
-    	vm.filters.modules = true;
-    	vm.filters.aps = true;
-    	vm.filters.quests = true;    	
-    	vm.filters.retired = false;
-    	vm.filters.evergreen = false;
-    	vm.filters.specials = false;
-    	
-    	vm.sortoptions = [
+    	vm.data.sortoptions = [
     	                  {key: 'name_asc', label: 'Name A-Z'},
     	                  {key: 'name_desc', label: 'Name Z-A'},
     	                  {key: 'season_asc', label: 'Number low-high'},
     	                  {key: 'season_desc', label: 'Number high-low'}
     	                  ];
+    	// End data
+    	if(angular.isUndefined(vm.$localStorage.search_filters)) { 
+    		vm.initFilters();
+    		
+    	}
     	
-    	vm.sorting = vm.sortoptions[2];
+    	vm.filters = $localStorage.search_filters;
     	
-    	vm.pagination = [];
+    	
+    	vm.search = {};
+    	vm.search.author = '';
+    	vm.search.scenario = '';
+    	vm.search.player = null;
+    	vm.search.gm = null;
+    	
+    	vm.players = {};
+    	
+    	vm.pagination = {};
     	vm.pagination.totalItems = 0;
     	vm.pagination.currentPage = 1;
     	vm.pagination.pageSize = 10;
     	
     	vm.getScenarios();
+    }
+    
+    SearchController.prototype.initFilters = function()
+    {
+    	var vm = this;
+    	
+    	vm.$localStorage.search_filters = {};
+    	
+    	if(angular.isUndefined(vm.$localStorage.search_filters.lowestPlayerLevel)) { vm.$localStorage.search_filters.lowestPlayerLevel = ''; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.highestPlayerLevel)) { vm.$localStorage.search_filters.highestPlayerLevel = ''; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.campaign)) { vm.$localStorage.search_filters.campaign = 'pfs'; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.scenarios)) { vm.$localStorage.search_filters.scenarios = true; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.modules)) { vm.$localStorage.search_filters.modules = true; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.aps)) { vm.$localStorage.search_filters.aps = true; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.quests)) { vm.$localStorage.search_filters.quests = true; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.retired)) { vm.$localStorage.search_filters.retired = false; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.evergreen)) { vm.$localStorage.search_filters.evergreen = false; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.specials)) { vm.$localStorage.search_filters.specials = false; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.sorting)) { vm.$localStorage.search_filters.sorting = vm.data.sortoptions[2]; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.seasons)) { vm.$localStorage.search_filters.seasons = {}; }
+    	
+    	vm.filters = vm.$localStorage.search_filters;
     }
     
     SearchController.prototype.getScenarios = function()
@@ -80,9 +100,9 @@
     	var query = 'currentPage=' + vm.pagination.currentPage;
     	
     	// Filter: Scenario name
-    	if(vm.filters.search)
+    	if(vm.search.scenario)
     	{
-    		query = query + '&search=' + vm.filters.search;
+    		query = query + '&search=' + vm.search.scenario;
     	}
     	
     	// Filters: Level range
@@ -103,23 +123,6 @@
     			query = query + '&levels[]=' + vm.filters.highestPlayerLevel;
     		}
     	}
-//    	if(vm.filters.levels)
-//    	{
-//    		for (var index = 0; index < vm.filters.levels.length; ++index)
-//    		{
-//    			if(vm.filters.levels[index].checked)
-//    			{
-//    				query = query + '&levels[]=' + vm.filters.levels[index].key;
-//    			}
-//    		}
-//    	}
-    	
-//    	// Filter: Level range
-//    	if(vm.filters.levelRangeMin)
-//    	{
-//    		query = query + '&levelRangeMin=' + vm.filters.levelRangeMin;
-//    		query = query + '&levelRangeMax=' + vm.filters.levelRangeMax;
-//    	}
     	
     	// Filter: Scenarios
     	if(vm.filters.scenarios)
@@ -142,7 +145,17 @@
     	// Filter: Seasons
     	if(vm.filters.seasons)
     	{
-    		for (var index = 0; index < vm.filters.seasons.length; ++index)
+    		console.log(vm.filters.seasons);
+    		console.log(vm.filters.seasons.length);
+    		
+    		angular.forEach(vm.filters.seasons, function(value, key) {
+    			if(value == true)
+    			{
+    				query = query + '&season[]=' + key;
+    			}
+    		});
+    		
+    		for (var i = 0; i < vm.filters.seasons.length; ++i)
     		{
     			if(vm.filters.seasons[index].checked)
     			{
@@ -158,9 +171,9 @@
     	}
     	
     	// Filter: Author
-    	if(vm.filters.author)
+    	if(vm.search.author)
     	{
-    		query = query + '&author=' + vm.filters.author;
+    		query = query + '&author=' + vm.search.author;
     	}    	
     	
     	// Filter: Evergreen
@@ -203,9 +216,9 @@
     	}
     	
     	// Filter: Sorting
-    	if(vm.sorting)
+    	if(vm.filters.sorting)
     	{
-    		query = query + '&sorting=' + vm.sorting.key;
+    		query = query + '&sorting=' + vm.filters.sorting.key;
     	}
     	
     	vm.$http.get(vm.main.trackerConfig.apiUrl + 'scenarios' + '?' + query).
@@ -286,24 +299,24 @@
     {
     	var vm = this;
 
-    	if( Object.prototype.toString.call( vm.filters.playersearch ) === '[object Object]' ) {
-    		vm.people.push(vm.filters.playersearch);
+    	if( Object.prototype.toString.call( vm.search.player ) === '[object Object]' ) {
+    		vm.people.push(vm.search.player);
 			vm.getScenarios();
     	}
     	
-		vm.filters.playersearch = '';    	
+		vm.search.player = '';    	
     }
 
     SearchController.prototype.addGm = function()
     {
     	var vm = this;
 
-    	if( Object.prototype.toString.call( vm.filters.gmsearch ) === '[object Object]' ) {
-    		vm.gm = vm.filters.gmsearch;
+    	if( Object.prototype.toString.call( vm.search.gm ) === '[object Object]' ) {
+    		vm.gm = vm.search.gm;
     		vm.getScenarios();
     	}
     	
-		vm.filters.gmsearch = '';
+		vm.search.gm = '';
     }
     
     SearchController.prototype.formatPlayersearch = function($model)
@@ -314,5 +327,17 @@
     	}
     	
     	return '';
-    }     
+    }
+    
+    SearchController.prototype.resetFilters = function()
+    {
+    	var vm = this;
+    	
+    	delete vm.$localStorage.search_filters;
+    	
+    	vm.initFilters();
+    	vm.getScenarios();
+    	
+    	$("html, body").animate({ scrollTop: 0 }, 200);    	
+    }
 })();

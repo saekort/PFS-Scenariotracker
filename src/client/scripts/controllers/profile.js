@@ -108,7 +108,7 @@
     	  {name: 'Venezuela', code: 'VE'}
     	];
     	
-    	if(!vm.main.player)
+    	if(typeof vm.main.$storage.player === 'undefined')
     	{
     		// Not logged in, redirect
     		vm.$state.go('search');
@@ -121,7 +121,7 @@
     {
     	var vm = this;
     	
-    vm.$http.get(vm.main.trackerConfig.apiUrl + 'person?pfsnumber=' + vm.main.player.pfsnumber).
+    vm.$http.get(vm.main.trackerConfig.apiUrl + 'person?pfsnumber=' + vm.main.$storage.player.pfsnumber).
   	  	success(function(data, status, headers, config) {
   		  // Assign profile
   		  vm.playername = data.name;
@@ -201,7 +201,7 @@
     {
     	var vm = this;
     	
-    	if(vm.pfsnumber == vm.main.player.pfsnumber)
+    	if(vm.pfsnumber == vm.main.$storage.player.pfsnumber)
     	{
     		vm.invalidpfsnumber = false;
     	}
