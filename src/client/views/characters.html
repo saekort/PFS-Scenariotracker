@@ -31,6 +31,9 @@
 						<label>Campaign:</label> <select class="form-control" ng-options="campaign for campaign in vm.options.campaigns" ng-model="vm.character.campaign"></select>
 					</div>
 					<div class="form-group">
+						<label>Experience:</label> <input class="form-control" ng-model="vm.character.exp">
+					</div>					
+					<div class="form-group">
 						<button class="button" ng-disabled="character.$invalid" ng-show="vm.status == 'new'" ng-click="vm.saveCharacter()">Create</button>
 						<button class="button" ng-disabled="character.$invalid" ng-show="vm.status == 'edit'" ng-click="vm.saveCharacter()">Save</button>
 					</div>
@@ -54,7 +57,8 @@
 					<span ng-show="character.faction" class="col-xs-1 text-center"><img class="character-page-faction" src="./images/factions/{{character.faction}}.png"></span>
 					<span ng-hide="character.faction" class="col-xs-1 text-center">?</span>
 					<span class="col-xs-1">{{character.campaign}}</span>					
-					<span class="col-xs-5">{{character.class || "?"}} ({{character.level || "?"}})</span>
+					<span class="col-xs-4">{{character.class || "?"}} ({{character.level || "?"}})</span>
+					<span class="col-xs-1">{{character.exp}}xp</span>
 					<span class="col-xs-2 text-center">
 						<span class="glyphicon glyphicon-pencil" ng-click="vm.editCharacter($index)"></span>&nbsp&nbsp
 						<span class="glyphicon glyphicon-trash red" ng-click="vm.confirmDeleteCharacter($index)"></span>

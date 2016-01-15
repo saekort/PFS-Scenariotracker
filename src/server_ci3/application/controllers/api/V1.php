@@ -618,6 +618,7 @@ class V1 extends REST_Controller
     	$character->faction = $this->post('faction');
     	$character->class = $this->post('class');
     	$character->campaign = $this->post('campaign');
+    	$character->exp = $this->post('exp');
     	$character->save();
     	
     	$this->response(NULL, 200);

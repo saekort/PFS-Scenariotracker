@@ -40,6 +40,7 @@
     	vm.character.level = '';
     	vm.character.faction = '';
     	vm.character.campaign = '';
+    	vm.character.exp = '';
     	
     	if(typeof vm.main.$storage.player === 'undefined')
     	{
@@ -58,7 +59,6 @@
     	vm.$http.get(vm.main.trackerConfig.apiUrl + 'characters?pfsnumber=' + vm.main.$storage.player.pfsnumber).
 	  	success(function(data, status, headers, config) {
 		  // Assign characters to model
-	  	
 		  vm.characters = data;
 		  
 		  vm.usSpinnerService.stop('spinner-1');
@@ -82,6 +82,7 @@
     	vm.character.level = parseInt(vm.characters[index].level);
     	vm.character.faction = vm.$filter('filter')(vm.options.factions, {code: vm.characters[index].faction})[0];
     	vm.character.campaign = vm.characters[index].campaign;
+    	vm.character.exp = vm.characters[index].exp;
     	
     	vm.status = 'edit';
     }
@@ -96,7 +97,8 @@
     	vm.character.class = '';
     	vm.character.level = '';
     	vm.character.faction = '';
-    	vm.character.campaign = 'PFS'; 	
+    	vm.character.campaign = 'PFS';
+    	vm.character.exp = '0';
     	
     	vm.status = 'new';
     }       
@@ -109,12 +111,12 @@
     	if(vm.status == 'new')
     	{
     		// We are creating
-    		var post_data = {name: vm.character.name, number: vm.character.number, class: vm.character.class, level: vm.character.level, faction: vm.character.faction.code, campaign: vm.character.campaign};
+    		var post_data = {name: vm.character.name, number: vm.character.number, class: vm.character.class, level: vm.character.level, faction: vm.character.faction.code, campaign: vm.character.campaign, exp: vm.character.exp};
     	}
     	else
     	{
     		// We are updating
-    		var post_data = {id: vm.character.id, name: vm.character.name, number: vm.character.number, class: vm.character.class, level: vm.character.level, faction: vm.character.faction.code, campaign: vm.character.campaign};
+    		var post_data = {id: vm.character.id, name: vm.character.name, number: vm.character.number, class: vm.character.class, level: vm.character.level, faction: vm.character.faction.code, campaign: vm.character.campaign, exp: vm.character.exp};
     	}
     	
         var req = {
