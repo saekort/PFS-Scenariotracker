@@ -29,7 +29,7 @@ class Author extends DataMapper {
 	var $has_many = array(
 			'scenarios' => array(
 					'class' => 'scenario',
-					'other_field' => 'scenarios',
+					'other_field' => 'authors',
 					'join_self_as' => 'author',
 					'join_other_as' => 'scenario',
 					'join_table' => 'j_author_scenario'

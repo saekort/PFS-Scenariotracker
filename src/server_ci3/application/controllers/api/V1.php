@@ -53,180 +53,184 @@ class V1 extends REST_Controller
     	$limit = 15;
     	
         $scenarios = new Scenario();
+        $count = new Scenario();
 
-        $i = 0;
-        while($i < 2)
+        if($this->get('scenarios') || $this->get('modules') || $this->get('aps') || $this->get('quests'))
         {
-        	if($this->get('scenarios') || $this->get('modules') || $this->get('aps') || $this->get('quests'))
-        	{
-        		$scenarios->group_start();
-        	}
-        	
-        	// Filter: Scenarios
-        	if($this->get('scenarios'))
-        	{
-        		$scenarios->or_where('type', 'scenario');
-        	}
-        	
-        	// Filter: Modules
-        	if($this->get('modules'))
-        	{
-        		$scenarios->or_where('type', 'mod');
-        	}
-
-        	// Filter: Adventure paths
-        	if($this->get('aps'))
-        	{
-        		$scenarios->or_where('type', 'ap');
-        	}
-        	
-        	// Filter: Quests
-        	if($this->get('quests'))
-        	{
-        		$scenarios->or_where('type', 'quest');
-        	}   	
-
-        	if($this->get('scenarios') || $this->get('modules') || $this->get('aps') || $this->get('quests'))
-        	{
-        		$scenarios->group_end();
-        	}
-        	
-        	if(!$this->get('scenarios') && !$this->get('modules') && !$this->get('aps') && !$this->get('quests'))
-        	{
-        		// Dirty, but works
-        		$scenarios->where('type', 'nonexistent');
-        	}
-        	
-	        // Filter: Season
-	        if($this->get('season'))
-	        {
-	        	$scenarios->where_in('season', $this->get('season'));
-	        }
-	        
-	        // Filter: Retired
-	        if(!$this->get('retired'))
-	        {
-	        	$scenarios->where('archived IS NULL', NULL);
-	        }
-	        
-	        // Filter: Specials
-	        if(!$this->get('specials'))
-	        {
-	        	$scenarios->not_like('name', '%Special: %');
-	        }	        
-	        
-	        // Filter: Search
-	        if($this->get('search'))
-	        {
-	        	$scenarios->like('name', $this->get('search'));
-	        }
-	        
-	        // Filter: Author
-	        if($this->get('author'))
-	        {
-	        	$scenarios->like_related('authors', 'name', $this->get('author'))->distinct();
-	        }
-	        
-	        // Filter: Level range
-	        if($this->get('levels'))
-	        {
-	        	$levels = $this->get('levels');
-	        	foreach($levels as $level)
-	        	{
-	        		$scenarios->like('levelrange', $level);
-	        	}
-	        }
-	        
-	        if($this->get('levelRangeMin') && $this->get('levelRangeMax'))
-	        {
-	        	$scenarios->group_start();
-	        	$levelrange = range($this->get('levelRangeMin'), $this->get('levelRangeMax'));
-	        	
-	        	foreach($levelrange as $key => $value)
-	        	{
-	        		$value = str_pad($value, 2, '0', STR_PAD_LEFT);
-	        		$scenarios->or_like('levelrange', $value);
-	        	}
-	        	
-	        	$scenarios->group_end();
-	        }
-	        
-	        // Filter: Evergreen
-	        if($this->get('evergreen'))
-	        {
-	        	$scenarios->where('evergreen', 1);
-	        }
-	        
-	        // Filter: Players
-	        if($this->get('player') && $this->get('campaign'))
-	        {
-	        	$pfsnumbers = array();
-	        
-	        	$subq_players = new Scenario();
-	        	$subq_players->select('id')->where_join_field('players', $this->get('campaign') . ' IS NOT NULL', null)->where_in_related_players('pfsnumber', $this->get('player'))->get();
- 	        	
- 	        	
-	        	$scenarios->group_start();
-	        	$scenarios->where_not_in('id', $subq_players->all_to_single_array('id'));
-	        	$scenarios->or_where('evergreen', 1);
-	        	$scenarios->group_end();
-	        	
-// 	        	$scenarios->group_start();
-// 	        	$scenarios->where_not_in_subquery('id', $subq_players);
-// 	        	$scenarios->or_where('evergreen', 1);
-// 	        	$scenarios->group_end();
-	        }
-	        
-	        // Sorting
-	        if($this->get('sorting'))
-	        {
-	        	if($this->get('sorting') == 'name_asc')
-	        	{
-	        		$scenarios->order_by('name', 'asc');
-	        	}
-	        	elseif($this->get('sorting') == 'name_desc')
-	        	{
-	        		$scenarios->order_by('name', 'desc');
-	        	}
-	        	elseif($this->get('sorting') == 'season_asc')
-	        	{
-	        		$scenarios->order_by('season', 'asc');
-	        		$scenarios->order_by('cast(number as unsigned)', 'asc');
-	        		$scenarios->order_by('name', 'asc');
-	        	}
-	        	elseif($this->get('sorting') == 'season_desc')
-	        	{
-	        		$scenarios->order_by('season', 'desc');
-	        		$scenarios->order_by('cast(number as unsigned)', 'desc');
-	        		$scenarios->order_by('name', 'desc');
-	        	}
-	        }
-	        
-	    	// Pagination
-	    	if($i == 0)
-	    	{
-	    		$response['count'] = $scenarios->count();
-	    	}
-	    	else
-	    	{
-	    		// First time through, just count
-	    		if($this->get('currentPage'))
-	    		{
-	    			$page = $limit * ($this->get('currentPage') -1);
-	    			$scenarios->limit($limit, $page);
-	    		}
-	    		else
-	    		{
-	    			// Just limit it to X scenarios
-	    			$scenarios->limit($limit);
-	    		}
-	    		
-	    		$scenarios->get();
-	    		//$scenarios->check_last_query();
-	    	}
-	    	
-	    	$i++;
+        	$scenarios->group_start();
+        	$count->group_start();
         }
+        	
+        // Filter: Scenarios
+        if($this->get('scenarios'))
+        {
+        	$scenarios->or_where('type', 'scenario');
+        	$count->or_where('type', 'scenario');
+        }
+        	
+        // Filter: Modules
+        if($this->get('modules'))
+        {
+        	$scenarios->or_where('type', 'mod');
+        	$count->or_where('type', 'mod');
+        }
+
+        // Filter: Adventure paths
+        if($this->get('aps'))
+        {
+        	$scenarios->or_where('type', 'ap');
+        	$count->or_where('type', 'ap');
+        }
+        	
+        // Filter: Quests
+        if($this->get('quests'))
+        {
+        	$scenarios->or_where('type', 'quest');
+        	$count->or_where('type', 'quest');
+        }   	
+
+        if($this->get('scenarios') || $this->get('modules') || $this->get('aps') || $this->get('quests'))
+        {
+        	$scenarios->group_end();
+        	$count->group_end();
+        }
+        	
+        if(!$this->get('scenarios') && !$this->get('modules') && !$this->get('aps') && !$this->get('quests'))
+        {
+        	// Dirty, but works
+        	$scenarios->where('type', 'nonexistent');
+        	$count->where('type', 'nonexistent');
+        }
+        	
+	    // Filter: Season
+	    if($this->get('season'))
+	    {
+	    	$scenarios->where_in('season', $this->get('season'));
+	       	$count->where_in('season', $this->get('season'));
+		}
+	       
+	    // Filter: Retired
+	    if(!$this->get('retired'))
+	    {
+	    	$scenarios->where('archived IS NULL', NULL);
+	    	$count->where('archived IS NULL', NULL);
+	    }
+	        
+	    // Filter: Specials
+	    if(!$this->get('specials'))
+	    {
+	    	$scenarios->not_like('name', 'Special:');
+	    	$count->not_like('name', 'Special:');
+	    }	        
+	        
+	    // Filter: Search
+	    if($this->get('search'))
+	    {
+	    	$scenarios->like('name', $this->get('search'));
+	    	$count->like('name', $this->get('search'));
+	    }
+	        
+	    // Filter: Author
+	    if($this->get('author'))
+	    {	
+	    	$scenarios->like_related_authors('name', $this->get('author'))->distinct();
+	    	$count->like_related_authors('name', $this->get('author'))->distinct();
+	    }
+	        
+	    // Filter: Level range
+	    if($this->get('levels'))
+	    {
+	    	$levels = $this->get('levels');
+	    	foreach($levels as $level)
+	    	{
+	    		$scenarios->like('levelrange', $level);
+	    		$count->like('levelrange', $level);
+	    	}
+	    }
+	        
+	    if($this->get('levelRangeMin') && $this->get('levelRangeMax'))
+	    {
+	    	$scenarios->group_start();
+	    	$count->group_start();
+	    	$levelrange = range($this->get('levelRangeMin'), $this->get('levelRangeMax'));
+	       	
+	    	foreach($levelrange as $key => $value)
+	        {
+	        	$value = str_pad($value, 2, '0', STR_PAD_LEFT);
+	        	$scenarios->or_like('levelrange', $value);
+	        	$count->or_like('levelrange', $value);
+	        }
+	        	
+	        $scenarios->group_end();
+	        $count->group_end();
+	    }
+	        
+	    // Filter: Evergreen
+	    if($this->get('evergreen'))
+	    {
+	    	$scenarios->where('evergreen', 1);
+	    	$count->where('evergreen', 1);
+	    }
+	        
+	    // Filter: Players
+	    if($this->get('player') && $this->get('campaign'))
+	    {
+	    	$pfsnumbers = array();
+	       
+	    	$subq_players = new Scenario();
+	    	$subq_players->select('id')->where_join_field('players', $this->get('campaign') . ' IS NOT NULL', null)->where_in_related_players('pfsnumber', $this->get('player'))->get();
+ 	        	
+	    	$scenarios->group_start();
+	    	$scenarios->where_not_in('id', $subq_players->all_to_single_array('id'));
+	        $scenarios->or_where('evergreen', 1);
+	        $scenarios->group_end();
+
+	        $count->group_start();
+	        $count->where_not_in('id', $subq_players->all_to_single_array('id'));
+	        $count->or_where('evergreen', 1);
+	        $count->group_end();
+	    }
+	        
+	    // Sorting
+	    if($this->get('sorting'))
+	    {
+	        if($this->get('sorting') == 'name_asc')
+	        {
+	        	$scenarios->order_by('name', 'asc');
+	        }
+	        elseif($this->get('sorting') == 'name_desc')
+	        {
+	        	$scenarios->order_by('name', 'desc');
+	        }
+	        elseif($this->get('sorting') == 'season_asc')
+	        {
+	        	$scenarios->order_by('season', 'asc');
+	        	$scenarios->order_by('cast(number as unsigned)', 'asc');
+	        	$scenarios->order_by('name', 'asc');
+	        }
+	        elseif($this->get('sorting') == 'season_desc')
+	        {
+	        	$scenarios->order_by('season', 'desc');
+	        	$scenarios->order_by('cast(number as unsigned)', 'desc');
+	        	$scenarios->order_by('name', 'desc');
+	        }
+		}
+	        
+	    $response['count'] = $count->count();
+	        
+	    // Pagination
+    	if($this->get('currentPage'))
+    	{
+    		$page = $limit * ($this->get('currentPage') -1);
+    		$scenarios->limit($limit, $page);
+    	}
+    	else
+    	{
+    		// Just limit it to X scenarios
+    		$scenarios->limit($limit);
+    	}
+    	
+    	$scenarios->get();
 
         if($scenarios->exists())
         {

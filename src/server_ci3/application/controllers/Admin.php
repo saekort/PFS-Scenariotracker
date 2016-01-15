@@ -58,4 +58,41 @@ class Admin extends CI_Controller {
 		$this->load->helper('form');
 		$this->load->view('admin', $data);
 	}
+	
+	public function test()
+	{
+		$b = new Scenario();
+		$b->group_start()
+			->or_where('type', 'scenario')
+			->or_where('type', 'mod')
+			->or_where('type', 'ap')
+			->or_where('type', 'quest')
+			->group_end()
+			//->where('season', 6)
+			->where('archived IS NULL', null)
+			->not_like('name', 'Special:')
+			->order_by('season', 'asc')
+			->order_by('cast(number as unsigned)', 'asc')
+			->order_by('name', 'asc')			
+			->like_related_authors('name', 'lou')->distinct()
+			->count();
+		$b->check_last_query();
+		$c = new Scenario();
+		
+			$c->group_start()
+			->or_where('type', 'scenario')
+			->or_where('type', 'mod')
+			->or_where('type', 'ap')
+			->or_where('type', 'quest')
+			->group_end()
+			//->where('season', 6)
+			->where('archived IS NULL', null)
+			->not_like('name', 'Special:')
+			->order_by('season', 'asc')
+			->order_by('cast(number as unsigned)', 'asc')
+			->order_by('name', 'asc')			
+			->like_related_authors('name', 'lou')->distinct()
+			->get();
+		$c->check_last_query();
+	}
 }
