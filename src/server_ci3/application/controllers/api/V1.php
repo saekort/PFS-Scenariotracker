@@ -179,16 +179,20 @@ class V1 extends REST_Controller
 	       
 	    	$subq_players = new Scenario();
 	    	$subq_players->select('id')->where_join_field('players', $this->get('campaign') . ' IS NOT NULL', null)->where_in_related_players('pfsnumber', $this->get('player'))->get();
- 	        	
-	    	$scenarios->group_start();
-	    	$scenarios->where_not_in('id', $subq_players->all_to_single_array('id'));
-	        $scenarios->or_where('evergreen', 1);
-	        $scenarios->group_end();
-
-	        $count->group_start();
-	        $count->where_not_in('id', $subq_players->all_to_single_array('id'));
-	        $count->or_where('evergreen', 1);
-	        $count->group_end();
+	    	
+	    	// Only limit if player has played anything
+	    	if($subq_players->result_count() > 0)
+	    	{ 	        	
+		    	$scenarios->group_start();
+		    	$scenarios->where_not_in('id', $subq_players->all_to_single_array('id'));
+		        $scenarios->or_where('evergreen', 1);
+		        $scenarios->group_end();
+	
+		        $count->group_start();
+		        $count->where_not_in('id', $subq_players->all_to_single_array('id'));
+		        $count->or_where('evergreen', 1);
+		        $count->group_end();
+	    	}
 	    }
 	        
 	    // Sorting
