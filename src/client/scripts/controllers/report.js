@@ -43,6 +43,11 @@
     	vm.content = false;
     	vm.option = {};
     	vm.option.check = null;
+    	
+    	if(vm.main.$storage.player)
+    	{
+    		vm.selectYourself();
+    	}
     }
     
     ReportController.prototype.changeReportType = function(type)
@@ -172,6 +177,7 @@
     	
     	if( Object.prototype.toString.call( vm.playerselect ) === '[object Object]' ) {
     		vm.player = vm.playerselect;
+    		console.log(vm.player);
     		vm.changeReportType('overview');
     		vm.getPlayerprogress('pfs');
     	}

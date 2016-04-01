@@ -27,7 +27,7 @@
 	</div>
 	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
 		<div class="row">
-			<div class="hidden-sm hidden-md hidden-lg" ng-show="main.$storage.player">
+			<div class="hidden-sm hidden-md hidden-lg" ng-show="main.$storage.player && vm.player.id != main.$storage.player.id">
 				<button class="button col-xs-12" ng-click="vm.selectYourself()">Select yourself</button>
 			</div>
 			<div class="hidden-sm hidden-md hidden-lg text-center">or</div>
@@ -38,7 +38,7 @@
 						typeahead-on-select="vm.selectPlayer()">			
 					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>				
 				</div>
-				<div class="form-group hidden-xs"  ng-show="main.$storage.player">
+				<div class="form-group hidden-xs"  ng-show="main.$storage.player && vm.player.id != main.$storage.player.id">
 					or <button class="button" ng-click="vm.selectYourself()">Select yourself</button>
 				</div>
 			</div>
