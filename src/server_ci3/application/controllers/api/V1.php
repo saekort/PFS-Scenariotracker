@@ -313,14 +313,14 @@ class V1 extends REST_Controller
      */
     function scenario_get()
     {
-    	if(!$this->get('filters'))
-    	{
-    		$this->response(NULL, 400);
-    	}
-    	else
-    	{
-    		// Decode the filters
-    	}
+//     	if(!$this->get('filters'))
+//     	{
+//     		$this->response(NULL, 400);
+//     	}
+//     	else
+//     	{
+//     		// Decode the filters
+//     	}
     	
         if(!$this->get('id'))
         {
@@ -590,6 +590,19 @@ class V1 extends REST_Controller
     	
     	$this->response($characters->all_to_array(), 200);	
     }
+    
+    function character_get()
+    {
+    	if(!$this->get('id'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	 
+    	$character = new Character();
+    	$character->where('id', $this->get('id'))->order_by('number','asc')->get();
+    	 
+    	$this->response($character->all_to_array(), 200);
+    }    
     
     function character_post()
     {

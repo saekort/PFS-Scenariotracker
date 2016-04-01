@@ -680,3 +680,7 @@ hr {
 .toggle_description {
 	cursor: pointer;
 }
+
+.clickable {
+	cursor: pointer;
+}

@@ -125,10 +125,11 @@ class Statistic extends DataMapper {
 			$scenarios->get();
 			
 			$options = array();
-			
+
 			foreach($scenarios as $scenario)
 			{
 				$options[$scenario->id] = $scenario->players->count();
+				$scenario->players = null;
 			}
 			
 			// Sort
@@ -185,7 +186,9 @@ class Statistic extends DataMapper {
 				{
 					$scenarios = $person->scenarios->where_join_field('players', 'core_gm IS NOT NULL', NULL, FALSE)->where('archived IS NULL', NULL)->get();
 					$options[$person->id] = $scenarios->result_count();
-				}								
+				}
+				
+				$person->scenarios = null;
 			}			
 			
 			// Sort
@@ -210,7 +213,7 @@ class Statistic extends DataMapper {
 				$this->comment = $option . '/' . $total;
 				$this->save();
 				$number++;
-			}			
+			}
 		}
 		elseif($type == 'totals')
 		{
