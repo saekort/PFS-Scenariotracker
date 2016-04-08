@@ -1,0 +1,13 @@
+{
+	"name": "Campaigncodex API",
+	"version": "0.1.0",
+ 	"description": "API documentation for the Campaigncodex API",
+ 	"title": "Campaigncodex API",
+	"url" : "http://localhost:3000",
+	"sampleUrl": "http://localhost:3000",
+	"template": {
+		"forceLanguage": "en",
+	  	"withCompare": true,
+	  	"withGenerator": true
+	  }
+}

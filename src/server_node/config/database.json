@@ -1,0 +1,31 @@
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "sessiontracker",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "define": {
+    	"createdAt": "created_on",
+    	"updatedAt": "updated_on",
+    	"deletedAt": "deleted",
+    	"freezeTableName": true,
+    	"paranoid": true,
+    	"underscored": true
+    	}    
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
