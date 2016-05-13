@@ -25,12 +25,13 @@
     	vm.data.seasons = [
     	                      {key: 0, name: 0, checked: false, col: 1},
     	                      {key: 1, name: 1, checked: false, col: 1},
-    	                      {key: 2, name: 2, checked: false, col: 2},
+    	                      {key: 2, name: 2, checked: false, col: 1},
     	                      {key: 3, name: 3, checked: false, col: 2},
-    	                      {key: 4, name: 4, checked: false, col: 3},
-    	                      {key: 5, name: 5, checked: false, col: 3},
-    	                      {key: 6, name: 6, checked: false, col: 4},
-    	                      {key: 7, name: 7, checked: false, col: 4}
+    	                      {key: 4, name: 4, checked: false, col: 2},
+    	                      {key: 5, name: 5, checked: false, col: 2},
+    	                      {key: 6, name: 6, checked: false, col: 3},
+    	                      {key: 7, name: 7, checked: false, col: 3},
+    	                      {key: 8, name: 8, checked: false, col: 3}
     	                      ];
     	vm.data.sortoptions = [
     	                  {key: 'name_asc', label: 'Name A-Z'},

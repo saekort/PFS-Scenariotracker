@@ -30,6 +30,7 @@
     			{name: 'Season 5', id: 's5'},
     			{name: 'Season 6', id: 's6'},
     			{name: 'Season 7', id: 's7'},
+    			{name: 'Season 8', id: 's8'},
     			{name: 'Modules', id: 'mod'},
     			{name: 'Adventure paths', id: 'ap'}
     			];

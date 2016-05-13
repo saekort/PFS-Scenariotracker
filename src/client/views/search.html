@@ -58,34 +58,27 @@
 				</div>				
 				<div class="form-group filter">
 					<strong>Season</strong><br>
-				 	<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
+				 	<div class="col-xs-4 col-sm-12 col-md-4" style="padding-right: 0px">
 						<div class="checkbox" ng-repeat="season in vm.data.seasons | filter: {col: 1}">
 							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="vm.filters.seasons[season.key]" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
 					</div>
-					<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
+					<div class="col-xs-4 col-sm-12 col-md-4" style="padding-right: 0px">
 						<div class="checkbox " ng-repeat="season in vm.data.seasons | filter: {col: 2}">
 							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="vm.filters.seasons[season.key]" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
 					</div>
-				 	<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
+				 	<div class="col-xs-4 col-sm-12 col-md-4" style="padding-right: 0px">
 						<div class="checkbox" ng-repeat="season in vm.data.seasons | filter: {col: 3}">
 							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="vm.filters.seasons[season.key]" ng-click="vm.getScenarios()">
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
-					</div>
-					<div class="col-xs-3 col-sm-6 col-md-3" style="padding-right: 0px">
-						<div class="checkbox " ng-repeat="season in vm.data.seasons | filter: {col: 4}">
-							<input id="season-{{season.key}}" type="checkbox" name="season" ng-model="vm.filters.seasons[season.key]" ng-click="vm.getScenarios()">
-							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
-							<span class="report-title">{{ season.name }}</span>
-						</div>
-					</div>						
+					</div>					
 				</div>
 				<div class="form-group filter">
 					<strong>Type campaign</strong><br>

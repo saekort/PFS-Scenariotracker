@@ -83,6 +83,27 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   }, {
-    tableName: 'People'
+    tableName: 'People',
+	instanceMethods: {
+		// http://stackoverflow.com/questions/27972271/sequelize-dont-return-password
+		// prevent the API from ever returning the password-hash or salt
+		toJSON: function() {
+			var values = this.get();
+
+			delete values.email;
+			delete values.deleted;
+			delete values.key;
+			delete values.key_expire;
+			delete values.password;
+			delete values.salt;
+			delete values.ip_address;
+			delete values.last_login;
+			delete values.forgotten_password_code;
+			delete values.forgotten_password_time;
+			delete values.remember_code;
+			delete values.active;
+			return values;
+		}
+	}    
   });
 };

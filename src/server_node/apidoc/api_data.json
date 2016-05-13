@@ -457,40 +457,38 @@
   },
   {
     "type": "post",
-    "url": "/person/",
+    "url": "/people/",
     "title": "CREATE a person",
     "name": "CreatePerson",
-    "group": "Person",
+    "group": "People",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Person's name.</p>"
+          }
+        ]
+      }
+    },
     "version": "0.0.0",
     "filename": "routes/people.js",
-    "groupTitle": "Person",
+    "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/person/"
+        "url": "http://localhost:3000/people/"
       }
     ]
   },
   {
     "type": "delete",
-    "url": "/person/:id",
+    "url": "/people/:personId",
     "title": "DELETE a person",
     "name": "DeletePerson",
-    "group": "Person",
-    "version": "0.0.0",
-    "filename": "routes/people.js",
-    "groupTitle": "Person",
-    "sampleRequest": [
-      {
-        "url": "http://localhost:3000/person/:id"
-      }
-    ]
-  },
-  {
-    "type": "get",
-    "url": "/person/:id",
-    "title": "GET a person",
-    "name": "GetPerson",
-    "group": "Person",
+    "group": "People",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -498,7 +496,7 @@
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "id",
+            "field": "personId",
             "description": "<p>Person's unique ID.</p>"
           }
         ]
@@ -506,19 +504,46 @@
     },
     "version": "0.0.0",
     "filename": "routes/people.js",
-    "groupTitle": "Person",
+    "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/person/:id"
+        "url": "http://localhost:3000/people/:personId"
       }
     ]
   },
   {
     "type": "get",
-    "url": "/person",
-    "title": "GET a group of persons",
-    "name": "GetPersons",
-    "group": "Person",
+    "url": "/people",
+    "title": "GET a group of people",
+    "name": "GetPeople",
+    "group": "People",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "rows",
+            "description": "<p>Amount of People to return. Max 20.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>Page of People to return.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Search",
+            "optional": true,
+            "field": "search",
+            "description": "<p>String to limit results to. Searches on <code>name</code> and <code>pfsnumber</code>.</p>"
+          }
+        ]
+      }
+    },
     "header": {
       "fields": {
         "Header": [
@@ -534,25 +559,66 @@
     },
     "version": "0.0.0",
     "filename": "routes/people.js",
-    "groupTitle": "Person",
+    "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/person"
+        "url": "http://localhost:3000/people"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/people/:personId",
+    "title": "GET a person",
+    "name": "GetPerson",
+    "group": "People",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "personId",
+            "description": "<p>Person's unique ID.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/people.js",
+    "groupTitle": "People",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3000/people/:personId"
       }
     ]
   },
   {
     "type": "put",
-    "url": "/person/:id",
+    "url": "/people/:personId",
     "title": "UPDATE a person",
     "name": "UpdatePerson",
-    "group": "Person",
+    "group": "People",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "personId",
+            "description": "<p>Person's unique ID.</p>"
+          }
+        ]
+      }
+    },
     "version": "0.0.0",
     "filename": "routes/people.js",
-    "groupTitle": "Person",
+    "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/person/:id"
+        "url": "http://localhost:3000/people/:personId"
       }
     ]
   },
@@ -561,10 +627,23 @@
     "url": "/scenarios/",
     "title": "CREATE a scenario",
     "name": "CreateScenario",
-    "group": "Scenario",
+    "group": "Scenarios",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Scenario's name.</p>"
+          }
+        ]
+      }
+    },
     "version": "0.0.0",
     "filename": "routes/scenarios.js",
-    "groupTitle": "Scenario",
+    "groupTitle": "Scenarios",
     "sampleRequest": [
       {
         "url": "http://localhost:3000/scenarios/"
@@ -573,10 +652,10 @@
   },
   {
     "type": "delete",
-    "url": "/scenarios/:id",
+    "url": "/scenarios/:scenarioId",
     "title": "DELETE a scenario",
     "name": "DeleteScenario",
-    "group": "Scenario",
+    "group": "Scenarios",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -584,35 +663,7 @@
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "id",
-            "description": "<p>Author's unique ID.</p>"
-          }
-        ]
-      }
-    },
-    "version": "0.0.0",
-    "filename": "routes/scenarios.js",
-    "groupTitle": "Scenario",
-    "sampleRequest": [
-      {
-        "url": "http://localhost:3000/scenarios/:id"
-      }
-    ]
-  },
-  {
-    "type": "get",
-    "url": "/scenarios/:id",
-    "title": "GET a scenario",
-    "name": "GetScenario",
-    "group": "Scenario",
-    "parameter": {
-      "fields": {
-        "Parameter": [
-          {
-            "group": "Parameter",
-            "type": "Number",
-            "optional": false,
-            "field": "id",
+            "field": "scenarioId",
             "description": "<p>Scenario's unique ID.</p>"
           }
         ]
@@ -620,10 +671,38 @@
     },
     "version": "0.0.0",
     "filename": "routes/scenarios.js",
-    "groupTitle": "Scenario",
+    "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/scenarios/:id"
+        "url": "http://localhost:3000/scenarios/:scenarioId"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/scenarios/:scenarioId",
+    "title": "GET a scenario",
+    "name": "GetScenario",
+    "group": "Scenarios",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "scenarioId",
+            "description": "<p>Scenario's unique ID.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/scenarios.js",
+    "groupTitle": "Scenarios",
+    "sampleRequest": [
+      {
+        "url": "http://localhost:3000/scenarios/:scenarioId"
       }
     ]
   },
@@ -632,10 +711,37 @@
     "url": "/scenarios",
     "title": "GET a group of scenarios",
     "name": "GetScenarios",
-    "group": "Scenario",
+    "group": "Scenarios",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "rows",
+            "description": "<p>Amount of Scenarios to return. Max 20.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "page",
+            "description": "<p>Page of Scenarios to return.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Search",
+            "optional": true,
+            "field": "search",
+            "description": "<p>String to limit results to. Searches on <code>name</code>.</p>"
+          }
+        ]
+      }
+    },
     "version": "0.0.0",
     "filename": "routes/scenarios.js",
-    "groupTitle": "Scenario",
+    "groupTitle": "Scenarios",
     "sampleRequest": [
       {
         "url": "http://localhost:3000/scenarios"
@@ -644,10 +750,10 @@
   },
   {
     "type": "put",
-    "url": "/scenarios/:id",
+    "url": "/scenarios/:scenarioId",
     "title": "UPDATE a scenario",
     "name": "UpdateScenario",
-    "group": "Scenario",
+    "group": "Scenarios",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -655,7 +761,7 @@
             "group": "Parameter",
             "type": "Number",
             "optional": false,
-            "field": "id",
+            "field": "scenarioId",
             "description": "<p>Scenario's unique ID.</p>"
           }
         ]
@@ -663,10 +769,10 @@
     },
     "version": "0.0.0",
     "filename": "routes/scenarios.js",
-    "groupTitle": "Scenario",
+    "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/scenarios/:id"
+        "url": "http://localhost:3000/scenarios/:scenarioId"
       }
     ]
   }

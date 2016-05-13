@@ -67,7 +67,13 @@
         		templateUrl: "views/profile.html",
         		controller: 'ProfileController',
         		controllerAs: 'vm'        		
-        	})          	
+        	})
+        	.state('import', {
+        		url: '/import',
+        		templateUrl: "views/import.html",
+        		controller: 'ImportController',
+        		controllerAs: 'vm'        		
+        	})
         	.state('report', {
         		url: '/report',
         		templateUrl: "views/report.html",
