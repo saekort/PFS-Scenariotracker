@@ -98,6 +98,9 @@
         			} else if(value.Scenario.slice(0,1) == '#') {
         				vm.log += 'Type => Scenario';
         				result.type = 'scenario';
+        			} else if(value.Scenario.indexOf('Special') > -1) {
+        				vm.log += 'Type => Scenario (based on the word special)';
+        				result.type = 'scenario';
         			} else {
         				vm.log += 'Type => Module (guessing)';
         				result.type = 'mod';
