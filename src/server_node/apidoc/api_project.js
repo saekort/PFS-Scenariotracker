@@ -3,8 +3,8 @@ define({
   "version": "0.1.0",
   "description": "API documentation for the PFS Sessiontracker API",
   "title": "PFS Sessiontracker API",
-  "url": "http://localhost:3000",
-  "sampleUrl": "http://localhost:3000",
+  "url": "https://localhost:8443",
+  "sampleUrl": "https://localhost:8443",
   "template": {
     "forceLanguage": "en",
     "withCompare": true,
@@ -13,7 +13,7 @@ define({
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2016-05-27T13:48:42.603Z",
+    "time": "2016-05-30T12:05:39.535Z",
     "url": "http://apidocjs.com",
     "version": "0.15.1"
   }

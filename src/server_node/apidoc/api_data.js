@@ -23,7 +23,7 @@ define({ "api": [
     "groupTitle": "Author",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/authors/"
+        "url": "https://localhost:8443/authors/"
       }
     ]
   },
@@ -64,7 +64,7 @@ define({ "api": [
     "groupTitle": "Author",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/authors/:id"
+        "url": "https://localhost:8443/authors/:id"
       }
     ]
   },
@@ -119,7 +119,7 @@ define({ "api": [
     "groupTitle": "Author",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/authors/:id"
+        "url": "https://localhost:8443/authors/:id"
       }
     ]
   },
@@ -256,7 +256,7 @@ define({ "api": [
     "groupTitle": "Author",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/authors"
+        "url": "https://localhost:8443/authors"
       }
     ]
   },
@@ -297,7 +297,7 @@ define({ "api": [
     "groupTitle": "Author",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/authors/:id"
+        "url": "https://localhost:8443/authors/:id"
       }
     ]
   },
@@ -312,7 +312,7 @@ define({ "api": [
     "groupTitle": "Character",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/characters/"
+        "url": "https://localhost:8443/characters/"
       }
     ]
   },
@@ -340,7 +340,7 @@ define({ "api": [
     "groupTitle": "Character",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/characters/:id"
+        "url": "https://localhost:8443/characters/:id"
       }
     ]
   },
@@ -368,7 +368,7 @@ define({ "api": [
     "groupTitle": "Character",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/characters/:id"
+        "url": "https://localhost:8443/characters/:id"
       }
     ]
   },
@@ -383,7 +383,7 @@ define({ "api": [
     "groupTitle": "Character",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/character"
+        "url": "https://localhost:8443/character"
       }
     ]
   },
@@ -411,7 +411,7 @@ define({ "api": [
     "groupTitle": "Character",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/characters/:id"
+        "url": "https://localhost:8443/characters/:id"
       }
     ]
   },
@@ -439,7 +439,7 @@ define({ "api": [
     "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/people/"
+        "url": "https://localhost:8443/people/"
       }
     ]
   },
@@ -467,7 +467,7 @@ define({ "api": [
     "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/people/:personId"
+        "url": "https://localhost:8443/people/:personId"
       }
     ]
   },
@@ -522,7 +522,7 @@ define({ "api": [
     "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/people"
+        "url": "https://localhost:8443/people"
       }
     ]
   },
@@ -550,7 +550,7 @@ define({ "api": [
     "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/people/:personId"
+        "url": "https://localhost:8443/people/:personId"
       }
     ]
   },
@@ -578,7 +578,7 @@ define({ "api": [
     "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/people/:personId"
+        "url": "https://localhost:8443/people/:personId"
       }
     ]
   },
@@ -606,7 +606,7 @@ define({ "api": [
     "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/scenarios/"
+        "url": "https://localhost:8443/scenarios/"
       }
     ]
   },
@@ -634,7 +634,7 @@ define({ "api": [
     "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/scenarios/:scenarioId"
+        "url": "https://localhost:8443/scenarios/:scenarioId"
       }
     ]
   },
@@ -662,7 +662,7 @@ define({ "api": [
     "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/scenarios/:scenarioId"
+        "url": "https://localhost:8443/scenarios/:scenarioId"
       }
     ]
   },
@@ -857,7 +857,7 @@ define({ "api": [
     "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/scenarios"
+        "url": "https://localhost:8443/scenarios"
       }
     ]
   },
@@ -885,7 +885,7 @@ define({ "api": [
     "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "http://localhost:3000/scenarios/:scenarioId"
+        "url": "https://localhost:8443/scenarios/:scenarioId"
       }
     ]
   }

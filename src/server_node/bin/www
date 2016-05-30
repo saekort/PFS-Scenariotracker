@@ -7,20 +7,24 @@ console.log('Starting PFS sessiontracker service');
 var app = require('../app');
 var debug = require('debug')('app:server');
 var models = require("../models");
+var fs = require('fs');
 var http = require('http');
+var https = require('https');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '8443');
 app.set('port', port);
 
 /**
- * Create HTTP server.
+ * Setup HTTP server to redirect to HTTPS
  */
-
-var server = http.createServer(app);
+http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://localhost:8443" + req.url });
+    res.end();
+}).listen(8080);
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -30,14 +34,17 @@ var server = http.createServer(app);
  * Sync models with database
  */
 models.sequelize.sync({force: false}).then(function () {
-  var server = app.listen(app.get('port'), function() {
-    debug('Express server listening on port ' + server.address().port);
-    server.on('error', onError);
-	server.on('listening', onListening);
-	console.info('NODE: Listening on port ' + server.address().port);
-  });
-});
 
+	var server = https.createServer({
+	      key: fs.readFileSync('../../certs/key.pem'),
+	      cert: fs.readFileSync('../../certs/cert.pem')
+	    }, app)
+	    .listen(app.get('port'), function() {
+           console.log('Express server listening on port ' + server.address().port);
+           server.on('error', onError);
+           server.on('listening', onListening);
+        });
+});
 /**
  * Normalize a port into a number, string, or false.
  */
