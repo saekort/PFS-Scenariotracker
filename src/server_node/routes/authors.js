@@ -7,20 +7,16 @@ var router = express.Router();
  * @apiName GetAuthors
  * @apiGroup Author
  * 
- * @apiHeader {String} Authorization The authorization token.
- * 
- * @apiParam {Number} rows Maximum number of authors to return. This is limited to a max of 20.
+ * @apiParam {Number} rows Maximum number of authors to return. Max 20.
  * @apiParam {Number} page Page to return based on the rows.
- * @apiParam {String} [search] Search string to limit the result to. Will search in author 'name' only. (NYI)
- * @apiParam {String="name", "id"} [orderBy] By what returned field to order by. Defaults to 'name'. (NYI)
- * @apiParam {String="ASC","DESC"} [order] How to order the return set. Defaults to 'ASC'. (NYI)
+ * @apiParam {String} [search] Search string to limit the result to. Will search in author <code>name</code> only. (NYI)
+ * @apiParam {String="name", "id"} [orderBy] By what returned field to order by. Defaults to <code>name</code>. (NYI)
+ * @apiParam {String="ASC","DESC"} [order] How to order the return set. Defaults to <code>ASC</code>. (NYI)
  * 
- * @apiSuccess {Number} count The total authors in the system
+ * @apiSuccess {Number} count The total number of authors in the system
  * @apiSuccess {Object[]} rows List of Authors (Array of Objects).
  * @apiSuccess {String} rows.id ID of the Author.
  * @apiSuccess {String} rows.name Name of the Author.
- * @apiSuccess {String} rows.created_on The date on which the Author was created.
- * @apiSuccess {String} rows.updated_on The date on which the Author was last updated.
  * 
  * @apiSuccessExample {json} Success-Response:
  * {
@@ -29,14 +25,10 @@ var router = express.Router();
  *     {
  *        "id":31,
  *        "name":"Adam Daigle",
- *        "created_on":"2015-07-04T00:00:00.000Z",
- *        "updated_on":"2015-07-04T00:00:00.000Z"
  *     },
  *     {
  *        "id":40,
  *        "name":"Alex Greenshields",
- *        "created_on":"2015-07-04T00:00:00.000Z",
- *        "updated_on":"2015-07-04T00:00:00.000Z"
  *     }
  * 	]
  * }
@@ -79,21 +71,26 @@ router.get('/', function(req, res, next) {
  * @apiName GetAuthor
  * @apiGroup Author
  * 
- * @apiHeader {String} Authorization The authorization token.
- * 
  * @apiParam {Number} id Author's unique ID.
  * 
  * @apiError {400} BadRequest The request was not in a valid format.
  * @apiError {404} AuthorNotFound The <code>id</code> of the Author was not found.
  * @apiError {401} Unauthorized You are not allowed access to the Author. 
  */
-router.get('/', function(req, res, next) {
-	models.Authors.findAndCountAll()
-	.then(function(authors) {
-		res.status(200).send(authors);
-	}).catch(function(error) {
-		res.status(400).send(error);
-	});
+router.get('/:id', function(req, res, next) {
+	if(req.params.id)
+	{	
+		models.Authors.findById(req.params.id)
+		.then(function(authors) {
+			res.status(200).send(authors);
+		}).catch(function(error) {
+			res.status(400).send(error);
+		});
+	}
+	else
+	{
+		res.status(400).end();
+	}
 });
 
 /**

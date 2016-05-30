@@ -45,24 +45,24 @@ module.exports = function(sequelize, DataTypes) {
 		  type: DataTypes.BOOLEAN,
 		  allowNull: true,
 		  defaultValue: '0'
-		    },
-		    archived: {
-		      type: DataTypes.DATE,
-		      allowNull: true
-		    },
-		    created_on: {
-		      type: DataTypes.DATE,
-		      allowNull: false
-		    },
-		    updated_on: {
-		      type: DataTypes.DATE,
-		      allowNull: false
-		    },
-		    deleted: {
-		      type: DataTypes.DATE,
-		      allowNull: true
-		    }
-		  }, {
-			  tableName: 'scenarios'
-		  });
+		},
+		archived_at: {
+			type: DataTypes.DATE,
+			allowNull: true
+		}
+	}, {
+		tableName: 'scenarios',
+		instanceMethods: {
+			// http://stackoverflow.com/questions/27972271/sequelize-dont-return-password
+			// prevent the API from ever returning the password-hash or salt
+			toJSON: function() {
+				var values = this.get();
+
+				delete values.created_at;
+				delete values.updated_at;
+				delete values.deleted_at;
+				return values;
+			}
+		}
+	});
 };

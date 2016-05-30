@@ -11,20 +11,20 @@ module.exports = function(sequelize, DataTypes) {
     name: {
       type: DataTypes.STRING,
       allowNull: true
-    },
-    created_on: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    updated_on: {
-      type: DataTypes.DATE,
-      allowNull: false
-    },
-    deleted: {
-      type: DataTypes.DATE,
-      allowNull: true
     }
   }, {
-    tableName: 'authors'
+    tableName: 'authors',
+	instanceMethods: {
+		// http://stackoverflow.com/questions/27972271/sequelize-dont-return-password
+		// prevent the API from ever returning the password-hash or salt
+		toJSON: function() {
+			var values = this.get();
+
+			delete values.created_at;
+			delete values.updated_at;
+			delete values.deleted_at;
+			return values;
+		}
+	}
   });
 };

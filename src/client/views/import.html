@@ -28,16 +28,36 @@
 			<form>
 				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group">
 					<h4>Import played data</h4>
-					<textarea class="form-control" rows="5" ng-model="vm.pc_data"></textarea><br>
-					<button class="button" ng-click="vm.process('pc')">Process played data!</button>
-				</div>
-				<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 form-group">
-					<h4>Import ran data</h4>
-					<textarea class="form-control" rows="5" ng-model="vm.gm_data"></textarea><br>
-					<button class="button" ng-click="vm.process('gm')">Process ran data!</button>
+					<textarea class="form-control" rows="5" ng-model="vm.jsondata"></textarea><br>
+					<button class="button" ng-click="vm.process('pc')">Process as PC data!</button>
+					<button class="button" ng-click="vm.process('gm')">Process as GM data!</button>
 				</div>
 			</form>
-			<div ng-if="vm.log != ''">
+			<div class="col-xs-12" ng-if="vm.resolved.length > 0">
+				<h4>Import results</h4>
+				<table class="table table-hover">
+					<tr>
+						<td><strong>#</strong></td>
+						<td><strong>Played at</strong></td>
+						<td><strong>Campaign</strong></td>
+						<td><strong>Character</strong></td>
+						<td><strong>Type</strong></td>
+						<td><strong>Import content</strong></td>
+						<td><strong>Tracker content</strong></td>
+					</tr>
+					<tr ng-repeat="import in vm.resolved" ng-class="import.tracker.class">
+						<td>{{$index + 1}}</td>
+						<td>{{import.played_at}}</td>
+						<td>{{import.campaign}}</td>
+						<td>{{import.character || '?'}} ({{vm.getCharacterByNumber(import.character)}})</td>
+						<td>{{import.type}}</td>
+						<td>{{import.importcontent}}</td>
+						<td>{{import.tracker}}</td>						
+					</tr>
+				</table>
+			</div>
+			
+			<div class="col-xs-12" ng-if="vm.log != ''">
 				<h4>Import log</h4>
 				<div ng-bind-html="vm.log | unsafe"></div>
 			</div>

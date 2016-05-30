@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var scenarios = require('./routes/scenarios');
+var characters = require('./routes/characters');
 var authors = require('./routes/authors');
 var people = require('./routes/people');
 
@@ -40,6 +41,7 @@ app.use(allowCrossDomain);
 app.use('/scenarios', scenarios);
 app.use('/authors', authors);
 app.use('/people', people);
+app.use('/characters', characters);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

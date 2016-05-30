@@ -446,6 +446,94 @@ class V1 extends REST_Controller
     	$this->response($this->ion_auth->register($this->post('name'), $this->post('password'), $this->post('email'), $extra, 200));
     }
     
+    function determine_post()
+    {
+    	if(!$this->post('content'))
+    	{
+    		$this->response(NULL, 400);
+    	}
+    	
+    	$search = $this->input->post('content');
+    	
+    	$scenario = new Scenario();
+    	
+    	if($search['importcontent']) {
+    		$search['importcontent'] = str_replace(' (RPG)', '', $search['importcontent']);
+    	}
+    	else 
+    	{
+    		$this->response('Unknown content', 404);
+    	}
+    	
+    	if($search['type'] == 'scenario')
+    	{
+    	    $search['importcontent'] = strstr($search['importcontent'], ': ');
+    		$search['importcontent'] = substr($search['importcontent'], 2);
+    		
+    		// Search on name, is all we can do
+   			$scenario->like('name', $search['importcontent'])->get();
+   			
+   			if($scenario->result_count() == 1)
+   			{
+   				$this->response($scenario->all_to_array(), 200);
+   			}
+   			elseif($scenario->result_count() > 1)
+   			{
+   				$this->response('More than one result', 400); 
+   			}
+   			else 
+   			{
+   				$this->response('Unknown content', 404);
+   			}
+    	} 
+    	elseif($search['type'] == 'ap') 
+    	{
+    		$search['importcontent'] = strstr($search['importcontent'], ': ');
+    		$search['importcontent'] = substr($search['importcontent'], 2);
+    		
+    		// Search on name, is all we can do
+   			$scenario->like('name', $search['importcontent'])->get();
+   			
+   			if($scenario->result_count() == 1)
+   			{
+   				$this->response($scenario->all_to_array(), 200);
+   			}
+   			elseif($scenario->result_count() > 1)
+   			{
+   				$this->response('More than one result', 400); 
+   			}
+   			else 
+   			{
+   				$this->response('Unknown content', 404);
+   			}
+    	}
+    	elseif($search['type'] == 'mod')
+    	{
+    		// Search on name, is all we can do
+   			$search['importcontent'] = str_replace(' (RPG)', '', $search['importcontent']);
+    			
+   			$scenario->like('name', $search['importcontent'])->get();
+   			
+   			if($scenario->result_count() == 1)
+   			{
+   				$this->response($scenario->all_to_array(), 200);
+   			}
+   			elseif($scenario->result_count() > 1)
+   			{
+   				$this->response('More than one result', 400); 
+   			}
+   			else 
+   			{
+   				$this->response('Unknown content', 404);
+   			}
+    	}
+    	else
+    	{
+    		// No clue what this content is supposed to be
+    		$this->response('Unknown content', 404);
+    	}
+    }
+    
     function profile_post()
     {
     	if(!$this->post('name') || !$this->post('pfsnumber') || !$this->post('public'))

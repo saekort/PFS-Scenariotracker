@@ -74,19 +74,6 @@ define({ "api": [
     "title": "GET an author",
     "name": "GetAuthor",
     "group": "Author",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>The authorization token.</p>"
-          }
-        ]
-      }
-    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -142,19 +129,6 @@ define({ "api": [
     "title": "GET a group of authors",
     "name": "GetAuthors",
     "group": "Author",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>The authorization token.</p>"
-          }
-        ]
-      }
-    },
     "parameter": {
       "fields": {
         "Parameter": [
@@ -163,7 +137,7 @@ define({ "api": [
             "type": "Number",
             "optional": false,
             "field": "rows",
-            "description": "<p>Maximum number of authors to return. This is limited to a max of 20.</p>"
+            "description": "<p>Maximum number of authors to return. Max 20.</p>"
           },
           {
             "group": "Parameter",
@@ -177,7 +151,7 @@ define({ "api": [
             "type": "String",
             "optional": true,
             "field": "search",
-            "description": "<p>Search string to limit the result to. Will search in author 'name' only. (NYI)</p>"
+            "description": "<p>Search string to limit the result to. Will search in author <code>name</code> only. (NYI)</p>"
           },
           {
             "group": "Parameter",
@@ -188,7 +162,7 @@ define({ "api": [
             ],
             "optional": true,
             "field": "orderBy",
-            "description": "<p>By what returned field to order by. Defaults to 'name'. (NYI)</p>"
+            "description": "<p>By what returned field to order by. Defaults to <code>name</code>. (NYI)</p>"
           },
           {
             "group": "Parameter",
@@ -199,7 +173,7 @@ define({ "api": [
             ],
             "optional": true,
             "field": "order",
-            "description": "<p>How to order the return set. Defaults to 'ASC'. (NYI)</p>"
+            "description": "<p>How to order the return set. Defaults to <code>ASC</code>. (NYI)</p>"
           }
         ]
       }
@@ -212,7 +186,7 @@ define({ "api": [
             "type": "Number",
             "optional": false,
             "field": "count",
-            "description": "<p>The total authors in the system</p>"
+            "description": "<p>The total number of authors in the system</p>"
           },
           {
             "group": "Success 200",
@@ -234,27 +208,13 @@ define({ "api": [
             "optional": false,
             "field": "rows.name",
             "description": "<p>Name of the Author.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "rows.created_on",
-            "description": "<p>The date on which the Author was created.</p>"
-          },
-          {
-            "group": "Success 200",
-            "type": "String",
-            "optional": false,
-            "field": "rows.updated_on",
-            "description": "<p>The date on which the Author was last updated.</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "{\n \"count\":122,\n \"rows\":[\n    {\n       \"id\":31,\n       \"name\":\"Adam Daigle\",\n       \"created_on\":\"2015-07-04T00:00:00.000Z\",\n       \"updated_on\":\"2015-07-04T00:00:00.000Z\"\n    },\n    {\n       \"id\":40,\n       \"name\":\"Alex Greenshields\",\n       \"created_on\":\"2015-07-04T00:00:00.000Z\",\n       \"updated_on\":\"2015-07-04T00:00:00.000Z\"\n    }\n\t]\n}",
+          "content": "{\n \"count\":122,\n \"rows\":[\n    {\n       \"id\":31,\n       \"name\":\"Adam Daigle\",\n    },\n    {\n       \"id\":40,\n       \"name\":\"Alex Greenshields\",\n    }\n\t]\n}",
           "type": "json"
         }
       ]
@@ -734,7 +694,160 @@ define({ "api": [
             "type": "Search",
             "optional": true,
             "field": "search",
-            "description": "<p>String to limit results to. Searches on <code>name</code>.</p>"
+            "description": "<p>Search string to limit the result to. Will search in Scenario <code>name</code> only.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"name\"",
+              "\"season\""
+            ],
+            "optional": true,
+            "field": "orderBy",
+            "description": "<p>By what field to order the response by. Defaults to <code>season</code>.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"ASC\"",
+              "\"DESC\""
+            ],
+            "optional": true,
+            "field": "order",
+            "description": "<p>How to order the response. Defaults to <code>ASC</code>.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": true,
+            "field": "modules",
+            "description": "<p>Whether to include modules in the query.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": true,
+            "field": "quests",
+            "description": "<p>Whether to include quests in the query.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": true,
+            "field": "aps",
+            "description": "<p>Whether to include adventure paths in the query.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": true,
+            "field": "scenarios",
+            "description": "<p>Whether to include scenarios in the query.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "count",
+            "description": "<p>total number of Scenarios that match your query.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Object[]",
+            "optional": false,
+            "field": "rows",
+            "description": "<p>resulting Scenarios.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "rows.id",
+            "description": "<p>ID of the Scenario.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "rows.name",
+            "description": "<p>Name of the Scenario.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "rows.description",
+            "description": "<p>Description of the Scenario.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "allowedValues": [
+              "\"scenario\"",
+              "\"mod\"",
+              "\"ap\"",
+              "\"query\""
+            ],
+            "optional": false,
+            "field": "rows.type",
+            "description": "<p>Type of the Scenario.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "optional": false,
+            "field": "rows.season",
+            "description": "<p>Season of the Scenario. If not in a season, then this will show <code>99</code>.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Integer",
+            "optional": false,
+            "field": "rows.number",
+            "description": "<p>Number of the Scenario in it's season.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "rows.tier",
+            "description": "<p>Tier of the Scenario.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "rows.levelrange",
+            "description": "<p>Levels allowed, seperated by <code>|</code>, of the Scenario.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "rows.link",
+            "description": "<p>Paizo store link for the Scenario.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "rows.evergreen",
+            "description": "<p>If the Scenario is a evergreen or not.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Date",
+            "optional": false,
+            "field": "rows.archived_at",
+            "description": "<p>Date on which the Scenario was archived. <code>null</code> if not archived.</p>"
           }
         ]
       }
