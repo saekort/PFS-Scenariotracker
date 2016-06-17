@@ -8,6 +8,9 @@ var app = require('../app');
 var debug = require('debug')('app:server');
 var models = require("../models");
 var fs = require('fs');
+var path      = require('path');
+var env       = process.env.NODE_ENV || 'development';
+var config    = require(path.join(__dirname, '..', 'config', 'server.json'))[env];
 var http = require('http');
 var https = require('https');
 
@@ -15,36 +18,41 @@ var https = require('https');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '8443');
-app.set('port', port);
-
 /**
  * Setup HTTP server to redirect to HTTPS
  */
-http.createServer(function (req, res) {
-    res.writeHead(301, { "Location": "https://localhost:8443" + req.url });
+var httpServer = http.createServer(function (req, res) {
+    res.writeHead(301, { "Location": "https://localhost:" + config.portHttps + req.url });
     res.end();
-}).listen(8080);
+}).listen(config.portHttp, config.ipaddress, function() {
+	console.log('Express HTTP server listening on port ' + httpServer.address().port + ' on ' + httpServer.address().address);
+});
 
 /**
- * Listen on provided port, on all network interfaces.
- */
-
-/**
- * Sync models with database
+ * Setup the main HTTP server
  */
 models.sequelize.sync({force: false}).then(function () {
 
-	var server = https.createServer({
+	var httpsServer = https.createServer({
 	      key: fs.readFileSync('../../certs/key.pem'),
 	      cert: fs.readFileSync('../../certs/cert.pem')
 	    }, app)
-	    .listen(app.get('port'), function() {
-           console.log('Express server listening on port ' + server.address().port);
-           server.on('error', onError);
-           server.on('listening', onListening);
+	    .listen(config.portHttps, config.ipaddress, function() {
+           console.log('Express HTTPS server listening on port ' + httpsServer.address().port + ' on ' + httpsServer.address().address);
+           httpsServer.on('error', onError);
+           httpsServer.on('listening', onListening);
         });
+		
+		app.use('/', require('../routes/index'));
+		app.use('/auth', require('../routes/auth'));
+		app.use('/scenarios', require('../routes/scenarios'));
+		app.use('/authors', require('../routes/authors'));
+		app.use('/people', require('../routes/people'));
+		app.use('/characters', require('../routes/characters'));
+		app.use('/statistics', require('../routes/statistics'));
+		app.use('/user', require('../routes/user'));
 });
+
 /**
  * Normalize a port into a number, string, or false.
  */

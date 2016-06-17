@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "description": "API documentation for the PFS Sessiontracker API",
   "title": "PFS Sessiontracker API",
-  "url": "https://localhost:8443",
-  "sampleUrl": "https://localhost:8443",
+  "url": "https://localhost:3443",
+  "sampleUrl": "https://localhost:3443",
   "template": {
     "forceLanguage": "en",
     "withCompare": true,
@@ -13,7 +13,7 @@
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2016-05-30T12:05:39.535Z",
+    "time": "2016-06-17T13:11:03.533Z",
     "url": "http://apidocjs.com",
     "version": "0.15.1"
   }

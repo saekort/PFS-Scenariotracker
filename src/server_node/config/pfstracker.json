@@ -1,0 +1,15 @@
+{
+  "development": {
+	"apiSecret": "SXe95V0tpDyq85bn83Le",
+    "jwtExpire": 86400,
+    "jwtRefresh": 64800
+
+  },
+  "test": {
+	"apiSecret": "Q6eLDFyRIRJMfLZogRsj",
+    "jwtExpire": 86400,
+    "jwtRefresh": 64800
+  },
+  "production": {
+  }
+}

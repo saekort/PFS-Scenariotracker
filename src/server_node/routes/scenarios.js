@@ -12,6 +12,7 @@ var router = express.Router();
  * @apiParam {Search} [search] Search string to limit the result to. Will search in Scenario <code>name</code> only.
  * @apiParam {String="name", "season"} [orderBy] By what field to order the response by. Defaults to <code>season</code>.
  * @apiParam {String="ASC","DESC"} [order] How to order the response. Defaults to <code>ASC</code>.
+ * @apiParam {Boolean} [archived] Whether to include retired content.
  * @apiParam {Boolean} [modules] Whether to include modules in the query.
  * @apiParam {Boolean} [quests] Whether to include quests in the query.
  * @apiParam {Boolean} [aps] Whether to include adventure paths in the query.
@@ -29,6 +30,7 @@ var router = express.Router();
  * @apiSuccess {String} rows.levelrange Levels allowed, seperated by <code>|</code>, of the Scenario.
  * @apiSuccess {String} rows.link Paizo store link for the Scenario.
  * @apiSuccess {Boolean} rows.evergreen If the Scenario is a evergreen or not.
+ * @apiSuccess {Boolean} rows.multitable If the Scenario is a multitable special or not.
  * @apiSuccess {Date} rows.archived_at Date on which the Scenario was archived. <code>null</code> if not archived.
  * 
  */
@@ -36,11 +38,13 @@ router.get('/', function(req, res, next) {
 	if(req.query.rows && req.query.page && req.query.rows <= 20)
 	{
 		var findParams = {};
+		findParams.where = {};
 		
-		// Handle 'rows'
-		if(typeof req.query.rows !== 'undefined') {
-			if(req.query.rows > 0 && req.query.rows <= 20) {
-				findParams.limit = parseInt(req.query.rows);	
+		// Handle 'rows' & 'page'
+		if(typeof req.query.rows !== 'undefined' || typeof req.query.rows !== 'undefined') {
+			if(req.query.rows > 0 && req.query.rows <= 20 && req.query.page > 0) {
+				findParams.limit = parseInt(req.query.rows);
+				findParams.offset = parseInt(req.query.page * req.query.rows - req.query.rows);
 			} else {
 				res.status(400).end();
 			}
@@ -49,72 +53,123 @@ router.get('/', function(req, res, next) {
 		}
 		
 		// Handle 'search'
-		var search = '';
-		if(typeof req.query.search !== 'undefined') {
-			//TODO: Remove the LIKE clause for 'search' if 'search' is not set for more DB efficiency
-			search = req.query.search;
+		if(typeof req.query.search !== 'undefined' && req.query.search !== '') {
+			findParams.where.name = {$like: '%' + req.query.search + '%'};
 		}
 		
-		// Handle 'orderBy'
+		// Handle 'orderBy' & 'order'
 		var orderBy = 'season';
-		if(typeof req.query.orderBy !== 'undefined') {
+		var order = 'ASC';
+		if(typeof req.query.orderBy !== 'undefined' && typeof req.query.order !== 'undefined') {
 			if(req.query.orderBy === 'name' || req.query.order === 'season') {
 				// Only allow 'name' or 'season'
-				orderBy = req.query.orderBy	
+				orderBy = req.query.orderBy;
+			}
+			
+			if(req.query.order.toUpperCase() === 'ASC' || req.query.order.toUpperCase() === 'DESC') {
+				// Only allow 'ASC' or 'DESC'
+				order = req.query.order;
+			}
+			
+			findParams.order = [ [ orderBy, order ] ];
+		}
+		
+		// Handle 'retired'
+		if(typeof req.query.retired === 'undefined' || req.query.retired !== 'true') {
+			// If there is no retired toggle then do not include archived content
+			findParams.where.archived_at = null;
+		}
+		
+		// Handle 'specials'
+		if(typeof req.query.specials === 'undefined' || req.query.specials !== 'true') {
+			// If there is no specials toggle then do not include multitable content
+			findParams.where.multitable = 0;
+		}
+		
+		// Handle 'evergreen'
+		if(typeof req.query.evergreen !== 'undefined' || req.query.evergreen === 'true') {
+			// If there is a evergreen toggle then only include evergreen content
+			findParams.where.evergreen = 1;
+		}
+		
+		// Handle 'campaign'
+		var campaign = 'PFS';
+		if(typeof req.query.campaign !== 'undefined') {
+			// Only allow 'PFS' or 'CORE'
+			if(req.query.campaign.toUpperCase() === 'PFS' || req.query.campaign.toUpperCase() === 'CORE') {
+				campaign = req.query.campaign.toUpperCase();
 			}
 		}
 		
-		// Handle 'order'
-		var order = 'ASC';
-		if(typeof req.query.order != 'undefined') {
-			if(req.query.order.toUpperCase() === 'ASC' || req.query.order.toUpperCase() === 'DESC') {
-				// Only allow 'ASC' or 'DESC'
-				order = req.query.order	
-			}
+		// Handle 'season'
+		if(typeof req.query.season !== 'undefined' && req.query.season.length > 0) {
+			var seasons = req.query.season;
+			findParams.where.season = {$in: seasons};
 		}
+		
+		// Add authors to the result
+		findParams.include = [];
+		findParams.include.push({model: models.Author, as: 'authors', duplicating: false, order: [ ['name', 'ASC'] ]});
+		
+		// Handle 'author'
+		if(typeof req.query.author !== 'undefined') {
+			// Actually search and limit on author search
+			findParams.include[0].where = {};
+			findParams.include[0].where.name = {$like: '%' + req.query.author + '%'};
+		}
+		
+		// TODO: Actually limit to the campaign
+		//findParams.where.campaign = campaign;
 		
 		// Handle 'contenttypes'
 		var contenttypes = [];
-		//TODO: Make the query parameter contenttypes a array instead of 4 seperate values
-		if(typeof req.query.modules != 'undefined') {
+		if(typeof req.query.modules !== 'undefined') {
 			// Module
 			if(req.query.modules == 'true') {
-				contenttypes.push('mod');	
-			}			
+				contenttypes.push('mod');
+			}
 		}
 		
-		if(typeof req.query.quests != 'undefined') {
+		if(typeof req.query.quests !== 'undefined') {
 			// Quest
 			if(req.query.quests == 'true') {
 				contenttypes.push('quest');	
 			}
 		}
 		
-		if(typeof req.query.aps != 'undefined') {
+		if(typeof req.query.aps !== 'undefined') {
 			// Adventure path
 			if(req.query.aps == 'true') {
 				contenttypes.push('ap');
 			}
 		}
 		
-		if(typeof req.query.scenarios != 'undefined') {
+		if(typeof req.query.scenarios !== 'undefined') {
 			// Scenario
 			if(req.query.scenarios == 'true') {
 				contenttypes.push('scenario');	
 			}
 		}
 		
-		//TODO: If any of the contenttypes are set, limit the query with a WHERE IN clause
-		models.Scenarios.findAndCountAll(findParams)
-		// Do the database query
-//		models.Scenarios.findAndCountAll({
-//			where: models.sequelize.or({name: {$like: '%' + search + '%'}}),
-//			offset: parseInt(req.query.page * req.query.rows - req.query.rows),	
-//			order: [ [orderBy, order] ]
-//		})
+		if(contenttypes.length > 0) {
+			//TODO: Make sure this is not always included, if we don't have to limit, we should not add a where in
+			findParams.where.type = {$in: contenttypes};
+		}
+	
+		// Handle 'levels'
+		if(typeof req.query.levels !== 'undefined') {
+			findParams.where.levelrange = {$and: [{$like: '%' + req.query.levels[0] + '%'}]};
+			
+			if(req.query.levels.length === 2) {
+			       findParams.where.levelrange.$and.push({$like: '%' + req.query.levels[1] + '%'});	
+			}
+		}
+		
+		models.Scenario.findAndCountAll(findParams)
 		.then(function(scenarios) {
 			res.status(200).send(scenarios);
 		}).catch(function(error) {
+			console.log(error);
 			res.status(400).send(error);
 		});
 	} else {

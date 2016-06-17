@@ -23,7 +23,7 @@ define({ "api": [
     "groupTitle": "Author",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/authors/"
+        "url": "https://localhost:3443/authors/"
       }
     ]
   },
@@ -64,7 +64,7 @@ define({ "api": [
     "groupTitle": "Author",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/authors/:id"
+        "url": "https://localhost:3443/authors/:id"
       }
     ]
   },
@@ -119,7 +119,7 @@ define({ "api": [
     "groupTitle": "Author",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/authors/:id"
+        "url": "https://localhost:3443/authors/:id"
       }
     ]
   },
@@ -157,8 +157,7 @@ define({ "api": [
             "group": "Parameter",
             "type": "String",
             "allowedValues": [
-              "\"name\"",
-              "\"id\""
+              "\"name\""
             ],
             "optional": true,
             "field": "orderBy",
@@ -256,7 +255,7 @@ define({ "api": [
     "groupTitle": "Author",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/authors"
+        "url": "https://localhost:3443/authors"
       }
     ]
   },
@@ -297,7 +296,7 @@ define({ "api": [
     "groupTitle": "Author",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/authors/:id"
+        "url": "https://localhost:3443/authors/:id"
       }
     ]
   },
@@ -312,7 +311,7 @@ define({ "api": [
     "groupTitle": "Character",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/characters/"
+        "url": "https://localhost:3443/characters/"
       }
     ]
   },
@@ -340,7 +339,7 @@ define({ "api": [
     "groupTitle": "Character",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/characters/:id"
+        "url": "https://localhost:3443/characters/:id"
       }
     ]
   },
@@ -368,7 +367,7 @@ define({ "api": [
     "groupTitle": "Character",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/characters/:id"
+        "url": "https://localhost:3443/characters/:id"
       }
     ]
   },
@@ -383,7 +382,7 @@ define({ "api": [
     "groupTitle": "Character",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/character"
+        "url": "https://localhost:3443/character"
       }
     ]
   },
@@ -411,7 +410,7 @@ define({ "api": [
     "groupTitle": "Character",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/characters/:id"
+        "url": "https://localhost:3443/characters/:id"
       }
     ]
   },
@@ -439,7 +438,7 @@ define({ "api": [
     "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/people/"
+        "url": "https://localhost:3443/people/"
       }
     ]
   },
@@ -467,7 +466,7 @@ define({ "api": [
     "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/people/:personId"
+        "url": "https://localhost:3443/people/:personId"
       }
     ]
   },
@@ -522,7 +521,7 @@ define({ "api": [
     "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/people"
+        "url": "https://localhost:3443/people"
       }
     ]
   },
@@ -550,7 +549,7 @@ define({ "api": [
     "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/people/:personId"
+        "url": "https://localhost:3443/people/:personId"
       }
     ]
   },
@@ -578,7 +577,7 @@ define({ "api": [
     "groupTitle": "People",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/people/:personId"
+        "url": "https://localhost:3443/people/:personId"
       }
     ]
   },
@@ -606,7 +605,7 @@ define({ "api": [
     "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/scenarios/"
+        "url": "https://localhost:3443/scenarios/"
       }
     ]
   },
@@ -634,7 +633,7 @@ define({ "api": [
     "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/scenarios/:scenarioId"
+        "url": "https://localhost:3443/scenarios/:scenarioId"
       }
     ]
   },
@@ -662,7 +661,7 @@ define({ "api": [
     "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/scenarios/:scenarioId"
+        "url": "https://localhost:3443/scenarios/:scenarioId"
       }
     ]
   },
@@ -717,6 +716,13 @@ define({ "api": [
             "optional": true,
             "field": "order",
             "description": "<p>How to order the response. Defaults to <code>ASC</code>.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Boolean",
+            "optional": true,
+            "field": "archived",
+            "description": "<p>Whether to include retired content.</p>"
           },
           {
             "group": "Parameter",
@@ -844,6 +850,13 @@ define({ "api": [
           },
           {
             "group": "Success 200",
+            "type": "Boolean",
+            "optional": false,
+            "field": "rows.multitable",
+            "description": "<p>If the Scenario is a multitable special or not.</p>"
+          },
+          {
+            "group": "Success 200",
             "type": "Date",
             "optional": false,
             "field": "rows.archived_at",
@@ -857,7 +870,7 @@ define({ "api": [
     "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/scenarios"
+        "url": "https://localhost:3443/scenarios"
       }
     ]
   },
@@ -885,7 +898,247 @@ define({ "api": [
     "groupTitle": "Scenarios",
     "sampleRequest": [
       {
-        "url": "https://localhost:8443/scenarios/:scenarioId"
+        "url": "https://localhost:3443/scenarios/:scenarioId"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/statistics/:type",
+    "title": "GET a statistic",
+    "name": "GetStatistic",
+    "group": "Statistic",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"totals\"",
+              "\"played_most\"",
+              "\"evergreen\"",
+              "\"player_complete_pfs\"",
+              "\"gm_complete_pfs\"",
+              "\"player_complete_core\"",
+              "\"gm_complete_core\""
+            ],
+            "optional": false,
+            "field": "type",
+            "description": "<p>What statistic to get.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "400",
+            "optional": false,
+            "field": "BadRequest",
+            "description": "<p>The request was not in a valid format.</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "type": "401",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>You are not allowed access to the Statistic.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/statistics.js",
+    "groupTitle": "Statistic",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/statistics/:type"
+      }
+    ]
+  },
+  {
+    "type": "put",
+    "url": "/user/characters",
+    "title": "",
+    "name": "DeleteUserCharacter",
+    "group": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>&quot;Bearer &quot; + [JSON Web Token (JWT)]</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/user.js",
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user/characters"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/user",
+    "title": "GET the user's data",
+    "name": "GetUser",
+    "group": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>&quot;Bearer &quot; + [JSON Web Token (JWT)]</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/user.js",
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/user/characters",
+    "title": "GET the user's characters",
+    "name": "GetUserCharacters",
+    "group": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>&quot;Bearer &quot; + [JSON Web Token (JWT)]</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/user.js",
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user/characters"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/user/pfsnumbercheck",
+    "title": "",
+    "name": "PFSNumberCheck",
+    "group": "User",
+    "version": "0.0.0",
+    "filename": "routes/user.js",
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user/pfsnumbercheck"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/user/characters",
+    "title": "",
+    "name": "PostUserCharacter",
+    "group": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>&quot;Bearer &quot; + [JSON Web Token (JWT)]</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/user.js",
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user/characters"
+      }
+    ]
+  },
+  {
+    "type": "put",
+    "url": "/user",
+    "title": "PUT the user's data",
+    "name": "PutUser",
+    "group": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>&quot;Bearer &quot; + [JSON Web Token (JWT)]</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/user.js",
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user"
+      }
+    ]
+  },
+  {
+    "type": "put",
+    "url": "/user/characters",
+    "title": "",
+    "name": "PutUserCharacter",
+    "group": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>&quot;Bearer &quot; + [JSON Web Token (JWT)]</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/user.js",
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user/characters"
       }
     ]
   }

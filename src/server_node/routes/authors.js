@@ -1,4 +1,5 @@
 var express = require('express');
+var passport = require('passport');
 var models = require("../models");
 var router = express.Router();
 
@@ -10,7 +11,7 @@ var router = express.Router();
  * @apiParam {Number} rows Maximum number of authors to return. Max 20.
  * @apiParam {Number} page Page to return based on the rows.
  * @apiParam {String} [search] Search string to limit the result to. Will search in author <code>name</code> only. (NYI)
- * @apiParam {String="name", "id"} [orderBy] By what returned field to order by. Defaults to <code>name</code>. (NYI)
+ * @apiParam {String="name"} [orderBy] By what returned field to order by. Defaults to <code>name</code>. (NYI)
  * @apiParam {String="ASC","DESC"} [order] How to order the return set. Defaults to <code>ASC</code>. (NYI)
  * 
  * @apiSuccess {Number} count The total number of authors in the system
@@ -50,11 +51,45 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
 	if(req.query.rows && req.query.page && req.query.rows <= 20)
 	{
-		models.Authors.findAndCountAll({
-			limit: parseInt(req.query.rows),			
-			offset: parseInt(req.query.page * req.query.rows - req.query.rows),			
-			order: '`name` ASC'
-		}).then(function (authors) {
+		var findParams = {};
+		findParams.where = {};		
+		
+		// Handle 'rows' & 'page'
+		if(typeof req.query.rows !== 'undefined' || typeof req.query.rows !== 'undefined') {
+			if(req.query.rows > 0 && req.query.rows <= 20 && req.query.page > 0) {
+				findParams.limit = parseInt(req.query.rows);
+				findParams.offset = parseInt(req.query.page * req.query.rows - req.query.rows);
+			} else {
+				res.status(400).end();
+			}
+		} else {
+			res.status(400).end();
+		}
+		
+		// Handle 'search'
+		if(typeof req.query.search !== 'undefined' && req.query.search !== '') {
+			findParams.where.name = {$like: '%' + req.query.search + '%'};
+		}
+		
+		// Handle 'orderBy' & 'order'
+		var orderBy = 'name';
+		var order = 'ASC';
+		if(typeof req.query.orderBy !== 'undefined' && typeof req.query.order != 'undefined') {
+			if(req.query.orderBy === 'name') {
+				// Only allow 'name'
+				orderBy = req.query.orderBy; 
+			}
+			
+			if(req.query.order.toUpperCase() === 'ASC' || req.query.order.toUpperCase() === 'DESC') {
+				// Only allow 'ASC' or 'DESC'
+				order = req.query.order;
+			}
+			
+			findParams.order = [ [ orderBy, order ] ];
+		}
+		
+		models.Author.findAndCountAll(findParams)
+		.then(function (authors) {
 			res.status(200).send(authors);
 		}).catch(function(error) {
 			res.status(400).end();

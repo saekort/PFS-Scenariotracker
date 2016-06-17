@@ -1,0 +1,17 @@
+{
+  "development": {
+  	"portHttp": 3080,
+  	"portHttps": 3443,
+  	"ipaddress": "localhost"
+  },
+  "test": {
+  	"portHttp": 3080,
+  	"portHttps": 3443,
+  	"ipaddress": "127.0.0.1"
+  },
+  "production": {
+  	"portHttp": 80,
+  	"portHttps": 443,
+  	"ipaddress": "149.210.166.164"
+  }
+}
