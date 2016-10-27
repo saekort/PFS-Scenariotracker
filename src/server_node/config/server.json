@@ -2,16 +2,25 @@
   "development": {
   	"portHttp": 3080,
   	"portHttps": 3443,
-  	"ipaddress": "localhost"
+  	"portSmtp": 465,
+  	"ipaddress": "127.0.0.1",
+  	"consoleLogging": true,
+  	"localkey": false
   },
   "test": {
   	"portHttp": 3080,
   	"portHttps": 3443,
-  	"ipaddress": "127.0.0.1"
+  	"portSmtp": 465,
+  	"ipaddress": "127.0.0.1",
+  	"consoleLogging": false,
+  	"localkey": false
   },
   "production": {
   	"portHttp": 80,
   	"portHttps": 443,
-  	"ipaddress": "149.210.166.164"
+  	"portSmtp": 465,
+  	"ipaddress": "149.210.166.164",
+  	"consoleLogging": false,
+  	"localkey": "productionvalue"
   }
 }

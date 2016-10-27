@@ -347,60 +347,6 @@ button[disabled], button[disabled]:hover {
 	
 }
 
-.progress-label {
-	float: left;
-	margin-right: 1em;
-	text-align: right;
-}
-
-.progress {
-	background-color: #FFEFDB;
-	border: 1px solid #6E2D2D;
-	box-shadow: 0px;
-	margin-bottom: 5px;
-	left: 6em;
-	position: absolute;
-}
-
-.progress-xs {
-	content:'\A';
-	background-color: #FFEFDB;
-	border: 2px solid #BA6B6B;
-	margin: 5px 0 5px 0;
-	padding: 5px;
-	width: 100%;
-	text-align: center;
-	font-weight: bold;
-}
-
-.progress-xs-bar {
-    content:'\A';
-	border: 2px solid #FF9B59;
-    position:absolute;
-    background-color: #FF9B59;
-    top:0; bottom:0;
-    left:0; 
-    z-index: 998;
-}
-
-.progress-xs-label {
-	position: absolute;
-	margin-left: auto;
-	margin-right: auto;
-	left: 0;
-	right: 0;
-	z-index: 999;
-}
-
-.progress-bar-danger {
-	background-color: #964646;
-}
-
-.playedprogress {
-	margin-bottom: 5px;
-	margin-left: 0px;
-}
-
 .color-dark {
 	color: #6E2D2D;
 }
@@ -687,4 +633,189 @@ hr {
 
 .bold {
 	font-weight: bold;
+}
+
+.toast-error {
+	background-color: #F4B0B0;
+	border: 1px solid #661414;
+	color: #661414 !important;
+}
+
+.toast-success {
+	background-color: #A9E09F;
+	border: 1px solid #15470B;
+	color: #15470B !important;
+}
+
+.toast-info {
+	background-color: #A2CFEF;
+	border: 1px solid #134A70;
+	color: #134A70 !important;
+}
+
+.toast-warning {
+	background-color: #F4D8B5;
+	border: 1px solid #774D19;
+	color: #774D19 !important;
+}
+
+#toast-container > .toast {
+    background-image: none !important;
+}
+
+#toast-container > .toast:before {
+    position: relative;
+    font-family: FontAwesome;
+    font-size: 24px;
+    line-height: 18px;
+    float: left;
+    margin-left: -1em;
+    padding-right: 0.5em;
+    margin-right: 0.5em;
+}
+
+#toast-container > .toast-warning:before {
+	color: #774D19;
+    content: "\f071";
+}
+#toast-container > .toast-error:before {
+	color: #661414;
+    content: "\f1e2";
+}
+#toast-container > .toast-info:before {
+	color: #134A70;
+    content: "\f02e";
+}
+#toast-container > .toast-success:before {
+	color: #15470B;
+    content: "\f00c";
+}
+
+.loader {
+	color: #FFF;
+	font-size: 1.4em !important;
+	padding: 10px 10px 10px 10px;
+}
+
+.progressbar-pfstracker {
+	background-color: #FFEFDB;
+	border-radius: 5px;
+	border: 2px solid #BA6B6B;
+	padding: 0px;
+	height: 30px;
+}
+
+.progress-bar {
+	background-color: #6E2D2D;
+	color: #FFF;
+	padding: 5px;
+	height: 30px !important;
+	min-width: 7%;
+}
+
+.oldprogress-label {
+	float: left;
+	margin-right: 1em;
+	text-align: right;
+}
+
+.oldprogress {
+	background-color: #FFEFDB;
+	border: 1px solid #6E2D2D;
+	box-shadow: 0px;
+	margin-bottom: 5px;
+	left: 6em;
+	position: absolute;
+}
+
+.oldprogress-xs {
+	content:'\A';
+	background-color: #FFEFDB;
+	border: 2px solid #BA6B6B;
+	margin: 5px 0 5px 0;
+	padding: 5px;
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+}
+
+.oldprogress-xs-bar {
+    content:'\A';
+	border: 2px solid #FF9B59;
+    position:absolute;
+    background-color: #FF9B59;
+    top:0; bottom:0;
+    left:0; 
+    z-index: 998;
+}
+
+.oldprogress-xs-label {
+	position: absolute;
+	margin-left: auto;
+	margin-right: auto;
+	left: 0;
+	right: 0;
+	z-index: 999;
+}
+
+.oldprogress-bar-danger {
+	background-color: #964646;
+}
+
+.oldplayedprogress {
+	margin-bottom: 5px;
+	margin-left: 0px;
+}
+
+.profile-characterlist {
+	background-color: #ead4b9;
+	background-repeat: no-repeat;
+	background-position: 97% 50%;
+	background-size: 45px;
+	margin: 5px 0 5px 0;
+	padding: 5px;
+}
+
+.profile-totals {
+	background-color: #ead4b9;
+	padding: 5px;
+}
+
+.profile-progression {
+	background-color: #ead4b9;
+	padding: 5px;
+}
+
+.tab-pane {
+	background-color: #ead4b9;
+	padding: 10px;
+}
+
+.uib-tab a {
+	background-color: #D6CFC7;
+}
+
+.uib-tab .active a {
+	background-color: #ead4b9;
+}
+
+.nav-tabs {
+  border-bottom: 0px;
+}
+
+.nav-tabs > li > a {
+	border: 0px;
+	margin-right: 3px;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+	background-color: #ead4b9;
+	font-weight: bold;
+}
+
+.nav-tabs > li > a:hover {
+  border: 0;
+  background-color: #E8B9B9;
 }

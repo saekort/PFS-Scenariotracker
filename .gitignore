@@ -4,3 +4,5 @@
 .project
 .buildpath
 node_modules
+db
+src/server_node/public/bower_components

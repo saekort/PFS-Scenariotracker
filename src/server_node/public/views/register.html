@@ -1,5 +1,4 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
-	<div class="alert alert-info"><span class="glyphicon glyphicon-wrench"></span> BETA: The register page has not been worked on yet</div>
 <div id="main" class="container">
 	<div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
@@ -8,10 +7,6 @@
 	</div>
 	<div class="row scenario">
 		<h2>Register</h2>
-		<div class="register">
-			<strong class="dangerzone" ng-show="vm.message != ''">Registration successful, you may now login!</strong>
-		</div>		
-		<p class="red"><strong>Important:</strong> If you used to have a column in the old Google spreadsheet then do <strong>not</strong> register. Instead mail to simon dot kort @ gmail dot com and state your email address and pfsnumber. Your account will then be claimed and you will not lose any data.</p>
 		<p>To start reporting your own progress, please register using the form below</p>
 		<form class="form-horizontal" name="myForm">
 			<div class="register">
@@ -36,12 +31,12 @@
 			<div class="red" ng-show="myForm.password.$error.pattern">Password should be between 8 and 20 characters</div>
 			<div class="register">							
 				<label class="control-label">Username</label>
- 				<p>Your username does not need to be unique, use the name that your fellow pathfinders know you by.</p>
+ 				<p>Your username does not need to be unique, use the name that your fellow pathfinders know you by. If you have a <a href="http://www.warhorn.net" target="_blank">Warhorn</a> account, we reccomend using the same name.</p>
 				<input id="playername" name="playername" class="playerselect form-control" placeholder="Add your name here" required  ng-model="vm.playername">
 			</div>
 			<div class="register">				
 				<label class="control-label">PFS number</label>
-				<input id="playernumber" name="playernumber" class="playerselect form-control" ng-change="vm.checkPfsnumber()" placeholder="PFS number" required ng-model="vm.pfsnumber">
+				<input id="playernumber" name="playernumber" class="playerselect form-control" ng-change="vm.checkPfsnumber()" placeholder="PFS number" required ng-model="vm.pfsnumber" autocomplete="off">
 				<span class="red" ng-show="vm.invalidpfsnumber">PFS number is already registered, use a different one</span>				
 			</div>
 			<div class="checkbox">
@@ -52,10 +47,6 @@
 			<p>If you check this box, other people (for example your GM) may report the scenarios that you have played.</p>
 			<div class="register">				
 				<button class="button" ng-disabled="myForm.confirmEmail.$error.match || myForm.confirmPassword.$error.match || myForm.password.$error.pattern || vm.invalidpfsnumber || myForm.email.$error.required || myForm.password.$error.required || myForm.playername.$error.required || myForm.playernumber.$error.required" ng-click="vm.savePlayer()">Register</button>
-			</div>
-			
-			<div class="register">
-				<strong class="dangerzone" ng-show="vm.message != ''">Registration successful, you may now login!</strong>
 			</div>
 		</form>			
 	</div>

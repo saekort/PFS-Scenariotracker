@@ -5,14 +5,13 @@
         .module('scenariotracker')
         .controller('LoginController', LoginController );
     
-    function LoginController($state, $location, $http, usSpinnerService, $scope)
+    function LoginController($state, $location, $http, $scope)
     {
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$http = $http;
     	vm.main = $scope.main;
-    	vm.usSpinnerService = usSpinnerService;
     	
     	vm.username = '';
     	vm.password = '';
@@ -40,14 +39,13 @@
 				
 				main.$storage.user = data.user;
 				vm.$state.go('search');
-				
-				vm.usSpinnerService.stop('spinner-1');
+				main.toast('success', 'Welcome back ' + data.user.name);
 		}).
 	  	error(function(data, status, headers, config) {
 	  		// called asynchronously if an error occurs
 	  		// or server returns response with an error status.
-			vm.status = 'Wrong username and/or password';
-			vm.usSpinnerService.stop('spinner-1');
+			main.toast('warning', 'Wrong credentials');
+			vm.password = '';
 	  	});  	
     }
  

@@ -6,7 +6,7 @@
 		</div>
 	</div>
 	<div class="row scenario">
-		<h2>Profile</h2>
+		<h2><span class="fa fa-cog"></span> Settings</h2>
 		<strong class="dangerzone" ng-show="vm.profileUpdated">Profile information successfully updated</strong>
 		<p>Edit your profile information here.</p>
 		<form class="form-horizontal" name="updateProfile">
@@ -17,7 +17,7 @@
 			</div>
 			<div class="register">
 				<label class="control-label">PFS number</label>
-				<input id="playernumber" class="playerselect form-control" ng-change="vm.checkPfsnumber()" ng-model-options='{ debounce: 300 }' placeholder="PFS number" required ng-model="vm.pfsnumber">
+				<input id="playernumber" class="playerselect form-control" ng-change="vm.checkPfsnumber()" ng-model-options='{ debounce: 200 }' placeholder="PFS number" required ng-model="vm.pfsnumber">
 				<span class="red" ng-show="vm.invalidpfsnumber">PFS number is already registered, use a different one</span>
 			</div>
 			<div class="register">
@@ -32,6 +32,12 @@
 				<b>Others may report for me</b>
 			</div>
 			<p>If you check this box, other people (for example your GM) may report the scenarios that you have played.</p>
+			<div class="checkbox">
+				<input id="publiccharacters" type="checkbox" ng-model="vm.publiccharacters">
+				<label class="report-title" for="publiccharacters"></label>
+				<b>Others may see my characters</b>
+			</div>
+			<p>If you check this box, other people may see your characters on your profile page or on other parts of the site.</p>			
 			<div class="register">
 				<button class="button" ng-disabled="!vm.playername || !vm.pfsnumber || vm.invalidpfsnumber" ng-click="vm.savePlayer()">Update profile</button>
 			</div>

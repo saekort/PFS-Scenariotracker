@@ -10,13 +10,15 @@
     		 'ngStorage',
     		 'validation.match',
     		 'tracker.tools', 
-    		 'dndLists']);
+    		 'dndLists',
+    		 'ngAnimate',
+    		 'toastr']);
     
     // Set config
     scenariotracker.constant('trackerConfig', {'apiUrl': 'https://localhost:3443/'});    
     
     // Standard config of modules
-    scenariotracker.config(function (usSpinnerConfigProvider, $stateProvider, $urlRouterProvider, $locationProvider, $provide, $httpProvider) {
+    scenariotracker.config(function (usSpinnerConfigProvider, $stateProvider, $urlRouterProvider, $locationProvider, $provide, $httpProvider, toastrConfig) {
         usSpinnerConfigProvider.setDefaults({color: '#521717'});
         
         $stateProvider
@@ -31,7 +33,19 @@
         		templateUrl: "views/plan.html",
         		controller: 'PlanController',
         		controllerAs: 'vm'        		
-        	})        	
+        	})
+        	.state('players', {
+        		url: '/players/:pfsNumber',
+        		templateUrl: "views/players.html",
+        		controller: 'PlayersController',
+        		controllerAs: 'vm'        		
+        	})
+        	.state('players-index', {
+        		url: '/players',
+        		templateUrl: "views/players.html",
+        		controller: 'PlayersController',
+        		controllerAs: 'vm'        		
+        	})
         	.state('register', {
         		url: '/register',
         		templateUrl: "views/register.html",
@@ -62,8 +76,8 @@
         		controller: 'LoginController',
         		controllerAs: 'vm'        		
         	})
-        	.state('profile', {
-        		url: '/profile',
+        	.state('settings', {
+        		url: '/settings',
         		templateUrl: "views/profile.html",
         		controller: 'ProfileController',
         		controllerAs: 'vm'        		
@@ -75,7 +89,7 @@
         		controllerAs: 'vm'        		
         	})
         	.state('report', {
-        		url: '/report',
+        		url: '/report/:pfsNumber',
         		templateUrl: "views/report.html",
         		controller: 'ReportController',
         		controllerAs: 'vm'        		
@@ -101,8 +115,11 @@
         
         $urlRouterProvider.otherwise("/search");
        
-        $httpProvider.interceptors.push('trackerInterceptor');        
+        $httpProvider.interceptors.push('trackerInterceptor');       
         
+        angular.extend(toastrConfig, {
+        	timeOut: 1500
+        });
     });
     
     scenariotracker.filter('unsafe', function($sce) { return $sce.trustAsHtml; });

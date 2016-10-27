@@ -36,7 +36,7 @@
     	
         var req = {
                 method: 'POST',
-                url: vm.main.trackerConfig.apiUrl + 'reset_password',
+                url: vm.main.trackerConfig.apiUrl + 'people/resetpassword',
                 data: $.param({password: vm.playerpassword, resetcode: vm.resetcode}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -45,12 +45,13 @@
     	
     	vm.$http(req).
 			success(function(data, status, headers, config) {
-				vm.status = 'Password successfully reset!';
+				vm.$state.go('login');
+				vm.main.toast('success', 'Password reset');
 		}).
 	  	error(function(data, status, headers, config) {
 	  		// called asynchronously if an error occurs
 	  		// or server returns response with an error status.
-	  		vm.status = 'ERROR resetting your password!';
+	  		vm.main.toast('danger', 'Error resetting your password');
 	  	});
     }
  

@@ -8,6 +8,7 @@ var expressJwt = require('express-jwt');
 var authenticate = expressJwt({secret : config.apiSecret});
 var tokenizer = require('../helpers/tokenizer');
 var bcrypt    = require('bcryptjs');
+var winston = require('winston');
 
 /**
  * @api {get} /user GET the user's data
@@ -21,6 +22,7 @@ router.get('/', authenticate, function(req, res, next) {
 	.then(function(person) {
 		res.status(200).send(person);
 	}).catch(function(err) {
+		winston.log('error', err);
 		res.status(400).send(err);
 	});
 });
@@ -40,13 +42,16 @@ router.put('/', authenticate, function(req, res, next) {
 		if(typeof req.body.pfsnumber !== 'undefined') {	person.pfsnumber = req.body.pfsnumber; }
 		if(typeof req.body.country !== 'undefined') { person.country = req.body.country; }
 		if(typeof req.body.public !== 'undefined') { person.public = req.body.public; }
+		if(typeof req.body.publiccharacters !== 'undefined') { person.public_characters = req.body.publiccharacters; }
 		
 		person.save()
 		.then(function(person) {
 			res.status(200).send(person);
 		}).catch(Sequelize.ValidationError, function (err) {
+			winston.log('error', err.errors);
 			res.status(422).send(err.errors);
 		}).catch(function(err) {
+			winston.log('error', err);
 			res.status(400).send(err);
 		})
 	}).catch(function(err) {
@@ -68,6 +73,7 @@ router.get('/pfsnumbercheck/:pfsNumber', authenticate, function(req, res, next) 
 			res.status(200).send('unavailable');
 		}
 	}).catch(function(err) {
+		winston.log('error', err);
 		res.status(400).send(err);
 	});
 });
@@ -84,6 +90,7 @@ router.get('/characters', authenticate, function(req, res, next) {
 	.then(function(characters) {
 		res.status(200).send(characters);
 	}).catch(function(err) {
+		winston.log('error', err);
 		res.status(400).send(err);
 	});
 });
@@ -111,6 +118,7 @@ router.post('/characters', authenticate, function(req, res, next) {
 			res.set('Location', req.get('host') + '/character/' + character.id);
 			res.status(201).end();
 		}).catch(function(err) {
+			winston.log('error', err);
 			res.status(500).send(err);
 		});
 	}
@@ -138,12 +146,16 @@ router.put('/characters/:characterId', authenticate, function(req, res, next) {
 		character.save()
 		.then(function(character) {
 			res.status(200).send(character);
-		}).catch(Sequelize.ValidationError, function (err) {
-			res.status(422).send(err.errors);
+//		}).catch(models.Character.ValidationError, function (err) {
+//			winston.log('error', 'TEST TEST TEST');
+//			winston.log('error', err.errors);
+//			res.status(422).send(err.errors);
 		}).catch(function(err) {
+			winston.log('error', err);
 			res.status(400).send(err);
 		})
 	}).catch(function(err) {
+		winston.log('error', err);
 		//res.status(400).send(err);
 	});
 });
@@ -161,6 +173,7 @@ router.delete('/characters/:characterId', authenticate, function(req, res, next)
 		character.destroy();
 		res.status(200).send();	
 	}).catch(function(err) {
+		winston.log('error', err);
 		res.status(200).send(err);
 	});
 });
@@ -186,7 +199,6 @@ router.put('/password', authenticate, function(req, res, next) {
 				var salt = bcrypt.genSaltSync(10);
                 var new_password_hash = bcrypt.hashSync(new_password.replace(/\s/g, ''), salt);
 				
-                console.log(new_password_hash);
                 person.password = new_password_hash;
                 person.save();        
 				
@@ -196,7 +208,7 @@ router.put('/password', authenticate, function(req, res, next) {
 			}
 			
 		}).catch(function(err) {
-			console.log(err);
+			winston.log('error', err);
 			res.status(400).send(err);
 		});
 	} else {

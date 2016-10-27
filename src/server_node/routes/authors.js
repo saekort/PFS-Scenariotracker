@@ -2,6 +2,7 @@ var express = require('express');
 var passport = require('passport');
 var models = require("../models");
 var router = express.Router();
+var winston = require('winston');
 
 /**
  * @api {get} /authors GET a group of authors
@@ -92,6 +93,7 @@ router.get('/', function(req, res, next) {
 		.then(function (authors) {
 			res.status(200).send(authors);
 		}).catch(function(error) {
+			winston.log('error', error);
 			res.status(400).end();
 		});
 	}
@@ -119,6 +121,7 @@ router.get('/:id', function(req, res, next) {
 		.then(function(authors) {
 			res.status(200).send(authors);
 		}).catch(function(error) {
+			winston.log('error', error);
 			res.status(400).send(error);
 		});
 	}

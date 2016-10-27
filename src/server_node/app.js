@@ -18,6 +18,7 @@ var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.header('X-Frame-Options', 'DENY');
 
     next();
 };
@@ -33,6 +34,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/apidoc', express.static(path.join(__dirname, 'apidoc')));
 
 app.use(allowCrossDomain);
+
+app.use(expressJWT({ secret: config.apiSecret, credentialsRequired: false }), function(req, res, next){
+	if (req.user !== undefined) {
+		//tokenizer.refreshToken(req.user, res);
+	}
+
+	next();
+});
 
 var permissionCheck = function(req, res, next) {
 	 if (req.user !== undefined) {

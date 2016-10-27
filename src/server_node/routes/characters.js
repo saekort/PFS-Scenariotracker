@@ -1,6 +1,7 @@
 var express = require('express');
 var models = require("../models");
 var router = express.Router();
+var winston = require('winston');
 
 /**
  * @api {get} /character GET a group of characters
@@ -20,6 +21,7 @@ router.get('/', function(req, res, next) {
 	.then(function(characters) {
 		res.status(200).send(characters);
 	}).catch(function(error) {
+		winston.log('error', error);
 		res.status(400).send(error);
 	});
 });

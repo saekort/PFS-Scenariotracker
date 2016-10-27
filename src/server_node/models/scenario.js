@@ -60,7 +60,8 @@ module.exports = function(sequelize, DataTypes) {
 		classMethods: {
 			associate: function(models) {
 				Scenario.belongsToMany(models.Author, {as: 'authors', foreignKey: 'scenario_id', through: 'j_author_scenario'});
-				Scenario.hasMany(models.Statistic, {as: 'statistics'});
+				Scenario.hasMany(models.Statistic, {as: 'statistics', foreignKey: 'scenario_id'});
+				Scenario.belongsToMany(models.Person, {as: 'players', foreignKey: 'scenario_id', through: models.j_scenario_person});
 			}
 		},
 		instanceMethods: {

@@ -5,19 +5,34 @@
         .module('scenariotracker')
         .controller('NavController', NavController );
     
-    function NavController($state, $location)
+    function NavController($state, $location, $scope)
     {
     	var vm = this;
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.othermenu = false;
     	vm.profilemenu = false;
+    	vm.loading = false;
+    	vm.main = $scope.main;
+    	
+    	$scope.$on('loading-start', function() {
+    		vm.loading = true;
+    	});
+    	
+    	$scope.$on('loading-stop', function() {
+    		vm.loading = false;
+    	});
     }
-
-    NavController.prototype.goto = function(state)
+    
+    NavController.prototype.goto = function(state, type)
     {
     	var vm = this;
-    	vm.$state.go(state);
+    	vm.main.checkToken();
+    	if(type == 'pfsnumber') {
+    		vm.$state.go(state, {pfsNumber: vm.main.$storage.user.pfsnumber});
+    	} else {
+    		vm.$state.go(state);
+    	}
     }
     
     NavController.prototype.getClass = function(path)

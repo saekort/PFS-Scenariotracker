@@ -46,7 +46,6 @@
     	
     	vm.filters = $localStorage.search_filters;
     	
-    	
     	vm.search = {};
     	vm.search.author = '';
     	vm.search.scenario = '';
@@ -169,41 +168,13 @@
     		}
     	}
     	
-    	// Filter: Campaign
-    	if(vm.filters.campaign)
-    	{
-    		query = query + '&campaign=' + vm.filters.campaign;
-    	}
-    	
-    	// Filter: Author
-    	if(vm.search.author)
-    	{
-    		query = query + '&author=' + vm.search.author;
-    	}    	
-    	
-    	// Filter: Evergreen
-    	if(vm.filters.evergreen)
-    	{
-    		query = query + '&evergreen=true';
-    	}
-
-    	// Filter: Specials
-    	if(vm.filters.specials)
-    	{
-    		query = query + '&specials=true';
-    	}    	
-    	
-    	// Filter: Quests
-    	if(vm.filters.quests)
-    	{
-    		query = query + '&quests=true';
-    	}    	
-    	
-    	// Filter: Retired
-    	if(vm.filters.retired)
-    	{
-    		query = query + '&retired=true';
-    	} 	
+    	if(vm.filters.campaign) { query = query + '&campaign=' + vm.filters.campaign; } // Filter: Campaign
+    	if(vm.search.author) { query = query + '&author=' + vm.search.author; } // Filter: Author    	
+    	if(vm.filters.evergreen) { query = query + '&evergreen=true'; } // Filter: Evergreen
+    	if(vm.filters.specials) { query = query + '&specials=true'; } // Filter: Specials    	
+    	if(vm.filters.quests) { query = query + '&quests=true'; } // Filter: Quests
+    	if(vm.filters.retired) { query = query + '&retired=true'; } // Filter: Retired
+    	if(vm.filters.showAll) { query = query + '&showAll=true'; } // Filter: Don't filter out already played
     	
     	// Filter: Players
     	if(vm.people)
@@ -244,6 +215,42 @@
     		  
     		  angular.forEach(vm.scenarios, function(value, key) {
     			  value.collapsed = true;
+    			  
+    			  if(vm.people.length > 0) {
+    				  angular.forEach(vm.people, function(player, playerkey) {
+	    				  var found = false;
+	    				  for (var i = 0; i < value.players.length; i++) {
+	    					  if(value.players[i].pfsnumber == player.pfsnumber) {
+	    						  // The player does have a history with the scenario, do nothing
+	    						  found = true;
+	    						  break;
+	    					  }
+	    				  }
+	    				  
+	    				  if(!found) {
+	    					  // This player has had nothing to do with this scenario, add empty data for the view
+	    					  var emptyPlayed = {name: player.name, pfsnumber: player.pfsnumber, played: {pfs: null, pfs_gm: null, core: null, core_gm: null}};
+	    					  value.players.push(emptyPlayed);
+	    				  }
+    				  });
+    			  }
+    			  
+    			  if(vm.gm !== null) {
+    				  var found = false;
+    				  for (var i = 0; i < value.players.length; i++) {
+    					  if(value.players[i].pfsnumber == vm.gm.pfsnumber) {
+    						  // The player does have a history with the scenario, do nothing
+    						  found = true;
+    						  break;
+    					  }
+    				  }
+    				  
+    				  if(!found) {
+    					  // This player has had nothing to do with this scenario, add empty data for the view
+    					  var emptyPlayed = {name: vm.gm.name, pfsnumber: vm.gm.pfsnumber, played: {pfs: null, pfs_gm: null, core: null, core_gm: null}};
+    					  value.players.push(emptyPlayed);
+    				  }
+    			  }
     		  });
     		  
     		  vm.usSpinnerService.stop('spinner-1');
@@ -260,9 +267,9 @@
     {
     	var vm = this;
 
-    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'people?search=' + encodeURIComponent(search)).then(
+    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'people?search=' + encodeURIComponent(search) + '&rows=5&page=1').then(
     			function(response){
-    				return response.data
+    				return response.data.rows;
     			});
     }
 

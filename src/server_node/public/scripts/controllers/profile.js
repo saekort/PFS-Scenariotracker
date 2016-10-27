@@ -17,8 +17,6 @@
     	vm.pfsnumber = '';
     	vm.playerreporting = false;
     	vm.profileUpdated = false;
-    	vm.invalidpfsnumber = false;
-    	vm.changedPassword = false;
     	vm.country = {name: '', code: ''};
     	
     	vm.countries = [
@@ -108,7 +106,7 @@
     	  {name: 'Venezuela', code: 'VE'}
     	];
     	
-    	if(typeof vm.main.$storage.player === 'undefined')
+    	if(typeof vm.main.$storage.user === 'undefined')
     	{
     		// Not logged in, redirect
     		vm.$state.go('search');
@@ -130,7 +128,12 @@
   		  if(data.public == 1)
   		  {
   			  vm.playerreporting = true;
-  		  };
+  		  }
+  		  
+  		  if(data.public_characters == 1)
+		  {
+			  vm.publiccharacters = true;
+		  }
   		  
   		  if(data.country)
   		  {
@@ -154,7 +157,13 @@
         var req = {
                 method: 'PUT',
                 url: vm.main.trackerConfig.apiUrl + 'user',
-                data: $.param({name: vm.playername, pfsnumber: vm.pfsnumber, country: vm.country.code, public: vm.playerreporting}),
+                data: $.param({
+                	name: vm.playername,
+                	pfsnumber: vm.pfsnumber,
+                	country: vm.country.code,
+                	public: vm.playerreporting,
+                	publiccharacters: vm.publiccharacters
+                	}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
                 }
@@ -162,15 +171,14 @@
     	
     	vm.$http(req).
 			success(function(data, status, headers, config) {
-				console.log('Updated profile');
-				vm.profileUpdated = true;
+				vm.main.toast('success', 'Profile updated');
+				//vm.profileUpdated = true;
 		}).
 	  	error(function(data, status, headers, config) {
 	  		// called asynchronously if an error occurs
 	  		// or server returns response with an error status.
-	  		console.log('ERROR saving content');
+	  		vm.main.toast('error', 'Error while updating profile');
 	  	});
-       
     }
     
     ProfileController.prototype.changePassword = function()
@@ -187,13 +195,12 @@
     	
     	vm.$http(req).
 			success(function(data, status, headers, config) {
-				console.log('Changed password');
-				vm.changedPassword = true;
+				vm.main.toast('success', 'Changed password');
 		}).
 	  	error(function(data, status, headers, config) {
 	  		// called asynchronously if an error occurs
 	  		// or server returns response with an error status.
-	  		console.log('ERROR saving content');
+	  		vm.main.toast('error', 'Error while updating password');
 	  	});
     }
     

@@ -23,14 +23,11 @@
     }
     
     RegisterController.prototype.savePlayer = function()
-    {
-   	
+    {  	
     	var vm = this;
     	var person = {email : vm.playeremail, password : vm.playerpassword, name : vm.playername, pfsnumber : vm.pfsnumber, public : vm.othersmayreport};
-
-    	console.log(person);
     	
-      	var method = 'POST';
+    	var method = 'POST';
       	
       	if(vm.othersmayreport)
       	{
@@ -42,8 +39,8 @@
       	}
       	
       	var req = {
-                method: method,
-                url: vm.main.trackerConfig.apiUrl + 'person',
+      			method: method,
+                url: vm.main.trackerConfig.apiUrl + 'people',
                 data: $.param({pfsnumber : vm.pfsnumber, name : vm.playername, password : vm.playerpassword, public : report, email : vm.playeremail}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -52,12 +49,13 @@
     	
     	vm.$http(req).
 			success(function(data, status, headers, config) {
-				vm.message = 'success';
+				vm.$state.go('login');
+				vm.main.toast('success', 'Registration successful, you may now login!');
 		}).
 	  	error(function(data, status, headers, config) {
 	  		// called asynchronously if an error occurs
 	  		// or server returns response with an error status.
-	  		console.log('ERROR saving content');
+	  		vm.main.toast('error', 'Error while registering');
 	  	});
        
        }
@@ -66,16 +64,16 @@
     {
     	var vm = this;
     	
-    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'pfsnumber?pfsnumber=' + vm.pfsnumber).then(
-    		function(response){
-    			if(response.data != 'available')
-    			{
-    				vm.invalidpfsnumber = true;
-    			}
-    			else
-    			{
-    				vm.invalidpfsnumber = false;
-    			}
+    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'people/pfsnumbercheck/' + vm.pfsnumber)
+    	.then(function(response) {
+			if(response.data !== 'available')
+			{
+				vm.invalidpfsnumber = true;
+			}
+			else
+			{
+				vm.invalidpfsnumber = false;
+			}
     	});
     }    
 })();

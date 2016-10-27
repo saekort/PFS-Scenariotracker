@@ -5,7 +5,7 @@
         .module('scenariotracker')
         .controller('CharacterController', CharacterController );
     
-    function CharacterController($http, $state, $filter, $location, $scope, $modal, usSpinnerService)
+    function CharacterController($http, $state, $filter, $location, $scope, $uibModal, usSpinnerService)
     {
     	var vm = this;
     	vm.main = $scope.main;
@@ -13,7 +13,7 @@
     	vm.$state = $state;
     	vm.$location = $location;
     	vm.$filter = $filter;
-    	vm.$modal = $modal;
+    	vm.$modal = $uibModal;
     	vm.characters = [];
     	vm.usSpinnerService = usSpinnerService;
     	
@@ -42,7 +42,7 @@
     	vm.character.campaign = '';
     	vm.character.exp = '';
     	
-    	if(typeof vm.main.$storage.player === 'undefined')
+    	if(typeof vm.main.$storage.user === 'undefined')
     	{
     		// Not logged in, redirect
     		vm.$state.go('search');
@@ -66,7 +66,7 @@
   	  error(function(data, status, headers, config) {
   	    // called asynchronously if an error occurs
   	    // or server returns response with an error status.
-  		  console.log('ERROR loading characters data');
+  		  vm.main.toast('error', 'Error while loading characters');
   		  vm.usSpinnerService.stop('spinner-1');
   	  }); 
     }
@@ -136,13 +136,11 @@
     	
     	vm.$http(req).
 			success(function(data, status, headers, config) {
-				console.log('Character saved');
+				vm.main.toast('success', 'Character saved');
 				vm.getCharacters();
 		}).
 	  	error(function(data, status, headers, config) {
-	  		// called asynchronously if an error occurs
-	  		// or server returns response with an error status.
-	  		console.log('ERROR saving content');
+	  		vm.main.toast('error', 'Error while saving character');
 	  	});
         
     	vm.status = 'overview';
@@ -182,11 +180,10 @@
     	
     	vm.$http(req)
     	.success(function(data, status, headers, config) {
-				vm.getCharacters();
+			vm.getCharacters();
+			vm.main.toast('success', 'Character deleted');
 		}).error(function(data, status, headers, config) {
-	  		// called asynchronously if an error occurs
-	  		// or server returns response with an error status.
-	  		console.log('ERROR deleting content');
+			vm.main.toast('error', 'Error while deleting character');
 	  	});
         
     	vm.status = 'overview';

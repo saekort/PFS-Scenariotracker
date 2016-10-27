@@ -471,6 +471,21 @@ define({ "api": [
     ]
   },
   {
+    "type": "post",
+    "url": "/user/forgotpassword",
+    "title": "",
+    "name": "ForgotPassword",
+    "group": "People",
+    "version": "0.0.0",
+    "filename": "routes/people.js",
+    "groupTitle": "People",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user/forgotpassword"
+      }
+    ]
+  },
+  {
     "type": "get",
     "url": "/people",
     "title": "GET a group of people",
@@ -550,6 +565,77 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "https://localhost:3443/people/:personId"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/people/:personId/progress/:type",
+    "title": "GET person played progress",
+    "name": "GetPersonProgress",
+    "group": "People",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Number",
+            "optional": false,
+            "field": "personId",
+            "description": "<p>Person's unique ID.</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "String",
+            "allowedValues": [
+              "\"pfs\"",
+              "\"pfs_gm\"",
+              "\"core\"",
+              "\"core_gm\""
+            ],
+            "optional": false,
+            "field": "type",
+            "description": "<p>Type of the progress.</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/people.js",
+    "groupTitle": "People",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/people/:personId/progress/:type"
+      }
+    ]
+  },
+  {
+    "type": "get",
+    "url": "/user/pfsnumbercheck",
+    "title": "",
+    "name": "PFSNumberCheck",
+    "group": "People",
+    "version": "0.0.0",
+    "filename": "routes/people.js",
+    "groupTitle": "People",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user/pfsnumbercheck"
+      }
+    ]
+  },
+  {
+    "type": "post",
+    "url": "/user/resetpassword",
+    "title": "",
+    "name": "ResetPassword",
+    "group": "People",
+    "version": "0.0.0",
+    "filename": "routes/people.js",
+    "groupTitle": "People",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user/resetpassword"
       }
     ]
   },
@@ -875,6 +961,21 @@ define({ "api": [
     ]
   },
   {
+    "type": "get",
+    "url": "/scenarios/player/:pfsNumber/type/:typeId",
+    "title": "",
+    "name": "GetScenariosPlayed",
+    "group": "Scenarios",
+    "version": "0.0.0",
+    "filename": "routes/scenarios.js",
+    "groupTitle": "Scenarios",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/scenarios/player/:pfsNumber/type/:typeId"
+      }
+    ]
+  },
+  {
     "type": "put",
     "url": "/scenarios/:scenarioId",
     "title": "UPDATE a scenario",
@@ -1139,6 +1240,34 @@ define({ "api": [
     "sampleRequest": [
       {
         "url": "https://localhost:3443/user/characters"
+      }
+    ]
+  },
+  {
+    "type": "put",
+    "url": "/user/password",
+    "title": "UPDATE the user's password",
+    "name": "PutUserPassword",
+    "group": "User",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>&quot;Bearer &quot; + [JSON Web Token (JWT)]</p>"
+          }
+        ]
+      }
+    },
+    "version": "0.0.0",
+    "filename": "routes/user.js",
+    "groupTitle": "User",
+    "sampleRequest": [
+      {
+        "url": "https://localhost:3443/user/password"
       }
     ]
   }

@@ -13,10 +13,23 @@ var env       = process.env.NODE_ENV || 'development';
 var config    = require(path.join(__dirname, '..', 'config', 'server.json'))[env];
 var http = require('http');
 var https = require('https');
+var winston = require('winston');
 
-/**
- * Get port from environment and store in Express.
- */
+var logdate = new Date();
+var year = logdate.getFullYear();
+var month = logdate.getMonth();
+var date = logdate.getDate();
+var hours = logdate.getHours();
+var minutes = logdate.getMinutes();
+var seconds = logdate.getSeconds();
+
+winston.add(winston.transports.File, { filename: 'logs/' + year + '-' + month + '-' + date + '_' + hours + '-' + minutes + '-' + seconds + '.log' });
+
+if(!config.consoleLogging) {
+	winston.remove(winston.transports.Console);
+}
+
+winston.handleExceptions();
 
 /**
  * Setup HTTP server to redirect to HTTPS
@@ -25,11 +38,11 @@ var httpServer = http.createServer(function (req, res) {
     res.writeHead(301, { "Location": "https://localhost:" + config.portHttps + req.url });
     res.end();
 }).listen(config.portHttp, config.ipaddress, function() {
-	console.log('Express HTTP server listening on port ' + httpServer.address().port + ' on ' + httpServer.address().address);
+	winston.log('info', 'Express HTTP server listening on port ' + httpServer.address().port + ' on ' + httpServer.address().address);
 });
 
 /**
- * Setup the main HTTP server
+ * Setup the main HTTPS server
  */
 models.sequelize.sync({force: false}).then(function () {
 
@@ -38,7 +51,7 @@ models.sequelize.sync({force: false}).then(function () {
 	      cert: fs.readFileSync('../../certs/cert.pem')
 	    }, app)
 	    .listen(config.portHttps, config.ipaddress, function() {
-           console.log('Express HTTPS server listening on port ' + httpsServer.address().port + ' on ' + httpsServer.address().address);
+           winston.log('info', 'Express HTTPS server listening on port ' + httpsServer.address().port + ' on ' + httpsServer.address().address);
            httpsServer.on('error', onError);
            httpsServer.on('listening', onListening);
         });
@@ -51,6 +64,7 @@ models.sequelize.sync({force: false}).then(function () {
 		app.use('/characters', require('../routes/characters'));
 		app.use('/statistics', require('../routes/statistics'));
 		app.use('/user', require('../routes/user'));
+		app.use('/report', require('../routes/report'));
 });
 
 /**

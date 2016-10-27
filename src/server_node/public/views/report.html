@@ -1,10 +1,9 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
-	<div class="alert alert-info"><span class="glyphicon glyphicon-wrench"></span> BETA: The report page has not been worked on yet</div>
 <div id="main" class="container-fluid">
 	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-2 filterbar">
 			<ng-include src="'./views/partials/logo.html'"></ng-include>
 			<div class="reportcategories">
-				<h2 class="hidden-xs text-center">Report categories
+				<h2 class="hidden-xs text-center">Categories
 					<span ng-controller="HelpController as help">
 						<span class="glyphicon glyphicon-question-sign help" ng-click="help.open('report');"></span>
 						<ng-include src="'./views/partials/help_report.html'"></ng-include>
@@ -18,7 +17,7 @@
 				</h2>				
 				<div class="text-center" ng-show="vm.player == null">Please select a player</div>
 				<div class="hidden-xs" ng-hide="vm.player == null">
-					<button class="button col-sm-12" ng-hide="vm.atOverview" ng-click="vm.changeReportType('overview')">{{vm.overview.name}}</button>
+					<!-- <button class="button col-sm-12" ng-hide="vm.atOverview" ng-click="vm.changeReportType('overview')">{{vm.overview.name}}</button> -->
 					<button class="button col-sm-12" ng-repeat="reportoption in vm.reportoptions" ng-click="vm.changeReportType(reportoption)">{{reportoption.name}}</button>
 				</div>			
 			</div>
@@ -28,40 +27,42 @@
 	</div>
 	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-10">
 		<div class="row">
-			<div class="hidden-sm hidden-md hidden-lg" ng-show="main.$storage.player && vm.player.id != main.$storage.player.id">
+			<div class="hidden-sm hidden-md hidden-lg" ng-show="main.$storage.player && vm.player.id !== main.$storage.player.id">
 				<button class="button col-xs-12" ng-click="vm.selectYourself()">Select yourself</button>
 			</div>
 			<div class="hidden-sm hidden-md hidden-lg text-center">or</div>
-			<div class="playersearch-container form-inline">
+			<div class="playersearch-container form-inline" ng-hide="1==1">
 				<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 input-group playersearch form-group">
-					<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="1" 
-						typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" placeholder="Select by username or pfsnumber"
+					<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" uib-typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="2" 
+						ng-model-options="{debounce: 200}" typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" placeholder="Select by username or pfsnumber"
 						typeahead-on-select="vm.selectPlayer()">			
 					<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>				
 				</div>
-				<div class="form-group hidden-xs"  ng-show="main.$storage.player && vm.player.id != main.$storage.player.id">
+				<div class="form-group hidden-xs"  ng-show="main.$storage.user && vm.player.id !== main.$storage.user.id">
 					or <button class="button" ng-click="vm.selectYourself()">Select yourself</button>
 				</div>
 			</div>
-			<div class="hidden-sm hidden-md hidden-lg" ng-hide="vm.player == null">
+			<div class="hidden-sm hidden-md hidden-lg" ng-hide="vm.player === null">
 				<hr style="border: 1px solid black;">			
 				<span class="hidden-xs text-center">Select category</span>
 				<h4 class="hidden-sm hidden-md hidden-lg text-center">Select category</h4>
 				<select class="form-control" ng-model="vm.reporttype" ng-options="reportoption.name for reportoption in vm.reportoptions" ng-change="vm.getContent()"></select>
-				<button class="button col-xs-12" ng-hide="vm.atOverview" ng-click="vm.changeReportType('overview')" style="margin-top: 5px;">{{vm.overview.name}}</button>				
+<!-- 			<button class="button col-xs-12" ng-hide="vm.atOverview" ng-click="vm.changeReportType('overview')" style="margin-top: 5px;">{{vm.overview.name}}</button> -->				
 			</div>				
 		</div>	
 		
 		<div class="row" ng-hide="vm.player == null">
-			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.player.pfsnumber" class="reportingfor">Checking out {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
-			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.player.pfsnumber">You cannot report for <strong>{{vm.player.name}}</strong> because he/she has not allowed public reporting in his/her profile.</div>		
-			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.$storage.player.pfsnumber" class="hidden-xs reportingfor">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
-			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.$storage.player.pfsnumber" class="hidden-sm hidden-md hidden-lg reportingfor text-center">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
-			<div ng-show="vm.player.public == 1 && vm.player.pfsnumber != main.$storage.player.pfsnumber">You can report for <strong>{{vm.player.name}}</strong> because he/she has chosen to allow public reporting in his/her profile.</div>
-			<div ng-show="vm.player.pfsnumber == main.$storage.player.pfsnumber">You are now reporting for yourself.</div>
+			<h1><span class="fa fa-user"></span> <a ui-sref="players({pfsNumber: vm.player.pfsnumber})">{{vm.player.pfsnumber}}</a>'s progression in {{vm.reporttype.name}}</h1>
+			<hr>
+			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber" class="reportingfor">Checking out {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber">You cannot report for <strong>{{vm.player.name}}</strong> because he/she has not allowed public reporting in his/her profile.</div>		
+			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.$storage.user.pfsnumber" class="hidden-xs reportingfor">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.$storage.user.pfsnumber" class="hidden-sm hidden-md hidden-lg reportingfor text-center">Reporting for {{vm.player.name}} ({{vm.player.pfsnumber}})</div>
+			<div ng-show="vm.player.public == 1 && vm.player.pfsnumber != main.$storage.user.pfsnumber">You can report for <strong>{{vm.player.name}}</strong> because he/she has chosen to allow public reporting in his/her profile.</div>
+			<div ng-show="vm.player.pfsnumber == main.$storage.user.pfsnumber">You are now reporting for yourself.</div>
 		</div>
 		
-		<div class="row" ng-hide="vm.player == null">
+		<div class="row" ng-hide="1 == 1">
 			<hr class="hidden-sm hidden-md hidden-lg" style="border: 1px solid black;">		
 			<h4 class="capitalize hidden-xs" ng-show="vm.atOverview">Overview</h4>
 			<h4 class="capitalize hidden-sm hidden-md hidden-lg text-center" ng-show="vm.atOverview">Overview</h4>
@@ -76,10 +77,10 @@
 					<span class="vertical coregm">CORE GM</span>
 				</div>
 				<div ng-repeat="content in vm.content track by $index" class="reportoption" ng-class="{'disabled-checkbox': vm.player.public == 0}">
-					<input id="pfs{{content.id}}" ng-model="content.state.pfs" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs', $index)" ng-disabled="vm.player.public == 0"><label class="report-title disabled-checkbox" for="pfs{{content.id}}"></label>&nbsp;&nbsp;
-					<input id="core{{content.id}}" ng-model="content.state.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="core{{content.id}}"></label>&nbsp;&nbsp;
-					<input id="pfs_gm{{content.id}}" ng-model="content.state.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="pfs_gm{{content.id}}"></label>&nbsp;&nbsp;
-					<input id="core_gm{{content.id}}" ng-model="content.state.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp;
+					<input id="pfs{{content.id}}" ng-model="content.players[0].played.pfs" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs', $index)" ng-disabled="vm.player.public == 0"><label class="report-title disabled-checkbox" for="pfs{{content.id}}"></label>&nbsp;&nbsp;
+					<input id="core{{content.id}}" ng-model="content.players[0].played.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="core{{content.id}}"></label>&nbsp;&nbsp;
+					<input id="pfs_gm{{content.id}}" ng-model="content.players[0].played.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="pfs_gm{{content.id}}"></label>&nbsp;&nbsp;
+					<input id="core_gm{{content.id}}" ng-model="content.players[0].played.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp;
 					<span class="hidden-sm hidden-md hidden-lg report-title-xs">
 						<span ng-hide="!content.season || content.season == '99'">
 							#{{content.season}}-{{content.number}}
@@ -91,7 +92,7 @@
 							#{{content.season}}-{{content.number}}
 						</span> {{content.name}}
 					</span>
-					<span ng-show="content.archived"> 
+					<span ng-show="content.archived_at"> 
 						<strong>(Retired)</strong>
 					</span>			
 				</div>
@@ -109,7 +110,8 @@
 					</span>									
 				</div>
 			</div>
-			<div ng-show="vm.atOverview && vm.player != null">
+			<div ng-hide="1 == 1">
+			<!-- <div ng-show="vm.atOverview && vm.player != null"> -->
 				<p>Select a playtype to show player progress</p>
 				<div class="playedprogress hidden-xs">
 					<button class="button" ng-click="vm.getPlayerprogress('pfs')">PFS PC</button> <button class="button" ng-click="vm.getPlayerprogress('core')">CORE PC</button> <button class="button" ng-click="vm.getPlayerprogress('pfs_gm')">PFS GM</button> <button class="button" ng-click="vm.getPlayerprogress('core_gm')">CORE GM</button>

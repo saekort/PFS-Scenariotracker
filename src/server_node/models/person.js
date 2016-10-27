@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-    	  isAlphanumeric: true
+    	  //isAlphanumeric: true
       }
     },
     email: {
@@ -52,6 +52,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
       defaultValue: '0'
     },
+    public_characters: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: '0'
+      },
     ip_address: {
       type: DataTypes.STRING,
       allowNull: false
@@ -89,7 +94,8 @@ module.exports = function(sequelize, DataTypes) {
     tableName: 'people',
     classMethods: {
     	associate: function(models) {
-    		Person.hasMany(models.Statistic, {as: 'statistics'});
+    		Person.hasMany(models.Statistic, {as: 'statistics', foreignKey: 'person_id'});
+    		Person.belongsToMany(models.Scenario, {as: 'scenarios', foreignKey: 'person_id', through: models.j_scenario_person});
     	}
     },
 	instanceMethods: {

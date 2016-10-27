@@ -23,7 +23,7 @@
     	
         var req = {
                 method: 'POST',
-                url: vm.main.trackerConfig.apiUrl + 'forgotten_password',
+                url: vm.main.trackerConfig.apiUrl + 'people/forgotpassword',
                 data: $.param({email: vm.playeremail}),
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -32,12 +32,13 @@
     	
     	vm.$http(req).
 			success(function(data, status, headers, config) {
-				vm.status = 'Password recovery email sent';
+				vm.$state.go('login');
+				vm.main.toast('success', 'Password recovery email sent');
 		}).
 	  	error(function(data, status, headers, config) {
 	  		// called asynchronously if an error occurs
 	  		// or server returns response with an error status.
-	  		vm.status = 'Something has gone wrong';
+	  		vm.main.toast('danger', 'Could not recover your password');
 	  	});
     }
  

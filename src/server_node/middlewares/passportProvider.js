@@ -6,6 +6,7 @@ var path      = require('path'); // Handling and transforming file paths
 var env       = process.env.NODE_ENV || 'development'; // Environment
 var config    = require(path.join(__dirname, '..', 'config', 'pfstracker.json'))[env];
 var bcrypt    = require('bcryptjs');
+var winston = require('winston');
 
 passport.use(new Strategy( {
 	session: false
@@ -20,17 +21,17 @@ passport.use(new Strategy( {
 					// Compare the 'hash' with a bcrypted password
 					if (bcrypt.compareSync(password, hash)) {
 						// Valid credentials
-						return cb(null, {id: account.id, name: account.name});
+						return cb(null, {id: account.id, name: account.name, pfsnumber: account.pfsnumber});
 					} else {
 						// Invalid credentials
 						return cb(null, false);
 					}
 				}).catch(function(error) {
-					console.log(error);
-					return false;
+					winston.log('error', error);
+					return cb(null, false);
 				});
 	        } else {
-				return false;
+	        	return cb(null, false);
 			}
 		}
 	));
