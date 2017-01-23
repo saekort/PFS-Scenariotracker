@@ -1,0 +1,5 @@
+<script type="text/ng-template" id="groupsearchTemplate.html">
+	<a tabindex="-1">
+		<i class="fa fa-archive fa-fw color-dark" style="top:3px"></i> <span ng-bind-html="match.model.name | uibTypeaheadHighlight:query"></span> - <i class="glyphicon glyphicon-user color-dark" style="top:3px"></i> {{match.model.members.length}}</span> - <i class="fa fa-user-circle-o fa-fw color-dark" style="top:3px"></i> {{match.model.owner.name}} ({{match.model.owner.pfsnumber}})
+	</a>
+</script>

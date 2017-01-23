@@ -2,6 +2,7 @@
 <div id="main" class="container">
 	<div class="row scenario">
 		<h1><span class="fa fa-users"></span> Players</h1>
+		<hr>
 		<p>You can search for player's profiles here. You can look into their campaign progression, characters (if they have it set to public) and report for them (if they have that set to public).</p>
 		
 		<div class="playersearch-container form-inline">
@@ -11,43 +12,118 @@
 					typeahead-on-select="vm.selectPlayer()">			
 				<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>				
 			</div>
-			<div class="form-group hidden-xs"  ng-show="main.$storage.user && vm.player.id !== main.$storage.user.id && 1 != 1">
-				or <button class="button" ng-click="vm.selectYourself()">Select yourself</button>
-			</div>
 		</div>
 	</div>
 </div>
 <div class="container" ng-show="vm.$stateParams.pfsNumber">
 	<div class="row" ng-hide="vm.player">
-		<h1 class="text-center">Loading player profile...</h1>
+		<h1 class="text-center">Loading ...</h1>
 	</div>
 	<div class="scenario" ng-show="vm.player">
 		<div ng-show="vm.player">
 			<h1>
-				<img ng-src="images/flags/{{vm.player.country}}.svg" style="height: 40px;"> {{vm.player.name}} <span>({{vm.player.pfsnumber}})</span>
-				<button ng-show="vm.player.public" class="button pull-right" ui-sref="report({pfsNumber: vm.player.pfsnumber})">Report for {{vm.player.name}}</button>
+				<img ng-src="./images/flags/{{vm.player.country | lowercase}}.svg" ng-if="vm.player.country" style="height: 40px;"> {{vm.player.name}} <span>({{vm.player.pfsnumber}})</span>
+				<button ng-show="!vm.report" class="button pull-right" ui-sref="players({pfsNumber: vm.player.pfsnumber, report: 'report'})"><i class="fa fa-check-square-o"></i> To progression and reporting</button>
+				<button ng-show="vm.report" class="button pull-right" ui-sref="players({pfsNumber: vm.player.pfsnumber, report: null})"><i class="fa fa-user"></i> To profile</button>
 			</h1>
 			<div style="clear: both;"></div>
 		</div>
 		<hr>
-		<div class="row" ng-show="vm.player">
+		<!-- Reporting -->
+		<div class="row" ng-show="vm.player && vm.report">
+			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+				<div class="reportcategories">
+					<h2 class="hidden-xs text-center" ng-controller="HelpController as help">Categories
+						<span class="glyphicon glyphicon-question-sign help" ng-click="help.open('report');"></span>
+						<ng-include src="'./views/partials/help_report.html'"></ng-include>							
+					</h2>				
+					<div class="hidden-xs" ng-hide="vm.player == null">
+						<button class="button col-sm-12" ng-repeat="reportoption in vm.reportoptions" ng-click="vm.changeReportType(reportoption)">{{reportoption.name}}</button>
+					</div>	
+				</div>
+				<div class="hidden-sm hidden-md hidden-lg" ng-hide="vm.player === null">			
+					<h2 class="hidden-xs text-center">Select category</h2>
+					<h2 class="hidden-sm hidden-md hidden-lg text-center" ng-controller="HelpController as help">Select category 
+							<span class="glyphicon glyphicon-question-sign help" ng-click="help.open('report');"></span>
+						<ng-include src="'./views/partials/help_report.html'"></ng-include></h2>
+					<select class="form-control" ng-model="vm.reporttype" ng-options="reportoption.name for reportoption in vm.reportoptions" ng-change="vm.getContent()"></select>
+					<hr>				
+				</div>
+			</div>
+			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+				<h3 ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber" class="reportingfor">{{vm.reporttype.name}} detailed progression</h3>
+				<div ng-show="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber">You cannot report for <strong>{{vm.player.name}}</strong> because he/she has not allowed public reporting in his/her profile.</div>		
+				
+				<h3 ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.$storage.user.pfsnumber" class="hidden-xs reportingfor">{{vm.reporttype.name}} reporting</h3>
+				<h3 ng-show="vm.player.public == 1 || vm.player.pfsnumber == main.$storage.user.pfsnumber" class="hidden-sm hidden-md hidden-lg reportingfor text-center">{{vm.reporttype.name}} reporting</h3>
+				<div ng-show="vm.player.public == 1 && vm.player.pfsnumber != main.$storage.user.pfsnumber">You can report for <strong>{{vm.player.name}}</strong> because he/she has chosen to allow public reporting in his/her profile.</div>
+				<div ng-show="vm.player.pfsnumber == main.$storage.user.pfsnumber">You are reporting for yourself.</div>
+				<hr>
+				<div class="col-sm-12" ng-hide="vm.atOverview">
+					<div class="row vertical-container">
+						<span class="vertical pfs">PFS PC</span>&nbsp;&nbsp;&nbsp;
+						<span class="vertical core">CORE PC</span>&nbsp;&nbsp;&nbsp;
+						<span class="vertical pfsgm">PFS GM</span>&nbsp;&nbsp;
+						<span class="vertical coregm">CORE GM</span>
+					</div>
+					<div ng-repeat="content in vm.content track by $index" class="reportoption" ng-class="{'disabled-checkbox': vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber}">
+						<input id="pfs{{content.id}}" ng-model="content.players[0].played.pfs" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs', $index)" ng-disabled="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber"><label class="report-title disabled-checkbox" for="pfs{{content.id}}"></label>&nbsp;&nbsp;
+						<input id="core{{content.id}}" ng-model="content.players[0].played.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)" ng-disabled="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber"><label class="report-title" for="core{{content.id}}"></label>&nbsp;&nbsp;
+						<input id="pfs_gm{{content.id}}" ng-model="content.players[0].played.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)" ng-disabled="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber"><label class="report-title" for="pfs_gm{{content.id}}"></label>&nbsp;&nbsp;
+						<input id="core_gm{{content.id}}" ng-model="content.players[0].played.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)" ng-disabled="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp;
+						<span class="hidden-sm hidden-md hidden-lg report-title-xs">
+							<span ng-hide="!content.season || content.season == '99'">
+								#{{content.season}}-{{content.number}}
+							</span> 
+							{{content.name}}
+						</span>
+						<span class="hidden-xs report-title">
+							<span ng-hide="!content.season || content.season == '99'">
+								#{{content.season}}-{{content.number}}
+							</span> {{content.name}}
+						</span>
+						<span ng-show="content.archived_at"> 
+							<strong>(Retired)</strong>
+						</span>			
+					</div>
+				</div>
+				<hr>
+				<!-- Batch options -->
+				<div ng-hide="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.player.pfsnumber">
+					<h3>Batch options</h3>
+					<select ng-model="vm.option.check">
+						<option></option>
+						<option value="pfs">PFS PC</option>
+						<option value="pfs_gm">PFS GM</option>
+						<option value="core">CORE PC</option>
+						<option value="core_gm">CORE GM</option>
+					</select>
+					<span>
+						<button class="button" ng-disabled="!vm.option.check" ng-click="vm.checkAll()">Check</button> / <button ng-disabled="!vm.option.check" class="button" ng-click="vm.uncheckAll()">Uncheck</button> all
+					</span>									
+				</div>
+			</div>
+		</div>
+		
+		<!-- Profile -->
+		<div class="row" ng-show="vm.player && !vm.report">
 			<div class="col-lg-9">
 				<h2>Totals</h2>
 				<div class="profile-totals col-xs-12">	
 					<div class="col-xs-3 text-center">
-						<span style="font-size: 300%; font-weight: bold;">{{vm.player.totals.pfs || '?'}}</span><br>
+						<span style="font-size: 300%; font-weight: bold;">{{vm.player.totals.pfs || '0'}}</span><br>
 						<span>Scenarios played (PFS)</span>
 					</div>
 					<div class="col-xs-3 text-center">
-						<span style="font-size: 300%; font-weight: bold;">{{vm.player.totals.pfs_gm || '?'}}</span><br>
+						<span style="font-size: 300%; font-weight: bold;">{{vm.player.totals.pfs_gm || '0'}}</span><br>
 						<span>Scenarios GMed (PFS)</span>
 					</div>
 					<div class="col-xs-3 text-center">
-						<span style="font-size: 300%; font-weight: bold;">{{vm.player.totals.core || '?'}}</span><br>
+						<span style="font-size: 300%; font-weight: bold;">{{vm.player.totals.core || '0'}}</span><br>
 						<span>Scenarios played (CORE)</span>
 					</div>
 					<div class="col-xs-3 text-center">
-						<span style="font-size: 300%; font-weight: bold;">{{vm.player.totals.core_gm || '?'}}</span><br>
+						<span style="font-size: 300%; font-weight: bold;">{{vm.player.totals.core_gm || '0'}}</span><br>
 						<span>Scenarios GMed (CORE)</span>
 					</div>
 				</div>

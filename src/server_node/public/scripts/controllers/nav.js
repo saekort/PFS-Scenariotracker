@@ -24,12 +24,16 @@
     	});
     }
     
-    NavController.prototype.goto = function(state, type)
+    NavController.prototype.goto = function(state, type, subtype)
     {
     	var vm = this;
     	vm.main.checkToken();
     	if(type == 'pfsnumber') {
-    		vm.$state.go(state, {pfsNumber: vm.main.$storage.user.pfsnumber});
+    		if(subtype == 'report') {
+    			vm.$state.go(state, {pfsNumber: vm.main.$storage.user.pfsnumber, report: 'report'});	
+    		} else {
+    			vm.$state.go(state, {pfsNumber: vm.main.$storage.user.pfsnumber});
+    		}
     	} else {
     		vm.$state.go(state);
     	}

@@ -79,6 +79,99 @@ router.get('/pfsnumbercheck/:pfsNumber', authenticate, function(req, res, next) 
 });
 
 /**
+ * @api {get} /user/groups GET the user's groups
+ * @apiName GetUserGroups
+ * @apiGroup User
+ * 
+ * @apiHeader {String} Authorization "Bearer " + [JSON Web Token (JWT)]
+ */
+router.get('/groups', authenticate, function(req, res, next) {
+	models.Group.findAll({
+		where: {owner_id: req.user.id}, 
+		attributes: ['id', 'name', 'public'],
+		include: [
+				    {model: models.Person, as: 'owner', attributes: ['pfsnumber', 'name']},
+				    {model: models.Person, as: 'users', attributes: ['pfsnumber', 'name'], through: {as: '', attributes: []}},
+				    {model: models.Person, as: 'members', attributes: ['pfsnumber', 'name'], through: {as: '', attributes: []}}
+				]
+		})
+	.then(function(groups) {
+		res.status(200).send(groups);
+	}).catch(function(err) {
+		winston.log('error', err);
+		res.status(400).send(err);
+	});
+});
+
+/**
+ * @api {post} /user/groups
+ * @apiName PostUserGroup
+ * @apiGroup User
+ * 
+ * @apiHeader {String} Authorization "Bearer " + [JSON Web Token (JWT)]
+ */
+router.post('/groups', authenticate, function(req, res, next) {
+	if(typeof req.body.name !== 'undefined') {
+		var data = {name: req.body.name};
+		data.owner_id = req.user.id;
+		
+		models.Group.create(data)
+		.then(function(group) {
+			res.set('Location', req.get('host') + '/group/' + group.id);
+			res.status(201).end();
+		}).catch(function(err) {
+			winston.log('error', err);
+			res.status(500).send(err);
+		});
+	}
+});
+
+/**
+ * @api {put} /user/groups
+ * @apiName PutUserGroup
+ * @apiGroup User
+ * 
+ * @apiHeader {String} Authorization "Bearer " + [JSON Web Token (JWT)]
+ */
+router.put('/groups/:groupId', authenticate, function(req, res, next) {
+	// Get the group
+	//TODO: Add admin option
+	models.Group.find({where: {id: req.params.groupId}})
+	.then(function(group) {
+		if(typeof req.body.name !== 'undefined') { group.name = req.body.name; }
+		
+		group.save()
+		.then(function(group) {
+			res.status(200).send(group);
+		}).catch(function(err) {
+			winston.log('error', err);
+			res.status(400).send(err);
+		})
+	}).catch(function(err) {
+		winston.log('error', err);
+	});
+});
+
+/**
+ * @api {delete} /user/groups
+ * @apiName DeleteUserGroup
+ * @apiGroup User
+ * 
+ * @apiHeader {String} Authorization "Bearer " + [JSON Web Token (JWT)]
+ */
+router.delete('/groups/:groupId', authenticate, function(req, res, next) {
+	//TODO: Add admin option
+	models.Group.find({where: {id: req.params.groupId}})
+	.then(function(group) {
+		group.destroy();
+		res.status(200).send();	
+	}).catch(function(err) {
+		winston.log('error', err);
+		res.status(200).send(err);
+	});
+});
+
+/**
  * @api {get} /user/characters GET the user's characters
  * @apiName GetUserCharacters
  * @apiGroup User
@@ -161,7 +254,7 @@ router.put('/characters/:characterId', authenticate, function(req, res, next) {
 });
 
 /**
- * @api {put} /user/characters
+ * @api {delete} /user/characters
  * @apiName DeleteUserCharacter
  * @apiGroup User
  * 

@@ -155,7 +155,7 @@
 			templateUrl: 'confirmDeleteCharacter.html',
 			controller: 'ModalInstanceController as confirmDelete',
 			resolve: {
-				character: function() {return vm.characters[index];}
+				content: function() {return vm.characters[index];}
 			},
 			size: 'md'
 		});
@@ -180,8 +180,8 @@
     	
     	vm.$http(req)
     	.success(function(data, status, headers, config) {
-			vm.getCharacters();
 			vm.main.toast('success', 'Character deleted');
+			vm.getCharacters();
 		}).error(function(data, status, headers, config) {
 			vm.main.toast('error', 'Error while deleting character');
 	  	});

@@ -48,13 +48,23 @@ models.sequelize.sync({force: false}).then(function () {
 
 	var httpsServer = https.createServer({
 	      key: fs.readFileSync('../../certs/key.pem'),
-	      cert: fs.readFileSync('../../certs/cert.pem')
+	      cert: fs.readFileSync('../../certs/cert.pem'),
+	      ca: fs.readFileSync('../../certs/cabundle.crt')
 	    }, app)
 	    .listen(config.portHttps, config.ipaddress, function() {
            winston.log('info', 'Express HTTPS server listening on port ' + httpsServer.address().port + ' on ' + httpsServer.address().address);
            httpsServer.on('error', onError);
            httpsServer.on('listening', onListening);
         });
+		
+		var helmet = require('helmet');
+
+		var ONE_YEAR = 31536000000;
+		app.use(helmet.hsts({
+		    maxAge: ONE_YEAR,
+		    includeSubdomains: true,
+		    force: true
+		}));
 		
 		app.use('/', require('../routes/index'));
 		app.use('/auth', require('../routes/auth'));
@@ -65,6 +75,7 @@ models.sequelize.sync({force: false}).then(function () {
 		app.use('/statistics', require('../routes/statistics'));
 		app.use('/user', require('../routes/user'));
 		app.use('/report', require('../routes/report'));
+		app.use('/groups', require('../routes/groups'));
 });
 
 /**

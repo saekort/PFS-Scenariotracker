@@ -1,4 +1,3 @@
-console.info('Models: Author model');
 module.exports = function(sequelize, DataTypes) {
 	var Author = sequelize.define('Author', {
 		id: {

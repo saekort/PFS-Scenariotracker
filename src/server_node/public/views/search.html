@@ -1,7 +1,8 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
+<ng-include src="'./views/partials/groupsearchTemplate.html'"></ng-include>
+<ng-include src="'./views/partials/showGroupMembers.html'"></ng-include>
 <div id="main" class="container-fluid">
 	<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 filterbar">
-		<ng-include src="'./views/partials/logo.html'"></ng-include>
 		<h2 style="margin-top: 3px">Options
 			<span ng-controller="HelpController as help">
 				<span class="glyphicon glyphicon-question-sign help" ng-click="help.open('filters');"></span>
@@ -133,17 +134,23 @@
 	
 	<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 		<div class="row">
-			<h2><span class="fa fa-search"></span> Search for sanctioned content</h2>
+			<h1><span class="fa fa-search fa-fw"></span> Search for sanctioned content</h1>
 			<form class="form-inline" >
 				<div class="form-group">
 					<div class="playersearch-container">
-						<div class="col-xs-6 input-group has-feedback playersearch"  style="width: 250px;">
+						<div class="col-xs-4 input-group has-feedback playersearch"  style="width: 200px;">
 							<input id="playersearch" class="search form-control" ng-model="vm.search.player" uib-typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="2" 
 								 ng-model-options="{debounce: 200}" typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" 
 								typeahead-on-select="vm.addPlayer()" placeholder="Search for players" autocomplete="off">
 							<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
 						</div>
-						<div class="col-xs-6 input-group has-feedback playersearch"  style="width: 250px;">
+						<div class="col-xs-4 input-group has-feedback playersearch"  style="width: 200px;">
+ 							<input id="groupsearch" class="search form-control" ng-model="vm.search.group" uib-typeahead="person for person in vm.getGroups($viewValue)" typeahead-min-length="2" 
+								 ng-model-options="{debounce: 200}" typeahead-template-url="groupsearchTemplate.html" typeahead-input-formatter="vm.formatGroupsearch($model)" 
+								typeahead-on-select="vm.addGroup()" placeholder="Search for groups" autocomplete="off">
+							<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>
+						</div>
+						<div class="col-xs-4 input-group has-feedback playersearch"  style="width: 200px;">
  							<input id="gmsearch" class="search form-control" ng-model="vm.search.gm" uib-typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="2" 
 								 ng-model-options="{debounce: 200}" typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" 
 								typeahead-on-select="vm.addGm()" placeholder="Search for a GM" autocomplete="off">
@@ -159,14 +166,19 @@
 		</div>
 
 		<div class="row">
-			<div ng-show="vm.people.length > 0 || vm.gm" class="filtering"><strong>Filtering:</strong>
+			<div ng-show="vm.people.length > 0 || vm.gm || vm.groups.length > 0" class="filtering">
+				<strong>Filtering:</strong>
 				<span ng-show="vm.gm">
-					<span ng-click="vm.removeGm()" class="filter_player label label-default color-background-light">GM: {{vm.gm.name}} ({{vm.gm.pfsnumber}})</span>&nbsp;
+					<span class="filter_player label label-default color-background-light">GM: {{vm.gm.name}} ({{vm.gm.pfsnumber}}) <i class="fa fa-times fa-fw clickable" ng-click="vm.removeGm()"></i></span>&nbsp;
 				</span> 
 				<span ng-repeat="person in vm.people">
-					<span ng-click="vm.removePlayer($index)" class="filter_player label label-default color-background-dark">{{person.name}} ({{person.pfsnumber}})</span>&nbsp;
+					<span class="filter_player label label-default color-background-dark">{{person.name}} ({{person.pfsnumber}}) <i class="fa fa-times fa-fw clickable" ng-click="vm.removePlayer($index)"></i></span>&nbsp;
 				</span>
-				<span>(click person to remove)</span>
+				<span ng-repeat="group in vm.groups">
+					<span class="filter_player label label-default group-color" ng-click="vm.showGroupMembers($index)" style="cursor: help">GROUP: {{group.name}} <i class="fa fa-times fa-fw clickable" ng-click="vm.removeGroup($index)"></i></span>&nbsp;
+				</span>
+				<br>
+				<span>(click groups for info)</span>
 			</div>
 		</div>		
 
@@ -175,7 +187,7 @@
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info color-background-light">Found a total of <strong>{{vm.pagination.totalItems}}</strong> scenarios / other content<span ng-hide="vm.people.length == 0 || vm.filters.showAll"> in the <strong>{{vm.filters.campaign}} campaign</strong> not yet played (or a evergreen) by any filtered players</span></div>		
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info color-background-light">Found a total of <strong>{{vm.pagination.totalItems}}</strong> scenarios / other content<span ng-hide="vm.people.length == 0 || vm.filters.showAll || vm.groups.length == 0 "> in the <strong>{{vm.filters.campaign}} campaign</strong> not yet played (or a evergreen) by any filtered players</span></div>		
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info color-background-light" ng-show="vm.noScenarios">No playable options were found. Try changing your search filters or selected players.</div>
 			<div>
 				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
@@ -215,8 +227,21 @@
 								<span ng-hide="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
 								<span ng-show="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].core_gm | limitTo: 10}}"></span></span>
 							</div>						
+						</div>
+						<div ng-repeat="player in scenario.players">
+							<div ng-if="vm.gm.pfsnumber !== player.pfsnumber">
+								<span class="col-xs-12 search_played search_played_player col-sm-4"><span class="glyphicon glyphicon-user"></span> <strong>{{player.name}} ({{player.pfsnumber}})</strong></span>
+								<span ng-hide="player.played.pfs" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+								<span ng-show="player.played.pfs" class="col-xs-3 col-sm-2 search_played search_played_played">PFS: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.pfs | limitTo: 10}}"></span></span>
+								<span ng-hide="player.played.pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+								<span ng-show="player.played.pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_played">PFS GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.pfs_gm | limitTo: 10}}"></span></span>
+								<span ng-hide="player.played.core" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+								<span ng-show="player.played.core" class="col-xs-3 col-sm-2 search_played search_played_played">CORE: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.core | limitTo: 10}}"></span></span>
+								<span ng-hide="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+								<span ng-show="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.core_gm | limitTo: 10}}"></span></span>
+							</div>
 						</div>					
-						<div ng-repeat="searchplayer in vm.people">
+						<!-- <div ng-repeat="searchplayer in vm.people">
 							<div ng-repeat="player in scenario.players">
 								<div ng-if="searchplayer.pfsnumber == player.pfsnumber">
 									<span class="col-xs-12 search_played search_played_player col-sm-4"><span class="glyphicon glyphicon-user"></span> <strong>{{player.name}}</strong></span>
@@ -230,7 +255,7 @@
 									<span ng-show="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.core_gm | limitTo: 10}}"></span></span>
 								</div>
 							</div>						
-						</div>
+						</div> -->
 					</div>
 				</div>
 			</div>

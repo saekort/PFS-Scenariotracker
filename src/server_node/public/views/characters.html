@@ -1,11 +1,11 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <ng-include src="'./views/partials/confirmDeleteCharacter.html'"></ng-include>
 <div id="main" class="container">
-	<div class="row">
+	<!-- <div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
 			<ng-include src="'./views/partials/logo.html'"></ng-include>
 		</div>
-	</div>
+	</div> -->
 	<div class="scenario row">
 		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-3">
 			<div>
@@ -41,8 +41,8 @@
 			</div>
 		</div>
 		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
-			<h2>Your characters</h2>
-	
+			<h1><i class="fa fa-male fa-fw"></i> Your characters</h1>
+			<hr>
 			<p>Here you can manage your Pathfinder Society characters. You can keep them here just to be pleased about it, or use them in the convention module. If you don't want to keep track of your characters here, that is just fine as well.</p>
 
 			<div>
@@ -50,6 +50,19 @@
 			</div>
 			
 			<div class="text-center" ng-show="vm.characters.length == 0"><h3>No characters found</h3></div>
+			
+			<ul class="characters-list-header" ng-hide="vm.characters.length == 0">
+				<li class="row bold">
+					<span class="col-xs-1">ID</span>
+					<span class="col-xs-2">Name</span>
+					<span class="col-xs-1">Fact.</span>
+					<span class="col-xs-1">Camp.</span>
+					<span class="col-xs-4">Class(es)</span>
+					<span class="col-xs-1">XP</span>
+					<span class="col-xs-2 text-center">Manage</span>
+				</li>
+			</ul>
+			
 			<ul class="characters-list">
 				<li class="row" ng-repeat="character in vm.characters">
 					<span class="col-xs-1">#{{character.number}}</span>				

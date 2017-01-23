@@ -5,16 +5,13 @@
         .module('scenariotracker')
         .controller('ModalInstanceController', ModalInstanceController );
     
-    function ModalInstanceController($uibModalInstance, $scope, character)
+    function ModalInstanceController($uibModalInstance, $scope, content)
     {
     	var vm = this;
     	vm.$scope = $scope;
     	vm.$uibModalInstance = $uibModalInstance;
     	
-    	if(character)
-    	{
-    		vm.character = character;
-    	}
+    	vm.content = content;
     }
     
     ModalInstanceController.prototype.close = function()
@@ -23,10 +20,10 @@
     	vm.$uibModalInstance.dismiss();
     }
     
-    ModalInstanceController.prototype.deleteCharacter = function()
+    ModalInstanceController.prototype.deleteContent = function()
     {
     	var vm = this;
-    	vm.$uibModalInstance.close(vm.character);
+    	vm.$uibModalInstance.close(vm.content);
     }    
     
 })();

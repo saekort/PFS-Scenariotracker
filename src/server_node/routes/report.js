@@ -68,7 +68,7 @@ router.delete('/', authenticate, function(req, res, next) {
 				models.j_scenario_person.find({
 					where: {scenario_id: req.body.content, person_id: person.id}
 				}).then(function(played) {
-					played.update(req.body.state, null)
+					played.update({[req.body.state]: null})
 					.then(function(played) {
 						res.status(200).send();	
 					});

@@ -16,33 +16,32 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li ng-class="nav.getClass('/players')"><a href="" ng-click="nav.goto('players-index')"><span class="fa fa-users"></span> Players</a></li>
-        <!-- <li ng-class="nav.getClass('/report')"><a href="" ng-click="nav.goto('report')">Report</a></li> -->
-        <li ng-class="nav.getClass('/search')"><a href="" ng-click="nav.goto('search')"><span class="fa fa-search"></span> Content</a></li>        
+        <li ng-class="nav.getClass('/players')"><a href="" ng-click="nav.goto('players-index')"><span class="fa fa-users fa-fw"></span> Players</a></li>
+        <li ng-class="nav.getClass('/search')"><a href="" ng-click="nav.goto('search')"><span class="fa fa-search fa-fw"></span> Content</a></li>        
       </ul>
       <ul class="nav navbar-nav navbar-right">
       	<li class="dropdown" uib-dropdown is-open="nav.othermenu">
 			<a href="#" id="other-menu" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">Other <span class="caret"></span></a>
 	        <ul class="dropdown-menu" role="menu" aria-labelledby="other-menu">
-				<li ng-class="nav.getClass('/statistics')"><a href="" ng-click="nav.goto('statistics')">Statistics</a></li>	        
-	            <li ng-class="nav.getClass('/about')"><a href="" ng-click="nav.goto('about')">About</a></li>
+				<li ng-class="nav.getClass('/statistics')"><a href="" ng-click="nav.goto('statistics')"><i class="fa fa-bar-chart fa-fw"></i> Statistics</a></li>	        
+	            <li ng-class="nav.getClass('/about')"><a href="" ng-click="nav.goto('about')"><i class="fa fa-info-circle fa-fw"></i> About</a></li>
 	            <li class="divider"></li>
-        		<li ng-class="nav.getClass('/issues')"><a href="" ng-click="nav.goto('issues')">Known Issues</a></li>	            
+        		<li ng-class="nav.getClass('/issues')"><a href="" ng-click="nav.goto('issues')"><i class="fa fa-bug fa-fw"></i> Known Issues</a></li>	            
 	        </ul>
 	    </li>
-	    <li ng-hide="main.$storage.token" ng-class="nav.getClass('/login')"><a href="" ng-click="nav.goto('login')">Login</a></li>
-        <li ng-hide="main.$storage.token" ng-class="nav.getClass('/register')"><a href="" ng-click="nav.goto('register')">Register</a></li>
+	    <li ng-hide="main.$storage.token" ng-class="nav.getClass('/login')"><a href="" ng-click="nav.goto('login')"><i class="fa fa-sign-in fa-fw"></i> Login</a></li>
+        <li ng-hide="main.$storage.token" ng-class="nav.getClass('/register')"><a href="" ng-click="nav.goto('register')"><i class="fa fa-user-plus fa-fw"></i> Register</a></li>
       	<li ng-show="main.$storage.token" class="dropdown" uib-dropdown is-open="nav.profilemenu">
 			<a href="#" id="profile-menu" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> {{main.$storage.user.name}} <span class="caret"></span></a>
 	        <ul class="dropdown-menu" role="menu" aria-labelledby="profile-menu">
-	        	<li ng-class="nav.getClass('/report')"><a href="" ng-click="nav.goto('report','pfsnumber')">Report</a></li>
-	        	<li ng-class="nav.getClass('/doesntexist')"><a href="" ng-click="nav.goto('players','pfsnumber')">Your profile</a></li>
-				<li ng-class="nav.getClass('/settings')"><a href="" ng-click="nav.goto('settings')">Your settings</a></li>
-				<li ng-class="nav.getClass('/characters')"><a href="" ng-click="nav.goto('characters')">Your characters</a></li>
-				<li ng-hide="1" class="divider"></li>
-				<li ng-hide="1" ng-class="nav.getClass('/import')"><a href="" ng-click="nav.goto('import')">(BETA) Import from Paizo.com</a></li>
+	        	<li ng-class="nav.getClass('/report')"><a href="" ng-click="nav.goto('players','pfsnumber','report')"><i class="fa fa-check-square-o fa-fw"></i> Report</a></li>
+	        	<li ng-class="nav.getClass('/doesntexist')"><a href="" ng-click="nav.goto('players','pfsnumber')"><i class="fa fa-user fa-fw"></i> Your profile</a></li>
+				<li ng-class="nav.getClass('/settings')"><a href="" ng-click="nav.goto('settings')"><i class="fa fa-cog fa-fw"></i> Your settings</a></li>
+				<li ng-class="nav.getClass('/groups')"><a href="" ng-click="nav.goto('groups')"><i class="fa fa-archive fa-fw"></i> Your groups</a></li>
+				<li ng-class="nav.getClass('/characters')"><a href="" ng-click="nav.goto('characters')"><i class="fa fa-male fa-fw"></i> Your characters</a></li>
+				<!-- <li ng-hide="1" ng-class="nav.getClass('/import')"><a href="" ng-click="nav.goto('import')">(BETA) Import from Paizo.com</a></li> -->
 				<li class="divider"></li>
-	            <li><a href="" ng-click="main.logout()">Logout</a></li>	            
+	            <li><a href="" ng-click="main.logout()"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>	            
 	        </ul>
 	    </li>       
       </ul>

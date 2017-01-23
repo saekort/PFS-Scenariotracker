@@ -16,37 +16,40 @@
     	vm.playerselect = '';
 
     	vm.player = null;
+    	vm.report = false;
     	
-//    	vm.player = {
-//    			name: 'Simonicus',
-//    			pfsnumber: 24652,
-//    			country: 'nl',
-//    			public: 1,
-//				public_characters: 0,
-//    			characters: [
-//    			             {name: 'Bob', level: 5, faction: 'da', campaign: 'CORE'},
-//    			             {name: 'Jane', level: 7, faction: 'gl', campaign: 'PFS'},
-//    			             {name: 'Wulfric', level: 2, faction: 'sov', campaign: 'PFS'},
-//    			             {name: 'Storm', level: 1, faction: 'sc', campaign: 'CORE'}
-//    			             ],
-//    			totals: {pfs: 143, pfs_gm: 68, core: 4, core_gm: 3},
-//    			progression: [
-//    			              {name: 'Season 0', total: 29, pfs: 16, pfs_gm: 13, core: 6, core_gm: 8},
-//    			              {name: 'Season 1', total: 23, pfs: 12, pfs_gm: 8, core: 2, core_gm: 3},
-//    			              {name: 'Season 2', total: 24, pfs: 6, pfs_gm: 13, core: 6, core_gm: 8},
-//    			              {name: 'Season 3', total: 19, pfs: 19, pfs_gm: 8, core: 2, core_gm: 3},
-//    			              {name: 'Season 4', total: 21, pfs: 7, pfs_gm: 13, core: 6, core_gm: 8},
-//    			              {name: 'Season 5', total: 23, pfs: 15, pfs_gm: 8, core: 2, core_gm: 3},
-//    			              {name: 'Season 6', total: 22, pfs: 16, pfs_gm: 13, core: 6, core_gm: 8},
-//    			              {name: 'Season 7', total: 20, pfs: 12, pfs_gm: 8, core: 2, core_gm: 3},
-//    			              {name: 'Season 8', total: 8, pfs: 0, pfs_gm: 13, core: 6, core_gm: 8},
-//    			              {name: 'Modules', total: 66, pfs: 23, pfs_gm: 3, core: 2, core_gm: 3},
-//    			              {name: 'APs', total: 110, pfs: 67, pfs_gm: 23, core: 6, core_gm: 8}
-//    			              ]
-//    		};
+    	if($stateParams.report) {
+    		vm.report = true;
+    		
+    		vm.progresstypes = [
+        	                    {key: 'pfs', name: 'PFS PC'},
+        	                    {key: 'core', name: 'CORE PC'},
+        	                    {key: 'pfs_gm', name: 'PFS GM'},
+        	                    {key: 'core_gm', name: 'CORE GM'}
+        	                    ];
+        	vm.reportoptions = [
+        			{name: 'Season 0', id: 's0', type: 'scenario', season: 0},
+        			{name: 'Season 1', id: 's1', type: 'scenario', season: 1},
+        			{name: 'Season 2', id: 's2', type: 'scenario', season: 2},
+        			{name: 'Season 3', id: 's3', type: 'scenario', season: 3},
+        			{name: 'Season 4', id: 's4', type: 'scenario', season: 4},
+        			{name: 'Season 5', id: 's5', type: 'scenario', season: 5},
+        			{name: 'Season 6', id: 's6', type: 'scenario', season: 6},
+        			{name: 'Season 7', id: 's7', type: 'scenario', season: 7},
+        			{name: 'Season 8', id: 's8', type: 'scenario', season: 8},
+        			{name: 'Quests', id: 'quest', type: 'quest', season: false},
+        			{name: 'Modules', id: 'mod', type: 'mod', season: false},
+        			{name: 'Adventure paths', id: 'ap', type: 'ap', season: false}
+        			];
+        	
+        	vm.reporttype = vm.reportoptions[0];
+    	}
     	
     	if($stateParams.pfsNumber) {
-    		vm.getPlayer($stateParams.pfsNumber);	
+    		vm.getPlayer($stateParams.pfsNumber);
+    		if($stateParams.report) {
+    			vm.getContent($stateParams.pfsNumber);
+    		}
     	}
     }
     
@@ -81,6 +84,89 @@
     	}
     
     	vm.playerselect = '';
+    }
+    
+    PlayersController.prototype.changeReportType = function(type)
+    {
+    	var vm = this;
+    	
+		vm.reporttype = type;
+		vm.getContent();
+    }
+    
+    PlayersController.prototype.getContent = function(pfsNumber)
+    {
+    	var vm = this;
+    	
+    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'scenarios/player/' + vm.$stateParams.pfsNumber + '/type/' + vm.reporttype.type + '/season/' + vm.reporttype.season).
+    		success(function(data, status, headers, config) {
+    		// Assign scenarios
+    		vm.content = data;
+    		
+    		data.forEach(function(content) {
+    			if(typeof content.players[0] !== 'undefined') {
+    				if(content.players[0].played.pfs !== null) {
+    					content.players[0].played.pfs = true;
+    				} else {
+    					content.players[0].played.pfs = false;
+    				}
+    				
+    				if(content.players[0].played.pfs_gm !== null) {
+    					content.players[0].played.pfs_gm = true;
+    				} else {
+    					content.players[0].played.pfs_gm = false;
+    				}
+    				
+    				if(content.players[0].played.core !== null) {
+    					content.players[0].played.core = true;
+    				} else {
+    					content.players[0].played.core = false;
+    				}
+    				
+    				if(content.players[0].played.core_gm !== null) {
+    					content.players[0].played.core_gm = true;
+    				} else {
+    					content.players[0].played.core_gm = false;
+    				}
+    			}
+    		});
+    	}).
+  	  	error(function(data, status, headers, config) {
+  	  		// called asynchronously if an error occurs
+  	  		// or server returns response with an error status.
+  	  		vm.main.toast('error', 'Error while getting played info');
+  	  	});
+    }
+    
+    PlayersController.prototype.saveScenario = function(scenario_id, state, $index)
+    {
+    	var vm = this;
+    	
+    	var method = 'POST';
+    	
+    	if(!vm.content[$index].players[0].played[state])
+    	{
+    		method = 'DELETE';
+    	}
+
+        var req = {
+                method: method,
+                url: vm.main.trackerConfig.apiUrl + 'report',
+                data: $.param({state: state, pfsNumber: vm.player.pfsnumber, content: scenario_id}),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            };    	
+    	
+    	vm.$http(req).
+			success(function(data, status, headers, config) {
+				vm.main.toast('success', 'Played info saved');
+		}).
+	  	error(function(data, status, headers, config) {
+	  		// called asynchronously if an error occurs
+	  		// or server returns response with an error status.
+	  		vm.main.toast('error', 'Error while deleting played info');
+	  	});
     }
     
 })();

@@ -172,12 +172,39 @@ router.get('/', function(req, res, next) {
 					}
 				}
 				
+				// Handle 'groups'
+				// The group and its members are fetched from the database and then split in players and added to the players to search on
+				if(typeof req.query.group !== 'undefined') {
+					var groupIds = req.query.group;
+					
+					var groups = yield models.Group.findAll({
+						attributes: ['id'],
+						where: {id: {$in: groupIds}},
+						include: [{
+							attributes: ['pfsnumber'],
+							model: models.Person,
+							as: 'members',
+							through: 'j_group_person'
+						}]
+					});
+					
+					// Make sure req.query.players exists
+					if(typeof req.query.player == 'undefined') {
+						req.query.player = [];
+					}
+					
+					groups.forEach(function(group) {
+						group.members.forEach(function(member) {
+							req.query.player.push(member.pfsnumber);
+						});
+					});
+				}
+				
 				// Handle 'players'
 				if(typeof req.query.player !== 'undefined') {
 					var pfsnumbers = req.query.player;
 					
 					if(typeof req.query.showAll == 'undefined' || req.query.showAll !== 'true') {
-						console.log('We are not showing all');
 						var subquery = '(SELECT `Scenario`.`id` FROM `scenarios` AS `Scenario` ' + 
 							'INNER JOIN (`j_scenario_person` AS `players.played` ' + 
 							'INNER JOIN `people` AS `players` ON `players`.`id` = `players.played`.`person_id` ' + 

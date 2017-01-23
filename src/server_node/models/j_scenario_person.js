@@ -1,7 +1,5 @@
-/* jshint indent: 2 */
-
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('j_scenario_person', {
+	var J_scenario_person = sequelize.define('j_scenario_person', {
     id: {
       type: DataTypes.INTEGER(11),
       allowNull: false,
@@ -33,6 +31,13 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     }
   }, {
-    tableName: 'j_scenario_person'
+    tableName: 'j_scenario_person',
+	classMethods: {
+		associate: function(models) {
+			J_scenario_person.belongsTo(models.Scenario, {as: 'scenario', foreignKey: 'scenario_id'});
+		}
+	}
   });
+	
+	return J_scenario_person;
 };

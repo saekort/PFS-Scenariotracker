@@ -25,7 +25,7 @@
     			templateUrl: 'help_filters.html',
     			controller: 'ModalInstanceController as help',
     			resolve: {
-    				character: function() {return null;}
+    				content: function() {return null;}
     			},    			
     			size: 'lg'
     		});
@@ -38,7 +38,7 @@
     			templateUrl: 'help_search.html',
     			controller: 'ModalInstanceController as help',
     			resolve: {
-    				character: function() {return null;}
+    				content: function() {return null;}
     			},    			
     			size: 'lg'
     		});
@@ -51,7 +51,7 @@
     			templateUrl: 'help_report.html',
     			controller: 'ModalInstanceController as help',
     			resolve: {
-    				character: function() {return null;}
+    				content: function() {return null;}
     			},    			
     			size: 'lg'
     		});

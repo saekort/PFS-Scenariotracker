@@ -96,6 +96,8 @@ module.exports = function(sequelize, DataTypes) {
     	associate: function(models) {
     		Person.hasMany(models.Statistic, {as: 'statistics', foreignKey: 'person_id'});
     		Person.belongsToMany(models.Scenario, {as: 'scenarios', foreignKey: 'person_id', through: models.j_scenario_person});
+//    		Person.belongsToMany(models.Group, {as: 'groupMemberships', foreignKey: 'person_id', through: 'j_group_person'});
+//    		Person.belongsToMany(models.Group, {as: 'groupUsers', foreignKey: 'person_id', through: 'j_group_person'});
     	}
     },
 	instanceMethods: {

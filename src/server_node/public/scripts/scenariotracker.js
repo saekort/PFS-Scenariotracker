@@ -34,8 +34,14 @@
         		controller: 'PlanController',
         		controllerAs: 'vm'        		
         	})
+        	.state('players-report', {
+        		url: '/players/:pfsNumber/:report',
+        		templateUrl: "views/players.html",
+        		controller: 'PlayersController',
+        		controllerAs: 'vm'        		
+        	})
         	.state('players', {
-        		url: '/players/:pfsNumber',
+        		url: '/players/:pfsNumber/:report',
         		templateUrl: "views/players.html",
         		controller: 'PlayersController',
         		controllerAs: 'vm'        		
@@ -99,7 +105,13 @@
         		templateUrl: "views/characters.html",
         		controller: 'CharacterController',
         		controllerAs: 'vm'        		
-        	})        	
+        	})
+        	.state('groups', {
+        		url: '/groups',
+        		templateUrl: "views/groups.html",
+        		controller: 'GroupController',
+        		controllerAs: 'vm'        		
+        	})
 	    	.state('passwordrecover', {
 	    		url: '/passwordrecover',
 	    		templateUrl: "views/passwordrecover.html",

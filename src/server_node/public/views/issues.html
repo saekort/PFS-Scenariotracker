@@ -1,33 +1,29 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <div id="main" class="container">
-	<div class="row">
+	<!-- <div class="row">
 		<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
 			<ng-include src="'./views/partials/logo.html'"></ng-include>
 		</div>
-	</div>
+	</div> -->
 	<div class="row scenario">
-			<h2>Known issues</h2>
+			<h1><i class="fa fa-bug fa-fw"></i> Known issues</h1>
+			<hr>
 			<div class="alert alert-danger"><strong>Warning:</strong> Before you report something as a bug please force refresh your browser to download all the latest files. Sometimes browsers cache, which is totally not cool!</div>
 			<p>Suggestions and/or bug reports? I am active in <a href="http://paizo.com/threads/rzs2t5ah?Our-PFS-sessiontracker" target="_blank">this thread on the Paizo forums</a>.</p>
-			<h3>Upcoming features</h3>
-			<ul>
-				<li>Import sessiondata from Paizo.com</li>
-				<li>New player public profile page</li>
-				<li>Slow or normal track toggle for characters</li>
-				<li>Rework the report page</li>
-				<li>Filter on people but do not filter away results</li>
-				<li>Convention support</li>
-			</ul>
-			<h3>Bugs</h3>
+			<h3>Current issues</h3>
 			<ul>
 				<li>When turning the description on a scenario off again it leaves space in some browsers</li>
 				<li>Optimize extra small resolution layout (possibly also the small resolution layout)</li>
-				<li>If you rename your account and then 'select yourself' on reporting it will not display the new name</li>
-				<li>Hotmail/Outlook users get password recovery emails in their spam folder</li>
-				<li>Statistics don't get generated automatically</li>
 			</ul>
+			<hr>
 			<h2>Changelog</h2>
 			<ul>
+				<li>2016-12-14: Bugfix: Totals on the profile page should not be correct.</li>
+				<li>2016-12-07: Bugfix: If you un-report a scenario it would not reset it null, ruining some counters. Most notably the profile and statistics. This change will make it work correct again. <b>Note that this could change your rating on the statistics page.</b></li>
+				<li>2016-11-11: Setting for showing your characters on your profile added.</li>
+				<li>2016-11-11: Stopped using the PFS-logo. We have all seen that enough haven't we? It took up a lot of space.</li>
+				<li>2016-11-11: New profile and reporting pages. You can now link to your profile. Mail from the tracker is sent extremely secure now (DKIM, SPF, etc.).</li>
+				<li>2016-11-11: Theme rework: A lot more icons are added, terms made consistent and layouts look the same.</li>
 				<li>2016-09-28: Bugfix: Statistics are generated once a day again</li>
 				<li>2016-09-23: Bugfix: Fixed a bug that would not show 15 scenarios on a page if content had more then one author</li>
 				<li>2016-09-23: Added filter to search for not filtering out already played content</li>

@@ -5,18 +5,20 @@
         .module('scenariotracker')
         .controller('SearchController', SearchController );
     
-    function SearchController($http, $state, $location, usSpinnerService, $localStorage, $scope)
+    function SearchController($http, $state, $location, usSpinnerService, $localStorage, $scope, $uibModal)
     {
     	var vm = this;
     	vm.$http = $http;
     	vm.$state = $state;
     	vm.$localStorage = $localStorage;
     	vm.$location = $location;
+    	vm.$uibModal = $uibModal;
     	vm.main = $scope.main;
     	vm.usSpinnerService = usSpinnerService;
     	vm.scenarios = [];
     	vm.noScenarios = false;
     	vm.people = [];
+    	vm.groups = [];
     	vm.gm = null;
     	
     	// Start data, hardcoded, this does not change dynamically
@@ -51,6 +53,7 @@
     	vm.search.scenario = '';
     	vm.search.player = null;
     	vm.search.gm = null;
+    	vm.search.group = null;
     	
     	vm.players = {};
     	
@@ -191,6 +194,15 @@
     		query = query + '&gm=' + vm.gm.pfsnumber;
     	}
     	
+    	// Filter: Groups
+    	if(vm.groups)
+    	{
+    		for (var index = 0; index < vm.groups.length; ++index)
+    		{
+    			query = query + '&group[]=' + vm.groups[index].id;
+    		}
+    	}
+    	
     	// Filter: Sorting
     	if(vm.filters.sorting)
     	{
@@ -216,7 +228,7 @@
     		  angular.forEach(vm.scenarios, function(value, key) {
     			  value.collapsed = true;
     			  
-    			  if(vm.people.length > 0) {
+    			  if(vm.people.length > 0 || vm.groups.length > 0) {
     				  angular.forEach(vm.people, function(player, playerkey) {
 	    				  var found = false;
 	    				  for (var i = 0; i < value.players.length; i++) {
@@ -232,6 +244,25 @@
 	    					  var emptyPlayed = {name: player.name, pfsnumber: player.pfsnumber, played: {pfs: null, pfs_gm: null, core: null, core_gm: null}};
 	    					  value.players.push(emptyPlayed);
 	    				  }
+    				  });
+    				  
+    				  angular.forEach(vm.groups, function(group, groupkey) {
+    					 angular.forEach(group.members,function(member, groupkey) {
+    						 var found = false;
+	   	    				 for (var i = 0; i < value.players.length; i++) {
+		   	    				 if(value.players[i].pfsnumber == member.pfsnumber) {
+			   	    				 // The player is already in the played list
+			   	    				 found = true;
+			   	    				 break;
+		   	    				 }
+	   	    				 }
+	   	    				  
+		    				 if(!found) {
+		    					 // This player has had nothing to do with this scenario, add empty data for the view
+		    					 var emptyPlayed = {name: member.name, pfsnumber: member.pfsnumber, played: {pfs: null, pfs_gm: null, core: null, core_gm: null}};
+		    					 value.players.push(emptyPlayed);
+		    				 }
+    					 });
     				  });
     			  }
     			  
@@ -272,6 +303,16 @@
     				return response.data.rows;
     			});
     }
+    
+    SearchController.prototype.getGroups = function(search)
+    {
+    	var vm = this;
+
+    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'groups?search=' + encodeURIComponent(search) + '&rows=5&page=1').then(
+    			function(response){
+    				return response.data.rows;
+    			});
+    }
 
     SearchController.prototype.getAuthors = function(search)
     {
@@ -306,6 +347,18 @@
     	vm.getScenarios();
     }
     
+    SearchController.prototype.removeGroup = function(index)
+    {
+    	var vm = this;
+    	
+    	if(index > -1)
+    	{
+    		vm.groups.splice(index,1);
+    	}
+    	
+    	vm.getScenarios();
+    }
+    
     SearchController.prototype.removeGm = function()
     {
     	var vm = this;
@@ -325,6 +378,18 @@
     	}
     	
 		vm.search.player = '';    	
+    }
+    
+    SearchController.prototype.addGroup = function()
+    {
+    	var vm = this;
+
+    	if( Object.prototype.toString.call( vm.search.group ) === '[object Object]' ) {
+    		vm.groups.push(vm.search.group);
+			vm.getScenarios();
+    	}
+    	
+		vm.search.group = '';    	
     }
 
     SearchController.prototype.addGm = function()
@@ -359,5 +424,20 @@
     	vm.getScenarios();
     	
     	$("html, body").animate({ scrollTop: 0 }, 200);    	
+    }
+    
+    SearchController.prototype.showGroupMembers = function(index)
+    {
+    	var vm = this;
+
+		var modalInstance = vm.$uibModal.open({
+			animation: vm.animate,
+			templateUrl: 'showGroupMembers.html',
+			controller: 'ModalInstanceController as modal',
+			resolve: {
+				content: function() {return vm.groups[index];}
+			},    			
+			size: 'lg'
+		});
     }
 })();

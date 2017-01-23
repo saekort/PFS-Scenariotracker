@@ -1,0 +1,17 @@
+<div>    
+    <script type="text/ng-template" id="showGroupMembers.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Group: {{modal.content.name}}</h3>
+        </div>
+        <div class="modal-body">
+			<p>The following players are currently in group {{modal.content.name}}:</p>
+			<ul>
+				<li ng-repeat="player in modal.content.members | orderBy:'name'">{{player.name}} ({{player.pfsnumber}})</li>
+			</ul>
+			<p class="bold" ng-if="modal.content.members.length < 1">There are no members in this group yet</p>
+        </div>
+        <div class="modal-footer">
+            <button class="button" ng-click="modal.close()" type="button">Dismiss</button>
+        </div>
+    </script>
+</div>

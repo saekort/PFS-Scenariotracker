@@ -195,7 +195,6 @@ a, a:hover, a:active, a:visited {
 }
 
 .filter_player {
-	cursor: pointer;
 	padding: 5px;
 }
 
@@ -351,6 +350,10 @@ button[disabled], button[disabled]:hover {
 	color: #6E2D2D;
 }
 
+.color-group {
+	color: #6D612C;
+}
+
 .color-light {
 	
 }
@@ -468,6 +471,11 @@ input[type=checkbox]:checked + label:after {
 
 .filtering {
 	margin: 10px 0 0 10px;
+}
+
+.filtering {
+	font-size: 17px;
+	line-height: 32px;
 }
 
 .pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
@@ -590,6 +598,18 @@ hr {
 .characters-list li:hover {
 	background-color: #E8B9B9;
 	cursor: pointer;
+}
+
+.characters-list-header {
+	font-size: 1.2em;
+	list-style: none;
+	padding-left: 0px;
+}
+
+.characters-list-header li {
+	background-color: #E5C38B;
+	margin: 10px 0 10px 0;
+	padding: 10px;
 }
 
 .character-page-faction {
