@@ -134,12 +134,11 @@
         	req.url = vm.main.trackerConfig.apiUrl + 'user/characters';
         }
     	
-    	vm.$http(req).
-			success(function(data, status, headers, config) {
+    	vm.$http(req)
+    	.success(function(data, status, headers, config) {
 				vm.main.toast('success', 'Character saved');
 				vm.getCharacters();
-		}).
-	  	error(function(data, status, headers, config) {
+		}).error(function(data, status, headers, config) {
 	  		vm.main.toast('error', 'Error while saving character');
 	  	});
         
@@ -170,13 +169,12 @@
     	var vm = this;
 
         var req = {
-                method: 'DELETE',
-                url: vm.main.trackerConfig.apiUrl + 'user/characters/' + id,
-                //data: $.param({id: id}),
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            };    	
+            method: 'DELETE',
+            url: vm.main.trackerConfig.apiUrl + 'user/characters/' + id,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        };    	
     	
     	vm.$http(req)
     	.success(function(data, status, headers, config) {

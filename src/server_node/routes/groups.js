@@ -1,5 +1,6 @@
 var express = require('express');
-var models = require("../models");
+var models = require("../models")
+var co  = require('co');;
 var router = express.Router();
 var winston = require('winston');
 
@@ -15,36 +16,33 @@ var winston = require('winston');
  * @apiHeader {String} Authorization "Bearer " + [JSON Web Token (JWT)]
  */
 router.get('/', function(req, res, next) {
-	//TODO: Add limits for private groups
-	if(req.query.rows && req.query.page && req.query.rows <= 20)
+	if(req.query.rows && req.query.page <= 20)
 	{
-		var search = '';
-		if(typeof req.query.search != 'undefined') {
-			search = req.query.search;
-		}		
-		
-		models.Group.findAndCountAll({
-			attributes: ['id', 'name'],
-			where: models.sequelize.or({name: {$like: '%' + search + '%'}}),
-			include: [
-					    {model: models.Person, as: 'owner', attributes: ['pfsnumber', 'name']},
-					    {
-					    	model: models.Person, 
-					    	as: 'members', 
-					    	attributes: ['name', 'pfsnumber'],
-					    	required: false,
-							duplicating: false,
-					    	through: {as: '', attributes: []}}
-					],
-			limit: parseInt(req.query.rows),
-			offset: parseInt(req.query.page * req.query.rows - req.query.rows),
-			duplicating: false,
-			order: [ ['name', 'ASC'] ]
-		}).then(function(groups) {
-			res.status(200).send(groups);
-		}).catch(function(error) {
-			winston.log('error', error);
-			res.status(400).send(error);
+		co(function *() {
+			try {
+				var search = '';
+				if(typeof req.query.search != 'undefined') {
+					search = req.query.search;
+				}		
+				
+				var groups = yield models.Group.findAndCountAll({
+					attributes: ['id', 'name'],
+					include: [{model: models.Person, as: 'owner', attributes: ['pfsnumber', 'name']}],
+					where: models.sequelize.or({name: {$like: '%' + search + '%'}}),
+					limit: parseInt(req.query.rows),
+					offset: parseInt(req.query.page * req.query.rows - req.query.rows),
+					order: [ ['name', 'ASC'] ]
+				});
+
+				for(var i =0; i < groups.rows.length; i++) {
+					groups.rows[i].dataValues.memberCount = yield models.j_group_person.count({where: {group_id: groups.rows[i].dataValues.id} });
+				}				
+				
+				res.status(200).send(groups);
+			} catch (errors) {
+				winston.log('error', errors);
+				res.status(500).send(errors);
+			}
 		});
 	} else {
 		res.status(400).end();
@@ -60,11 +58,15 @@ router.get('/:id', function(req, res, next) {
 	if(req.params.id)
 	{	
 		models.Group.findById(req.params.id, {
-			attributes: ['id', 'name', 'public'],
+			attributes: ['id', 'name'],
 			include: [
-			    {model: models.Person, as: 'owner', attributes: ['pfsnumber', 'name']},
-			    {model: models.Person, as: 'admins', attributes: ['pfsnumber', 'name'], through: {as: '', attributes: []}},
-			    {model: models.Person, as: 'members', attributes: ['pfsnumber', 'name'], through: {as: '', attributes: []}}
+			    //{model: models.Person, as: 'owner', attributes: ['pfsnumber', 'name']},
+			    {
+			    	model: models.Person, as: 'members', 
+			    	attributes: ['pfsnumber', 'name'], 
+			    	through: {as: '', attributes: []},
+			    	required: false
+			    }
 			],
 		})
 		.then(function(group) {

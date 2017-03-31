@@ -9,6 +9,7 @@ var authenticate = expressJwt({secret : config.apiSecret});
 var tokenizer = require('../helpers/tokenizer');
 var bcrypt    = require('bcryptjs');
 var winston = require('winston');
+var co = require('co');
 
 /**
  * @api {get} /user GET the user's data
@@ -115,13 +116,41 @@ router.post('/groups', authenticate, function(req, res, next) {
 		var data = {name: req.body.name};
 		data.owner_id = req.user.id;
 		
-		models.Group.create(data)
-		.then(function(group) {
-			res.set('Location', req.get('host') + '/group/' + group.id);
-			res.status(201).end();
-		}).catch(function(err) {
-			winston.log('error', err);
-			res.status(500).send(err);
+		if(typeof req.body.members !== 'undefined') {
+			data.members = req.body.members;
+		} else {
+			data.members = [];
+		}
+		
+		co(function *() {
+			try {
+				var group = yield models.Group.create(data);
+				
+				if(typeof req.body.members !== 'undefined') { 
+					var memberData = [];
+					
+					if(typeof data.members === 'string') {
+						data.members = [data.members];
+					}
+					
+					for(var i=0; i < data.members.length ;i++) {
+						memberData[i] = yield models.Person.find({where: {pfsnumber: data.members[i]}});
+					}
+					
+					if(memberData.length > 0) {
+						yield group.setMembers(memberData);
+					}
+				} else {
+					// Group is now empty
+					yield group.setMembers(null);
+				}
+				
+				res.set('Location', req.get('host') + '/group/' + group.id);
+				res.status(201).end();
+			} catch (errors) {
+				winston.log('error', errors);
+				res.status(500).send(errors);
+			}
 		});
 	}
 });
@@ -134,21 +163,51 @@ router.post('/groups', authenticate, function(req, res, next) {
  * @apiHeader {String} Authorization "Bearer " + [JSON Web Token (JWT)]
  */
 router.put('/groups/:groupId', authenticate, function(req, res, next) {
-	// Get the group
-	//TODO: Add admin option
-	models.Group.find({where: {id: req.params.groupId}})
-	.then(function(group) {
-		if(typeof req.body.name !== 'undefined') { group.name = req.body.name; }
-		
-		group.save()
-		.then(function(group) {
+	co(function *() {
+		try {
+			var data = {id: req.params.groupId};
+			
+			if(typeof req.body.members !== 'undefined') {
+				data.members = req.body.members;
+			} else {
+				data.members = [];
+			}
+			
+			var group = yield models.Group.findById(data.id);
+			
+			if(req.user.id !== group.owner_id) {
+				res.status(401).send();
+			}
+			
+			if(typeof req.body.name !== 'undefined') { 
+				group.name = req.body.name;
+				yield group.save();
+			}
+			
+			if(typeof req.body.members !== 'undefined') { 
+				var memberData = [];
+				
+				if(typeof data.members === 'string') {
+					data.members = [data.members];
+				}
+				
+				for(var i=0; i < data.members.length ;i++) {
+					memberData[i] = yield models.Person.find({where: {pfsnumber: data.members[i]}});
+				}
+				
+				if(memberData.length > 0) {
+					yield group.setMembers(memberData);
+				}
+			} else {
+				// Group is now empty
+				yield group.setMembers(null);
+			}
+			
 			res.status(200).send(group);
-		}).catch(function(err) {
-			winston.log('error', err);
-			res.status(400).send(err);
-		})
-	}).catch(function(err) {
-		winston.log('error', err);
+		} catch (errors) {
+			winston.log('error', errors);
+			res.status(500).send(errors);
+		}
 	});
 });
 
@@ -160,14 +219,15 @@ router.put('/groups/:groupId', authenticate, function(req, res, next) {
  * @apiHeader {String} Authorization "Bearer " + [JSON Web Token (JWT)]
  */
 router.delete('/groups/:groupId', authenticate, function(req, res, next) {
-	//TODO: Add admin option
-	models.Group.find({where: {id: req.params.groupId}})
-	.then(function(group) {
-		group.destroy();
-		res.status(200).send();	
-	}).catch(function(err) {
-		winston.log('error', err);
-		res.status(200).send(err);
+	co(function *() {
+		try {
+			var group = yield models.Group.find({where: {owner_id: req.user.id, id: req.params.groupId}});
+			yield group.destroy({force: true});
+			res.status(200).send();
+		} catch (errors) {
+			winston.log('error', errors);
+			res.status(500).send(errors);
+		}
 	});
 });
 
@@ -239,17 +299,13 @@ router.put('/characters/:characterId', authenticate, function(req, res, next) {
 		character.save()
 		.then(function(character) {
 			res.status(200).send(character);
-//		}).catch(models.Character.ValidationError, function (err) {
-//			winston.log('error', 'TEST TEST TEST');
-//			winston.log('error', err.errors);
-//			res.status(422).send(err.errors);
 		}).catch(function(err) {
 			winston.log('error', err);
 			res.status(400).send(err);
 		})
 	}).catch(function(err) {
 		winston.log('error', err);
-		//res.status(400).send(err);
+		res.status(400).send(err);
 	});
 });
 
@@ -261,13 +317,15 @@ router.put('/characters/:characterId', authenticate, function(req, res, next) {
  * @apiHeader {String} Authorization "Bearer " + [JSON Web Token (JWT)]
  */
 router.delete('/characters/:characterId', authenticate, function(req, res, next) {
-	models.Character.find({where: {player_id: req.user.id, id: req.params.characterId}})
-	.then(function(character) {
-		character.destroy();
-		res.status(200).send();	
-	}).catch(function(err) {
-		winston.log('error', err);
-		res.status(200).send(err);
+	co(function *() {
+		try {
+			var character = yield models.Character.find({where: {player_id: req.user.id, id: req.params.characterId}});
+			yield character.destroy({force: true});
+			res.status(200).send();
+		} catch (errors) {
+			winston.log('error', errors);
+			res.status(500).send(errors);
+		}
 	});
 });
 

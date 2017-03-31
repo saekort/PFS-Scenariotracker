@@ -100,12 +100,22 @@
         		controller: 'ReportController',
         		controllerAs: 'vm'        		
         	})
+        	.state('privacy', {
+        		url: '/privacy',
+        		templateUrl: "views/privacy.html"
+        	})
         	.state('characters', {
         		url: '/characters',
         		templateUrl: "views/characters.html",
         		controller: 'CharacterController',
         		controllerAs: 'vm'        		
         	})
+//        	.state('groups-edit', {
+//        		url: '/groups/:groupId',
+//        		templateUrl: "views/groups.html",
+//        		controller: 'GroupController',
+//        		controllerAs: 'vm'        		
+//        	})
         	.state('groups', {
         		url: '/groups',
         		templateUrl: "views/groups.html",
@@ -123,7 +133,7 @@
 	    		templateUrl: "views/passwordreset.html",
 	    		controller: 'PasswordresetController',
 	    		controllerAs: 'vm'	
-	    	}); 	    	
+	    	}); 
         
         $urlRouterProvider.otherwise("/search");
        

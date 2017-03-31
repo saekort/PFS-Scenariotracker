@@ -56,15 +56,18 @@ models.sequelize.sync({force: false}).then(function () {
            httpsServer.on('error', onError);
            httpsServer.on('listening', onListening);
         });
-		
-		var helmet = require('helmet');
 
-		var ONE_YEAR = 31536000000;
-		app.use(helmet.hsts({
-		    maxAge: ONE_YEAR,
-		    includeSubdomains: true,
-		    force: true
-		}));
+		// Only set the Strict-Transport-Security header if we are not a locally signed certificate		
+		if(env !== 'development') {
+			var helmet = require('helmet');
+	
+			var ONE_YEAR = 31536000000;
+			app.use(helmet.hsts({
+			    maxAge: ONE_YEAR,
+			    includeSubdomains: true,
+			    force: true
+			}));
+		}
 		
 		app.use('/', require('../routes/index'));
 		app.use('/auth', require('../routes/auth'));

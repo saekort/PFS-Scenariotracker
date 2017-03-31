@@ -169,7 +169,7 @@
 			<div ng-show="vm.people.length > 0 || vm.gm || vm.groups.length > 0" class="filtering">
 				<strong>Filtering:</strong>
 				<span ng-show="vm.gm">
-					<span class="filter_player label label-default color-background-light">GM: {{vm.gm.name}} ({{vm.gm.pfsnumber}}) <i class="fa fa-times fa-fw clickable" ng-click="vm.removeGm()"></i></span>&nbsp;
+					<span class="filter_player label label-default color-background-light"><span class="glyphicon glyphicon-bookmark"></span> {{vm.gm.name}} ({{vm.gm.pfsnumber}}) <i class="fa fa-times fa-fw clickable" ng-click="vm.removeGm()"></i></span>&nbsp;
 				</span> 
 				<span ng-repeat="person in vm.people">
 					<span class="filter_player label label-default color-background-dark">{{person.name}} ({{person.pfsnumber}}) <i class="fa fa-times fa-fw clickable" ng-click="vm.removePlayer($index)"></i></span>&nbsp;
@@ -228,7 +228,7 @@
 								<span ng-show="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].core_gm | limitTo: 10}}"></span></span>
 							</div>						
 						</div>
-						<div ng-repeat="player in scenario.players">
+						<div ng-repeat="player in scenario.players | orderBy:'name'">
 							<div ng-if="vm.gm.pfsnumber !== player.pfsnumber">
 								<span class="col-xs-12 search_played search_played_player col-sm-4"><span class="glyphicon glyphicon-user"></span> <strong>{{player.name}} ({{player.pfsnumber}})</strong></span>
 								<span ng-hide="player.played.pfs" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
@@ -241,21 +241,6 @@
 								<span ng-show="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.core_gm | limitTo: 10}}"></span></span>
 							</div>
 						</div>					
-						<!-- <div ng-repeat="searchplayer in vm.people">
-							<div ng-repeat="player in scenario.players">
-								<div ng-if="searchplayer.pfsnumber == player.pfsnumber">
-									<span class="col-xs-12 search_played search_played_player col-sm-4"><span class="glyphicon glyphicon-user"></span> <strong>{{player.name}}</strong></span>
-									<span ng-hide="player.played.pfs" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-									<span ng-show="player.played.pfs" class="col-xs-3 col-sm-2 search_played search_played_played">PFS: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.pfs | limitTo: 10}}"></span></span>
-									<span ng-hide="player.played.pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">PFS GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-									<span ng-show="player.played.pfs_gm" class="col-xs-3 col-sm-2 search_played search_played_played">PFS GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.pfs_gm | limitTo: 10}}"></span></span>
-									<span ng-hide="player.played.core" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-									<span ng-show="player.played.core" class="col-xs-3 col-sm-2 search_played search_played_played">CORE: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.core | limitTo: 10}}"></span></span>
-									<span ng-hide="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
-									<span ng-show="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{player.core_gm | limitTo: 10}}"></span></span>
-								</div>
-							</div>						
-						</div> -->
 					</div>
 				</div>
 			</div>

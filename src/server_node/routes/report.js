@@ -62,7 +62,7 @@ router.delete('/', authenticate, function(req, res, next) {
 		&& typeof req.body.content !== 'undefined' 
 		&& typeof req.body.state !== 'undefined' 
 		&& stateOptions.indexOf(req.body.state) > -1) {
-
+		
 		models.Person.find({where: {pfsnumber: req.body.pfsNumber}}).then(function(person) {
 			if(person.public || (typeof req.user !== 'undefined' && person.pfsnumber === req.user.pfsnumber)) {
 				models.j_scenario_person.find({

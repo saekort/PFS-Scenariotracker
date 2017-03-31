@@ -67,7 +67,7 @@
 				<li class="row" ng-repeat="character in vm.characters">
 					<span class="col-xs-1">#{{character.number}}</span>				
 					<span class="col-xs-2">{{character.name | limitTo : 15 : 0}}</span>
-					<span ng-show="character.faction" class="col-xs-1 text-center"><img class="character-page-faction" ng-src="./images/factions/{{character.faction}}.png"></span>
+					<span ng-show="character.faction" class="col-xs-1 text-center"><img class="character-page-faction" ng-if="character.faction != ''" ng-src="./images/factions/{{character.faction}}.png"></span>
 					<span ng-hide="character.faction" class="col-xs-1 text-center">?</span>
 					<span class="col-xs-1">{{character.campaign}}</span>					
 					<span class="col-xs-4">{{character.class || "?"}} ({{character.level || "?"}})</span>

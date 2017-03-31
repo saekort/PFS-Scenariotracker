@@ -5,15 +5,17 @@
         .module('scenariotracker')
         .controller('GroupController', GroupController );
     
-    function GroupController($http, $state, $filter, $location, $scope, $uibModal)
+    function GroupController($http, $state, $filter, $location, $scope, $uibModal, $httpParamSerializer)
     {
     	var vm = this;
     	vm.main = $scope.main;
     	vm.$http = $http;
     	vm.$state = $state;
     	vm.$location = $location;
+    	//vm.$stateParams = $stateParams;
     	vm.$filter = $filter;
     	vm.$modal = $uibModal;
+    	vm.$httpParamSerializer = $httpParamSerializer;
     	
     	vm.group = {};
     	vm.group.id = null;
@@ -23,6 +25,7 @@
     	
     	vm.groups = [];
     	vm.status = 'overview';
+    	vm.playerselect = '';
     	
     	if(typeof vm.main.$storage.user === 'undefined')
     	{
@@ -66,6 +69,7 @@
 
     	vm.group.id = null;
     	vm.group.name = '';
+    	vm.group.members = [];
     	
     	vm.status = 'new';
     }
@@ -74,21 +78,27 @@
     {
     	var vm = this;
 
+    	// Grab the pfsnumbers of the members
+    	var members = [];
+    	for(var i=0; i < vm.group.members.length; i++) {
+    		members.push(vm.group.members[i].pfsnumber);
+    	}
+    	
     	// Determine if we are saving or creating
     	if(vm.status == 'new')
     	{
     		// We are creating
-    		var post_data = {name: vm.group.name};
+    		var data = {name: vm.group.name, members: members};
     	}
     	else
     	{
     		// We are updating
-    		var post_data = {id: vm.group.id, name: vm.group.name};
+    		var data = {id: vm.group.id, name: vm.group.name, members: members};
     	}
     	
         var req = {
-            data: $.param(post_data),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            data: vm.$httpParamSerializer(data),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
         };
         
         if(vm.group.id) {
@@ -103,12 +113,13 @@
 			success(function(data, status, headers, config) {
 				vm.main.toast('success', 'Group saved');
 				vm.getGroups();
+				vm.toOverview();
 		}).
 	  	error(function(data, status, headers, config) {
 	  		vm.main.toast('error', 'Error while saving group');
+	  		vm.getGroups();
+	  		vm.toOverview();
 	  	});
-        
-    	vm.status = 'overview';
     }
     
     GroupController.prototype.confirmDeleteGroup = function(index)
@@ -133,7 +144,7 @@
     GroupController.prototype.deleteGroup = function(id)
     {
     	var vm = this;
-
+    	
         var req = {
                 method: 'DELETE',
                 url: vm.main.trackerConfig.apiUrl + 'user/groups/' + id,
@@ -150,7 +161,13 @@
 			vm.main.toast('error', 'Error while deleting group');
 	  	});
         
-    	vm.status = 'overview';
+    	vm.toOverview();
+    }
+    
+    GroupController.prototype.removeMember = function(member)
+    {
+    	var vm = this;
+    	vm.group.members.splice(vm.group.members.indexOf(member), 1);
     }
     
     GroupController.prototype.toOverview = function()
@@ -158,6 +175,27 @@
     	var vm = this;
     	
     	vm.status = 'overview';
+    }
+    
+    GroupController.prototype.getPeople = function(search)
+    {
+    	var vm = this;
+    	
+    	return vm.$http.get(vm.main.trackerConfig.apiUrl + 'people?search=' + encodeURIComponent(search) + '&rows=5&page=1').then(
+    			function(response){
+    				return response.data.rows;
+    			});
+    }
+    
+    GroupController.prototype.selectPlayer = function()
+    {
+    	var vm = this;
+    	
+    	if( Object.prototype.toString.call( vm.playerselect ) === '[object Object]' ) {
+    		vm.group.members.push(vm.playerselect);
+    	}
+    
+    	vm.playerselect = '';
     }
     
 })();
@@ -169,15 +207,15 @@
         .module('scenariotracker')
         .controller('GroupModalInstanceController', GroupModalInstanceController );
     
-    function GroupModalInstanceController($uibModalInstance, $scope, group)
+    function GroupModalInstanceController($uibModalInstance, $scope, content)
     {
     	var vm = this;
     	vm.$scope = $scope;
     	vm.$uibModalInstance = $uibModalInstance;
     	
-    	if(group)
+    	if(content)
     	{
-    		vm.group = group;
+    		vm.content = content;
     	}
     }
     
@@ -190,7 +228,7 @@
     GroupModalInstanceController.prototype.deleteGroup = function()
     {
     	var vm = this;
-    	vm.$uibModalInstance.close(vm.group);
+    	vm.$uibModalInstance.close(vm.content);
     }
     
 })();

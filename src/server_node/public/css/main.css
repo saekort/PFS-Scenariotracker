@@ -330,19 +330,19 @@ button[disabled], button[disabled]:hover {
 }
 
 .pfs {
-	left: -13px;
+	left: -25px;
 }
 
 .core {
-	left: 4px;
+	left: -15px;
 }
 
 .pfsgm {
-	left: 42px;
+	left: 15px;
 }
 
 .coregm {
-	left: 59px;
+	left: 25px;
 	
 }
 
@@ -600,6 +600,11 @@ hr {
 	cursor: pointer;
 }
 
+.characters-list li.no-highlight {
+	background-color: #EAD4B9;
+	cursor: auto;
+}
+
 .characters-list-header {
 	font-size: 1.2em;
 	list-style: none;
@@ -709,6 +714,10 @@ hr {
 #toast-container > .toast-success:before {
 	color: #15470B;
     content: "\f00c";
+}
+
+.toast-top-right {
+	margin-top: 50px;
 }
 
 .loader {
@@ -838,4 +847,47 @@ hr {
 .nav-tabs > li > a:hover {
   border: 0;
   background-color: #E8B9B9;
+}
+
+.playersearch ul li {
+	background-color: #FFFFFF;
+	margin: 0;
+	padding: 0;
+}
+
+.playersearch ul li:hover {
+	background-color: #FFEFDB;
+}
+
+.reporting-list {
+	font-size: 1.2em;
+	list-style: none;
+	padding-left: 0px;
+}
+
+.reporting-list li {
+	background-color: #EAD4B9;
+	margin: 5px 0 5px 0;
+	padding: 5px;
+}
+
+.reporting-list li:hover {
+	background-color: #E8B9B9;
+}
+
+.reporting-list li.no-highlight {
+	background-color: #EAD4B9;
+	cursor: auto;
+}
+
+.reporting-list-header {
+	font-size: 1em;
+	list-style: none;
+	padding-left: 0px;
+}
+
+.reporting-list-header li {
+	background-color: #E5C38B;
+	margin: 10px 0 10px 0;
+	padding: 5px;
 }

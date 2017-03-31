@@ -385,8 +385,10 @@
     	var vm = this;
 
     	if( Object.prototype.toString.call( vm.search.group ) === '[object Object]' ) {
-    		vm.groups.push(vm.search.group);
-			vm.getScenarios();
+    		vm.$http.get(vm.main.trackerConfig.apiUrl + 'groups/' + vm.search.group.id).then(function(response){
+    			vm.groups.push(response.data);
+    			vm.getScenarios();
+    		});
     	}
     	
 		vm.search.group = '';    	

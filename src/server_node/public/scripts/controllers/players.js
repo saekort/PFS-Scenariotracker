@@ -169,4 +169,52 @@
 	  	});
     }
     
+    PlayersController.prototype.checkAll = function()
+    {
+    	var vm = this;
+    	
+    	angular.forEach(vm.content, function(value, key) {
+    		var type = vm.option.check;
+    		
+    		if(typeof vm.content[key].players[0] == 'undefined') {
+    			value.players = [{id: vm.player.id, pfsnumber: vm.player.pfsnumber}];
+    			value.players[0].played = {pfs: null, pfs_gm: null, core: null, core_gm: null};
+    		}
+
+    		if(!value.players[0].played[type])
+    		{
+    			// Only check if not already checked
+    			vm.content[key].players[0].played[type] = true;    			
+    			
+    			// Save it to the server
+    			vm.saveScenario(value.id, type, key);
+    		}
+    		
+    	});
+    	
+    	vm.option.check = '';
+    }
+    
+    PlayersController.prototype.uncheckAll = function()
+    {
+    	var vm = this;
+    	var vm = this;
+    	
+    	angular.forEach(vm.content, function(value, key) {
+    		var type = vm.option.check;
+    		
+    		if(value.players[0].played[type])
+    		{
+    			// Only check if not already checked
+    			vm.content[key].players[0].played[type] = false;    			
+    			
+    			// Save it to the server
+    			vm.saveScenario(value.id, type, key);
+    		}
+    		
+    	});
+    	
+    	vm.option.check = '';
+    }
+    
 })();

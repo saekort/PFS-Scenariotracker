@@ -4,17 +4,17 @@
 	<div class="scenario row" ng-show="vm.status == 'overview'">
 		<h1><i class="fa fa-archive fa-fw"></i> Your groups</h1>
 		<hr>
-		<p>Here you can manage groups of players for easy searching. You can create your own groups, share them with other players or make them public. You can also get permission to use groups made by other players, you can see those here as well.</p>
+		<p>Here you can manage groups of players for easy searching. You can create groups, useable by other users.</p>
 		
 		<div class="text-center" ng-show="vm.groups.length == 0"><h3>No groups found</h3></div>
 		
 		<ul class="characters-list-header" ng-hide="vm.characters.length == 0">
 			<li class="row bold">
 				<span class="col-xs-1">ID</span>
-				<span class="col-xs-3">Name</span>
+				<span class="col-xs-4">Name</span>
 				<span class="col-xs-2">Owner</span>
-				<span class="col-xs-2 text-center"># Users</span>
-				<span class="col-xs-2 text-center"># Members</span>
+				<span class="col-xs-2 text-center hidden"># Users</span>
+				<span class="col-xs-3 text-center"># Members</span>
 				<span class="col-xs-2 text-center">Manage</span>
 			</li>
 		</ul>
@@ -22,19 +22,14 @@
 		<ul class="characters-list">
 			<li class="row" ng-repeat="group in vm.groups">
 				<span class="col-xs-1">#{{group.id}}</span>
-				<span class="col-xs-3">{{group.name | limitTo : 20 : 0}}</span>
+				<span class="col-xs-4">{{group.name | limitTo : 25 : 0}}</span>
 				<span class="col-xs-2"><span ng-if="group.owner.pfsnumber == vm.main.$storage.user.pfsnumber">You</span><span ng-if="group.owner.pfsnumber !== vm.main.$storage.user.pfsnumber">{{group.owner.name}} ({{group.owner.pfsnumber}})</span></span>
-				<span class="col-xs-2 text-center">{{group.users.length}}</span>
-				<span class="col-xs-2 text-center">{{group.members.length}}</span>
+				<span class="col-xs-2 text-center hidden">{{group.users.length}}</span>
+				<span class="col-xs-3 text-center">{{group.members.length}}</span>
 				<span class="col-xs-2 text-center">
 					<span class="glyphicon glyphicon-pencil" ng-click="vm.editGroup($index)"></span>&nbsp;&nbsp;
 					<span class="glyphicon glyphicon-trash red" ng-click="vm.confirmDeleteGroup($index)"></span>
 				</span>
-				
-				<div ng-show="1 != 1">
-					Admins: <span ng-repeat="member in group.admins">{{member.name}} ({{member.pfsnumber}}){{$last ? '' : ($index==group.admins-2) ? ' and ' : ', '}}</span><span ng-if="group.admins.length == 0">-</span><br>
-					Members: <span ng-repeat="member in group.members">{{member.name}} ({{member.pfsnumber}}){{$last ? '' : ($index==group.members-2) ? ' and ' : ', '}}<span ng-if="group.members.length == 0">-</span></span>
-				</div>
 			</li>
 			
 			<li class="text-center row li-button" ng-show="vm.status != 'new'" ng-click="vm.newGroup()"><span class="glyphicon glyphicon-plus"></span> NEW GROUP</li>
@@ -46,39 +41,54 @@
 		<hr>
 		<button class="button pull-right" ng-show="vm.status == 'edit' || vm.status == 'new'" ng-click="vm.toOverview()"><< Back to overview</button>
 		<form  ng-show="vm.status == 'new' || vm.status == 'edit'" name="group">
-			<div class="form-group">Note: You cannot change owners on groups yet. You cannot set groups to public yet either.</div>
 			<div class="form-group">
 				<h3>Group info</h3>
-				<label>Group ID:</label> {{vm.group.id || "New group"}}
+				<span class="hidden"><label>Group ID:</label> {{vm.group.id || "New group"}}</span>
 			</div>
 			<div class="form-group">
 				<label>Name:</label> <input type="text" class="form-control" required ng-model="vm.group.name">
 			</div>
-			<div class="form-group">
-				<h3>Users:</h3>
-				<div class="text-center" ng-show="vm.group.admins == 0"><h3>No users found</h3></div>
-				<ul class="characters-list">
-					<li class="row" ng-repeat="user in vm.group.users">
-						<select class="col-xs-3 col-sm-2" required ng-options="userPermission.name for userPermission in vm.userPermissions" ng-model="user.permission"></select>
-						<span class="col-xs-9 col-sm-10">{{user.name}} ({{user.pfsnumber}})</span>
-					
-					</li>
-					<li class="text-center row li-button" ng-click="vm.addUser()"><span class="glyphicon glyphicon-plus"></span> ADD USER</li>
-				</ul>
-			</div>
-			<div class="form-group">
-				<h3>Members:</h3>
-				<div class="text-center" ng-show="vm.group.members == 0"><h3>No members found</h3></div>
-				<ul class="characters-list">
-					<li class="row" ng-repeat="member in vm.group.members">{{member.name}} ({{member.pfsnumber}})</li>
-					<li class="text-center row li-button" ng-click="vm.addMember()"><span class="glyphicon glyphicon-plus"></span> ADD MEMBER</li>
-				</ul>
-			</div>
-			<div class="form-group">
-				<button class="button" ng-disabled="group.$invalid" ng-show="vm.status == 'new'" ng-click="vm.saveGroup()">Create</button>
-				<button class="button" ng-disabled="group.$invalid" ng-show="vm.status == 'edit'" ng-click="vm.saveGroup()">Save</button>
-				<button class="button" ng-show="vm.status == 'edit' || vm.status == 'new'" ng-click="vm.toOverview()"><< Back to overview</button>
-			</div>
 		</form>
+		<div class="form-group hidden">
+			<h3>Users:</h3>
+			<div class="text-center" ng-show="vm.group.admins == 0"><h3>No users found</h3></div>
+			<ul class="characters-list">
+				<li class="row" ng-repeat="user in vm.group.users">
+					<select class="col-xs-3 col-sm-2" required ng-options="userPermission.name for userPermission in vm.userPermissions" ng-model="user.permission"></select>
+					<span class="col-xs-9 col-sm-10">{{user.name}} ({{user.pfsnumber}})</span>
+				
+				</li>
+				<li class="text-center row li-button" ng-click="vm.addUser()"><span class="glyphicon glyphicon-plus"></span> ADD USER</li>
+			</ul>
+		</div>
+		<div class="form-group">
+			<h3>Members:</h3>
+			<p>Add members with the 'add member' button and remove them using the X behind their name. Changes you make will not be saved until you choose 'save' at the bottom.</p>
+			<p class="alert alert-info"><span class="bold">Note: </span>This is a pilot, a test, for groups within the pfstracker. To not task the system excessively maximum group size is limited to 20 for the moment.</p>
+			<div class="text-center" ng-show="vm.group.members == 0"><h3>No members found</h3></div>
+			<ul class="characters-list">
+				<li class="row" ng-repeat="member in vm.group.members | orderBy:'name'">
+					<span class="fa fa-user fa-fw"></span>
+					<span>{{member.name}} ({{member.pfsnumber}})</span>
+					<span class="fa fa-times fa-fw pull-right" aria-hidden="true" ng-click="vm.removeMember(member)"></span>
+				</li>
+				<hr>
+				<li class="form-inline no-highlight" ng-show="vm.group.members.length < 20">
+					<span>Find a person to add:</span>
+					<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 input-group playersearch form-group">
+						<input id="playerselect" class="playerselect form-control" ng-model="vm.playerselect" uib-typeahead="person for person in vm.getPeople($viewValue)" typeahead-min-length="2" 
+							ng-model-options="{debounce: 200}" typeahead-template-url="playersearchTemplate.html" typeahead-input-formatter="vm.formatPlayersearch($model)" placeholder="Select by username or pfsnumber"
+							typeahead-on-select="vm.selectPlayer()">			
+						<i class="glyphicon glyphicon-search form-control-feedback" style="color: grey;"></i>				
+					</div>
+				</li>
+				<li class="bold" ng-hide="vm.group.members.length < 20">You have reached the maximum member amount for this group.</li>
+			</ul>
+		</div>
+		<div class="form-group">
+			<button class="button" ng-disabled="group.$invalid" ng-show="vm.status == 'new'" ng-click="vm.saveGroup()">Create</button>
+			<button class="button" ng-disabled="group.$invalid" ng-show="vm.status == 'edit'" ng-click="vm.saveGroup()">Save</button>
+			<button class="button" ng-show="vm.status == 'edit' || vm.status == 'new'" ng-click="vm.toOverview()"><< Back to overview</button>
+		</div>
 	</div>
 </div>

@@ -201,7 +201,7 @@ router.get('/', function(req, res, next) {
 				}
 				
 				// Handle 'players'
-				if(typeof req.query.player !== 'undefined') {
+				if(typeof req.query.player !== 'undefined' && req.query.player.length > 0) {
 					var pfsnumbers = req.query.player;
 					
 					if(typeof req.query.showAll == 'undefined' || req.query.showAll !== 'true') {

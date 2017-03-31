@@ -243,5 +243,5 @@
     			vm.saveScenario(value.id, type, key);
     		}
     	});
-    }    
+    }
 })();
