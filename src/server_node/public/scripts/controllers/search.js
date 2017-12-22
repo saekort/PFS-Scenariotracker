@@ -28,13 +28,15 @@
     	                      {key: 0, name: 0, checked: false, col: 1},
     	                      {key: 1, name: 1, checked: false, col: 1},
     	                      {key: 2, name: 2, checked: false, col: 1},
-    	                      {key: 3, name: 3, checked: false, col: 2},
+    	                      {key: 3, name: 3, checked: false, col: 1},
     	                      {key: 4, name: 4, checked: false, col: 2},
     	                      {key: 5, name: 5, checked: false, col: 2},
-    	                      {key: 6, name: 6, checked: false, col: 3},
+    	                      {key: 6, name: 6, checked: false, col: 2},
     	                      {key: 7, name: 7, checked: false, col: 3},
-    	                      {key: 8, name: 8, checked: false, col: 3}
+    	                      {key: 8, name: 8, checked: false, col: 3},
+    	                      {key: 9, name: 9, checked: false, col: 3}
     	                      ];
+    	vm.data.seasons_sfs = [{key: 1, name: 1, checked: false, col: 1},];
     	vm.data.sortoptions = [
     	                  {key: 'name_asc', label: 'Name A-Z'},
     	                  {key: 'name_desc', label: 'Name Z-A'},
@@ -77,12 +79,15 @@
     	if(angular.isUndefined(vm.$localStorage.search_filters.scenarios)) { vm.$localStorage.search_filters.scenarios = true; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.modules)) { vm.$localStorage.search_filters.modules = true; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.aps)) { vm.$localStorage.search_filters.aps = true; }
-    	if(angular.isUndefined(vm.$localStorage.search_filters.quests)) { vm.$localStorage.search_filters.quests = true; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.other)) { vm.$localStorage.search_filters.other = true; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.game_pfs)) { vm.$localStorage.search_filters.game_pfs = true; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.game_sfs)) { vm.$localStorage.search_filters.game_sfs = false; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.retired)) { vm.$localStorage.search_filters.retired = false; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.evergreen)) { vm.$localStorage.search_filters.evergreen = false; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.specials)) { vm.$localStorage.search_filters.specials = false; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.sorting)) { vm.$localStorage.search_filters.sorting = vm.data.sortoptions[2]; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.seasons)) { vm.$localStorage.search_filters.seasons = {}; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.seasons_sfs)) { vm.$localStorage.search_filters.seasons_sfs = {}; }
     	
     	vm.filters = vm.$localStorage.search_filters;
     }
@@ -152,8 +157,24 @@
     		query = query + '&aps=true';
     	}
     	
-    	// Filter: Seasons
-    	if(vm.filters.seasons)
+    	// Filter: Other
+    	if(vm.filters.other) 
+    	{ 
+    		query = query + '&other=true';
+    	}
+    	
+    	// Filter: Game PFS
+    	if(vm.filters.game_pfs) {
+    		query = query + '&game_pfs=true';
+    	}
+    	
+    	// Filter: Game SFS
+    	if(vm.filters.game_sfs) {
+    		query = query + '&game_sfs=true';
+    	}
+    	
+    	// Filter: PFS Seasons
+    	if(vm.filters.seasons && vm.filters.game_pfs)
     	{	
     		angular.forEach(vm.filters.seasons, function(value, key) {
     			if(value == true)
@@ -171,11 +192,29 @@
     		}
     	}
     	
+    	// Filter: SFS Seasons
+    	if(vm.filters.seasons_sfs && vm.filters.game_sfs)
+    	{	
+    		angular.forEach(vm.filters.seasons_sfs, function(value, key) {
+    			if(value == true)
+    			{
+    				query = query + '&season_sfs[]=' + key;
+    			}
+    		});
+    		
+    		for (var i = 0; i < vm.filters.seasons_sfs.length; ++i)
+    		{
+    			if(vm.filters.seasons_sfs[index].checked)
+    			{
+    				query = query + '&season_sfs[]=' + vm.filters.seasons_sfs[index].key;
+    			}
+    		}
+    	}
+    	
     	if(vm.filters.campaign) { query = query + '&campaign=' + vm.filters.campaign; } // Filter: Campaign
     	if(vm.search.author) { query = query + '&author=' + vm.search.author; } // Filter: Author    	
     	if(vm.filters.evergreen) { query = query + '&evergreen=true'; } // Filter: Evergreen
     	if(vm.filters.specials) { query = query + '&specials=true'; } // Filter: Specials    	
-    	if(vm.filters.quests) { query = query + '&quests=true'; } // Filter: Quests
     	if(vm.filters.retired) { query = query + '&retired=true'; } // Filter: Retired
     	if(vm.filters.showAll) { query = query + '&showAll=true'; } // Filter: Don't filter out already played
     	
@@ -241,7 +280,7 @@
 	    				  
 	    				  if(!found) {
 	    					  // This player has had nothing to do with this scenario, add empty data for the view
-	    					  var emptyPlayed = {name: player.name, pfsnumber: player.pfsnumber, played: {pfs: null, pfs_gm: null, core: null, core_gm: null}};
+	    					  var emptyPlayed = {name: player.name, pfsnumber: player.pfsnumber, played: {pfs: null, pfs_gm: null, core: null, core_gm: null, sfs: null, sfs_gm: null}};
 	    					  value.players.push(emptyPlayed);
 	    				  }
     				  });
@@ -259,7 +298,7 @@
 	   	    				  
 		    				 if(!found) {
 		    					 // This player has had nothing to do with this scenario, add empty data for the view
-		    					 var emptyPlayed = {name: member.name, pfsnumber: member.pfsnumber, played: {pfs: null, pfs_gm: null, core: null, core_gm: null}};
+		    					 var emptyPlayed = {name: member.name, pfsnumber: member.pfsnumber, played: {pfs: null, pfs_gm: null, core: null, core_gm: null, sfs: null, sfs_gm: null}};
 		    					 value.players.push(emptyPlayed);
 		    				 }
     					 });
@@ -278,7 +317,7 @@
     				  
     				  if(!found) {
     					  // This player has had nothing to do with this scenario, add empty data for the view
-    					  var emptyPlayed = {name: vm.gm.name, pfsnumber: vm.gm.pfsnumber, played: {pfs: null, pfs_gm: null, core: null, core_gm: null}};
+    					  var emptyPlayed = {name: vm.gm.name, pfsnumber: vm.gm.pfsnumber, played: {pfs: null, pfs_gm: null, core: null, core_gm: null, sfs: null, sfs_gm: null}};
     					  value.players.push(emptyPlayed);
     				  }
     			  }

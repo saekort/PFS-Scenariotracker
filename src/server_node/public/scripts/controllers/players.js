@@ -28,19 +28,27 @@
         	                    {key: 'core_gm', name: 'CORE GM'}
         	                    ];
         	vm.reportoptions = [
-        			{name: 'Season 0', id: 's0', type: 'scenario', season: 0},
-        			{name: 'Season 1', id: 's1', type: 'scenario', season: 1},
-        			{name: 'Season 2', id: 's2', type: 'scenario', season: 2},
-        			{name: 'Season 3', id: 's3', type: 'scenario', season: 3},
-        			{name: 'Season 4', id: 's4', type: 'scenario', season: 4},
-        			{name: 'Season 5', id: 's5', type: 'scenario', season: 5},
-        			{name: 'Season 6', id: 's6', type: 'scenario', season: 6},
-        			{name: 'Season 7', id: 's7', type: 'scenario', season: 7},
-        			{name: 'Season 8', id: 's8', type: 'scenario', season: 8},
-        			{name: 'Quests', id: 'quest', type: 'quest', season: false},
-        			{name: 'Modules', id: 'mod', type: 'mod', season: false},
-        			{name: 'Adventure paths', id: 'ap', type: 'ap', season: false}
+        			{name: 'Season 0', id: 's0', type: 'scenario', season: 0, game: 'pfs'},
+        			{name: 'Season 1', id: 's1', type: 'scenario', season: 1, game: 'pfs'},
+        			{name: 'Season 2', id: 's2', type: 'scenario', season: 2, game: 'pfs'},
+        			{name: 'Season 3', id: 's3', type: 'scenario', season: 3, game: 'pfs'},
+        			{name: 'Season 4', id: 's4', type: 'scenario', season: 4, game: 'pfs'},
+        			{name: 'Season 5', id: 's5', type: 'scenario', season: 5, game: 'pfs'},
+        			{name: 'Season 6', id: 's6', type: 'scenario', season: 6, game: 'pfs'},
+        			{name: 'Season 7', id: 's7', type: 'scenario', season: 7, game: 'pfs'},
+        			{name: 'Season 8', id: 's8', type: 'scenario', season: 8, game: 'pfs'},
+        			{name: 'Season 9', id: 's9', type: 'scenario', season: 9, game: 'pfs'},
+        			{name: 'Modules', id: 'mod', type: 'mod', season: false, game: 'pfs'},
+        			{name: 'Adventure paths', id: 'ap', type: 'ap', season: false, game: 'pfs'},
+        			{name: 'Other', id: 'other', type: 'other', season: false, game: 'pfs'}
         			];
+        	
+        	vm.reportoptions_sfs = [
+        	        {name: 'Season 1', id: 's1', type: 'scenario', season: 1, game: 'sfs'},
+        			{name: 'Modules', id: 'mod', type: 'mod', season: false, game: 'sfs'},
+        			{name: 'Adventure paths', id: 'ap', type: 'ap', season: false, game: 'sfs'},
+        			{name: 'Other', id: 'other', type: 'other', season: false, game: 'sfs'},
+        	        ];
         	
         	vm.reporttype = vm.reportoptions[0];
     	}
@@ -98,38 +106,56 @@
     {
     	var vm = this;
     	
-    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'scenarios/player/' + vm.$stateParams.pfsNumber + '/type/' + vm.reporttype.type + '/season/' + vm.reporttype.season).
+    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'scenarios/player/' + vm.$stateParams.pfsNumber + '/type/' + vm.reporttype.type + '/game/' + vm.reporttype.game + '/season/' + vm.reporttype.season).
     		success(function(data, status, headers, config) {
     		// Assign scenarios
     		vm.content = data;
     		
-    		data.forEach(function(content) {
-    			if(typeof content.players[0] !== 'undefined') {
-    				if(content.players[0].played.pfs !== null) {
-    					content.players[0].played.pfs = true;
-    				} else {
-    					content.players[0].played.pfs = false;
-    				}
-    				
-    				if(content.players[0].played.pfs_gm !== null) {
-    					content.players[0].played.pfs_gm = true;
-    				} else {
-    					content.players[0].played.pfs_gm = false;
-    				}
-    				
-    				if(content.players[0].played.core !== null) {
-    					content.players[0].played.core = true;
-    				} else {
-    					content.players[0].played.core = false;
-    				}
-    				
-    				if(content.players[0].played.core_gm !== null) {
-    					content.players[0].played.core_gm = true;
-    				} else {
-    					content.players[0].played.core_gm = false;
-    				}
-    			}
-    		});
+    		if(vm.reporttype.game == 'pfs') {
+	    		data.forEach(function(content) {
+	    			if(typeof content.players[0] !== 'undefined') {
+	    				if(content.players[0].played.pfs !== null) {
+	    					content.players[0].played.pfs = true;
+	    				} else {
+	    					content.players[0].played.pfs = false;
+	    				}
+	    				
+	    				if(content.players[0].played.pfs_gm !== null) {
+	    					content.players[0].played.pfs_gm = true;
+	    				} else {
+	    					content.players[0].played.pfs_gm = false;
+	    				}
+	    				
+	    				if(content.players[0].played.core !== null) {
+	    					content.players[0].played.core = true;
+	    				} else {
+	    					content.players[0].played.core = false;
+	    				}
+	    				
+	    				if(content.players[0].played.core_gm !== null) {
+	    					content.players[0].played.core_gm = true;
+	    				} else {
+	    					content.players[0].played.core_gm = false;
+	    				}
+	    			}
+	    		});
+    		} else if(vm.reporttype.game == 'sfs') {
+    			data.forEach(function(content) {
+	    			if(typeof content.players[0] !== 'undefined') {
+	    				if(content.players[0].played.sfs !== null) {
+	    					content.players[0].played.sfs = true;
+	    				} else {
+	    					content.players[0].played.sfs = false;
+	    				}
+	    				
+	    				if(content.players[0].played.sfs_gm !== null) {
+	    					content.players[0].played.sfs_gm = true;
+	    				} else {
+	    					content.players[0].played.sfs_gm = false;
+	    				}
+	    			}
+	    		});
+    		}
     	}).
   	  	error(function(data, status, headers, config) {
   	  		// called asynchronously if an error occurs

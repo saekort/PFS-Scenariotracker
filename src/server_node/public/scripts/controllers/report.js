@@ -33,7 +33,8 @@
     			{name: 'Season 8', id: 's8', type: 'scenario', season: 8},
     			{name: 'Quests', id: 'quest', type: 'quest', season: false},
     			{name: 'Modules', id: 'mod', type: 'mod', season: false},
-    			{name: 'Adventure paths', id: 'ap', type: 'ap', season: false}
+    			{name: 'Adventure paths', id: 'ap', type: 'ap', season: false},
+    			{name: 'Season 1', id: 'sfs1', type: 'scenario', season: 1}
     			];
     	vm.overview = {name: '<< Back to overview', id: 'overview'};
     	vm.atOverview = true;

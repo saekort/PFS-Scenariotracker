@@ -5,7 +5,7 @@
         .module('scenariotracker')
         .controller('MainController', MainController );
     
-    function MainController($state, $location, $http, $scope, $rootScope, $localStorage, trackerConfig, toastr)
+    function MainController($state, $location, $http, $scope, $rootScope, $localStorage, trackerConfig, toastr, $uibModal)
     {
     	var vm = this;
     	vm.$state = $state;
@@ -14,6 +14,7 @@
     	vm.trackerConfig = trackerConfig;
     	vm.$storage = $localStorage;
     	vm.toastr = toastr;
+    	vm.$uibModal = $uibModal;
     	
     	// Set Authorization header based on value of token in $storage object
     	$scope.$watch('main.$storage.token', function() {
@@ -71,6 +72,27 @@
     	}
     	
     	return true;
+    }
+    
+    MainController.prototype.whatsNew = function() {
+    	var vm = this;
+    	
+    	// See if this client has already seen the whats new
+    	if(angular.isUndefined(vm.$storage.whatsnew1)) {
+    		// Not seen the whats new
+    		var modalInstance = vm.$uibModal.open({
+    			animation: true,
+    			templateUrl: 'whatsnew.html',
+    			controller: 'ModalInstanceController as help',
+    			resolve: {
+    				content: function() {return null;}
+    			},    			
+    			size: 'lg'
+    		});
+    		
+    		// Make sure client does not see it again
+    		vm.$storage.whatsnew1 = true;
+    	}
     }
     
 })();

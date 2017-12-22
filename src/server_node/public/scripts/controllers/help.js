@@ -18,6 +18,7 @@
     {
     	var vm = this;
     	vm.type = type;
+    	
     	if(vm.type=='filters')
     	{
     		var modalInstance = vm.$uibModal.open({

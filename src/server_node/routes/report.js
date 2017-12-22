@@ -10,7 +10,7 @@ var router = express.Router();
 var winston = require('winston');
 
 router.post('/', authenticate, function(req, res, next) {
-	var stateOptions = ['pfs', 'pfs_gm', 'core', 'core_gm'];
+	var stateOptions = ['pfs', 'pfs_gm', 'core', 'core_gm', 'sfs', 'sfs_gm'];
 	if(typeof req.body.pfsNumber !== 'undefined' 
 		&& typeof req.body.content !== 'undefined' 
 		&& typeof req.body.state !== 'undefined' 
@@ -56,7 +56,7 @@ router.post('/', authenticate, function(req, res, next) {
 });
 
 router.delete('/', authenticate, function(req, res, next) {
-	var stateOptions = ['pfs', 'pfs_gm', 'core', 'core_gm'];
+	var stateOptions = ['pfs', 'pfs_gm', 'core', 'core_gm', 'sfs', 'sfs_gm'];
 	
 	if(typeof req.body.pfsNumber !== 'undefined' 
 		&& typeof req.body.content !== 'undefined' 

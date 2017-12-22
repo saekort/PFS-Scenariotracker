@@ -46,11 +46,21 @@ module.exports = function(sequelize, DataTypes) {
 		  allowNull: true,
 		  defaultValue: '0'
 		},
+		quest: {
+			  type: DataTypes.BOOLEAN,
+			  allowNull: true,
+			  defaultValue: '0'
+			},
 		multitable: {
 			  type: DataTypes.BOOLEAN,
 			  allowNull: true,
 			  defaultValue: '0'
 			},
+		game: {
+			type: DataTypes.STRING,
+			allowNull: false,
+			defaultValue: 'pfs'
+		},
 		archived_at: {
 			type: DataTypes.DATE,
 			allowNull: true

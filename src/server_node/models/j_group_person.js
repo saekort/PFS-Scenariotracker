@@ -20,7 +20,8 @@ module.exports = function(sequelize, DataTypes) {
 		associate: function(models) {
 			J_group_person.belongsTo(models.Group, {as: 'group', foreignKey: 'group_id'});
 		}
-	}
+	},
+	paranoid: false
   });
 	
 	return J_group_person;

@@ -131,7 +131,7 @@ router.get('/:pfsNumber/profile', function(req, res, next) {
 				  			include: [{
 				  			    model: models.Scenario, 
 				  			    as: 'scenario',
-			  			  		where: {archived_at: null}
+			  			  		where: {archived_at: null, game: 'pfs'}
 				  			}]
 				  		});
 				  		totals.pfs_gm = yield models.j_scenario_person.count({
@@ -139,7 +139,7 @@ router.get('/:pfsNumber/profile', function(req, res, next) {
 						  	include: [{
 						  	    model: models.Scenario, 
 						  	    as: 'scenario',
-					  			where: {archived_at: null}
+					  			where: {archived_at: null, game: 'pfs'}
 						  	}]
 				  		});
 				  		totals.core = yield models.j_scenario_person.count({
@@ -147,7 +147,7 @@ router.get('/:pfsNumber/profile', function(req, res, next) {
 						  	include: [{
 						  	    model: models.Scenario, 
 						  	    as: 'scenario',
-					  			where: {archived_at: null}
+					  			where: {archived_at: null, game: 'pfs'}
 						  	}]
 				  		});
 				  		totals.core_gm = yield models.j_scenario_person.count({
@@ -155,7 +155,23 @@ router.get('/:pfsNumber/profile', function(req, res, next) {
 						  	include: [{
 						  	    model: models.Scenario, 
 						  	    as: 'scenario',
-					  			where: {archived_at: null}
+					  			where: {archived_at: null, game: 'pfs'}
+						  	}]
+				  		});
+				  		totals.sfs = yield models.j_scenario_person.count({
+				  			where: {person_id: person.id, sfs: {$not: null}},
+						  	include: [{
+						  	    model: models.Scenario, 
+						  	    as: 'scenario',
+					  			where: {archived_at: null, game: 'sfs'}
+						  	}]
+				  		});
+				  		totals.sfs_gm = yield models.j_scenario_person.count({
+				  			where: {person_id: person.id, sfs_gm: {$not: null}},
+						  	include: [{
+						  	    model: models.Scenario, 
+						  	    as: 'scenario',
+					  			where: {archived_at: null, game: 'sfs'}
 						  	}]
 				  		});
 				  		
@@ -164,13 +180,13 @@ router.get('/:pfsNumber/profile', function(req, res, next) {
 				  		var progression = [];
 				  		
 				  		// Add all season progression
-				  		var seasons = 8;
+				  		var seasons = 9;
 				  		for(var i = 0; i < seasons+1; i++) {
-				  			var seasonTotal = yield models.Scenario.count({where: {season: i, archived_at: null, type: 'scenario'}});
-				  			var seasonPfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});
-				  			var seasonPfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND  `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});
-				  			var seasonCore = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND  `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});
-				  			var seasonCoreGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND  `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});
+				  			var seasonTotal = yield models.Scenario.count({where: {season: i, archived_at: null, type: 'scenario', game: 'pfs'}});
+				  			var seasonPfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND `scenarios`.`game` = 'pfs' AND `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});
+				  			var seasonPfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND `scenarios`.`game` = 'pfs' AND `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});
+				  			var seasonCore = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND `scenarios`.`game` = 'pfs' AND `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});
+				  			var seasonCoreGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND `scenarios`.`game` = 'pfs' AND `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});
 				  			
 				  			var newSeason = {};
 					  		newSeason.name = 'Season ' + i;
@@ -185,31 +201,15 @@ router.get('/:pfsNumber/profile', function(req, res, next) {
 				  		
 				  		person.progression = progression;
 				  		
-				  		// Add quests
-				  		var questsPfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'quest'", {type: models.sequelize.QueryTypes.SELECT});
-				  		var questsPfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'quest'", {type: models.sequelize.QueryTypes.SELECT});
-				  		var questsCore = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'quest'", {type: models.sequelize.QueryTypes.SELECT});
-				  		var questsCoreGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'quest'", {type: models.sequelize.QueryTypes.SELECT});
-				  		
-			  			var quests = {};
-				  		quests.name = 'Quests';
-				  		quests.total = yield models.Scenario.count({where: {type: 'quest'}});
-				  		quests.pfs = questsPfs[0].count;
-				  		quests.pfs_gm = questsPfsGm[0].count;
-				  		quests.core = questsCore[0].count;
-				  		quests.core_gm = questsCoreGm[0].count;
-				  		
-				  		progression.push(quests);	
-				  		
 				  		// Add modules
-				  		var modulesPfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'mod'", {type: models.sequelize.QueryTypes.SELECT});
-				  		var modulesPfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'mod'", {type: models.sequelize.QueryTypes.SELECT});
-				  		var modulesCore = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'mod'", {type: models.sequelize.QueryTypes.SELECT});
-				  		var modulesCoreGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'mod'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var modulesPfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'mod' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var modulesPfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'mod' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var modulesCore = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'mod' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var modulesCoreGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'mod' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
 				  		
 			  			var modules = {};
 			  			modules.name = 'Modules';
-			  			modules.total = yield models.Scenario.count({where: {type: 'mod'}});
+			  			modules.total = yield models.Scenario.count({where: {type: 'mod', game: 'pfs'}});
 			  			modules.pfs = modulesPfs[0].count;
 			  			modules.pfs_gm = modulesPfsGm[0].count;
 			  			modules.core = modulesCore[0].count;
@@ -218,10 +218,10 @@ router.get('/:pfsNumber/profile', function(req, res, next) {
 				  		progression.push(modules);	
 				  		
 				  		// Add adventure paths
-				  		var apsPfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'ap'", {type: models.sequelize.QueryTypes.SELECT});
-				  		var apsPfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'ap'", {type: models.sequelize.QueryTypes.SELECT});
-				  		var apsCore = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'apt'", {type: models.sequelize.QueryTypes.SELECT});
-				  		var apsCoreGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'ap'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var apsPfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'ap' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var apsPfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'ap' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var apsCore = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'apt' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var apsCoreGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'ap' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
 				  		
 			  			var aps = {};
 			  			aps.name = 'APs';
@@ -231,7 +231,79 @@ router.get('/:pfsNumber/profile', function(req, res, next) {
 			  			aps.core = apsCore[0].count;
 			  			aps.core_gm = apsCoreGm[0].count;
 				  		
-				  		progression.push(aps);	
+				  		progression.push(aps);
+				  		
+				  		// Add other
+				  		var otherPfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'other' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var otherPfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'other' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var otherCore = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'other' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var otherCoreGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`core_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'other' AND `scenarios`.`game` = 'pfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		
+			  			var other = {};
+			  			other.name = 'Other';
+			  			other.total = yield models.Scenario.count({where: {type: 'other', game: 'pfs'}});
+			  			other.pfs = otherPfs[0].count;
+			  			other.pfs_gm = otherPfsGm[0].count;
+			  			other.core = otherCore[0].count;
+			  			other.core_gm = otherCoreGm[0].count;
+				  		
+				  		progression.push(other);	
+				  		
+				  		// Deal with Starfinder Society (sfs)
+				  		var progression_sfs = [];
+				  		
+				  		var seasons = 1;
+				  		for(var i = 1; i < seasons+1; i++) {
+				  			var seasonTotal = yield models.Scenario.count({where: {season: i, archived_at: null, type: 'scenario', game: 'sfs'}});
+				  			var seasonSfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`sfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND `scenarios`.`game` = 'sfs' AND `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});
+				  			var seasonSfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`sfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND `scenarios`.`game` = 'sfs' AND `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});
+				  			
+				  			var newSeason = {};
+					  		newSeason.name = 'Season ' + i;
+					  		newSeason.total = seasonTotal;
+					  		newSeason.sfs = seasonSfs[0].count;
+					  		newSeason.sfs_gm = seasonSfsGm[0].count;
+					  		
+					  		progression_sfs.push(newSeason);	
+				  		}
+				  		
+				  		// Add modules
+				  		var modulesSfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`sfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'mod' AND `scenarios`.`game` = 'sfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var modulesSfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`sfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'mod' AND `scenarios`.`game` = 'sfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		
+			  			var modules = {};
+			  			modules.name = 'Modules';
+			  			modules.total = yield models.Scenario.count({where: {type: 'mod', game: 'sfs'}});
+			  			modules.sfs = modulesSfs[0].count;
+			  			modules.sfs_gm = modulesSfsGm[0].count;
+				  		
+				  		progression_sfs.push(modules);	
+				  		
+				  		// Add adventure paths
+				  		var apsSfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`sfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'ap' AND `scenarios`.`game` = 'sfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var apsSfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`sfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'ap' AND `scenarios`.`game` = 'sfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		
+			  			var aps = {};
+			  			aps.name = 'APs';
+			  			aps.total = yield models.Scenario.count({where: {type: 'ap', game: 'sfs'}});
+			  			aps.sfs = apsSfs[0].count;
+			  			aps.sfs_gm = apsSfsGm[0].count;
+				  		
+				  		progression_sfs.push(aps);	
+				  		
+				  		// Add other
+				  		var otherSfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`sfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'other' AND `scenarios`.`game` = 'sfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		var otherSfsGm = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`sfs_gm` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'other' AND `scenarios`.`game` = 'sfs'", {type: models.sequelize.QueryTypes.SELECT});
+				  		
+			  			var other = {};
+			  			other.name = 'Other';
+			  			other.total = yield models.Scenario.count({where: {type: 'other', game: 'sfs'}});
+			  			other.sfs = otherSfs[0].count;
+			  			other.sfs_gm = otherSfsGm[0].count;
+				  		
+				  		progression_sfs.push(other);
+				  		
+				  		person.progression_sfs = progression_sfs;
 				  		
 				  		res.status(200).send(person);
 				  	}

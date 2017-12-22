@@ -75,7 +75,7 @@ router.get('/', function(req, res, next) {
 						order = req.query.order;
 					}
 					
-					findParams.order = [ [ orderBy, order ] ];
+					findParams.order = [ [ orderBy, order ], ['number', 'ASC'], ['name', 'ASC'] ];
 				}
 				
 				// Handle 'retired'
@@ -96,19 +96,54 @@ router.get('/', function(req, res, next) {
 					findParams.where.evergreen = 1;
 				}
 				
-				// Handle 'campaign'
-				var campaign = 'PFS';
-				if(typeof req.query.campaign !== 'undefined') {
-					// Only allow 'PFS' or 'CORE'
-					if(req.query.campaign.toUpperCase() === 'PFS' || req.query.campaign.toUpperCase() === 'CORE') {
-						campaign = req.query.campaign.toUpperCase();
-					}
+				// Handle 'game_pfs' & 'game_sfs'
+				if(typeof req.query.game_pfs !== 'undefined' && req.query.game_pfs !== '' && typeof req.query.game_sfs !== 'undefined' && req.query.game_sfs !== '') {
+					// Don't do extra filter
+					findParams.where.$or = [];
+				} else if(typeof req.query.game_pfs !== 'undefined' && req.query.game_pfs !== '') {
+					findParams.where.$or = [];
+					//findParams.where.game = 'pfs';
+				} else if(typeof req.query.game_sfs !== 'undefined' && req.query.game_sfs !== '') {
+					findParams.where.$or = [];
+					//findParams.where.game = 'sfs';
+				} else {
+					findParams.where.game = '';
 				}
 				
-				// Handle 'season'
-				if(typeof req.query.season !== 'undefined' && req.query.season.length > 0) {
-					var seasons = req.query.season;
-					findParams.where.season = {$in: seasons};
+				// Handle the query for the PFS content
+				if(typeof req.query.game_pfs !== 'undefined' && req.query.game_pfs !== '') {
+					var pfs_content = {$or: [{game: 'pfs'}]};
+					
+					// Handle 'campaign'
+					var campaign = 'PFS';
+					// Only relevant when searching played histories
+					if(typeof req.query.campaign !== 'undefined') {
+						// Only allow 'PFS' or 'CORE'
+						if(req.query.campaign.toUpperCase() === 'PFS' || req.query.campaign.toUpperCase() === 'CORE') {
+							campaign = req.query.campaign.toUpperCase();
+						}
+					}
+					
+					// Handle 'season'
+					if(typeof req.query.season !== 'undefined' && req.query.season.length > 0) {
+						var seasons = req.query.season;
+						pfs_content.$or[0].season = {$in: seasons};
+					}
+					
+					findParams.where.$or.push(pfs_content);
+				}
+				
+				// Handle the query for the SFS content
+				if(typeof req.query.game_sfs !== 'undefined' && req.query.game_sfs !== '') {
+					var sfs_content = {$or: [{game: 'sfs'}]};
+					
+					// Handle 'season_sfs'
+					if(typeof req.query.season_sfs !== 'undefined' && req.query.season_sfs.length > 0) {
+						var seasons = req.query.season_sfs;
+						sfs_content.$or[0].season = {$in: seasons};
+					}
+					
+					findParams.where.$or.push(sfs_content);
 				}
 				
 				// Add authors to the result
@@ -130,17 +165,17 @@ router.get('/', function(req, res, next) {
 				
 				// Handle 'contenttypes'
 				var contenttypes = [];
+				if(typeof req.query.scenarios !== 'undefined') {
+					// Scenario
+					if(req.query.scenarios == 'true') {
+						contenttypes.push('scenario');	
+					}
+				}
+				
 				if(typeof req.query.modules !== 'undefined') {
 					// Module
 					if(req.query.modules == 'true') {
 						contenttypes.push('mod');
-					}
-				}
-				
-				if(typeof req.query.quests !== 'undefined') {
-					// Quest
-					if(req.query.quests == 'true') {
-						contenttypes.push('quest');	
 					}
 				}
 				
@@ -151,10 +186,10 @@ router.get('/', function(req, res, next) {
 					}
 				}
 				
-				if(typeof req.query.scenarios !== 'undefined') {
-					// Scenario
-					if(req.query.scenarios == 'true') {
-						contenttypes.push('scenario');	
+				if(typeof req.query.other !== 'undefined') {
+					// Other
+					if(req.query.other == 'true') {
+						contenttypes.push('other');	
 					}
 				}
 				
@@ -205,17 +240,40 @@ router.get('/', function(req, res, next) {
 					var pfsnumbers = req.query.player;
 					
 					if(typeof req.query.showAll == 'undefined' || req.query.showAll !== 'true') {
-						var subquery = '(SELECT `Scenario`.`id` FROM `scenarios` AS `Scenario` ' + 
-							'INNER JOIN (`j_scenario_person` AS `players.played` ' + 
-							'INNER JOIN `people` AS `players` ON `players`.`id` = `players.played`.`person_id` ' + 
-							'AND ( ( `players.played`.`deleted_at` >= CURRENT_TIMESTAMP OR `players.played`.`deleted_at` IS NULL ) ' +
-							'AND `players.played`.' + campaign + ' IS NOT NULL ) ' +
-							') ON `Scenario`.`id` = `players.played`.`scenario_id` ' + 
-							'AND ( ( `players`.`deleted_at` >= CURRENT_TIMESTAMP OR `players`.`deleted_at` IS NULL ) ' + 
-							'AND `players`.`pfsnumber` IN (' + pfsnumbers.toString() + ') ) ' + 
-							'WHERE ( `Scenario`.`deleted_at` >= CURRENT_TIMESTAMP OR `Scenario`.`deleted_at` IS NULL ) )';
+						// The subquery to add for SFS
+						if(typeof req.query.game_pfs !== 'undefined' && req.query.game_pfs !== '') {
+							var subquery_pfs = '(SELECT `Scenario`.`id` FROM `scenarios` AS `Scenario` ' + 
+								'INNER JOIN (`j_scenario_person` AS `players.played` ' + 
+								'INNER JOIN `people` AS `players` ON `players`.`id` = `players.played`.`person_id` ' + 
+								'AND ( ( `players.played`.`deleted_at` >= CURRENT_TIMESTAMP OR `players.played`.`deleted_at` IS NULL ) ' +
+								'AND `players.played`.' + campaign + ' IS NOT NULL ) ' +
+								') ON `Scenario`.`id` = `players.played`.`scenario_id` ' + 
+								'AND ( ( `players`.`deleted_at` >= CURRENT_TIMESTAMP OR `players`.`deleted_at` IS NULL ) ' + 
+								'AND `players`.`pfsnumber` IN (' + pfsnumbers.toString() + ') ) ' + 
+								'WHERE ( `Scenario`.`deleted_at` >= CURRENT_TIMESTAMP OR `Scenario`.`deleted_at` IS NULL ) )';
+							
+							findParams.where.id = {$notIn: models.Sequelize.literal(subquery_pfs)};
+						}
 						
-						findParams.where.id = {$notIn: models.Sequelize.literal(subquery)};
+						// The subquery to add for SFS
+						if(typeof req.query.game_sfs !== 'undefined' && req.query.game_sfs !== '') {
+							var subquery_sfs = '(SELECT `Scenario`.`id` FROM `scenarios` AS `Scenario` ' + 
+								'INNER JOIN (`j_scenario_person` AS `players.played` ' + 
+								'INNER JOIN `people` AS `players` ON `players`.`id` = `players.played`.`person_id` ' + 
+								'AND ( ( `players.played`.`deleted_at` >= CURRENT_TIMESTAMP OR `players.played`.`deleted_at` IS NULL ) ' +
+								'AND `players.played`.`sfs` IS NOT NULL ) ' +
+								') ON `Scenario`.`id` = `players.played`.`scenario_id` ' + 
+								'AND ( ( `players`.`deleted_at` >= CURRENT_TIMESTAMP OR `players`.`deleted_at` IS NULL ) ' + 
+								'AND `players`.`pfsnumber` IN (' + pfsnumbers.toString() + ') ) ' + 
+								'WHERE ( `Scenario`.`deleted_at` >= CURRENT_TIMESTAMP OR `Scenario`.`deleted_at` IS NULL ) )';
+							
+							findParams.where.id = {$notIn: models.Sequelize.literal(subquery_sfs)};
+						}
+						
+						// If both games are selected
+						if(typeof req.query.game_pfs !== 'undefined' && req.query.game_pfs !== '' && typeof req.query.game_sfs !== 'undefined' && req.query.game_sfs !== '') {
+							findParams.where.id = {$and: [{$notIn: models.Sequelize.literal(subquery_pfs)}, {$notIn: models.Sequelize.literal(subquery_sfs)}]};
+						} 
 					}
 					
 					// Add the GM at this point if the player searches for a GM as well
@@ -229,7 +287,7 @@ router.get('/', function(req, res, next) {
 						attributes: ['id', 'name', 'pfsnumber'],
 						through: {
 							as: 'played',
-							attributes: ['pfs', 'pfs_gm', 'core', 'core_gm'],
+							attributes: ['pfs', 'pfs_gm', 'core', 'core_gm', 'sfs', 'sfs_gm'],
 						},
 						duplicating: false,
 						required: false,
@@ -246,7 +304,7 @@ router.get('/', function(req, res, next) {
 						attributes: ['id', 'name', 'pfsnumber'],
 						through: {
 							as: 'played',
-							attributes: ['pfs', 'pfs_gm', 'core', 'core_gm'],
+							attributes: ['pfs', 'pfs_gm', 'core', 'core_gm', 'sfs', 'sfs_gm'],
 						},
 						duplicating: false,
 						required: false,
@@ -338,35 +396,47 @@ router.post('/', function(req, res, next){
  */
 
 /**
- * @api {get} /scenarios/player/:pfsNumber/type/:typeId
+ * @api {get} /scenarios/player/:pfsNumber/type/:typeId/game/:game/season/:season
  * @apiName GetScenariosPlayed
  * @apiGroup Scenarios
  */
-router.get('/player/:pfsNumber/type/:typeId/season/:season', function(req, res, next) {
-	if(req.params.type == 'quest') {
-		var whereParam = {type: 'quest'};
-	} else if(isNaN(req.params.season)) {
-		var whereParam = {type: req.params.typeId};
+router.get('/player/:pfsNumber/type/:typeId/game/:game/season/:season', function(req, res, next) {
+//	if(req.query.typeId == 'quest') {
+//		var whereParam = {type: 'quest', game: req.params.game};
+//	} else 
+		
+	if(isNaN(req.params.season)) {
+		var whereParam = {type: req.params.typeId, game: req.params.game};
 	} else {
-		var whereParam = {type: req.params.typeId, season: req.params.season};
+		var whereParam = {type: req.params.typeId, game: req.params.game, season: req.params.season};
 	}
 	
-	models.Scenario.findAll({
-		where: whereParam,
-		include: [ { 
-			model: models.Person, 
-			as: 'players',
-			attributes: ['name', 'pfsnumber'],
-			where: {pfsnumber: req.params.pfsNumber},
-			through: {
-				as: 'played',
-				attributes: ['pfs', 'pfs_gm', 'core', 'core_gm']
-			},
-			required: false
-		} ],
-		orderBy: [ [ 'number', 'ASC' ] ],
-		attributes: ['id', 'name', 'number', 'season', 'archived_at']
-	}).then(function(scenarios) {
+	var order = [['name', 'ASC']];
+	
+	// If it is a scenario page, order by number instead
+	if(req.params.typeId == 'scenario') {
+		order = [['number', 'ASC']];
+	}
+	
+	var searchParams = {
+			where: whereParam,
+			include: [ { 
+				model: models.Person, 
+				as: 'players',
+				attributes: ['name', 'pfsnumber'],
+				where: {pfsnumber: req.params.pfsNumber},
+				through: {
+					as: 'played',
+					attributes: ['pfs', 'pfs_gm', 'core', 'core_gm', 'sfs', 'sfs_gm']
+				},
+				required: false
+			} ],
+			order: order,
+			attributes: ['id', 'name', 'number', 'season', 'game', 'archived_at']
+		}
+	
+	models.Scenario.findAll(searchParams)
+	.then(function(scenarios) {
 		res.status(200).send(scenarios);
 	}).catch(function(err) {
 		winston.log('error', err);

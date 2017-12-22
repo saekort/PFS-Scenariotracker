@@ -41,7 +41,13 @@ router.put('/', authenticate, function(req, res, next) {
 	.then(function(person) {
 		if(typeof req.body.name !== 'undefined') { person.name = req.body.name; }
 		if(typeof req.body.pfsnumber !== 'undefined') {	person.pfsnumber = req.body.pfsnumber; }
-		if(typeof req.body.country !== 'undefined') { person.country = req.body.country; }
+		if(typeof req.body.country !== 'undefined') {
+			if(req.body.country == '') {
+				person.country = null;
+			} else {
+				person.country = req.body.country;
+			}
+		}
 		if(typeof req.body.public !== 'undefined') { person.public = req.body.public; }
 		if(typeof req.body.publiccharacters !== 'undefined') { person.public_characters = req.body.publiccharacters; }
 		

@@ -22,6 +22,10 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.DATE,
       allowNull: true
     },
+    sfs: {
+        type: DataTypes.DATE,
+        allowNull: true    	
+    },
     pfs_gm: {
       type: DataTypes.DATE,
       allowNull: true
@@ -29,7 +33,11 @@ module.exports = function(sequelize, DataTypes) {
     core_gm: {
       type: DataTypes.DATE,
       allowNull: true
-    }
+    },
+    sfs_gm: {
+        type: DataTypes.DATE,
+        allowNull: true
+      }
   }, {
     tableName: 'j_scenario_person',
 	classMethods: {

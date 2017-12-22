@@ -11,8 +11,24 @@ a, a:hover, a:active, a:visited {
 	color: #6E2D2D;
 }
 
+a.sfs, a.sfs:hover, a.sfs:active, a.sfs:visited {
+	color: #2c366d;
+}
+
 .navbar {
 	background-color: #6E2D2D;
+}
+
+.pfs-icon {
+	color: #6E2D2D;;
+}
+
+.sfs-icon {
+	color: #2c396d;
+}
+
+.navbar.sfs {
+	background-color: #2c396d;
 }
 
 .navbar-default .navbar-brand {
@@ -81,6 +97,11 @@ a, a:hover, a:active, a:visited {
 	border: 2px solid #BA6B6B;
 	margin: 10px 10px 0 10px;
 	padding: 10px;
+}
+
+.scenario.sfs {
+	border: 2px solid #6a79b7;
+	background-color: #e3ebfc;
 }
 
 .gmed-box {
@@ -219,6 +240,10 @@ a, a:hover, a:active, a:visited {
 	padding: 10px;
 }
 
+.sfs.found {
+	border: 2px solid #6a79b7;
+}
+
 .button {
 	display: inline-block;
 	padding: 0 10px;
@@ -231,6 +256,10 @@ a, a:hover, a:active, a:visited {
 	background-color: #6E2D2D;
     transition: none;
     border: 0;
+}
+
+.button.sfs {
+	background-color: #2c396d;
 }
 
 .cancel {
@@ -261,6 +290,10 @@ button[disabled], button[disabled]:hover {
 	text-decoration: none;
 	color: #FFF;
 	background-color: #A32A28;
+}
+
+.button:hover.sfs {
+	background-color: #283aa0;
 }
 
 .reportcategories button {
@@ -346,6 +379,14 @@ button[disabled], button[disabled]:hover {
 	
 }
 
+.vertical.sfs {
+	left: -25px;
+}
+
+.vertical.sfsgm {
+	left: -7px;
+}
+
 .color-dark {
 	color: #6E2D2D;
 }
@@ -411,6 +452,11 @@ input[type=checkbox] + label:after {
 	cursor: pointer;
 }
 
+input[type=checkbox].sfs + label:after {
+	background: #3b4099;
+	border: 1px solid #2c396d;
+}
+
 .disabled-checkbox input[type=checkbox] + label:after {
 	line-height: 0;
 	background: #474747;
@@ -431,6 +477,10 @@ input[type=checkbox] + label:before {
 	-moz-box-sizing: border-box;
 	border: 1px solid #6E2D2D;	
 	cursor: pointer;
+}
+
+input[type=checkbox].sfs + label:before {
+	border: 1px solid #2c396d;
 }
 
 .disabled-checkbox input[type=checkbox] + label:before {
@@ -484,10 +534,19 @@ input[type=checkbox]:checked + label:after {
 	color: #FFF;
 }
 
+.pagination.sfs > .active > a, .pagination.sfs > .active > span, .pagination.sfs > .active > a:hover, .pagination.sfs > .active > span:hover, .pagination.sfs > .active > a:focus, .pagination.sfs > .active > span:focus {
+	background-color: #2c396d;
+	border-color: #2c396d;
+}
+
 .pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
 	background-color: #D6BB9A;
 	border-color: #6E2D2D;
 	color: #333333;
+}
+
+.pagination.sfs > li > a:hover, .pagination.sfs > li > span:hover, .pagination.sfs > li > a:focus, .pagination.sfs > li > span:focus {
+	border-color: #2c396d;	
 }
 
 .pagination > li > a, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
@@ -496,10 +555,18 @@ input[type=checkbox]:checked + label:after {
 	color: #333333;
 }
 
+.pagination.sfs > li > a, .pagination.sfs > li > span:hover, .pagination.sfs > li > a:focus, .pagination.sfs > li > span:focus {
+	border-color: #6a79b7;
+}
+
 .pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
 	background-color: #E2E0DE;
 	border-color: #BA6B6B;
 	color: #333333;
+}
+
+.pagination.sfs > .disabled > span, .pagination.sfs > .disabled > span:hover, .pagination.sfs > .disabled > span:focus, .pagination.sfs > .disabled > a, .pagination.sfs > .disabled > a:hover, .pagination.sfs > .disabled > a:focus {
+	border-color: #6a79b7;
 }
 
 .dropdown-menu > .active > a, .dropdown-menu > .active > a:hover, .dropdown-menu > .active > a:focus {
@@ -530,10 +597,18 @@ input[type=checkbox]:checked + label:after {
 	border-color: #A32A28;
 }
 
+.navbar-default.sfs {
+	border-color: #283aa0;
+}
+
 .help {
 	color: #6E2D2D;	
 	cursor: pointer;
 	font-size: 25px;
+}
+
+.help.sfs {
+	color: #2c396d;
 }
 
 .help-search {
@@ -541,6 +616,10 @@ input[type=checkbox]:checked + label:after {
 	cursor: pointer;
 	font-size: 25px;
 	top: 7px;
+}
+
+.help-search.sfs {
+	color: #2c396d;
 }
 
 .dangerzone {
@@ -626,7 +705,7 @@ hr {
 }
 
 .search_played {
-	border: 2px solid #FFEFDB;
+	border: 1px solid grey;
 	color: #3A3A3A;
 	padding: 3px;
 	margin: 0px;
@@ -734,8 +813,20 @@ hr {
 	height: 30px;
 }
 
+.progressbar-pfstracker.sfs {
+	border: 2px solid #8790d3;
+}
+
 .progress-bar {
 	background-color: #6E2D2D;
+	color: #FFF;
+	padding: 5px;
+	height: 30px !important;
+	min-width: 7%;
+}
+
+.progressbar-pfstracker.sfs > div.progress-bar {
+	background-color: #2c396d;
 	color: #FFF;
 	padding: 5px;
 	height: 30px !important;
@@ -875,6 +966,10 @@ hr {
 	background-color: #E8B9B9;
 }
 
+.reporting-list.sfs li:hover {
+	background-color: #b7bbe5;
+}
+
 .reporting-list li.no-highlight {
 	background-color: #EAD4B9;
 	cursor: auto;
@@ -890,4 +985,14 @@ hr {
 	background-color: #E5C38B;
 	margin: 10px 0 10px 0;
 	padding: 5px;
+}
+
+.total-block {
+	background-color: #d89797;
+	margin: 5px;
+	padding: 5px;
+}
+
+.total-block.sfs {
+	background-color: #959cd6;	
 }
