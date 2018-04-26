@@ -1,0 +1,36 @@
+{
+  "name": "jwt-decode",
+  "description": "Decode JWT payload in the browser",
+  "version": "2.1.0",
+  "keywords": [
+    "jwt",
+    "jsonwebtoken",
+    "token",
+    "decode"
+  ],
+  "homepage": "https://github.com/auth0/jwt-decode",
+  "main": "build/jwt-decode.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "license": [
+    "MIT"
+  ],
+  "ignore": [
+    "*/.*",
+    "*.json",
+    "src",
+    "*.yml",
+    "Gemfile",
+    "Gemfile.lock",
+    "*.md"
+  ],
+  "_release": "2.1.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v2.1.0",
+    "commit": "2f072d2fd99d6de75192e6bcab1bb450d68400f9"
+  },
+  "_source": "https://github.com/auth0/jwt-decode.git",
+  "_target": "~2.1.0",
+  "_originalSource": "jwt-decode"
+}

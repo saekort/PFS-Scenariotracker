@@ -5,4 +5,5 @@
 .buildpath
 node_modules
 db
-src/server_node/public/bower_components
+src/public/bower_components
+src/node_modules
