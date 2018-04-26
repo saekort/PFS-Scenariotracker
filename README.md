@@ -1,7 +1,7 @@
 # PFS-Scenariotracker
 
 To run:
-- `node start ./src/bin/www`
+- Go to `src` then `node ./bin/www`
 - Go to `https://localhost:3443` and accept the self-signed certificate as trusted
 
 To install:
