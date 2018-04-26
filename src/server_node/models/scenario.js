@@ -66,27 +66,26 @@ module.exports = function(sequelize, DataTypes) {
 			allowNull: true
 		}
 	}, {
-		tableName: 'scenarios',
-		classMethods: {
-			associate: function(models) {
-				Scenario.belongsToMany(models.Author, {as: 'authors', foreignKey: 'scenario_id', through: 'j_author_scenario'});
-				Scenario.hasMany(models.Statistic, {as: 'statistics', foreignKey: 'scenario_id'});
-				Scenario.belongsToMany(models.Person, {as: 'players', foreignKey: 'scenario_id', through: models.j_scenario_person});
-			}
-		},
-		instanceMethods: {
-			// http://stackoverflow.com/questions/27972271/sequelize-dont-return-password
-			// prevent the API from ever returning the password-hash or salt
-			toJSON: function() {
-				var values = this.get();
-
-				delete values.created_at;
-				delete values.updated_at;
-				delete values.deleted_at;
-				return values;
-			}
-		}
+		tableName: 'scenarios'
 	});
+	
+	Scenario.associate = function(models) {
+		Scenario.belongsToMany(models.Author, {as: 'authors', foreignKey: 'scenario_id', through: 'j_author_scenario'});
+		Scenario.hasMany(models.Statistic, {as: 'statistics', foreignKey: 'scenario_id'});
+		Scenario.belongsToMany(models.Person, {as: 'players', foreignKey: 'scenario_id', through: models.j_scenario_person});
+	}
+
+	// http://stackoverflow.com/questions/27972271/sequelize-dont-return-password
+	// prevent the API from ever returning the deleted values
+	Scenario.prototype.toJSON = function() {
+		var values = this.get();
+
+		delete values.created_at;
+		delete values.updated_at;
+		delete values.deleted_at;
+		
+		return values;
+	}
 	
 	return Scenario;
 };

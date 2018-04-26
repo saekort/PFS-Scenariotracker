@@ -1,8 +1,8 @@
 module.exports = function(sequelize, DataTypes) {
 	var J_group_person = sequelize.define('j_group_person', {
-    id: {
-      type: DataTypes.INTEGER(11),
-      allowNull: false,
+		id: {
+			type: DataTypes.INTEGER(11),
+			allowNull: false,
       primaryKey: true,
       autoIncrement: true
     },

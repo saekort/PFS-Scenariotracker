@@ -13,7 +13,7 @@
   "dependencies": {
     "bcryptjs": "^2.3.0",
     "body-parser": "^1.15.0",
-    "co": "tj/co",
+    "co": "^4.6.0",
     "co-fs": "^1.2.0",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.1",
@@ -23,11 +23,12 @@
     "helmet": "^3.3.0",
     "morgan": "^1.7.0",
     "mysql": "^2.10.2",
+    "mysql2": "^1.5.3",
     "nodemailer": "^2.5.0",
     "passport": "^0.3.2",
     "passport-jwt": "^2.0.0",
     "passport-local": "^1.0.0",
-    "sequelize": "sequelize/sequelize",
+    "sequelize": "^4.37.6",
     "serve-favicon": "^2.3.0",
     "winston": "^2.2.0"
   }
