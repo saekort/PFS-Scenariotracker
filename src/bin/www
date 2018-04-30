@@ -5,7 +5,6 @@
  */
 console.log('Starting PFS sessiontracker service');
 var app = require('../app');
-var debug = require('debug')('app:server');
 var models = require("../models");
 var fs = require('fs');
 var path      = require('path');
@@ -138,5 +137,4 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
 }

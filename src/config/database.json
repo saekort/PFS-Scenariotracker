@@ -5,6 +5,7 @@
     "database": "pfstracker",
     "host": "127.0.0.1",
     "dialect": "mysql",
+    "logging": false,
     "define": {
     	"createdAt": "created_at",
     	"updatedAt": "updated_at",
