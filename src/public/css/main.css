@@ -631,6 +631,10 @@ hr {
 	border: 1px solid #BA6B6B;
 }
 
+hr.sfs {
+	border: 1px solid #6A79B7;
+}
+
 .red {
 	color: red;
 }
@@ -995,4 +999,55 @@ hr {
 
 .total-block.sfs {
 	background-color: #959cd6;	
+}
+
+.statistics-table > thead > tr > th {
+  border-bottom: 2px solid #6E2D2D;
+}
+
+.statistics-table.sfs > thead > tr > th {
+  border-bottom: 2px solid #2c396d;
+}
+
+.statistics-table > thead > tr > th,
+.statistics-table > tbody > tr > th,
+.statistics-table > tfoot > tr > th,
+.statistics-table > thead > tr > td,
+.statistics-table > tbody > tr > td,
+.statistics-table > tfoot > tr > td {
+	border-top: 1px solid #6E2D2D;
+}
+
+.statistics-table.sfs > thead > tr > th,
+.statistics-table.sfs > tbody > tr > th,
+.statistics-table.sfs > tfoot > tr > th,
+.statistics-table.sfs > thead > tr > td,
+.statistics-table.sfs > tbody > tr > td,
+.statistics-table.sfs > tfoot > tr > td {
+	border-top: 1px solid #2c396d;
+}
+
+.statistics-table > tbody > tr:nth-of-type(odd) {
+	background-color: #ead4b9;
+}
+
+.statistics-table.sfs > tbody > tr:nth-of-type(odd) {
+	background-color: #b9c1e8;
+}
+
+.statistics-table tbody tr:hover {
+	background-color: #d89797;
+	cursor: pointer;
+}
+
+.statistics-table.sfs tbody tr:hover {
+	background-color: #6A79B7;
+}
+
+.statistics-icon {
+	font-size: 25px;
+}
+
+.table-responsive {
+	border: 0;
 }

@@ -5,10 +5,11 @@
         .module('scenariotracker')
         .controller('StatisticsController', StatisticsController );
     
-    function StatisticsController($http, $state, $location, $scope, usSpinnerService)
+    function StatisticsController($http, $state, $location, $scope, $window, usSpinnerService)
     {
     	var vm = this;
     	vm.$state = $state;
+    	vm.$window = $window;
     	vm.$location = $location;
     	vm.$http = $http;
     	vm.main = $scope.main;
@@ -32,11 +33,15 @@
     	
     	vm.getTotals();
     	vm.getStatistic('played_most');
+    	vm.getStatistic('played_most_sfs');
     	vm.getStatistic('evergreen');
+    	vm.getStatistic('evergreen_sfs');
     	vm.getStatistic('player_complete_pfs');
     	vm.getStatistic('gm_complete_pfs');
     	vm.getStatistic('player_complete_core');
     	vm.getStatistic('gm_complete_core');
+    	vm.getStatistic('player_complete_sfs');
+    	vm.getStatistic('gm_complete_sfs');
     }
     
     StatisticsController.prototype.getTotals = function()
@@ -110,4 +115,19 @@
   		  vm.usSpinnerService.stop('spinner-1');
   	  });
     }
+    
+    // Redirect to specific profile page
+    StatisticsController.prototype.gotoProfile = function(pfsnumber) {
+    	var vm = this;
+    	
+    	vm.$state.go('players', {pfsNumber: pfsnumber});
+    }
+    
+    // Open a scenario page in a new tab/window
+    StatisticsController.prototype.gotoScenario = function(scenariolink) {
+    	var vm = this;
+    	
+    	vm.$window.open(scenariolink, '_blank');
+    }
+    
 })();
