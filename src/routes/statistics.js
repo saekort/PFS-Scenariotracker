@@ -22,11 +22,15 @@ router.get('/', function(req, res, next) {
 	var types = [
 	             'totals',
 	             'played_most',
+	             'played_most_sfs',
 	             'evergreen',
+	             'evergreen_sfs',
 	             'player_complete_pfs',
 	             'gm_complete_pfs',
 	             'player_complete_core',
-	             'gm_complete_core'
+	             'gm_complete_core',
+	             'player_complete_sfs',
+	             'gm_complete_sfs'
 	             ];
 	
 	if(typeof req.query.type !== undefined && types.indexOf(req.query.type) > -1) {
@@ -53,17 +57,23 @@ router.get('/generate', function(req, res, next) {
 		var types = [
 		             'totals',
 		             'played_most',
+		             'played_most_sfs',
 		             'evergreen',
+		             'evergreen_sfs',
 		             'player_complete_pfs',
 		             'gm_complete_pfs',
 		             'player_complete_core',
-		             'gm_complete_core'
+		             'gm_complete_core',
+		             'player_complete_sfs',
+		             'gm_complete_sfs'
 		             ];
 		
 		co(function *() {
 			try {
 				// Get total content
 				var content_count = yield models.Scenario.count({where: {archived_at: null}});
+				var pfs_content_count = yield models.Scenario.count({where: {archived_at: null, game: 'pfs'}});
+				var sfs_content_count = yield models.Scenario.count({where: {archived_at: null, game: 'sfs'}});
 				
 				// Generate totals statistics
 				yield models.Statistic.destroy({where: {type: 'totals'}});
@@ -91,8 +101,9 @@ router.get('/generate', function(req, res, next) {
 				var session_count_pfs_gm = yield models.j_scenario_person.count({ where: { pfs_gm: {$ne: null} } });
 				var session_count_core = yield models.j_scenario_person.count({ where: { core: {$ne: null} } });
 				var session_count_core_gm = yield models.j_scenario_person.count({ where: { core_gm: {$ne: null} } });
-				
-				var session_count = session_count_pfs + session_count_pfs_gm + session_count_core + session_count_core_gm;
+				var session_count_sfs = yield models.j_scenario_person.count({ where: { sfs: {$ne: null} } });
+				var session_count_sfs_gm = yield models.j_scenario_person.count({ where: { sfs_gm: {$ne: null} } });
+				var session_count = session_count_pfs + session_count_pfs_gm + session_count_core + session_count_core_gm + session_count_sfs + session_count_sfs_gm;
 				
 				var totals_session_count = models.Statistic.build({
 					type: 'totals',
@@ -120,10 +131,23 @@ router.get('/generate', function(req, res, next) {
 						type: 'player_complete_pfs',
 						person_id: most_complete_pfs[i].id,
 						number: i + 1,
-						comment: most_complete_pfs[i].pfs_played + '/' + content_count
+						comment: most_complete_pfs[i].pfs_played + '/' + pfs_content_count
 					}).save();
 				}
 		
+				// Generate most complete sfs pc statistics
+				yield models.Statistic.destroy({where: {type: 'player_complete_sfs'}});
+				
+				var most_complete_sfs = yield models.sequelize.query("SELECT `people`.`id` as `id`, ( SELECT COUNT(`j_scenario_person`.`person_id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`person_id` = `people`.`id` AND `j_scenario_person`.`sfs` IS NOT NULL AND `scenarios`.`archived_at` IS NULL ) as 'sfs_played' FROM `people` GROUP BY `people`.`id` ORDER BY `sfs_played` DESC LIMIT 10", {type: models.sequelize.QueryTypes.SELECT});
+				for(var i = 0; i < most_complete_sfs.length; i++) {
+					yield models.Statistic.build({
+						type: 'player_complete_sfs',
+						person_id: most_complete_sfs[i].id,
+						number: i + 1,
+						comment: most_complete_sfs[i].sfs_played + '/' + sfs_content_count
+					}).save();
+				}
+				
 				// Generate most complete core pc statistics
 				yield models.Statistic.destroy({where: {type: 'player_complete_core'}});
 				
@@ -133,7 +157,7 @@ router.get('/generate', function(req, res, next) {
 						type: 'player_complete_core',
 						person_id: most_complete_core[i].id,
 						number: i + 1,
-						comment: most_complete_core[i].core_played + '/' + content_count
+						comment: most_complete_core[i].core_played + '/' + pfs_content_count
 					}).save();
 				}
 		
@@ -146,7 +170,7 @@ router.get('/generate', function(req, res, next) {
 						type: 'gm_complete_pfs',
 						person_id: most_complete_gm_pfs[i].id,
 						number: i + 1,
-						comment: most_complete_gm_pfs[i].pfs_gmed + '/' + content_count
+						comment: most_complete_gm_pfs[i].pfs_gmed + '/' + pfs_content_count
 					}).save();
 				}
 				
@@ -159,14 +183,27 @@ router.get('/generate', function(req, res, next) {
 						type: 'gm_complete_core',
 						person_id: most_complete_gm_core[i].id,
 						number: i + 1,
-						comment: most_complete_gm_core[i].core_gmed + '/' + content_count
+						comment: most_complete_gm_core[i].core_gmed + '/' + pfs_content_count
+					}).save();
+				}
+				
+				// Generate most complete sfs gm statistics
+				yield models.Statistic.destroy({where: {type: 'gm_complete_sfs'}});
+				
+				var most_complete_gm_sfs = yield models.sequelize.query("SELECT `people`.`id` as `id`, ( SELECT COUNT(`j_scenario_person`.`person_id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`person_id` = `people`.`id` AND `j_scenario_person`.`sfs_gm` IS NOT NULL AND `scenarios`.`archived_at` IS NULL ) as 'sfs_gmed' FROM `people` GROUP BY `people`.`id` ORDER BY `sfs_gmed` DESC LIMIT 10", {type: models.sequelize.QueryTypes.SELECT});
+				for(var i = 0; i < most_complete_gm_sfs.length; i++) {
+					yield models.Statistic.build({
+						type: 'gm_complete_sfs',
+						person_id: most_complete_gm_sfs[i].id,
+						number: i + 1,
+						comment: most_complete_gm_sfs[i].sfs_gmed + '/' + sfs_content_count
 					}).save();
 				}
 		
-				// Generate played most statistics
+				// Generate played PFS most statistics
 				yield models.Statistic.destroy({where: {type: 'played_most'}});
 				
-				var played_most = yield models.sequelize.query("SELECT `scenarios`.`id` as `id`, ( SELECT COUNT( `j_scenario_person`.`scenario_id` 	) as `tempcount` FROM `j_scenario_person` WHERE `j_scenario_person`.`scenario_id` = `scenarios`.`id` ) as 'count' FROM `scenarios` WHERE `scenarios`.`archived_at` IS NULL GROUP BY `scenarios`.`id` ORDER BY `count` DESC LIMIT  10", {type: models.sequelize.QueryTypes.SELECT});
+				var played_most = yield models.sequelize.query("SELECT `scenarios`.`id` as `id`, ( SELECT COUNT( `j_scenario_person`.`scenario_id`) as `tempcount` FROM `j_scenario_person` WHERE `j_scenario_person`.`scenario_id` = `scenarios`.`id` ) as 'count' FROM `scenarios` WHERE `scenarios`.`archived_at` IS NULL AND `game` = 'pfs' GROUP BY `scenarios`.`id` ORDER BY `count` DESC LIMIT  10", {type: models.sequelize.QueryTypes.SELECT});
 				for(var i = 0; i < played_most.length; i++) {
 					yield models.Statistic.build({
 						type: 'played_most',
@@ -175,17 +212,43 @@ router.get('/generate', function(req, res, next) {
 						comment: played_most[i].count
 					}).save();
 				}
+				
+				// Generate SFS played most statistics
+				yield models.Statistic.destroy({where: {type: 'played_most_sfs'}});
+				
+				var played_most_sfs = yield models.sequelize.query("SELECT `scenarios`.`id` as `id`, ( SELECT COUNT( `j_scenario_person`.`scenario_id`) as `tempcount` FROM `j_scenario_person` WHERE `j_scenario_person`.`scenario_id` = `scenarios`.`id` ) as 'count' FROM `scenarios` WHERE `scenarios`.`archived_at` IS NULL AND `game` = 'sfs' GROUP BY `scenarios`.`id` ORDER BY `count` DESC LIMIT  10", {type: models.sequelize.QueryTypes.SELECT});
+				for(var i = 0; i < played_most_sfs.length; i++) {
+					yield models.Statistic.build({
+						type: 'played_most_sfs',
+						scenario_id: played_most_sfs[i].id,
+						number: i + 1,
+						comment: played_most_sfs[i].count
+					}).save();
+				}
 		
-				// Generate favorite evergreens statistics
+				// Generate favorite PFS evergreens statistics
 				yield models.Statistic.destroy({where: {type: 'evergreen'}});
 				
-				var evergreen = yield models.sequelize.query("SELECT `scenarios`.`id` as `id`, ( SELECT COUNT( `j_scenario_person`.`scenario_id` 	) as `tempcount` FROM `j_scenario_person` WHERE `j_scenario_person`.`scenario_id` = `scenarios`.`id` ) as 'count' FROM `scenarios` WHERE `scenarios`.`archived_at` IS NULL AND `scenarios`.`evergreen` = 1 GROUP BY `scenarios`.`id` ORDER BY `count` DESC LIMIT  10", {type: models.sequelize.QueryTypes.SELECT});
+				var evergreen = yield models.sequelize.query("SELECT `scenarios`.`id` as `id`, ( SELECT COUNT( `j_scenario_person`.`scenario_id`) as `tempcount` FROM `j_scenario_person` WHERE `j_scenario_person`.`scenario_id` = `scenarios`.`id` ) as 'count' FROM `scenarios` WHERE `scenarios`.`archived_at` IS NULL AND `scenarios`.`evergreen` = 1 AND `scenarios`.`game` = 'pfs' GROUP BY `scenarios`.`id` ORDER BY `count` DESC LIMIT  10", {type: models.sequelize.QueryTypes.SELECT});
 				for(var i = 0; i < evergreen.length; i++) {
 					yield models.Statistic.build({
 						type: 'evergreen',
 						scenario_id: evergreen[i].id,
 						number: i + 1,
 						comment: evergreen[i].count
+					}).save();
+				}
+				
+				// Generate favorite SFS evergreens statistics
+				yield models.Statistic.destroy({where: {type: 'evergreen_sfs'}});
+				
+				var evergreen_sfs = yield models.sequelize.query("SELECT `scenarios`.`id` as `id`, ( SELECT COUNT( `j_scenario_person`.`scenario_id`) as `tempcount` FROM `j_scenario_person` WHERE `j_scenario_person`.`scenario_id` = `scenarios`.`id` ) as 'count' FROM `scenarios` WHERE `scenarios`.`archived_at` IS NULL AND `scenarios`.`evergreen` = 1 AND `scenarios`.`game` = 'sfs' GROUP BY `scenarios`.`id` ORDER BY `count` DESC LIMIT  10", {type: models.sequelize.QueryTypes.SELECT});
+				for(var i = 0; i < evergreen_sfs.length; i++) {
+					yield models.Statistic.build({
+						type: 'evergreen_sfs',
+						scenario_id: evergreen_sfs[i].id,
+						number: i + 1,
+						comment: evergreen_sfs[i].count
 					}).save();
 				}
 				
