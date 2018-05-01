@@ -3,6 +3,7 @@
   	"portHttp": 3080,
   	"portHttps": 3443,
   	"portSmtp": 465,
+  	"hostname": "https://localhost:3443",
   	"ipaddress": "127.0.0.1",
   	"consoleLogging": true,
   	"localkey": false
@@ -11,6 +12,7 @@
   	"portHttp": 3080,
   	"portHttps": 3443,
   	"portSmtp": 465,
+  	"hostname": "https://localhost:3443",
   	"ipaddress": "127.0.0.1",
   	"consoleLogging": false,
   	"localkey": false
@@ -19,6 +21,7 @@
   	"portHttp": 80,
   	"portHttps": 443,
   	"portSmtp": 465,
+  	"hostname": "https://www.pfstracker.net",
   	"ipaddress": "149.210.166.164",
   	"consoleLogging": false,
   	"localkey": "productionvalue"

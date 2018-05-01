@@ -1,4 +1,6 @@
 var express = require('express');
+var forceDomain = require('express-force-domain');
+var helmet = require('helmet');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -10,20 +12,28 @@ var tokenizer = require('./helpers/tokenizer');
 
 var env       = process.env.NODE_ENV || 'development'; // Environment
 var config    = require(path.join(__dirname, '', 'config', 'pfstracker.json'))[env];
+var config_server = require(path.join(__dirname, '', 'config', 'server.json'))[env];
 
 var app = express();
 
-//CORS middleware
-var allowCrossDomain = function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
+// If in a production environment, force a base URL for canonical redirection
+if(env == 'production') {
+	app.use(forceDomain(config_server.hostname));
+}
+
+// Set any HTTP headers
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.header('X-Frame-Options', 'DENY');
+    
+	next();
+});
 
-    next();
-};
+// Set security headers with helmet: https://helmetjs.github.io/
+app.use(helmet());
 
-// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -32,8 +42,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/apidoc', express.static(path.join(__dirname, 'apidoc')));
-
-app.use(allowCrossDomain);
 
 app.use(expressJWT({ secret: config.apiSecret, credentialsRequired: false }), function(req, res, next){
 	if (req.user !== undefined) {
