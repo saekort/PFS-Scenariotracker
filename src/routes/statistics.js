@@ -50,6 +50,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/generate', function(req, res, next) {
+	// Only allow generation of reports from the server itself
 	if(req.query.localkey !== config.localkey && config.localkey !== false) {
 		res.status(403).end();
 	} else {

@@ -576,4 +576,214 @@ router.post('/resetpassword', function(req, res, next) {
 	}
 });
 
+/**
+ * @api {get} /people/:pfsNumber/download GET a person's profile as a file to download
+ * @apiName GetPersonDownload
+ * @apiGroup People
+ * 
+ * @apiParam {Number} pfsNumber Person's unique PFSnumber.
+ */
+router.get('/:pfsNumber/download', function(req, res, next) {
+	if(typeof parseInt(req.params.pfsNumber) == 'number') {
+		models.Person.find({
+			attributes: ['id', 'name', 'pfsnumber', 'country', 'public', 'public_characters'],
+			where: {pfsnumber: req.params.pfsNumber}
+		}).then(function(person) {
+			co(function *() {
+				try {
+					// Add public characters value
+				  	if(person !== null)
+				  	{	
+				  		if(person.public_characters) {
+					  		// Get Characters
+					  		var characters = yield models.Character.findAll({
+								attributes: ['id', 'name', 'number', 'level', 'faction', 'class', 'campaign', 'exp'],
+								where: {player_id: person.id},
+								order: [ ['number', 'ASC'] ]
+							});
+					  		
+					  		person.characters = characters;
+				  		}
+				  		
+				  		var scenarios = yield models.Scenario.findAll({
+				  			include: [{
+				  				model: models.Person,
+				  				attributes: ['id'],
+				  				as: 'players',
+					  			where: {id: person.id},
+					  			required: false
+				  			}],
+				  			order: [ ['game', 'ASC'], ['season', 'ASC',], ['number', 'ASC'] ]
+				  		});
+				  		
+				  		// Create excel
+				  		var xl = require('excel4node');
+				  		
+				  		// Create new spreadsheet
+				  		var wb = new xl.Workbook();
+				  		
+				  		// Played history worksheet
+				  		var ws_played = wb.addWorksheet('Played history');
+				  		
+				  		// Set column headers
+				  		ws_played.column(1).setWidth(8);
+				  		ws_played.cell(1,1).string("Game");
+				  		ws_played.column(2).setWidth(10);
+				  		ws_played.cell(1,2).string("Type");
+				  		ws_played.column(3).setWidth(9);
+				  		ws_played.cell(1,3).string("Season");
+				  		ws_played.column(4).setWidth(5);
+				  		ws_played.cell(1,4).string("#");
+				  		ws_played.column(5).setWidth(50);
+				  		ws_played.cell(1,5).string("Name");
+				  		ws_played.column(6).setWidth(9);
+				  		ws_played.cell(1,6).string("Tier");
+				  		ws_played.column(7).setWidth(12);
+				  		ws_played.cell(1,7).string("PC");
+				  		ws_played.column(8).setWidth(12);
+				  		ws_played.cell(1,8).string("GM");
+				  		ws_played.column(9).setWidth(12);
+				  		ws_played.cell(1,9).string("PC (CORE)");
+				  		ws_played.column(10).setWidth(12);
+				  		ws_played.cell(1,10).string("GM (CORE)");
+				  		ws_played.column(11).setWidth(11);
+				  		ws_played.cell(1,11).string("Evergreen");
+				  		ws_played.column(12).setWidth(8);
+				  		ws_played.cell(1,12).string("Quest");
+				  		ws_played.column(13).setWidth(12);
+				  		ws_played.cell(1,13).string("Multitable");
+				  		ws_played.column(14).setWidth(12);
+				  		ws_played.cell(1,14).string("Archived");
+				  		
+				  		ws_played.row(1).filter();
+				  		
+				  		var row_count = 2;
+				  		scenarios.forEach((content) => {
+				  			// 1: Game
+				  			ws_played.cell(row_count, 1).string(content.game);
+				  			
+				  			// 2: Type
+				  			ws_played.cell(row_count, 2).string(content.type);
+				  			
+				  			// 3: Season
+				  			ws_played.cell(row_count, 3).string(content.season);
+				  			
+				  			// 4: Number
+				  			if(content.number !== null) {
+				  				ws_played.cell(row_count, 4).string(content.number);
+				  			}
+				  			
+				  			// 5: Name
+				  			ws_played.cell(row_count, 5).string(content.name);
+				  			
+				  			// 6: Tier
+				  			if(content.number !== null) {
+				  				ws_played.cell(row_count, 6).string(content.tier);
+				  			}
+				  			
+				  			// Set the following four fields only if the player has played any of it
+				  			if(content.players.length > 0) {
+				  				if(content.game == 'pfs') {
+					  				// Handle PFS game
+					  				// 7: PC
+				  					if(content.players[0].j_scenario_person.pfs !== null) {
+				  						ws_played.cell(row_count, 7).date(content.players[0].j_scenario_person.pfs);
+				  					}
+				  					
+						  			// 8: GM
+				  					if(content.players[0].j_scenario_person.pfs_gm !== null) {
+				  						ws_played.cell(row_count, 8).date(content.players[0].j_scenario_person.pfs_gm);
+				  					}
+				  					
+				  					// 9: PC (CORE)
+				  					if(content.players[0].j_scenario_person.core !== null) {
+				  						ws_played.cell(row_count, 9).date(content.players[0].j_scenario_person.core);
+				  					}
+				  					
+						  			// 10: GM (CORE)
+				  					if(content.players[0].j_scenario_person.core_gm !== null) {
+				  						ws_played.cell(row_count, 10).date(content.players[0].j_scenario_person.core_gm);
+				  					}
+				  				} else if(content.game == 'sfs') {
+					  				// Handle SFS game
+					  				// 7: PC
+				  					if(content.players[0].j_scenario_person.sfs !== null) {
+				  						ws_played.cell(row_count, 7).date(content.players[0].j_scenario_person.sfs);
+				  					}
+				  					
+						  			// 8: GM
+				  					if(content.players[0].j_scenario_person.sfs_gm !== null) {
+				  						ws_played.cell(row_count, 8).date(content.players[0].j_scenario_person.sfs_gm);
+				  					}
+				  					
+				  					// 9: PC (CORE)
+				  					ws_played.cell(row_count, 9).string('N/A')
+				  					
+				  					// 10: GM (CORE)
+				  					ws_played.cell(row_count, 10).string('N/A')
+				  				}	  				
+				  			} else {
+				  				if(content.game == 'sfs') {
+				  					// 9: PC (CORE)
+				  					ws_played.cell(row_count, 9).string('N/A')
+				  					
+				  					// 10: GM (CORE)
+				  					ws_played.cell(row_count, 10).string('N/A')
+				  				}
+				  			}
+				  			
+				  			// 11: Evergreen
+				  			if(content.evergreen == 1) {
+				  				ws_played.cell(row_count, 11).string('yes');
+				  			} else {
+				  				ws_played.cell(row_count, 11).string('no');
+				  			}
+				  			
+				  			// 12: Quest
+				  			if(content.quest == 1) {
+				  				ws_played.cell(row_count, 12).string('yes');
+				  			} else {
+				  				ws_played.cell(row_count, 12).string('no');
+				  			}
+				  			
+				  			// 13: Multitable
+				  			if(content.multitable == 1) {
+				  				ws_played.cell(row_count, 13).string('yes');
+				  			} else {
+				  				ws_played.cell(row_count, 13).string('no');
+				  			}
+				  			
+				  			// 14: Archived
+				  			if(content.archived_at !== null) {
+				  				ws_played.cell(row_count, 14).date(content.archived_at);
+				  			}
+				  			
+				  			row_count++;
+				  		});
+				  		
+				  		// Characters worksheet (if public characters);
+				  		if(person.public_characters) {
+				  			var ws_characters = wb.addWorksheet('Characters');
+				  		}
+				  		
+				  		wb.write('PFStracker history.xlsx', res);
+				  	}
+				  	else
+				  	{
+				  		res.status(404).send('NotFoundError');
+				  	}
+				} catch (errors) {
+					winston.log('error', errors);
+					res.status(500).send(errors);
+				}
+			});
+		}).catch(function(error) {
+			winston.log('error', error);
+			res.status(400).send(error);
+		});
+	} else {
+		res.status(400).send();
+	}
+});
+
 module.exports = router;
