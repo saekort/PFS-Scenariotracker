@@ -613,7 +613,7 @@ router.get('/:pfsNumber/download', function(req, res, next) {
 					  			where: {id: person.id},
 					  			required: false
 				  			}],
-				  			order: [ ['game', 'ASC'], ['season', 'ASC',], ['number', 'ASC'] ]
+				  			order: [ ['game', 'ASC'], ['type', 'ASC'], ['season', 'ASC'], ['number', 'ASC'], ['name', 'ASC'] ]
 				  		});
 				  		
 				  		// Create excel
@@ -766,7 +766,7 @@ router.get('/:pfsNumber/download', function(req, res, next) {
 				  			var ws_characters = wb.addWorksheet('Characters');
 				  		}
 				  		
-				  		wb.write('PFStracker history.xlsx', res);
+				  		wb.write('PFStracker history - ' + person.pfsnumber + '.xlsx', res);
 				  	}
 				  	else
 				  	{
