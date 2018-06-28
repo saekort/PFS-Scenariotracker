@@ -78,7 +78,7 @@
     	var vm = this;
     	
     	// See if this client has already seen the whats new
-    	if(angular.isUndefined(vm.$storage.whatsnew3)) {
+    	if(angular.isUndefined(vm.$storage.whatsnew4)) {
     		// Not seen the whats new
     		var modalInstance = vm.$uibModal.open({
     			animation: true,
@@ -91,7 +91,7 @@
     		});
     		
     		// Make sure client does not see it again
-    		vm.$storage.whatsnew3 = true;
+    		vm.$storage.whatsnew4 = true;
     	}
     }
     

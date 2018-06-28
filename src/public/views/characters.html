@@ -1,11 +1,6 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <ng-include src="'./views/partials/confirmDeleteCharacter.html'"></ng-include>
 <div id="main" class="container">
-	<!-- <div class="row">
-		<div class="col-xs-12 col-sm-12 col-md-8 col-md-offset-2 col-lg-4 col-lg-offset-4">
-			<ng-include src="'./views/partials/logo.html'"></ng-include>
-		</div>
-	</div> -->
 	<div class="scenario row">
 		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-3">
 			<div>
@@ -16,7 +11,7 @@
 						<label>Name:</label> <input type="text" class="form-control" required ng-model="vm.character.name">
 					</div>
 					<div class="form-group">
-						<label>Character #:</label> <select class="form-control" required ng-options="number for number in vm.options.numbers" ng-model="vm.character.number"></select>
+						<label>Character #:</label> <input type="text" class="form-control" required ng-model="vm.character.number">
 					</div>				
 					<div class="form-group">
 						<label>Class:</label> <input type="text" class="form-control" ng-model="vm.character.class">
@@ -25,10 +20,13 @@
 						<label>Level:</label> <select class="form-control" ng-options="level for level in vm.options.levels" ng-model="vm.character.level"></select>
 					</div>
 					<div class="form-group">
+						<label>Campaign:</label> <select class="form-control" ng-options="campaign for campaign in vm.options.campaigns" ng-model="vm.character.campaign"></select>
+					</div>
+					<div class="form-group" ng-if="vm.character.campaign !== 'SFS'">
 						<label>Faction:</label> <select class="form-control" ng-options="faction.name for faction in vm.options.factions" ng-model="vm.character.faction"></select>
 					</div>
-					<div class="form-group">
-						<label>Campaign:</label> <select class="form-control" ng-options="campaign for campaign in vm.options.campaigns" ng-model="vm.character.campaign"></select>
+					<div class="form-group" ng-if="vm.character.campaign == 'SFS'">
+						<label>Faction:</label> <div>Starfinder</div>
 					</div>
 					<div class="form-group">
 						<label>Experience:</label> <input class="form-control" ng-model="vm.character.exp">
@@ -43,9 +41,7 @@
 		<div class="col-xs-12 col-sm-12 col-md-8 col-lg-9">
 			<h1><i class="fa fa-male fa-fw"></i> Your characters</h1>
 			<hr>
-			<p>Here you can manage your Pathfinder Society characters. You can keep them here just to be pleased about it, or use them in the convention module. If you don't want to keep track of your characters here, that is just fine as well.</p>
-			<p class="alert alert-info"><b>Note: </b>Starfinder characters are not yet supported. This will be implemented soon(ish).</p>
-
+			<p>Here you can manage your Pathfinder- and Starfinder Society characters. You can keep them here just to be pleased about it, or use them to select content. If you don't want to keep track of your characters here, that is just fine as well.</p>
 			<div>
 				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
 			</div>
@@ -65,11 +61,12 @@
 			</ul>
 			
 			<ul class="characters-list">
-				<li class="row" ng-repeat="character in vm.characters">
+				<li class="row" ng-repeat="character in vm.characters" ng-class="{'sfs': character.campaign == 'SFS'}" >
 					<span class="col-xs-1">#{{character.number}}</span>				
 					<span class="col-xs-2">{{character.name | limitTo : 15 : 0}}</span>
-					<span ng-show="character.faction" class="col-xs-1 text-center"><img class="character-page-faction" ng-if="character.faction != ''" ng-src="./images/factions/{{character.faction}}.png"></span>
-					<span ng-hide="character.faction" class="col-xs-1 text-center">?</span>
+					<span ng-if="character.faction && character.campaign !== 'SFS'" class="col-xs-1 text-center"><img class="character-page-faction" ng-if="character.faction != ''" ng-src="./images/factions/{{character.faction}}.png"></span>
+					<span ng-if="!character.faction && character.campaign !== 'SFS'" class="col-xs-1 text-center">?</span>
+					<span ng-if="character.campaign == 'SFS'" class="col-xs-1 text-center"><span class="fa fa-plane sfs-icon" style="line-height: 24px; font-size: 21px;"></span></span>
 					<span class="col-xs-1">{{character.campaign}}</span>					
 					<span class="col-xs-4">{{character.class || "?"}} ({{character.level || "?"}})</span>
 					<span class="col-xs-1">{{character.exp}}xp</span>

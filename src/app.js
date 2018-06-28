@@ -7,11 +7,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressJWT = require('express-jwt');
-var jwt    = require('jsonwebtoken'); // Used to create, sign and verify tokens
+var jwt = require('jsonwebtoken'); // Used to create, sign and verify tokens
 var tokenizer = require('./helpers/tokenizer');
 
-var env       = process.env.NODE_ENV || 'development'; // Environment
-var config    = require(path.join(__dirname, '', 'config', 'pfstracker.json'))[env];
+var env = process.env.NODE_ENV || 'development'; // Environment
+var config = require(path.join(__dirname, '', 'config', 'pfstracker.json'))[env];
 var config_server = require(path.join(__dirname, '', 'config', 'server.json'))[env];
 
 var app = express();
@@ -27,6 +27,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     res.header('X-Frame-Options', 'DENY');
+    res.header('Content-Security-Policy', "default-src 'none'; script-src 'self' 'unsafe-eval' 'unsafe-inline' ajax.googleapis.com cdnjs.cloudflare.com; connect-src 'self'; img-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'");
     
 	next();
 });

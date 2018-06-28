@@ -294,8 +294,8 @@ router.put('/characters/:characterId', authenticate, function(req, res, next) {
 	// Get the character
 	models.Character.find({where: {player_id: req.user.id, id: req.params.characterId}})
 	.then(function(character) {
-		if(typeof req.body.name !== 'undefined') { character.name = req.body.name; }
-		if(typeof req.body.campaign !== 'undefined') { character.number = req.body.campaign; }
+		if(typeof req.body.name !== 'undefined') {character.name = req.body.name; }
+		if(typeof req.body.campaign !== 'undefined') {character.campaign = req.body.campaign; }
 		if(typeof req.body.number !== 'undefined') { character.number = req.body.number; }
 		if(typeof req.body.faction !== 'undefined') { character.faction = req.body.faction; }
 		if(typeof req.body.class !== 'undefined') { character.class = req.body.class; }
@@ -306,6 +306,7 @@ router.put('/characters/:characterId', authenticate, function(req, res, next) {
 		.then(function(character) {
 			res.status(200).send(character);
 		}).catch(function(err) {
+			console.log(err);
 			winston.log('error', err);
 			res.status(400).send(err);
 		})

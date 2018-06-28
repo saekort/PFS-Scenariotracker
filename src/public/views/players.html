@@ -265,7 +265,7 @@
 			<div class="col-lg-3">
 				<div>
 					<h2>Characters</h2>
-					<div class="profile-characterlist" ng-repeat="character in vm.player.characters" style="background-image: url('images/factions/{{character.faction}}.png')">
+					<div class="profile-characterlist" ng-class="{'sfs': character.campaign == 'SFS'}" ng-repeat="character in vm.player.characters" ng-style="{'background-image': character.campaign == 'SFS' ? '' : 'url(\'images/factions/{{character.faction}}.png\')'}">
 						<div><strong>{{character.name}}</strong> <small>({{vm.player.pfsnumber}}-{{character.number}})</small></div>
 						<div><small>{{character.class}} ({{character.level}}) - {{character.campaign}}</small></div>
 					</div>

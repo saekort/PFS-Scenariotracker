@@ -678,6 +678,10 @@ hr.sfs {
 	padding: 10px;
 }
 
+.characters-list li.sfs {
+	background-color: #b9c1e8;
+}
+
 .characters-list li:hover {
 	background-color: #E8B9B9;
 	cursor: pointer;
@@ -686,6 +690,14 @@ hr.sfs {
 .characters-list li.no-highlight {
 	background-color: #EAD4B9;
 	cursor: auto;
+}
+
+.characters-list li:hover.sfs {
+	background-color: #6A79B7;
+}
+
+.characters-list li.no-highlight.sfs {
+	background-color: #b9c1e8;
 }
 
 .characters-list-header {
@@ -898,6 +910,10 @@ hr.sfs {
 	background-size: 45px;
 	margin: 5px 0 5px 0;
 	padding: 5px;
+}
+
+.profile-characterlist.sfs {
+	background-color: #b9c1e8;
 }
 
 .profile-totals {
