@@ -32,9 +32,11 @@
     	                      {key: 4, name: 4, checked: false, col: 2},
     	                      {key: 5, name: 5, checked: false, col: 2},
     	                      {key: 6, name: 6, checked: false, col: 2},
-    	                      {key: 7, name: 7, checked: false, col: 3},
+    	                      {key: 7, name: 7, checked: false, col: 2},
     	                      {key: 8, name: 8, checked: false, col: 3},
-    	                      {key: 9, name: 9, checked: false, col: 3}
+    	                      {key: 9, name: 9, checked: false, col: 3},
+    	                      {key: 10, name: 10, checked: false, col: 3},
+    	                      {key: "pt", name: "Playtest", checked: false, col: 3}
     	                      ];
     	vm.data.seasons_sfs = [{key: 1, name: 1, checked: false, col: 1},];
     	vm.data.sortoptions = [

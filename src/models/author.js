@@ -23,9 +23,9 @@ module.exports = function(sequelize, DataTypes) {
 	Author.prototype.toJSON = function() {
 		var values = this.get();
 
-		delete values.created_at;
-		delete values.updated_at;
-		delete values.deleted_at;
+		//delete values.created_at;
+		//delete values.updated_at;
+		//delete values.deleted_at;
 		
 		return values;
 	}

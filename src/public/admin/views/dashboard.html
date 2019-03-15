@@ -1,0 +1,129 @@
+<ng-include src="'./views/partials/nav.html'"></ng-include>
+<div id="main" class="container">
+	<div class="row scenario">
+		<h1><i class="fa fa-columns fa-fw"></i> Dashboard</h1>
+		<hr>
+		<p>Bla bla die bla bla</p>
+		
+		<h2>Scenarios</h2>
+		<p><i>Scenarios</i> is the table name of all content. That includes APs, modules, both SFS and PFS, etc. The following are all the fields in the table and its values.</p>
+		<div class="table-responsive ">
+			<table class="table statistics-table">
+				<thead>
+					<tr>
+						<th>Field</th>
+						<th>Values</th>
+						<th>Required</th>
+						<th>Notes</th>
+					</tr>
+				</thead>
+					<tr>
+						<td>id</td>
+						<td>Number</td>
+						<td>Yes</td>
+						<td>Autofilled by tracker.</td>
+					</tr>
+					<tr>
+						<td>name</td>
+						<td>String</td>
+						<td>Yes</td>
+						<td>For scenarios just fill in the name `Quest for Something`. For multiparts (scenarios or modules) fill out like this: `Something Quest, Part II: Something Returns`. For adventure paths preface the text with the AP name like this: `Rise of Something: #1 Burnt Something`. Finally preface any specials with `Special`, like: `Special: Year of the Something Lodge`.</td>
+					</tr>
+					<tr>
+						<td>description</td>
+						<td>Text</td>
+						<td>Yes</td>
+						<td>Copy paste the flavour text from paizo.com. Do not add any level range or non-story info like 'This scenario adds to the goals of the Dark Archive faction.' 90% of the time this is just the first paragraph.</td>
+					</tr>
+					<tr>
+						<td>type</td>
+						<td>String</td>
+						<td>Yes</td>
+						<td>Options: scenario, mod, ap, other</td>
+					</tr>
+					<tr>
+						<td>season</td>
+						<td>Number</td>
+						<td>Yes</td>
+						<td>Season number. Use `99` if this is not part of a season (APs, modules, etc.)</td>
+					</tr>
+					<tr>
+						<td>number</td>
+						<td>Number</td>
+						<td>No</td>
+						<td>Number of the scenario. If this is not a scenario, leave it empty.</td>
+					</tr>
+					<tr>
+						<td>tier</td>
+						<td>String</td>
+						<td>No</td>
+						<td>Human readable tier text. `1-5` or `8-24`, etc.</td>
+					</tr>
+					<tr>
+						<td>levelrange</td>
+						<td>String</td>
+						<td>Yes</td>
+						<td>By default the value is `01|02|03|04|05|06|etc...` Remove the levels (and pipes) that this is not appropriate for. The system uses this to filter. Example: `02|03|04|05` -> 2-5</td>
+					</tr>
+					<tr>
+						<td>link</td>
+						<td>String</td>
+						<td>No</td>
+						<td>Store link, needs to be a weblink.</td>
+					</tr>
+					<tr>
+						<td>evergreen</td>
+						<td>Boolean</td>
+						<td>Yes</td>
+						<td>Defaults to `0`, `1` means it is an evergreen.</td>
+					</tr>
+					<tr>
+						<td>quest</td>
+						<td>Boolean</td>
+						<td>Yes</td>
+						<td>Defaults to `0`, `1` means it is a quest.</td>
+					</tr>
+					<tr>
+						<td>multitable</td>
+						<td>Boolean</td>
+						<td>Yes</td>
+						<td>Defaults to `0`, `1` means it is multitable special.</td>
+					</tr>
+					<tr>
+						<td>game</td>
+						<td>OptionList</td>
+						<td>Yes</td>
+						<td>Defaults to `pfs`. Set to `sfs` if the content is Starfinder.</td>
+					</tr>
+					<tr>
+						<td>archived_at</td>
+						<td>Datetime</td>
+						<td>No</td>
+						<td>This needs to be set if content is retired. Only Simon can do this in the database, doesn't happen enough to code in this interface.</td>
+					</tr>
+					<tr>
+						<td>created_at</td>
+						<td>DateTime</td>
+						<td>Yes</td>
+						<td>Autofilled by tracker</td>
+					</tr>
+					<tr>
+						<td>updated_at</td>
+						<td>DateTime</td>
+						<td>Yes</td>
+						<td>Autofilled by tracker</td>
+					</tr>
+					<tr>
+						<td>deleted_at</td>
+						<td>DateTime</td>
+						<td>Yes</td>
+						<td>Autofilled by tracker. If this is set then the content is officially 'deleted'. This is effectively a soft delete.</td>
+					</tr>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+		<h3>Adding Authors to Scenarios</h3>
+		<p>Authors are their own seperate entity in the database and are effectively just a name. You can connect 0 or more authors to a Scenario. You can also create Authors (soon TM). Please make sure a Author does not already exist, the code does not check for uniqueness.</p>
+	</div>
+</div>

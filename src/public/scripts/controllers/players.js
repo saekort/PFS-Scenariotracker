@@ -38,6 +38,8 @@
         			{name: 'Season 7', id: 's7', type: 'scenario', season: 7, game: 'pfs'},
         			{name: 'Season 8', id: 's8', type: 'scenario', season: 8, game: 'pfs'},
         			{name: 'Season 9', id: 's9', type: 'scenario', season: 9, game: 'pfs'},
+        			{name: 'Season 10', id: 's10', type: 'scenario', season: 10, game: 'pfs'},
+        			{name: 'Playtest', id: 'pt', type: 'scenario', season: "pt", game: 'pfs'},
         			{name: 'Modules', id: 'mod', type: 'mod', season: false, game: 'pfs'},
         			{name: 'Adventure paths', id: 'ap', type: 'ap', season: false, game: 'pfs'},
         			{name: 'Other', id: 'other', type: 'other', season: false, game: 'pfs'}

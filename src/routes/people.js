@@ -180,7 +180,7 @@ router.get('/:pfsNumber/profile', function(req, res, next) {
 				  		var progression = [];
 				  		
 				  		// Add all season progression
-				  		var seasons = 9;
+				  		var seasons = 10;
 				  		for(var i = 0; i < seasons+1; i++) {
 				  			var seasonTotal = yield models.Scenario.count({where: {season: i, archived_at: null, type: 'scenario', game: 'pfs'}});
 				  			var seasonPfs = yield models.sequelize.query("SELECT COUNT(`j_scenario_person`.`id`) as `count` FROM `j_scenario_person` INNER JOIN `scenarios` ON `j_scenario_person`.`scenario_id` = `scenarios`.`id` WHERE `j_scenario_person`.`pfs` IS NOT NULL AND `j_scenario_person`.`person_id` = " + person.id + " AND `scenarios`.`archived_at` IS NULL AND `scenarios`.`type` = 'scenario' AND `scenarios`.`game` = 'pfs' AND `scenarios`.`season` = " + i, {type: models.sequelize.QueryTypes.SELECT});

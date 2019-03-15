@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('scenariotracker')
+        .module('admintracker')
         .controller('MainController', MainController );
     
     function MainController($state, $location, $http, $scope, $rootScope, $localStorage, trackerConfig, toastr, $uibModal)
@@ -21,6 +21,13 @@
     		if(typeof(vm.$storage.token) !== 'undefined') {
     			$http.defaults.headers.common = {'Authorization': 'Bearer ' + vm.$storage.token};
     			vm.checkToken();
+    			if(!vm.$storage.user.admin) {
+    				// Not an admin, user should not be here
+    				vm.toast('error', 'No valid session');
+    			}
+    		} else {
+    			// User should not be here
+    			vm.toast('error', 'No valid session');
     		}
         });
     	
@@ -31,17 +38,6 @@
 	    		vm.logout();
     		}
     	});
-    }
-
-    MainController.prototype.logout = function() {
-    	var vm = this;
-    	
-    	delete vm.$storage.token;
-    	delete vm.$storage.user;
-    	
-		vm.$http.defaults.headers.common = {'Authorization': undefined}
-		vm.toast('success', 'Logged out');
-    	vm.$state.go('login', {}, {reload: true});
     }
     
     MainController.prototype.toast = function(type, text) {
@@ -72,27 +68,6 @@
     	}
     	
     	return true;
-    }
-    
-    MainController.prototype.whatsNew = function() {
-    	var vm = this;
-    	
-    	// See if this client has already seen the whats new
-    	if(angular.isUndefined(vm.$storage.whatsnew5)) {
-    		// Not seen the whats new
-    		var modalInstance = vm.$uibModal.open({
-    			animation: true,
-    			templateUrl: 'whatsnew.html',
-    			controller: 'ModalInstanceController as help',
-    			resolve: {
-    				content: function() {return null;}
-    			},    			
-    			size: 'lg'
-    		});
-    		
-    		// Make sure client does not see it again
-    		vm.$storage.whatsnew5 = true;
-    	}
     }
     
 })();

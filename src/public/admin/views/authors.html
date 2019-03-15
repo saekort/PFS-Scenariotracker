@@ -1,0 +1,85 @@
+<ng-include src="'./views/partials/nav.html'"></ng-include>
+<div id="main" class="container">
+	<div class="row scenario">
+		<h1><i class="fa fa-address-book fa-fw"></i> Authors</h1>
+		<hr>
+		<h2>Current authors</h2>
+		<div class="pfs-pagination form-group">
+			<ul uib-pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></ul>
+		</div>
+		<div class="table-responsive ">
+			<table class="table statistics-table">
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>Name</th>
+						<th>created_at</th>
+						<th>updated_at</th>
+						<th>deleted_at</th>
+						<th>options</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="author in vm.authors">
+						<td>{{author.id}}</td>
+						<td>{{author.name}}</td>
+						<td>{{author.created_at}}</td>
+						<td>{{author.updated_at}}</td>
+						<td>{{author.deleted_at}}</td>
+						<td><span class="fa fa-edit fa-fw"></span> <span class="fa fa-trash fa-fw" style="color: #8e2727;"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="pfs-pagination form-group">
+			<ul uib-pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></ul>
+		</div>
+		<h2>Manual</h2>
+		<p><i>Authors</i> is the table name of all authors. Authors can be added to any content. Authors and content have a 0 to many relationship.</p>
+		<p><b>Note:</b> Please keep the authors unique, the code does not check for uniqueness itself.</p>
+		<div class="table-responsive ">
+			<table class="table statistics-table">
+				<thead>
+					<tr>
+						<th>Field</th>
+						<th>Values</th>
+						<th>Required</th>
+						<th>Notes</th>
+					</tr>
+				</thead>
+					<tr>
+						<td>id</td>
+						<td>Number</td>
+						<td>Yes</td>
+						<td>Autofilled by tracker.</td>
+					</tr>
+					<tr>
+						<td>name</td>
+						<td>String</td>
+						<td>Yes</td>
+						<td>Format: Exact credited name, can include extra letters like: <i>Greg A. Vaughan</i></td>
+					</tr>
+					<tr>
+						<td>created_at</td>
+						<td>DateTime</td>
+						<td>Yes</td>
+						<td>Autofilled by tracker</td>
+					</tr>
+					<tr>
+						<td>updated_at</td>
+						<td>DateTime</td>
+						<td>Yes</td>
+						<td>Autofilled by tracker</td>
+					</tr>
+					<tr>
+						<td>deleted_at</td>
+						<td>DateTime</td>
+						<td>Yes</td>
+						<td>Autofilled by tracker. If this is set then the content is officially 'deleted'. This is effectively a soft delete.</td>
+					</tr>
+				<tbody>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

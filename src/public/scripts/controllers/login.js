@@ -36,7 +36,6 @@
     	vm.$http(req).
 			success(function(data, status, headers, config) {
 				main.$storage.token = data.token;
-				
 				main.$storage.user = data.user;
 				vm.$state.go('search');
 				main.toast('success', 'Welcome back ' + data.user.name);

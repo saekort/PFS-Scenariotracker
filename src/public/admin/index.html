@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html ng-app="admintracker">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link rel="icon" type="image/png" href="../favicon.ico">
+
+	<title>AdminTracker</title>
+
+	<link rel="stylesheet" href="../../css/bootstrap.css">
+	<link rel="stylesheet" href="../../bower_components/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="../../bower_components/angular-toastr/dist/angular-toastr.min.css">
+	<link rel="stylesheet" href="../../css/main.css">
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" integrity="sha384-6ePHh72Rl3hKio4HiJ841psfsRJveeS+aLoaEf3BWfS+gTF0XdAqku2ka8VddikM" crossorigin="anonymous"></script>
+	<script src="../../bower_components/angular/angular.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js" integrity="sha384-yUhxvkCWhffkrzcI4KTRa/JizsdZ6GZzQGq944M8Cf2QfOtVueyRMBExInFCyC4s" crossorigin="anonymous"></script>
+	<script src="../../bower_components/angular-animate/angular-animate.min.js"></script>
+	<script src="../../bower_components/angular-toastr/dist/angular-toastr.min.js"></script>		
+	<script src="../../bower_components/angular-toastr/dist/angular-toastr.tpls.min.js"></script>
+	<script src="../../bower_components/jwt-decode/build/jwt-decode.min.js"></script>
+	<script src="../../scripts/vendor/bootstrap.js"></script>
+	<script src="../../scripts/vendor/ui-bootstrap-tpls-2.0.1.min.js"></script>
+	<script src="./scripts/admintracker.js"></script>
+	<script src="./scripts/factories/admintrackerInterceptor.js"></script>
+	<script src="../../scripts/filters/unsafe.js"></script>
+	<script src="./scripts/controllers/main.js"></script>
+	<script src="./scripts/controllers/error.js"></script>
+	<script src="./scripts/controllers/dashboard.js"></script>
+	<script src="./scripts/controllers/authors.js"></script>
+	<script src="./scripts/controllers/scenarios.js"></script>
+	<script src="./scripts/controllers/nav.js"></script>
+	<script src="./scripts/controllers/modalInstance.js"></script>
+	<script src="../../scripts/vendor/ngStorage.min.js"></script>
+	<script src="../../scripts/vendor/angular-ui-router.min.js"></script>
+	<script src="../../scripts/vendor/angular-validation-match.js"></script>
+	<script src="../../scripts/vendor/angular-drag-and-drop-lists.min.js"></script>
+	
+	<!-- iCheck: https://github.com/fronteed/icheck/issues/62 -->
+	<script src="../../scripts/vendor/icheck.min.js"></script>
+	<script src="../../scripts/directives/ui-icheck.js"></script>
+	<link rel="stylesheet" href="../../css/check.css">
+	
+	<!-- Angular Spinner: https://github.com/urish/angular-spinner -->
+	<script src="../../scripts/vendor/spin.min.js"></script>
+	<script src="../../scripts/vendor/angular-spinner.js"></script>
+</head>
+<body>
+	<div id="wrap" ng-controller="MainController as main" ng-if("loggedin")>
+		<ui-view><br><br><br><h2 class="text-center">Loading Admintracker...</h2></ui-view>
+	</div>	
+</body>
+</html>

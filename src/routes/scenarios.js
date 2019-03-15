@@ -401,11 +401,7 @@ router.post('/', function(req, res, next){
  * @apiGroup Scenarios
  */
 router.get('/player/:pfsNumber/type/:typeId/game/:game/season/:season', function(req, res, next) {
-//	if(req.query.typeId == 'quest') {
-//		var whereParam = {type: 'quest', game: req.params.game};
-//	} else 
-		
-	if(isNaN(req.params.season)) {
+	if(isNaN(req.params.season) && req.params.season !== 'pt') {
 		var whereParam = {type: req.params.typeId, game: req.params.game};
 	} else {
 		var whereParam = {type: req.params.typeId, game: req.params.game, season: req.params.season};
