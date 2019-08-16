@@ -3,9 +3,9 @@
 
     angular
         .module('admintracker')
-        .controller('AuthorsController', AuthorsController );
+        .controller('ScenariosController', ScenariosController );
     
-    function AuthorsController($state, $location, $scope, $http)
+    function ScenariosController($state, $location, $scope, $http)
     {
     	var vm = this;
     	vm.$state = $state;
@@ -13,7 +13,7 @@
     	vm.$http = $http;
     	vm.main = $scope.main;
     	
-    	vm.authors = [];
+    	vm.scenarios = [];
     	
     	vm.pagination = {};
     	vm.pagination.totalItems = 0;
@@ -26,10 +26,10 @@
     		vm.$state.go('dashboard');
     	}
     	
-    	vm.getAuthors();
+    	vm.getScenarios();
     }
     
-    AuthorsController.prototype.getAuthors = function()
+    ScenariosController.prototype.getScenarios = function()
     {
     	var vm = this;
     	
@@ -37,28 +37,31 @@
     	var query = 'rows=15&page=' + vm.pagination.currentPage;
     	query = query + '&orderBy=name&order=asc';
     	
-    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'authors' + '?' + query).
+    	// Do not add authors
+    	query = query + '&simple';
+    	
+    	vm.$http.get(vm.main.trackerConfig.apiUrl + 'scenarios/simple' + '?' + query).
     	success(function(data, status, headers, config) {
-        	// Empty the authors currently in memory
-        	vm.authors = [];
+        	// Empty the scenarios currently in memory
+        	vm.scenarios = [];
         	
-    		// Assign authors
-    		vm.authors = data.rows;
+    		// Assign scenarios
+    		vm.scenarios = data.rows;
   		  
-    		// Assign total found authors count
+    		// Assign total found scenarios count
     		vm.pagination.totalItems = data.count;
     	}).
     	error(function(data, status, headers, config) {
   	    // called asynchronously if an error occurs
   	    // or server returns response with an error status.
-    		console.log('ERROR loading authors');
+    		console.log('ERROR loading scenarios');
     	});
     }
     
-    AuthorsController.prototype.changePage = function()
+    ScenariosController.prototype.changePage = function()
     {
     	var vm = this;
-    	vm.getAuthors();
+    	vm.getScenarios();
     }
  
 })();

@@ -37,6 +37,11 @@ module.exports = function(sequelize, DataTypes) {
 				}
 			}
 		},
+		admin: {
+			type: DataTypes.BOOLEAN,
+			allowNull: false,
+			defaultValue: '0'
+		},
 		country: {
 			type: DataTypes.STRING,
 			allowNull: true

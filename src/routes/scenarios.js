@@ -96,11 +96,14 @@ router.get('/', function(req, res, next) {
 					findParams.where.evergreen = 1;
 				}
 				
-				// Handle 'game_pfs' & 'game_sfs'
-				if(typeof req.query.game_pfs !== 'undefined' && req.query.game_pfs !== '' && typeof req.query.game_sfs !== 'undefined' && req.query.game_sfs !== '') {
+				// Handle 'game_pfs' & 'game_pfs2' & 'game_sfs'
+				if(typeof req.query.game_pfs !== 'undefined' && req.query.game_pfs !== '' && typeof req.query.game_sfs !== 'undefined' && req.query.game_sfs !== '' && typeof req.query.game_pfs2 !== 'undefined' && req.query.game_pfs2 !== '') {
 					// Don't do extra filter
 					findParams.where.$or = [];
 				} else if(typeof req.query.game_pfs !== 'undefined' && req.query.game_pfs !== '') {
+					findParams.where.$or = [];
+					//findParams.where.game = 'pfs';
+				} else if(typeof req.query.game_pfs2 !== 'undefined' && req.query.game_pfs2 !== '') {
 					findParams.where.$or = [];
 					//findParams.where.game = 'pfs';
 				} else if(typeof req.query.game_sfs !== 'undefined' && req.query.game_sfs !== '') {
@@ -133,6 +136,19 @@ router.get('/', function(req, res, next) {
 					findParams.where.$or.push(pfs_content);
 				}
 				
+				// Handle the query for the PFS2 content
+				if(typeof req.query.game_pfs2 !== 'undefined' && req.query.game_pfs2 !== '') {
+					var pfs2_content = {$or: [{game: 'pfs2'}]};
+					
+					// Handle 'season_pfs2'
+					if(typeof req.query.season_pfs2 !== 'undefined' && req.query.season_pfs2.length > 0) {
+						var seasons = req.query.season_pfs2;
+						pfs2_content.$or[0].season = {$in: seasons};
+					}
+					
+					findParams.where.$or.push(pfs2_content);
+				}
+
 				// Handle the query for the SFS content
 				if(typeof req.query.game_sfs !== 'undefined' && req.query.game_sfs !== '') {
 					var sfs_content = {$or: [{game: 'sfs'}]};
@@ -144,7 +160,7 @@ router.get('/', function(req, res, next) {
 					}
 					
 					findParams.where.$or.push(sfs_content);
-				}
+				}				
 				
 				// Add authors to the result
 				findParams.include = [];
@@ -240,7 +256,7 @@ router.get('/', function(req, res, next) {
 					var pfsnumbers = req.query.player;
 					
 					if(typeof req.query.showAll == 'undefined' || req.query.showAll !== 'true') {
-						// The subquery to add for SFS
+						// The subquery to add for PFS
 						if(typeof req.query.game_pfs !== 'undefined' && req.query.game_pfs !== '') {
 							var subquery_pfs = '(SELECT `Scenario`.`id` FROM `scenarios` AS `Scenario` ' + 
 								'INNER JOIN (`j_scenario_person` AS `players.played` ' + 
@@ -253,6 +269,21 @@ router.get('/', function(req, res, next) {
 								'WHERE ( `Scenario`.`deleted_at` >= CURRENT_TIMESTAMP OR `Scenario`.`deleted_at` IS NULL ) )';
 							
 							findParams.where.id = {$notIn: models.Sequelize.literal(subquery_pfs)};
+						}
+
+						// The subquery to add for PFS2
+						if(typeof req.query.game_pfs2 !== 'undefined' && req.query.game_pfs2 !== '') {
+							var subquery_pfs2 = '(SELECT `Scenario`.`id` FROM `scenarios` AS `Scenario` ' + 
+								'INNER JOIN (`j_scenario_person` AS `players.played` ' + 
+								'INNER JOIN `people` AS `players` ON `players`.`id` = `players.played`.`person_id` ' + 
+								'AND ( ( `players.played`.`deleted_at` >= CURRENT_TIMESTAMP OR `players.played`.`deleted_at` IS NULL ) ' +
+								'AND `players.played`.`pfs2` IS NOT NULL ) ' +
+								') ON `Scenario`.`id` = `players.played`.`scenario_id` ' + 
+								'AND ( ( `players`.`deleted_at` >= CURRENT_TIMESTAMP OR `players`.`deleted_at` IS NULL ) ' + 
+								'AND `players`.`pfsnumber` IN (' + pfsnumbers.toString() + ') ) ' + 
+								'WHERE ( `Scenario`.`deleted_at` >= CURRENT_TIMESTAMP OR `Scenario`.`deleted_at` IS NULL ) )';
+							
+							findParams.where.id = {$notIn: models.Sequelize.literal(subquery_pfs2)};
 						}
 						
 						// The subquery to add for SFS
@@ -287,7 +318,7 @@ router.get('/', function(req, res, next) {
 						attributes: ['id', 'name', 'pfsnumber'],
 						through: {
 							as: 'played',
-							attributes: ['pfs', 'pfs_gm', 'core', 'core_gm', 'sfs', 'sfs_gm'],
+							attributes: ['pfs', 'pfs_gm', 'pfs2', 'pfs2_gm', 'core', 'core_gm', 'sfs', 'sfs_gm'],
 						},
 						duplicating: false,
 						required: false,
@@ -304,13 +335,68 @@ router.get('/', function(req, res, next) {
 						attributes: ['id', 'name', 'pfsnumber'],
 						through: {
 							as: 'played',
-							attributes: ['pfs', 'pfs_gm', 'core', 'core_gm', 'sfs', 'sfs_gm'],
+							attributes: ['pfs', 'pfs_gm', 'pfs2', 'pfs2_gm', 'core', 'core_gm', 'sfs', 'sfs_gm'],
 						},
 						duplicating: false,
 						required: false,
 						where: {pfsnumber: req.query.gm},
 						order: [ ['name', 'ASC'] ]
 					});
+				}
+				
+				var scenarios = yield models.Scenario.findAndCountAll(findParams);
+				
+				res.status(200).send(scenarios);
+			} catch (errors) {
+				winston.log('error', errors);
+				res.status(500).send(errors);
+			}
+		});
+	} else {
+		res.status(400).end();
+	}
+});
+
+router.get('/simple', function(req, res, next) {
+	if(req.query.rows && req.query.page && req.query.rows <= 20)
+	{
+		co(function *() {
+			try {
+				var findParams = {};
+				findParams.where = {};
+				
+				// Handle 'rows' & 'page'
+				if(typeof req.query.rows !== 'undefined' || typeof req.query.rows !== 'undefined') {
+					if(req.query.rows > 0 && req.query.rows <= 20 && req.query.page > 0) {
+						findParams.limit = parseInt(req.query.rows);
+						findParams.offset = parseInt(req.query.page * req.query.rows - req.query.rows);
+					} else {
+						res.status(400).end();
+					}
+				} else {
+					res.status(400).end();
+				}
+				
+				// Handle 'search'
+				if(typeof req.query.search !== 'undefined' && req.query.search !== '') {
+					findParams.where.name = {$like: '%' + req.query.search + '%'};
+				}
+				
+				// Handle 'orderBy' & 'order'
+				var orderBy = 'season';
+				var order = 'ASC';
+				if(typeof req.query.orderBy !== 'undefined' && typeof req.query.order !== 'undefined') {
+					if(req.query.orderBy === 'name' || req.query.order === 'season') {
+						// Only allow 'name' or 'season'
+						orderBy = req.query.orderBy;
+					}
+					
+					if(req.query.order.toUpperCase() === 'ASC' || req.query.order.toUpperCase() === 'DESC') {
+						// Only allow 'ASC' or 'DESC'
+						order = req.query.order;
+					}
+					
+					findParams.order = [ [ orderBy, order ], ['number', 'ASC'], ['name', 'ASC'] ];
 				}
 				
 				var scenarios = yield models.Scenario.findAndCountAll(findParams);
@@ -423,7 +509,7 @@ router.get('/player/:pfsNumber/type/:typeId/game/:game/season/:season', function
 				where: {pfsnumber: req.params.pfsNumber},
 				through: {
 					as: 'played',
-					attributes: ['pfs', 'pfs_gm', 'core', 'core_gm', 'sfs', 'sfs_gm']
+					attributes: ['pfs', 'pfs_gm', 'pfs2', 'pfs2_gm', 'core', 'core_gm', 'sfs', 'sfs_gm']
 				},
 				required: false
 			} ],

@@ -40,6 +40,17 @@
     	});
     }
     
+    MainController.prototype.logout = function() {
+    	var vm = this;
+    	
+    	delete vm.$storage.token;
+    	delete vm.$storage.user;
+    	
+		vm.$http.defaults.headers.common = {'Authorization': undefined}
+		vm.toast('success', 'Logged out');
+    	vm.$state.go('login', {}, {reload: true});
+    }
+    
     MainController.prototype.toast = function(type, text) {
     	var vm = this;
     	

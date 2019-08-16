@@ -22,6 +22,14 @@ module.exports = function(sequelize, DataTypes) {
 			type: DataTypes.DATE,
 			allowNull: true
 		},
+		pfs2: {
+			type: DataTypes.DATE,
+			allowNull: true
+		},
+		pfs2_gm: {
+			type: DataTypes.DATE,
+			allowNull: true
+		},
 		sfs: {
 			type: DataTypes.DATE,
 			allowNull: true    	

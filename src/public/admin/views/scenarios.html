@@ -1,11 +1,38 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <div id="main" class="container">
 	<div class="row scenario">
-		<h1><i class="fa fa-columns fa-fw"></i> Dashboard</h1>
+		<h1><i class="fa fa-book fa-fw"></i> Scenarios</h1>
 		<hr>
-		<p>Bla bla die bla bla</p>
-		
-		<h2>Scenarios</h2>
+		<h2>Current scenarios</h2>
+		<div class="pfs-pagination form-group">
+			<ul uib-pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></ul>
+		</div>
+		<div class="table-responsive ">
+			<table class="table statistics-table">
+				<thead>
+					<tr>
+						<th>id</th>
+						<th>game</th>
+						<th>type</th>
+						<th>Name</th>
+						<th>options</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="scenario in vm.scenarios">
+						<td>{{scenario.id}}</td>
+						<td>{{scenario.game}}</td>
+						<td>{{scenario.type}}</td>
+						<td>{{scenario.name}}</td>
+						<td><a href=""><span class="fa fa-edit fa-fw"></span></a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="pfs-pagination form-group">
+			<ul uib-pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></ul>
+		</div>
+		<h2>Manual</h2>
 		<p><i>Scenarios</i> is the table name of all content. That includes APs, modules, both SFS and PFS, etc. The following are all the fields in the table and its values.</p>
 		<div class="table-responsive ">
 			<table class="table statistics-table">

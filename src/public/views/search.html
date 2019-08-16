@@ -67,6 +67,11 @@
 							<span class="report-title"><span class="fa fa-book fa-fw sfs pfs-icon"></span> Pathfinder</span>
 						</div>
 						<div class="checkbox">
+							<input id="game_pfs2" class="pfs2" type="checkbox" ng-model="vm.filters.game_pfs2" value="" ng-click="vm.getScenarios()">
+							<label class="report-title" for="game_pfs2"></label>
+							<span class="report-title"><span class="fa fa-book fa-fw sfs pfs2-icon"></span> Pathfinder 2.0</span>
+						</div>
+						<div class="checkbox">
 							<input id="game_sfs" class="sfs" type="checkbox" ng-model="vm.filters.game_sfs" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="game_sfs"></label>
 							<span class="report-title"><span class="fa fa-plane fa-fw sfs-icon"></span> Starfinder</span>
@@ -95,7 +100,7 @@
 							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
 							<span class="report-title">{{ season.name }}</span>
 						</div>
-					</div>					
+					</div>
 				</div>
 				<div style="clear: both;"></div>
 				<div class="form-group filter" ng-if="vm.filters.game_pfs">
@@ -111,6 +116,32 @@
 						<span class="report-title">Core</span>
 					</div>
 				</div>
+				<div style="clear: both;"></div>
+				<div class="form-group filter" ng-if="vm.filters.game_pfs2">
+					<strong>Pathfinder 2.0 seasons</strong><br>
+				 	<div class="col-xs-4 col-sm-12 col-md-4" style="padding-right: 0px">
+						<div class="checkbox" ng-repeat="season in vm.data.seasons_pfs2 | filter: {col: 1}">
+							<input id="season-{{season.key}}" class="pfs2" type="checkbox" name="season" ng-model="vm.filters.seasons_pfs2[season.key]" ng-click="vm.getScenarios()">
+							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
+							<span class="report-title">{{ season.name }}</span>
+						</div>
+					</div>
+					<div class="col-xs-4 col-sm-12 col-md-4" style="padding-right: 0px">
+						<div class="checkbox " ng-repeat="season in vm.data.seasons_pfs2 | filter: {col: 2}">
+							<input id="season-{{season.key}}" class="pfs2" type="checkbox" name="season" ng-model="vm.filters.seasons_pfs2[season.key]" ng-click="vm.getScenarios()">
+							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
+							<span class="report-title">{{ season.name }}</span>
+						</div>
+					</div>
+				 	<div class="col-xs-4 col-sm-12 col-md-4" style="padding-right: 0px">
+						<div class="checkbox" ng-repeat="season in vm.data.seasons_pfs2 | filter: {col: 3}">
+							<input id="season-{{season.key}}" class="pfs2" type="checkbox" name="season" ng-model="vm.filters.seasons_pfs2[season.key]" ng-click="vm.getScenarios()">
+							<label class="report-title" for="season-{{season.key}}" title="{{ season.name }}"></label>
+							<span class="report-title">{{ season.name }}</span>
+						</div>
+					</div>
+				</div>
+				<div style="clear: both;"></div>
 				<div class="form-group filter" ng-if="vm.filters.game_sfs">
 					<strong>Starfinder seasons</strong><br>
 				 	<div class="col-xs-4 col-sm-12 col-md-4" style="padding-right: 0px">
@@ -235,7 +266,7 @@
 				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
 			</div>
 			<div ng-repeat="scenario in vm.scenarios">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scenario" ng-class="{'sfs': scenario.game=='sfs'}">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scenario" ng-class="{'sfs': scenario.game=='sfs', 'pfs2': scenario.game=='pfs2'}">
 					<div class="title">
 						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower modules question" tooltip="This is a module. It is longer than a scenario, but rewards more experience"></span>
 						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe aps question" tooltip="This is an adventure path. It is longer than a scenario, but rewards more experience"></span>													
@@ -251,7 +282,7 @@
 						<span ng-show="!scenario.collapsed" class="pull-right glyphicon glyphicon-triangle-top toggle_description" ng-click="scenario.collapsed = !scenario.collapsed" tooltip="Toggle description"></span>
 					</div>
 					<span>Tier: <span ng-show="!scenario.tier">Unknown</span>{{scenario.tier}}</span>					
-					<span ng-if='scenario.link'>| Link: <a href="{{scenario.link}}" target="_blank" ng-class="{'sfs': scenario.game=='sfs'}">Paizo store</a></span>
+					<span ng-if='scenario.link'>| Link: <a href="{{scenario.link}}" target="_blank" ng-class="{'sfs': scenario.game=='sfs', 'pfs2': scenario.game=='pfs2'}">Paizo store</a></span>
 					<span ng-show="vm.gm || scenario.players">|
 						<span class="toggle_description" ng-show="scenario.playedinfo" ng-click="scenario.playedinfo = !scenario.playedinfo;" tooltip="Toggle played info"><span class="glyphicon glyphicon-triangle-bottom"></span> Toggle played info</span>					
 						<span class="toggle_description" ng-show="!scenario.playedinfo" ng-click="scenario.playedinfo = !scenario.playedinfo;" tooltip="Toggle played info"><span class="glyphicon glyphicon-triangle-top"></span> Toggle played info</span>
@@ -270,6 +301,12 @@
 									<span ng-show="player.played.core" class="col-xs-3 col-sm-2 search_played search_played_played">CORE: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].core | limitTo: 10}}"></span></span>
 									<span ng-hide="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
 									<span ng-show="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].core_gm | limitTo: 10}}"></span></span>
+								</span>
+								<span ng-if="scenario.game == 'pfs2'">
+									<span ng-hide="player.played.pfs2" class="col-xs-6 col-sm-4 search_played search_played_not_played">PFS2: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+									<span ng-show="player.played.pfs2" class="col-xs-6 col-sm-4 search_played search_played_played">PFS2: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].pfs2 | limitTo: 10}}"></span></span>
+									<span ng-hide="player.played.pfs2_gm" class="col-xs-6 col-sm-4 search_played search_played_not_played">PFS2 GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+									<span ng-show="player.played.pfs2_gm" class="col-xs-6 col-sm-4 search_played search_played_played">PFS2 GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].pfs2_gm | limitTo: 10}}"></span></span>
 								</span>
 								<span ng-if="scenario.game == 'sfs'">
 									<span ng-hide="player.played.sfs" class="col-xs-6 col-sm-4 search_played search_played_not_played">SFS: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
@@ -291,6 +328,12 @@
 										<span ng-show="player.played.core" class="col-xs-3 col-sm-2 search_played search_played_played">CORE: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].core | limitTo: 10}}"></span></span>
 										<span ng-hide="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_not_played">CORE GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
 										<span ng-show="player.played.core_gm" class="col-xs-3 col-sm-2 search_played search_played_played">CORE GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].core_gm | limitTo: 10}}"></span></span>
+									</span>
+									<span ng-if="scenario.game == 'pfs2'">
+										<span ng-hide="player.played.pfs2" class="col-xs-6 col-sm-4 search_played search_played_not_played">PFS2: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+										<span ng-show="player.played.pfs2" class="col-xs-6 col-sm-4 search_played search_played_played">PFS2: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].pfs2 | limitTo: 10}}"></span></span>
+										<span ng-hide="player.played.pfs2_gm" class="col-xs-6 col-sm-4 search_played search_played_not_played">PFS2 GM: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>
+										<span ng-show="player.played.pfs2_gm" class="col-xs-6 col-sm-4 search_played search_played_played">PFS2 GM: <span class="glyphicon glyphicon-ok question" style="color: green" tooltip="Reported on {{scenario.gm[vm.gm.pfsnumber].pfs2_gm | limitTo: 10}}"></span></span>
 									</span>
 									<span ng-if="scenario.game == 'sfs'">
 										<span ng-hide="player.played.sfs" class="col-xs-6 col-sm-4 search_played search_played_not_played">SFS: <span class="glyphicon glyphicon-minus question" tooltip="Not yet played"></span></span>

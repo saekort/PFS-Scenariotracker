@@ -47,10 +47,18 @@
         	
         	vm.reportoptions_sfs = [
         	        {name: 'Season 1', id: 's1', type: 'scenario', season: 1, game: 'sfs'},
+                    {name: 'Season 2', id: 's2', type: 'scenario', season: 2, game: 'sfs'},
         			{name: 'Modules', id: 'mod', type: 'mod', season: false, game: 'sfs'},
         			{name: 'Adventure paths', id: 'ap', type: 'ap', season: false, game: 'sfs'},
         			{name: 'Other', id: 'other', type: 'other', season: false, game: 'sfs'},
         	        ];
+
+            vm.reportoptions_pfs2 = [
+                    {name: 'Season 1', id: 's1', type: 'scenario', season: 1, game: 'pfs2'},
+                    {name: 'Modules', id: 'mod', type: 'mod', season: false, game: 'pfs2'},
+                    {name: 'Adventure paths', id: 'ap', type: 'ap', season: false, game: 'pfs2'},
+                    {name: 'Other', id: 'other', type: 'other', season: false, game: 'pfs2'},
+                    ];
         	
         	vm.reporttype = vm.reportoptions[0];
     	}
@@ -141,6 +149,22 @@
 	    				}
 	    			}
 	    		});
+    		} else if(vm.reporttype.game == 'pfs2') {
+    			data.forEach(function(content) {
+	    			if(typeof content.players[0] !== 'undefined') {
+	    				if(content.players[0].played.pfs2 !== null) {
+	    					content.players[0].played.pfs2 = true;
+	    				} else {
+	    					content.players[0].played.pfs2 = false;
+	    				}
+	    				
+	    				if(content.players[0].played.pfs2_gm !== null) {
+	    					content.players[0].played.pfs2_gm = true;
+	    				} else {
+	    					content.players[0].played.pfs2_gm = false;
+	    				}
+	    			}
+	    		});
     		} else if(vm.reporttype.game == 'sfs') {
     			data.forEach(function(content) {
 	    			if(typeof content.players[0] !== 'undefined') {
@@ -164,6 +188,8 @@
   	  		// or server returns response with an error status.
   	  		vm.main.toast('error', 'Error while getting played info');
   	  	});
+    	
+    	$("html, body").animate({ scrollTop: 230 }, 200);
     }
     
     PlayersController.prototype.saveScenario = function(scenario_id, state, $index)
@@ -206,7 +232,7 @@
     		
     		if(typeof vm.content[key].players[0] == 'undefined') {
     			value.players = [{id: vm.player.id, pfsnumber: vm.player.pfsnumber}];
-    			value.players[0].played = {pfs: null, pfs_gm: null, core: null, core_gm: null};
+    			value.players[0].played = {pfs: null, pfs_gm: null, pfs2: null, pfs2_gm: null, core: null, core_gm: null};
     		}
 
     		if(!value.players[0].played[type])

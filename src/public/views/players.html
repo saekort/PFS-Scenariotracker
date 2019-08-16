@@ -42,6 +42,11 @@
 						<button class="button col-sm-12" ng-repeat="reportoption in vm.reportoptions" ng-click="vm.changeReportType(reportoption, 'pfs')">{{reportoption.name}}</button>
 					</div>
 					<div style="clear: both"></div>
+					<h4 class="text-center hidden-xs">PFS 2.0</h4>
+					<div class="hidden-xs" ng-hide="vm.player == null">
+						<button class="button col-sm-12 pfs2" ng-repeat="reportoption in vm.reportoptions_pfs2" ng-click="vm.changeReportType(reportoption, 'pfs2')">{{reportoption.name}}</button>
+					</div>
+					<div style="clear: both"></div>
 					<h4 class="text-center hidden-xs">SFS</h4>
 					<div class="hidden-xs" ng-hide="vm.player == null">
 						<button class="button col-sm-12 sfs" ng-repeat="reportoption in vm.reportoptions_sfs" ng-click="vm.changeReportType(reportoption, 'sfs')">{{reportoption.name}}</button>
@@ -87,6 +92,25 @@
 							<input id="core{{content.id}}" ng-model="content.players[0].played.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)" ng-disabled="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber"><label class="report-title" for="core{{content.id}}"></label>
 							<input id="pfs_gm{{content.id}}" ng-model="content.players[0].played.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)" ng-disabled="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber"><label class="report-title" for="pfs_gm{{content.id}}"></label>
 							<input id="core_gm{{content.id}}" ng-model="content.players[0].played.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)" ng-disabled="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber"><label class="report-title" for="core_gm{{content.id}}"></label>
+						</span>
+						<span class="hidden-sm hidden-md hidden-lg report-title-xs">
+							<span ng-hide="!content.season || content.season == '99'">#{{content.season}}-{{content.number}}</span> 
+							<span>{{content.name}}</span>
+						</span>
+						<span class="hidden-xs report-title">
+							<span ng-hide="!content.season || content.season == '99'">#{{content.season}}-{{content.number}}</span>
+							<span>{{content.name}}</span>
+						</span>
+						<span ng-show="content.archived_at"> 
+							<strong>(Retired)</strong>
+						</span>	
+					</li>
+				</ul>
+				<ul class="reporting-list pfs2" ng-if="vm.content[0].game == 'pfs2'">
+					<li ng-repeat="content in vm.content track by $index" class="reportoption" ng-class="{'disabled-checkbox': vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber}">
+						<span>
+							<input id="pfs2{{content.id}}" class="pfs2" ng-model="content.players[0].played.pfs2" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs2', $index)" ng-disabled="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber"><label class="report-title disabled-checkbox" for="pfs2{{content.id}}"></label>
+							<input id="pfs2_gm{{content.id}}" class="pfs2" ng-model="content.players[0].played.pfs2_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs2_gm', $index)" ng-disabled="vm.player.public == 0 && vm.player.pfsnumber != main.$storage.user.pfsnumber"><label class="report-title" for="pfs2_gm{{content.id}}"></label>
 						</span>
 						<span class="hidden-sm hidden-md hidden-lg report-title-xs">
 							<span ng-hide="!content.season || content.season == '99'">#{{content.season}}-{{content.number}}</span> 
@@ -231,7 +255,31 @@
 							</div>
 							<div style="clear: both"></div>
 						</uib-tab>
-						<uib-tab index="2" heading="SFS campaign">
+						<uib-tab index="2" heading="PFS 2.0 campaign">
+							<div ng-repeat="content in vm.player.progression_pfs2">
+								<table class="col-xs-12">
+									<tr>
+										<td rowspan=2 style="width: 75px;"><span style="font-weight: bold">{{content.name}}</span></td>
+										<td style="padding-left: 5px; padding-right: 5px; text-align: right; width: 25px;">PC</td>
+										<td>
+											<uib-progressbar max="content.total" value="content.pfs2" title="{{content.name}} progress" class="progressbar-pfstracker" style="margin-bottom: 0px; border-width: 1px; border-bottom: 1px solid #D48E87; border-radius: 5px 5px 0 0; height: 20px;">
+												<span class="bold" style="line-height: 10px">{{content.pfs2}} / {{content.total}}</span>
+											</uib-progressbar>
+										</td>
+									</tr>
+									<tr>
+										<td style="padding-left: 5px; padding-right: 5px; text-align: right;">GM</td>
+										<td>
+											<uib-progressbar max="content.total" value="content.pfs_gm" title="{{content.name}} progress" class="progressbar-pfstracker" style="margin-top: 0px; border-top: 0px; border-radius: 0 0 5px 5px; margin-bottom: 3px; border-width: 1px; height: 20px;">
+												<span class="bold" style="line-height: 10px">{{content.pfs2_gm}} / {{content.total}}</span>
+											</uib-progressbar>
+										</td>
+									</tr>
+								</table>
+							</div>
+							<div style="clear: both"></div>
+						</uib-tab>
+						<uib-tab index="3" heading="SFS campaign">
 							<div ng-repeat="content in vm.player.progression_sfs">
 								<table class="col-xs-12">
 									<tr>

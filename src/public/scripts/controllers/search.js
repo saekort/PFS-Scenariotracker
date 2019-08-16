@@ -38,7 +38,9 @@
     	                      {key: 10, name: 10, checked: false, col: 3},
     	                      {key: "pt", name: "Playtest", checked: false, col: 3}
     	                      ];
-    	vm.data.seasons_sfs = [{key: 1, name: 1, checked: false, col: 1},];
+    	vm.data.seasons_sfs = [{key: 1, name: 1, checked: false, col: 1},
+                                {key: 2, name: 2, checked: false, col: 2}];
+        vm.data.seasons_pfs2 = [{key: 1, name: 1, checked: false, col: 1},]
     	vm.data.sortoptions = [
     	                  {key: 'name_asc', label: 'Name A-Z'},
     	                  {key: 'name_desc', label: 'Name Z-A'},
@@ -83,13 +85,15 @@
     	if(angular.isUndefined(vm.$localStorage.search_filters.aps)) { vm.$localStorage.search_filters.aps = true; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.other)) { vm.$localStorage.search_filters.other = true; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.game_pfs)) { vm.$localStorage.search_filters.game_pfs = true; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.game_pfs2)) { vm.$localStorage.search_filters.game_pfs2 = false; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.game_sfs)) { vm.$localStorage.search_filters.game_sfs = false; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.retired)) { vm.$localStorage.search_filters.retired = false; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.evergreen)) { vm.$localStorage.search_filters.evergreen = false; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.specials)) { vm.$localStorage.search_filters.specials = false; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.sorting)) { vm.$localStorage.search_filters.sorting = vm.data.sortoptions[2]; }
     	if(angular.isUndefined(vm.$localStorage.search_filters.seasons)) { vm.$localStorage.search_filters.seasons = {}; }
-    	if(angular.isUndefined(vm.$localStorage.search_filters.seasons_sfs)) { vm.$localStorage.search_filters.seasons_sfs = {}; }
+    	if(angular.isUndefined(vm.$localStorage.search_filters.seasons_pfs2)) { vm.$localStorage.search_filters.seasons_pfs2 = {}; }
+        if(angular.isUndefined(vm.$localStorage.search_filters.seasons_sfs)) { vm.$localStorage.search_filters.seasons_sfs = {}; }
     	
     	vm.filters = vm.$localStorage.search_filters;
     }
@@ -173,6 +177,11 @@
     	// Filter: Game SFS
     	if(vm.filters.game_sfs) {
     		query = query + '&game_sfs=true';
+    	}
+
+    	// Filter: Game PFS2
+    	if(vm.filters.game_pfs2) {
+    		query = query + '&game_pfs2=true';
     	}
     	
     	// Filter: PFS Seasons
@@ -466,7 +475,7 @@
     	vm.initFilters();
     	vm.getScenarios();
     	
-    	$("html, body").animate({ scrollTop: 0 }, 200);    	
+    	$("html, body").animate({ scrollTop: 0 }, 200);  	
     }
     
     SearchController.prototype.showGroupMembers = function(index)

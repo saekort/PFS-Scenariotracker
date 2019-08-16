@@ -21,7 +21,7 @@ passport.use(new Strategy( {
 					// Compare the 'hash' with a bcrypted password
 					if (bcrypt.compareSync(password, hash)) {
 						// Valid credentials
-						return cb(null, {id: account.id, name: account.name, pfsnumber: account.pfsnumber});
+						return cb(null, {id: account.id, name: account.name, pfsnumber: account.pfsnumber, admin: account.admin});
 					} else {
 						// Invalid credentials
 						return cb(null, false);
