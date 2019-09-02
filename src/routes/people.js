@@ -528,7 +528,7 @@ router.post('/forgotpassword', function(req, res, next) {
 			    	winston.log('error', error);
 			        res.status(500).send('Internal error while mailing password recovery');
 			    } else {
-			    	console.log('Message sent: ' + info.response);
+			    	winston.log('Message sent: ' + info.response);
 			    	res.status(200).send();
 			    }
 			});

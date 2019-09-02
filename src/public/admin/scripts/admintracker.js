@@ -33,6 +33,12 @@
         		controller: 'AuthorsController',
         		controllerAs: 'vm'        		
 	    	})
+	    	.state('author', {
+        		url: '/author/:id',
+        		templateUrl: "views/author.html",
+        		controller: 'AuthorsController',
+        		controllerAs: 'vm'        		
+	    	})
         	.state('scenarios', {
         		url: '/scenarios',
         		templateUrl: "views/scenarios.html",

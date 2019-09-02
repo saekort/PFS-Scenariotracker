@@ -60,5 +60,12 @@
     	var vm = this;
     	vm.getAuthors();
     }
+    
+    AuthorsController.prototype.editAuthor = function(index)
+    {
+    	console.log('sup');
+    	var vm = this;
+    	vm.author = vm.authors[index];
+    }
  
 })();
