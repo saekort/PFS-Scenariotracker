@@ -1,0 +1,557 @@
+// main.scss
+@use 'base';
+
+body {
+	background-color: base.$main-background-color;
+	color: base.$main-color-primary;
+	margin-bottom: 10px;
+	min-height: 100%;
+	padding-top: 60px;
+}
+
+// Games
+.pfs {
+	background-color: base.$pfs-background-light;
+	
+	#{base.$a-tags} {
+		color: base.$pfs-background-dark;
+	}
+	
+	&.fa {
+		background-color: transparent;
+		color: base.$pfs-background-dark;
+	}
+}
+
+.sfs {
+	background-color: base.$sfs-background-light;
+	
+	#{base.$a-tags} {
+		color: base.$sfs-background-dark;
+	}
+	
+	&.fa {
+		background-color: transparent;
+		color: base.$sfs-background-dark;
+	}
+}
+
+.pfs2 {
+	background-color: base.$pfs2-background-light;
+	
+	#{base.$a-tags} {
+		color: base.$pfs2-background-dark;
+	}
+	
+	&.fa {
+		background-color: transparent;
+		color: base.$pfs2-background-dark;
+	}
+}
+
+.pacg {
+	background-color: base.$pacg-background-light;
+	
+	#{base.$a-tags} {
+		color: base.$pacg-background-dark;
+	}
+	
+	&.fa {
+		background-color: transparent;
+		color: base.$pacg-background-dark;
+	}
+}
+
+// Icons
+.ap {
+	color: base.$icon-color-ap;
+}
+
+.evergreen {
+	color: base.$icon-color-evergreen;
+}
+
+.module {
+	color: base.$icon-color-module;
+}
+
+.quest {
+	color: base.$icon-color-quest;
+}
+
+.scenario {
+	color: base.$icon-color-scenario;
+}
+
+.special {
+	color: base.$icon-color-special;
+}
+
+.icon-small {
+	font-size: base.$icon-small;
+}
+
+.icon-large {
+	font-size: base.$icon-large;
+}
+
+// Links (game links are with games)
+#{base.$a-tags} {
+	color: base.$pfs-background-dark;
+}
+
+// Pagination
+.tracker-pagination {
+	margin: 10px 0 10px 0;
+}
+
+.tracker-pagination ul {
+	margin: 0px;
+}
+
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+	background-color: base.$main-background-dark;
+	border-color: base.$main-background-dark;
+	color: base.$main-color-secondary;
+}
+
+.pagination > li > a:hover, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+	background-color: base.$main-background-light-hover;
+	border-color: base.$main-background-dark;
+	color: base.$main-color-primary;
+}
+
+.pagination > li > a, .pagination > li > span:hover, .pagination > li > a:focus, .pagination > li > span:focus {
+	background-color: base.$main-background-light;
+	border-color: base.$main-background-dark;
+	color: base.$main-color-primary;
+}
+
+.pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
+	background-color: base.$main-background-cancel-light;
+	border-color: base.$main-background-dark;
+	color: base.$main-color-primary;
+}
+
+// Buttons
+button {
+	border: 0;
+	background-color: base.$main-background-dark;
+	color: base.$main-color-secondary;
+	font-weight: bold;
+	font-size: 17px;
+	line-height: 40px;
+	padding: 0 10px;
+	
+	#{base.$a-tags-hover} {
+		background-color: base.$main-background-dark-hover;
+	}
+	
+	&.report {
+		font-size: 14px;
+		line-height: 25px;
+		margin-right: 5px;
+	}
+	
+	:disabled, :disabled:hover {
+		color: base.$main-background-cancel-dark;
+		cursor: not-allowed;
+	}
+	
+	&.pfs {
+		background-color: base.$pfs-background-dark;
+		color: base.$pfs-color-secondary;
+		
+		#{base.$a-tags-hover} {
+			background-color: base.$pfs-background-dark-hover;
+		}
+	}
+	
+	&.sfs {
+		background-color: base.$sfs-background-dark;
+		color: base.$sfs-color-secondary;
+		
+		#{base.$a-tags-hover} {
+			background-color: base.$sfs-background-dark-hover;
+		}
+	}
+	
+	&.pfs2 {
+		background-color: base.$pfs2-background-dark;
+		color: base.$pfs2-color-secondary;
+		
+		#{base.$a-tags-hover} {
+			background-color: base.$pfs2-background-dark-hover;
+		}
+	}
+	
+	&.pacg {
+		background-color: base.$pacg-background-dark;
+		color: base.$pacg-color-secondary;
+		
+		#{base.$a-tags-hover} {
+			background-color: base.$pacg-background-dark-hover;
+		}
+	}
+}
+
+button[disabled], button[disabled]:hover {
+	background-color: grey;
+	cursor: not-allowed;
+}
+
+// Menu
+.navbar {
+	background-color: base.$main-background-dark;
+}
+
+.navbar-default {
+	border-color: base.$main-background-dark;
+	
+	.navbar-brand {
+		color: base.$main-color-secondary;
+		
+		#{base.$a-tags-hover} {
+			color: base.$main-color-secondary;
+		}
+	}
+}
+
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+	background-color: base.$main-background-light;
+	color: base.$main-color-primary;
+}	
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	background-color: base.$main-background-light;
+	color: base.$main-color-primary;
+}
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	color: base.$main-color-secondary;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: base.$main-color-secondary;
+}
+
+.navbar-default .navbar-nav > li > a {
+	color: base.$main-color-secondary;
+}
+
+// Tables
+.table  {
+	thead > tr > th {
+		border-bottom: 2px solid base.$main-background-dark;
+	}
+	
+	tbody > tr:nth-of-type(odd) {
+		background-color: base.$main-background-table;
+	}
+	
+	thead > tr > th, tbody > tr > th, tfoot > tr > th, thead > tr > td, tbody > tr > td, tfoot > tr > td {
+		border-top: 1px solid base.$main-background-dark;
+	}
+	
+	tbody tr:hover, tbody tr:active {
+		background-color: base.$main-background-light-hover;
+	}
+	
+	&.pfs {
+		thead > tr > th {
+			border-bottom: 2px solid base.$pfs-background-dark;
+		}
+		
+		tbody tr:nth-of-type(odd) {
+			background-color: base.$pfs-background-table;
+		}
+		
+		thead > tr > th, tbody > tr > th, tfoot > tr > th, thead > tr > td, tbody > tr > td, tfoot > tr > td {
+			border-top: 1px solid base.$pfs-background-dark;
+		}
+		
+		tbody tr:hover, tbody tr:active {
+			background-color: base.$pfs-background-light-hover;
+		}
+	}
+	
+	&.sfs {
+		thead > tr > th {
+			border-bottom: 2px solid base.$sfs-background-dark;
+		}
+
+		tbody > tr:nth-of-type(odd) {
+			background-color: base.$sfs-background-table;
+		}
+		
+		thead > tr > th, tbody > tr > th, tfoot > tr > th, thead > tr > td, tbody > tr > td, tfoot > tr > td {
+			border-top: 1px solid base.$sfs-background-dark;
+		}
+		
+		tbody tr:hover, tbody tr:active {
+			background-color: base.$sfs-background-light-hover;
+		}
+	}
+	
+	&.pfs2 {
+		thead > tr > th {
+			border-bottom: 2px solid base.$pfs2-background-dark;
+		}
+		
+		tbody > tr:nth-of-type(odd) {
+			background-color: base.$pfs2-background-table;
+		}
+		
+		thead > tr > th, tbody > tr > th, tfoot > tr > th, thead > tr > td, tbody > tr > td, tfoot > tr > td {
+			border-top: 1px solid base.$pfs2-background-dark;
+		}
+		
+		tbody tr:hover, tbody tr:active {
+			background-color: base.$pfs2-background-light-hover;
+		}
+	}
+	
+	&.pacg {
+		thead > tr > th {
+			border-bottom: 2px solid base.$pacg-background-dark;
+		}
+		
+		tbody > tr:nth-of-type(odd) {
+			background-color: base.$pacg-background-table;
+		}
+		
+		thead > tr > th, tbody > tr > th, tfoot > tr > th, thead > tr > td, tbody > tr > td, tfoot > tr > td {
+			border-top: 1px solid base.$pacg-background-dark;
+		}
+		
+		tbody tr:hover, tbody tr:active {
+			background-color: base.$pacg-background-light-hover;
+		}
+	}
+}
+
+// Page: All
+.content {
+	background-color: base.$main-background-light;
+	border-radius: 15px;
+	border: 2px solid base.$main-background-dark;
+	color: base.$main-color-primary;
+	margin: 10px 10px 0 10px;
+	padding: 10px;
+	
+	.title {
+		font-size: 25px;
+		
+		.authors {
+			font-size: 15px;
+			font-style: italic;
+		}
+	}
+	
+	&.pfs {
+		background-color: base.$pfs-background-light;
+		border-color: base.$pfs-background-dark;
+		color: base.$pfs-color-primary;
+	}
+	
+	&.sfs {
+		background-color: base.$sfs-background-light;
+		border-color: base.$sfs-background-dark;
+		color: base.$sfs-color-primary;
+	}
+	
+	&.pfs2 {
+		background-color: base.$pfs2-background-light;
+		border-color: base.$pfs2-background-dark;
+		color: base.$pfs2-color-primary;
+	}
+	
+	&.pacg {
+		background-color: base.$pacg-background-light;
+		border-color: base.$pacg-background-dark;
+		color: base.$pacg-color-primary;
+	}
+}
+
+hr {
+	border: 1px solid base.$main-background-dark;
+	
+	&.pfs {
+		border: 1px solid base.$pfs-background-dark;
+	}
+	
+	&.sfs {
+		border: 1px solid base.$sfs-background-dark;
+	}
+	
+	&.pfs2 {
+		border: 1px solid base.$pfs2-background-dark;
+	}
+	
+	&.pacg {
+		border: 1px solid base.$pacg-background-dark;
+	}
+}
+
+.point {
+	cursor: pointer;
+}
+
+.center {
+	text-align: center;
+}
+
+
+.toast-error {
+	background-color: #F4B0B0;
+	border: 1px solid #661414;
+	color: #661414 !important;
+}
+
+.toast-success {
+	background-color: #A9E09F;
+	border: 1px solid #15470B;
+	color: #15470B !important;
+}
+
+.toast-info {
+	background-color: #A2CFEF;
+	border: 1px solid #134A70;
+	color: #134A70 !important;
+}
+
+.toast-warning {
+	background-color: #F4D8B5;
+	border: 1px solid #774D19;
+	color: #774D19 !important;
+}
+
+#toast-container > .toast {
+    background-image: none !important;
+}
+
+#toast-container > .toast:before {
+    position: relative;
+    font-family: FontAwesome;
+    font-size: 24px;
+    line-height: 18px;
+    float: left;
+    margin-left: -1em;
+    padding-right: 0.5em;
+    margin-right: 0.5em;
+}
+
+#toast-container > .toast-warning:before {
+	color: #774D19;
+    content: "\f071";
+}
+#toast-container > .toast-error:before {
+	color: #661414;
+    content: "\f1e2";
+}
+#toast-container > .toast-info:before {
+	color: #134A70;
+    content: "\f02e";
+}
+#toast-container > .toast-success:before {
+	color: #15470B;
+    content: "\f00c";
+}
+
+.toast-top-right {
+	margin-top: 50px;
+}
+
+// Page: Report
+.reportcategories button {
+	margin-bottom: 3px;
+}
+
+.reporting-list {
+	font-size: 1.2em;
+	list-style: none;
+	padding-left: 0px;
+}
+
+.reporting-list li {
+	margin: 5px 0 5px 0;
+	padding: 5px;
+}
+
+.reportingoption {
+	margin-bottom: 5px;
+}
+
+.wanted {
+	margin: 5px;
+	padding: 5px;
+	
+	&.pfs {
+		background-color: base.$pfs-background-dark;
+		color: base.$pfs-color-secondary;
+	}
+}
+
+.profile-characterlist {
+	background-repeat: no-repeat;
+	background-position: 97% 50%;
+	background-size: 45px;
+	margin: 5px 0 5px 0;
+	padding: 5px;
+}
+
+.progress-bar {
+	background-color: base.$main-background-dark;
+	color: base.$main-color-secondary;
+	padding: 5px;
+	height: 30px !important;
+	min-width: 7%;
+}
+
+.progressbar-pfstracker {
+	background-color: base.$main-background-light;
+	border-radius: 5px;
+	border: 2px solid base.$main-background-dark;
+	padding: 0px;
+	height: 30px;
+}
+
+.tab-pane {
+	background-color: #ead4b9;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.nav-tabs > li > a:hover {
+  border: 0;
+  background-color: #E8B9B9;
+}
+
+.nav-tabs > li > a {
+	border: 0px;
+	margin-right: 3px;
+}
+
+.uib-tab .active a {
+	background-color: #ead4b9;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+	background-color: #ead4b9;
+	font-weight: bold;
+}
+
+.table-responsive {
+	border: 0;
+}
+
+// Page: Login
+.login {
+	background-color: base.$main-background-light;
+	border-radius: 15px;
+	border: 2px solid base.$main-background-dark;
+	color: base.$main-color-primary;
+	padding: 10px;
+}

@@ -1,7 +1,6 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <div id="main" class="container">
-	<!-- <div class="row" ng-hide="vm.player == null"></div> -->
-	<div class="row scenario">
+	<div class="row content">
 		<h1><span class="fa fa-check-square-o"></span> Detailed progression and report</h1>
 			<div class="playersearch-container form-inline" ng-hide="1==1">
 			<div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 input-group playersearch form-group">
@@ -49,7 +48,7 @@
 				<select class="form-control" ng-model="vm.reporttype" ng-options="reportoption.name for reportoption in vm.reportoptions" ng-change="vm.getContent()"></select>				
 			</div>	
 			
-			<div ng-hide="vm.player == null>
+			<div ng-hide="vm.player == null">
 				<div class="col-sm-10" ng-hide="vm.atOverview">
 					<div class="row vertical-container">
 						<span class="vertical pfs">PFS PC</span>&nbsp;&nbsp;&nbsp;
@@ -58,10 +57,10 @@
 						<span class="vertical coregm">CORE GM</span>
 					</div>
 					<div ng-repeat="content in vm.content track by $index" class="reportoption" ng-class="{'disabled-checkbox': vm.player.public == 0}">
-						<input id="pfs{{content.id}}" ng-model="content.players[0].played.pfs" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs', $index)" ng-disabled="vm.player.public == 0"><label class="report-title disabled-checkbox" for="pfs{{content.id}}"></label>&nbsp;&nbsp;
+						<!-- <input id="pfs{{content.id}}" ng-model="content.players[0].played.pfs" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs', $index)" ng-disabled="vm.player.public == 0"><label class="report-title disabled-checkbox" for="pfs{{content.id}}"></label>&nbsp;&nbsp;
 						<input id="core{{content.id}}" ng-model="content.players[0].played.core" type="checkbox" ng-click="vm.saveScenario(content.id, 'core', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="core{{content.id}}"></label>&nbsp;&nbsp;
 						<input id="pfs_gm{{content.id}}" ng-model="content.players[0].played.pfs_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'pfs_gm', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="pfs_gm{{content.id}}"></label>&nbsp;&nbsp;
-						<input id="core_gm{{content.id}}" ng-model="content.players[0].played.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp;
+						<input id="core_gm{{content.id}}" ng-model="content.players[0].played.core_gm" type="checkbox" ng-click="vm.saveScenario(content.id, 'core_gm', $index)" ng-disabled="vm.player.public == 0"><label class="report-title" for="core_gm{{content.id}}"></label>&nbsp;&nbsp; -->
 						<span class="hidden-sm hidden-md hidden-lg report-title-xs">
 							<span ng-hide="!content.season || content.season == '99'">
 								#{{content.season}}-{{content.number}}

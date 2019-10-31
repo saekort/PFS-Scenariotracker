@@ -1,0 +1,63 @@
+// _base.scss
+
+// Main colors
+$main-background-color: #DADADA;
+$main-color-primary: black;
+$main-color-secondary: white;
+$main-background-cancel-light: lightgrey;
+$main-background-cancel-dark: grey;
+$main-background-light: #ffdebd;
+$main-background-light-hover: blue;
+$main-background-table: #f2cba4;
+$main-background-dark: #683d00;
+$main-background-dark-hover: #846c5b;
+
+// Icon colors
+$icon-color-ap: #884B96;
+$icon-color-evergreen: #006803;
+$icon-color-module: #434BB2;
+$icon-color-quest: #6B6B6B;
+$icon-color-scenario: #8C602A;
+$icon-color-special: #F29900;
+
+// Icon sizes
+$icon-small: 15px;
+$icon-large: 25px;
+
+// Game colors
+$pfs-color-primary: black;
+$pfs-color-secondary: white;
+$pfs-background-light: #fce3e7;
+$pfs-background-light-hover: #ffaab7;
+$pfs-background-table: #e5bec4;
+$pfs-background-dark: #810015;
+$pfs-background-dark-hover: pink;
+
+$pfs2-color-primary: black;
+$pfs2-color-secondary: white;
+$pfs2-background-light: #e3fcea;
+$pfs2-background-light-hover: #b7ffca;
+$pfs2-background-table: #9fe0b0;
+$pfs2-background-dark: #00681d;
+$pfs2-background-dark-hover: pink;
+
+$sfs-color-primary: black;
+$sfs-color-secondary: white;
+$sfs-background-light: #E3EBFC;
+$sfs-background-light-hover: #bad2ff;
+$sfs-background-table: #c2d0ea;
+$sfs-background-dark: #002063;
+$sfs-background-dark-hover: pink;
+
+$pacg-color-primary: black;
+$pacg-color-secondary: white;
+$pacg-background-light: #f9ddff;
+$pacg-background-light-hover: #ffbaed;
+$pacg-background-table: #e2a7d4;
+$pacg-background-dark: #6e0054;
+$pacg-background-dark-hover: pink;
+
+// Variables
+$a-tags: 'a, a:active, a:hover, a:visited';
+$a-tags-hover: 'a:active, a:hover';
+$tags-hover: ':active, :hover';

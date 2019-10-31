@@ -17,7 +17,6 @@ module.exports = function(sequelize, DataTypes) {
 	Group.associate = function(models) {
 		Group.belongsTo(models.Person, {as: 'owner', foreignKey: 'owner_id'});
 		Group.belongsToMany(models.Person, {as: 'members', foreignKey: 'group_id', through: 'j_group_person'});
-		Group.belongsToMany(models.Person, {as: 'users', foreignKey: 'group_id', through: 'j_group_user'});
 	}
 	
 	// http://stackoverflow.com/questions/27972271/sequelize-dont-return-password
@@ -25,9 +24,9 @@ module.exports = function(sequelize, DataTypes) {
 	Group.prototype.toJSON = function() {
 		var values = this.get();
 
-		delete values.created_at;
-		delete values.updated_at;
-		delete values.deleted_at;
+		delete values.created_on;
+		delete values.updated_on;
+		delete values.deleted_on;
 		
 		return values;
 	}

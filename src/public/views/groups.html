@@ -1,7 +1,7 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <ng-include src="'./views/partials/confirmDeleteGroup.html'"></ng-include>
 <div id="main" class="container">
-	<div class="scenario row" ng-show="vm.status == 'overview'">
+	<div class="content row" ng-show="vm.status == 'overview'">
 		<h1><i class="fa fa-archive fa-fw"></i> Your groups</h1>
 		<hr>
 		<p>Here you can manage groups of players for easy searching. You can create groups, useable by other users.</p>
@@ -35,7 +35,7 @@
 			<li class="text-center row li-button" ng-show="vm.status != 'new'" ng-click="vm.newGroup()"><span class="glyphicon glyphicon-plus"></span> NEW GROUP</li>
 		</ul>
 	</div>
-	<div class="scenario row" ng-hide="vm.status == 'overview'">
+	<div class="content row" ng-hide="vm.status == 'overview'">
 		<h1 ng-show="vm.status == 'edit'"><i class="fa fa-archive fa-fw"></i> Editing group: {{vm.group.name}}</h1>
 		<h1 ng-show="vm.status == 'new'"><i class="fa fa-archive fa-fw"></i> New group: {{vm.group.name}}</h1>
 		<hr>

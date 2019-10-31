@@ -66,6 +66,10 @@ models.sequelize.sync({force: false}).then(function () {
 		app.use('/user', require('../routes/user'));
 		app.use('/report', require('../routes/report'));
 		app.use('/groups', require('../routes/groups'));
+		
+		if (env == 'development') {
+			app.use('/test', require('../routes/test'));
+		}
 });
 
 /**

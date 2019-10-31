@@ -50,9 +50,9 @@ module.exports = function(sequelize, DataTypes) {
 	Character.prototype.toJSON = function() {
 		var values = this.get();
 
-		delete values.created_at;
-		delete values.updated_at;
-		delete values.deleted_at;
+		delete values.created_on;
+		delete values.updated_on;
+		delete values.deleted_on;
 		
 		return values;
 	}

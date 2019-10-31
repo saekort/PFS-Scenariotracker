@@ -95,9 +95,9 @@ module.exports = function(sequelize, DataTypes) {
 
 	Person.associate = function(models) {
 		Person.hasMany(models.Statistic, {as: 'statistics', foreignKey: 'person_id'});
-		Person.belongsToMany(models.Scenario, {as: 'scenarios', foreignKey: 'person_id', through: models.j_scenario_person});
-//		Person.belongsToMany(models.Group, {as: 'groupMemberships', foreignKey: 'person_id', through: 'j_group_person'});
-//		Person.belongsToMany(models.Group, {as: 'groupUsers', foreignKey: 'person_id', through: 'j_group_person'});
+		Person.belongsToMany(models.Scenario, {as: 'scenarios', foreignKey: 'person_id', through: models.Report});
+		Person.hasMany(models.Wanted, {as: 'wanted', foreignKey: 'person_id'});
+		Person.hasMany(models.Report, {as: 'reports', foreignKey: 'person_id'});
 	}
   
 	// http://stackoverflow.com/questions/27972271/sequelize-dont-return-password
@@ -117,6 +117,9 @@ module.exports = function(sequelize, DataTypes) {
 		delete values.forgotten_password_time;
 		delete values.remember_code;
 		delete values.active;
+		delete values.created_on;
+		delete values.updated_on;
+		delete values.deleted_on;
 		
 		return values;
 	}

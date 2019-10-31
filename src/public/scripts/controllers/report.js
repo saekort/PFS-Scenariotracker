@@ -31,6 +31,7 @@
     			{name: 'Season 6', id: 's6', type: 'scenario', season: 6},
     			{name: 'Season 7', id: 's7', type: 'scenario', season: 7},
     			{name: 'Season 8', id: 's8', type: 'scenario', season: 8},
+    			{name: 'Season 9', id: 's9', type: 'scenario', season: 9},
     			{name: 'Quests', id: 'quest', type: 'quest', season: false},
     			{name: 'Modules', id: 'mod', type: 'mod', season: false},
     			{name: 'Adventure paths', id: 'ap', type: 'ap', season: false},

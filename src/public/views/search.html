@@ -38,17 +38,17 @@
 						<div class="checkbox">
 							<input id="scenarios" type="checkbox" ng-model="vm.filters.scenarios" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="scenarios"></label>
-							<span class="report-title"><span class="glyphicon glyphicon-file scenarioicon"></span> Scenarios</span>
+							<span class="report-title"><span class="glyphicon glyphicon-file scenario"></span> Scenarios</span>
 						</div>
 						<div class="checkbox">
 							<input id="modules" type="checkbox" ng-model="vm.filters.modules" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="modules"></label>
-							<span class="report-title"><span class="glyphicon glyphicon-tower modules"></span> Modules</span>
+							<span class="report-title"><span class="glyphicon glyphicon-tower module"></span> Modules</span>
 						</div>
 						<div class="checkbox">
 							<input id="aps" type="checkbox" ng-model="vm.filters.aps" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="aps"></label>
-							<span class="report-title"><span class="glyphicon glyphicon-globe aps"></span> Adventure paths</span>
+							<span class="report-title"><span class="glyphicon glyphicon-globe ap"></span> Adventure paths</span>
 						</div>
 						<div class="checkbox">
 							<input id="other" type="checkbox" ng-model="vm.filters.other" value="" ng-click="vm.getScenarios()">
@@ -64,18 +64,23 @@
 						<div class="checkbox">
 							<input id="game_pfs" type="checkbox" ng-model="vm.filters.game_pfs" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="game_pfs"></label>
-							<span class="report-title"><span class="fa fa-book fa-fw sfs pfs-icon"></span> Pathfinder</span>
+							<span class="report-title"><span class="fa fa-book fa-fw pfs"></span> Pathfinder</span>
 						</div>
 						<div class="checkbox">
 							<input id="game_pfs2" class="pfs2" type="checkbox" ng-model="vm.filters.game_pfs2" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="game_pfs2"></label>
-							<span class="report-title"><span class="fa fa-book fa-fw sfs pfs2-icon"></span> Pathfinder 2.0</span>
+							<span class="report-title"><span class="fa fa-book fa-fw pfs2"></span> Pathfinder 2.0</span>
 						</div>
 						<div class="checkbox">
 							<input id="game_sfs" class="sfs" type="checkbox" ng-model="vm.filters.game_sfs" value="" ng-click="vm.getScenarios()">
 							<label class="report-title" for="game_sfs"></label>
-							<span class="report-title"><span class="fa fa-plane fa-fw sfs-icon"></span> Starfinder</span>
+							<span class="report-title"><span class="fa fa-plane fa-fw sfs"></span> Starfinder</span>
 						</div>								
+						<div class="checkbox">
+							<input id="game_acg" class="acg" type="checkbox" ng-model="vm.filters.game_acg" value="" ng-click="vm.getScenarios()">
+							<label class="report-title" for="game_acg"></label>
+							<span class="report-title"><span class="fa fa-book fa-fw pacg"></span> Adventure Cardgame</span>
+						</div>
 					</div>
 				</div>
 				<div class="form-group filter" ng-if="vm.filters.game_pfs">
@@ -255,22 +260,19 @@
 			</div>
 		</div>		
 
-		<div class="pfs-pagination form-group">
+		<div class="tracker-pagination form-group">
 			<ul uib-pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></ul>
 		</div>
 		
 		<div class="row">
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info color-background-light">Found a total of <strong>{{vm.pagination.totalItems}}</strong> scenarios / other content<span ng-hide="vm.people.length == 0 || vm.filters.showAll || vm.groups.length == 0 "> in the <strong>{{vm.filters.campaign}} campaign</strong> not yet played (or a evergreen) by any filtered players</span></div>		
-			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info color-background-light" ng-show="vm.noScenarios">No playable options were found. Try changing your search filters or selected players.</div>
-			<div>
-				<span class="spinner" us-spinner="{radius:30, width:8, length: 16}" spinner-key="spinner-1"></span>
-			</div>
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info content">Found a total of <strong>{{vm.pagination.totalItems}}</strong> scenarios / other content<span ng-hide="vm.people.length == 0 || vm.filters.showAll || vm.groups.length == 0 "> in the <strong>{{vm.filters.campaign}} campaign</strong> not yet played (or a evergreen) by any filtered players</span></div>		
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 found bg-info text-info content" ng-show="vm.noScenarios">No playable options were found. Try changing your search filters or selected players.</div>
 			<div ng-repeat="scenario in vm.scenarios">
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 scenario" ng-class="{'sfs': scenario.game=='sfs', 'pfs2': scenario.game=='pfs2'}">
+				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 content" ng-class="scenario.game.shortname">
 					<div class="title">
-						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower modules question" tooltip="This is a module. It is longer than a scenario, but rewards more experience"></span>
-						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe aps question" tooltip="This is an adventure path. It is longer than a scenario, but rewards more experience"></span>													
-						<span ng-if='scenario.type == "scenario"' class="glyphicon glyphicon-file scenarioicon question" tooltip="This is a scenario, a 4-5 hour Pathfinder Society experience"></span>
+						<span ng-if='scenario.type == "mod"' class="glyphicon glyphicon-tower module question" tooltip="This is a module. It is longer than a scenario, but rewards more experience"></span>
+						<span ng-if='scenario.type == "ap"' class="glyphicon glyphicon-globe ap question" tooltip="This is an adventure path. It is longer than a scenario, but rewards more experience"></span>													
+						<span ng-if='scenario.type == "scenario"' class="glyphicon glyphicon-file scenario question" tooltip="This is a scenario, a 4-5 hour Pathfinder Society experience"></span>
 						<span ng-if='scenario.type == "other"' class="fa fa-fw fa-folder-open question" tooltip="This is content that does not fit in any of the other categories"></span>
 						<span ng-if='scenario.name.indexOf("Special") > -1' class="glyphicon glyphicon glyphicon-star special question" tooltip="This is a multi table special. It is special and is only available for play on conventions"></span>						
 						<span ng-if='scenario.quest' class="glyphicon glyphicon-tent quest question" tooltip="This is a quest. A series of 1 hour Pathfinder Society scenarios well suited for new players"></span>
@@ -347,7 +349,7 @@
 				</div>
 			</div>
 		</div>
-			<div class="pfs-pagination">
+			<div class="tracker-pagination">
 				<ul uib-pagination class="pagination-sm" ng-model="vm.pagination.currentPage" boundary-links="true" total-items="vm.pagination.totalItems" items-per-page="15" max-size="5" previous-text="Previous" next-text="Next" first-text="First" last-text="Last" ng-change="vm.changePage()"></ul>
 			</div>		
 	</div>

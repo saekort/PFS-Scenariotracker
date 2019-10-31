@@ -28,8 +28,9 @@ module.exports = function(sequelize, DataTypes) {
 	Statistic.prototype.toJSON = function() {
 		var values = this.get();
 
-		delete values.updated_at;
-		delete values.deleted_at;
+		delete values.created_on;
+		delete values.updated_on;
+		delete values.deleted_on;
 		return values;
 	}
 	

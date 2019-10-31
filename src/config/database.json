@@ -5,11 +5,11 @@
     "database": "pfstracker",
     "host": "127.0.0.1",
     "dialect": "mysql",
-    "logging": false,
+    "logging": true,
     "define": {
-    	"createdAt": "created_at",
-    	"updatedAt": "updated_at",
-    	"deletedAt": "deleted_at",
+    	"createdAt": "created_on",
+    	"updatedAt": "updated_on",
+    	"deletedAt": "deleted_on",
     	"freezeTableName": true,
     	"paranoid": true,
     	"underscored": true
@@ -22,9 +22,9 @@
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": {
-    	"createdAt": "created_at",
-    	"updatedAt": "updated_at",
-    	"deletedAt": "deleted_at",
+    	"createdAt": "created_on",
+    	"updatedAt": "updated_on",
+    	"deletedAt": "deleted_on",
     	"freezeTableName": true,
     	"paranoid": true,
     	"underscored": true
@@ -37,9 +37,9 @@
     "host": "127.0.0.1",
     "dialect": "mysql",
     "define": {
-    	"createdAt": "created_at",
-    	"updatedAt": "updated_at",
-    	"deletedAt": "deleted_at",
+    	"createdAt": "created_on",
+    	"updatedAt": "updated_on",
+    	"deletedAt": "deleted_on",
     	"freezeTableName": true,
     	"paranoid": true,
     	"underscored": true

@@ -1,20 +1,20 @@
 <ng-include src="'./views/partials/nav.html'"></ng-include>
 <div id="main" class="container">
-	<div class="row scenario">
+	<div class="row content">
 		<h1><i class="fa fa-bar-chart fa-fw"></i> Statistics</h1>
 		<hr>
 		<p>( Last updated on: <i>{{vm.lastupdated | date: "dd MMMM yyyy '-' HH:mm Z"}} )</i></p>
 		<p>Did you know <strong>{{vm.statistics.totals.players.comment}}</strong> players have registered? Those players come from <strong>{{vm.statistics.totals.countries.comment}}</strong> countries, have reported <strong>{{vm.statistics.totals.sessions.comment}}</strong> sessions and have created <strong>{{vm.statistics.totals.characters.comment}}</strong> characters.</p>
 		<p><i>Check out some more specific statistics below!</i></p>	
 	</div>
-	<div class="row scenario">
-		<h2><i class="fa fa-book fa-fw pfs-icon"></i> Pathfinder</h2>
+	<div class="row content pfs">
+		<h2><i class="fa fa-book fa-fw pfs"></i> Pathfinder</h2>
 		<hr>	
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 			<h3>Most complete PFS players</h3>
 			<hr>
-			<div class="table-responsive ">
-				<table class="table statistics-table table-hover">
+			<div class="table-responsive">
+				<table class="table table-hover pfs">
 					<thead class="">
 						<tr>
 							<th>#</th>
@@ -25,7 +25,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stat in vm.statistics.player_complete_pfs" ng-click="vm.gotoProfile(stat.person.pfsnumber)">
+						<tr ng-repeat="stat in vm.statistics.player_complete_pfs" ng-click="vm.gotoProfile(stat.person.pfsnumber)" class="point">
 							<td>{{stat.number}}</td>
 							<td><img ng-if="stat.person.country != NULL && stat.person.country != ''" ng-src="./images/flags/{{stat.person.country | lowercase}}.svg" style="height: 25px;"><span ng-if="stat.person.country == NULL || stat.person.country == ''" style="display: inline-block; height: 25px;"></span></td>
 							<td>{{stat.person.name}}</td>
@@ -40,7 +40,7 @@
 			<h3>Most complete PFS GMs</h3>
 			<hr>
 			<div class="table-responsive">
-				<table class="table statistics-table table-hover">
+				<table class="table table-hover pfs">
 					<thead class="">
 						<tr>
 							<th>#</th>
@@ -51,7 +51,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stat in vm.statistics.gm_complete_pfs" ng-click="vm.gotoProfile(stat.person.pfsnumber)">
+						<tr ng-repeat="stat in vm.statistics.gm_complete_pfs" ng-click="vm.gotoProfile(stat.person.pfsnumber)" class="point">
 							<td>{{stat.number}}</td>
 							<td><img ng-if="stat.person.country != NULL && stat.person.country != ''" ng-src="./images/flags/{{stat.person.country | lowercase}}.svg" style="height: 25px;"><span ng-if="stat.person.country == NULL || stat.person.country == ''" style="display: inline-block; height: 25px;"></span></td>
 							<td>{{stat.person.name}}</td>
@@ -66,7 +66,7 @@
 			<h3>Most complete CORE players</h3>
 			<hr>
 			<div class="table-responsive ">
-				<table class="table statistics-table table-hover">
+				<table class="table table-hover pfs">
 					<thead class="">
 						<tr>
 							<th>#</th>
@@ -77,7 +77,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stat in vm.statistics.player_complete_core" ng-click="vm.gotoProfile(stat.person.pfsnumber)">
+						<tr ng-repeat="stat in vm.statistics.player_complete_core" ng-click="vm.gotoProfile(stat.person.pfsnumber)" class="point">
 							<td>{{stat.number}}</td>
 							<td><img ng-if="stat.person.country != NULL && stat.person.country != ''" ng-src="./images/flags/{{stat.person.country | lowercase}}.svg" style="height: 25px;"><span ng-if="stat.person.country == NULL || stat.person.country == ''" style="display: inline-block; height: 25px;"></span></td>
 							<td>{{stat.person.name}}</td>
@@ -92,7 +92,7 @@
 			<h3>Most complete CORE GMs</h3>
 			<hr>
 			<div class="table-responsive ">
-				<table class="table statistics-table table-hover">
+				<table class="table table-hover pfs">
 					<thead class="">
 						<tr>
 							<th>#</th>
@@ -103,7 +103,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stat in vm.statistics.gm_complete_core" ng-click="vm.gotoProfile(stat.person.pfsnumber)">
+						<tr ng-repeat="stat in vm.statistics.gm_complete_core" ng-click="vm.gotoProfile(stat.person.pfsnumber)" class="point">
 							<td>{{stat.number}}</td>
 							<td><img ng-if="stat.person.country != NULL && stat.person.country != ''" ng-src="./images/flags/{{stat.person.country | lowercase}}.svg" style="height: 25px;"><span ng-if="stat.person.country == NULL || stat.person.country == ''" style="display: inline-block; height: 25px;"></span></td>
 							<td>{{stat.person.name}}</td>
@@ -118,7 +118,7 @@
 			<h3>Most played <small>(estimate)</small></h3>
 			<hr>
 			<div class="table-responsive ">
-				<table class="table statistics-table table-hover">
+				<table class="table table-hover pfs">
 					<thead class="">
 						<tr>
 							<th>#</th>
@@ -128,13 +128,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stat in vm.statistics.played_most" ng-click="vm.gotoScenario(stat.scenario.link)">
+						<tr ng-repeat="stat in vm.statistics.played_most" ng-click="vm.gotoScenario(stat.scenario.link)" class="point">
 							<td>{{stat.number}}</td>
 							<td>
-								<span ng-if="stat.scenario.type == 'scenario'" class="glyphicon glyphicon-file scenarioicon statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'mod'" class="glyphicon glyphicon-tower modules statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'ap'" class="glyphicon glyphicon-globe aps statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'other'" class="fa fa-fw fa-folder-open statistics-icon"></span>
+								<span ng-if="stat.scenario.type == 'scenario'" class="glyphicon glyphicon-file scenario icon-large"></span>
+								<span ng-if="stat.scenario.type == 'mod'" class="glyphicon glyphicon-tower module icon-large"></span>
+								<span ng-if="stat.scenario.type == 'ap'" class="glyphicon glyphicon-globe ap icon-large"></span>
+								<span ng-if="stat.scenario.type == 'other'" class="fa fa-fw fa-folder-open icon-large"></span>
 							</td>
 							<td>{{stat.scenario.name}}</td>
 							<td>{{stat.comment}} times</td>
@@ -147,7 +147,7 @@
 			<h3>Favorite evergreens <small>(estimate)</small></h3>
 			<hr>
 			<div class="table-responsive ">
-				<table class="table statistics-table table-hover">
+				<table class="table table-hover pfs">
 					<thead>
 						<tr>
 							<th>#</th>
@@ -157,13 +157,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stat in vm.statistics.evergreen" ng-click="vm.gotoScenario(stat.scenario.link)">
+						<tr ng-repeat="stat in vm.statistics.evergreen" ng-click="vm.gotoScenario(stat.scenario.link)" class="point">
 							<td>{{stat.number}}</td>
 							<td>
-								<span ng-if="stat.scenario.type == 'scenario'" class="glyphicon glyphicon-file scenarioicon statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'mod'" class="glyphicon glyphicon-tower modules statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'ap'" class="glyphicon glyphicon-globe aps statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'other'" class="fa fa-fw fa-folder-open statistics-icon"></span>
+								<span ng-if="stat.scenario.type == 'scenario'" class="glyphicon glyphicon-file scenario icon-large"></span>
+								<span ng-if="stat.scenario.type == 'mod'" class="glyphicon glyphicon-tower module icon-large"></span>
+								<span ng-if="stat.scenario.type == 'ap'" class="glyphicon glyphicon-globe ap icon-large"></span>
+								<span ng-if="stat.scenario.type == 'other'" class="fa fa-fw fa-folder-open icon-large"></span>
 							</td>
 							<td>{{stat.scenario.name}}</td>
 							<td>{{stat.comment}} times</td>
@@ -173,14 +173,14 @@
 			</div>
 		</div>
 	</div>
-	<div class="row scenario sfs">
-		<h2><i class="fa fa-plane fa-fw sfs-icon"></i> Starfinder</h2>
+	<div class="row content sfs">
+		<h2><i class="fa fa-plane fa-fw sfs"></i> Starfinder</h2>
 		<hr class="sfs">
 		<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 			<h3>Most complete SFS players</h3>
 			<hr class="sfs">
 			<div class="table-responsive">
-				<table class="table statistics-table table-hover sfs">
+				<table class="table table-hover sfs">
 					<thead class="">
 						<tr>
 							<th>#</th>
@@ -191,7 +191,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stat in vm.statistics.player_complete_sfs" ng-click="vm.gotoProfile(stat.person.pfsnumber)">
+						<tr ng-repeat="stat in vm.statistics.player_complete_sfs" ng-click="vm.gotoProfile(stat.person.pfsnumber)" class="point">
 							<td>{{stat.number}}</td>
 							<td><img ng-if="stat.person.country != NULL && stat.person.country != ''" ng-src="./images/flags/{{stat.person.country | lowercase}}.svg" style="height: 25px;"><span ng-if="stat.person.country == NULL || stat.person.country == ''" style="display: inline-block; height: 25px;"></span></td>
 							<td>{{stat.person.name}}</td>
@@ -206,7 +206,7 @@
 			<h3>Most complete SFS GMs</h3>
 			<hr class="sfs">
 			<div class="table-responsive">
-				<table class="table statistics-table table-hover sfs">
+				<table class="table table-hover sfs">
 					<thead class="">
 						<tr>
 							<th>#</th>
@@ -217,7 +217,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stat in vm.statistics.gm_complete_sfs" ng-click="vm.gotoProfile(stat.person.pfsnumber)">
+						<tr ng-repeat="stat in vm.statistics.gm_complete_sfs" ng-click="vm.gotoProfile(stat.person.pfsnumber)" class="point">
 							<td>{{stat.number}}</td>
 							<td><img ng-if="stat.person.country != NULL && stat.person.country != ''" ng-src="./images/flags/{{stat.person.country | lowercase}}.svg" style="height: 25px;"><span ng-if="stat.person.country == NULL || stat.person.country == ''" style="display: inline-block; height: 25px;"></span></td>
 							<td>{{stat.person.name}}</td>
@@ -232,7 +232,7 @@
 			<h3>Most played <small>(estimate)</small></h3>
 			<hr class="sfs">
 			<div class="table-responsive ">
-				<table class="table statistics-table table-hover sfs">
+				<table class="table table-hover sfs">
 					<thead class="">
 						<tr>
 							<th>#</th>
@@ -242,13 +242,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stat in vm.statistics.played_most_sfs" ng-click="vm.gotoScenario(stat.scenario.link)">
+						<tr ng-repeat="stat in vm.statistics.played_most_sfs" ng-click="vm.gotoScenario(stat.scenario.link)" class="point">
 							<td>{{stat.number}}</td>
 							<td>
-								<span ng-if="stat.scenario.type == 'scenario'" class="glyphicon glyphicon-file scenarioicon statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'mod'" class="glyphicon glyphicon-tower modules statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'ap'" class="glyphicon glyphicon-globe aps statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'other'" class="fa fa-fw fa-folder-open statistics-icon"></span>
+								<span ng-if="stat.scenario.type == 'scenario'" class="glyphicon glyphicon-file scenario icon-large"></span>
+								<span ng-if="stat.scenario.type == 'mod'" class="glyphicon glyphicon-tower module icon-large"></span>
+								<span ng-if="stat.scenario.type == 'ap'" class="glyphicon glyphicon-globe ap icon-large"></span>
+								<span ng-if="stat.scenario.type == 'other'" class="fa fa-fw fa-folder-open icon-large"></span>
 							</td>
 							<td>{{stat.scenario.name}}</td>
 							<td>{{stat.comment}} times</td>
@@ -261,7 +261,7 @@
 			<h3>Favorite evergreens <small>(estimate)</small></h3>
 			<hr class="sfs">
 			<div class="table-responsive ">
-				<table class="table statistics-table table-hover sfs">
+				<table class="table table-hover sfs">
 					<thead class="">
 						<tr>
 							<th>#</th>
@@ -271,13 +271,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr ng-repeat="stat in vm.statistics.evergreen_sfs" ng-click="vm.gotoScenario(stat.scenario.link)">
+						<tr ng-repeat="stat in vm.statistics.evergreen_sfs" ng-click="vm.gotoScenario(stat.scenario.link)" class="point">
 							<td>{{stat.number}}</td>
 							<td>
-								<span ng-if="stat.scenario.type == 'scenario'" class="glyphicon glyphicon-file scenarioicon statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'mod'" class="glyphicon glyphicon-tower modules statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'ap'" class="glyphicon glyphicon-globe aps statistics-icon"></span>
-								<span ng-if="stat.scenario.type == 'other'" class="fa fa-fw fa-folder-open statistics-icon"></span>
+								<span ng-if="stat.scenario.type == 'scenario'" class="glyphicon glyphicon-file scenario icon-large"></span>
+								<span ng-if="stat.scenario.type == 'mod'" class="glyphicon glyphicon-tower module icon-large"></span>
+								<span ng-if="stat.scenario.type == 'ap'" class="glyphicon glyphicon-globe ap icon-large"></span>
+								<span ng-if="stat.scenario.type == 'other'" class="fa fa-fw fa-folder-open icon-large"></span>
 							</td>
 							<td>{{stat.scenario.name}}</td>
 							<td>{{stat.comment}} times</td>
@@ -286,5 +286,61 @@
 				</table>
 			</div>
 		</div>
+	</div>
+	<div class="row content pfs2">
+		<h2><i class="fa fa-book fa-fw pfs2"></i> Pathfinder 2.0</h2>
+		<hr class="pfs2">
+		<p>Pathfinder 2.0 statistics coming soon.</p>
+		<table class="table table-hover pfs2">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Type</th>
+							<th>Name</th>
+							<th>Count</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="stat in vm.statistics.played_most_sfs" ng-click="vm.gotoScenario(stat.scenario.link)" class="point">
+							<td>{{stat.number}}</td>
+							<td>
+								<span ng-if="stat.scenario.type == 'scenario'" class="glyphicon glyphicon-file scenario icon-large"></span>
+								<span ng-if="stat.scenario.type == 'mod'" class="glyphicon glyphicon-tower module icon-large"></span>
+								<span ng-if="stat.scenario.type == 'ap'" class="glyphicon glyphicon-globe ap icon-large"></span>
+								<span ng-if="stat.scenario.type == 'other'" class="fa fa-fw fa-folder-open icon-large"></span>
+							</td>
+							<td>{{stat.scenario.name}}</td>
+							<td>{{stat.comment}} times</td>
+						</tr>
+					</tbody>				
+				</table>
+	</div>
+	<div class="row content pacg">
+		<h2><i class="fa fa-book fa-fw pacg"></i> Pathfinder Adventure Cardgame</h2>
+		<hr class="pacg">
+		<p>Pathfinder Adventure Cardgame statistics coming soon.</p>
+		<table class="table table-hover pacg">
+					<thead>
+						<tr>
+							<th>#</th>
+							<th>Type</th>
+							<th>Name</th>
+							<th>Count</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="stat in vm.statistics.played_most_sfs" ng-click="vm.gotoScenario(stat.scenario.link)" class="point">
+							<td>{{stat.number}}</td>
+							<td>
+								<span ng-if="stat.scenario.type == 'scenario'" class="glyphicon glyphicon-file scenario icon-large"></span>
+								<span ng-if="stat.scenario.type == 'mod'" class="glyphicon glyphicon-tower module icon-large"></span>
+								<span ng-if="stat.scenario.type == 'ap'" class="glyphicon glyphicon-globe ap icon-large"></span>
+								<span ng-if="stat.scenario.type == 'other'" class="fa fa-fw fa-folder-open icon-large"></span>
+							</td>
+							<td>{{stat.scenario.name}}</td>
+							<td>{{stat.comment}} times</td>
+						</tr>
+					</tbody>				
+				</table>
 	</div>
 </div>

@@ -1,3 +1,21 @@
+/**
+ * Migration
+
+UPDATE `scenarios`
+SET `game_id` = 1 
+WHERE `scenarios`.`game` = 'pfs';
+
+UPDATE `scenarios`
+SET `game_id` = 2 
+WHERE `scenarios`.`game` = 'pfs2';
+
+UPDATE `scenarios`
+SET `game_id` = 3 
+WHERE `scenarios`.`game` = 'sfs';
+
+// No need to migrate acg, no acg in before migration
+ */
+
 module.exports = function(sequelize, DataTypes) {
 	var Scenario = sequelize.define('Scenario', {
 		id: {
@@ -56,12 +74,7 @@ module.exports = function(sequelize, DataTypes) {
 			  allowNull: true,
 			  defaultValue: '0'
 			},
-		game: {
-			type: DataTypes.STRING,
-			allowNull: false,
-			defaultValue: 'pfs'
-		},
-		archived_at: {
+		archived_on: {
 			type: DataTypes.DATE,
 			allowNull: true
 		}
@@ -70,9 +83,11 @@ module.exports = function(sequelize, DataTypes) {
 	});
 	
 	Scenario.associate = function(models) {
+		Scenario.belongsTo(models.Game, {as: 'game', foreignKey: 'game_id'})
 		Scenario.belongsToMany(models.Author, {as: 'authors', foreignKey: 'scenario_id', through: 'j_author_scenario'});
 		Scenario.hasMany(models.Statistic, {as: 'statistics', foreignKey: 'scenario_id'});
-		Scenario.belongsToMany(models.Person, {as: 'players', foreignKey: 'scenario_id', through: models.j_scenario_person});
+		Scenario.hasMany(models.Report, {as: 'reports', foreignKey: 'scenario_id'});
+		Scenario.belongsToMany(models.Person, {as: 'players', foreignKey: 'scenario_id', through: models.Report});
 	}
 
 	// http://stackoverflow.com/questions/27972271/sequelize-dont-return-password
@@ -80,9 +95,9 @@ module.exports = function(sequelize, DataTypes) {
 	Scenario.prototype.toJSON = function() {
 		var values = this.get();
 
-		delete values.created_at;
-		delete values.updated_at;
-		delete values.deleted_at;
+		delete values.created_on;
+		delete values.updated_on;
+		delete values.deleted_on;
 		
 		return values;
 	}

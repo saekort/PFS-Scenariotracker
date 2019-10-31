@@ -81,7 +81,7 @@ router.get('/', function(req, res, next) {
 				// Handle 'retired'
 				if(typeof req.query.retired === 'undefined' || req.query.retired !== 'true') {
 					// If there is no retired toggle then do not include archived content
-					findParams.where.archived_at = null;
+					findParams.where.archived_on = null;
 				}
 				
 				// Handle 'specials'
@@ -178,6 +178,12 @@ router.get('/', function(req, res, next) {
 					findParams.include[0].where = {};
 					findParams.include[0].where.name = {$like: '%' + req.query.author + '%'};
 				}
+				
+				// Add 'game'
+				findParams.include.push({
+					model: models.Game,
+					as: 'game'
+				});
 				
 				// Handle 'contenttypes'
 				var contenttypes = [];
@@ -301,7 +307,7 @@ router.get('/', function(req, res, next) {
 							findParams.where.id = {$notIn: models.Sequelize.literal(subquery_sfs)};
 						}
 						
-						// If both games are selected
+						// If all games are selected
 						if(typeof req.query.game_pfs !== 'undefined' && req.query.game_pfs !== '' && typeof req.query.game_sfs !== 'undefined' && req.query.game_sfs !== '') {
 							findParams.where.id = {$and: [{$notIn: models.Sequelize.literal(subquery_pfs)}, {$notIn: models.Sequelize.literal(subquery_sfs)}]};
 						} 
@@ -313,6 +319,11 @@ router.get('/', function(req, res, next) {
 					}
 					
 					findParams.include.push({
+						model: models.Report,
+						as: 'reports'
+					});
+					
+					/**findParams.include.push({
 						model: models.Person,
 						as: 'players',
 						attributes: ['id', 'name', 'pfsnumber'],
@@ -324,7 +335,7 @@ router.get('/', function(req, res, next) {
 						required: false,
 						where: {pfsnumber: {$in: pfsnumbers}},
 						order: [ ['name', 'ASC'] ]
-					});
+					});**/
 				}
 				
 				// If user only selects a GM
@@ -488,33 +499,35 @@ router.post('/', function(req, res, next){
  */
 router.get('/player/:pfsNumber/type/:typeId/game/:game/season/:season', function(req, res, next) {
 	if(isNaN(req.params.season) && req.params.season !== 'pt') {
-		var whereParam = {type: req.params.typeId, game: req.params.game};
+		var whereParam = {type: req.params.typeId};
 	} else {
-		var whereParam = {type: req.params.typeId, game: req.params.game, season: req.params.season};
+		var whereParam = {type: req.params.typeId, season: req.params.season};
 	}
-	
-	var order = [['name', 'ASC']];
 	
 	// If it is a scenario page, order by number instead
 	if(req.params.typeId == 'scenario') {
-		order = [['number', 'ASC']];
+		var order = [['number', 'ASC'], ['reports', 'played_on', 'ASC']];
+	} else {
+		var order = [['name', 'ASC'], ['reports', 'played_on', 'ASC']];
 	}
 	
 	var searchParams = {
 			where: whereParam,
-			include: [ { 
-				model: models.Person, 
-				as: 'players',
-				attributes: ['name', 'pfsnumber'],
-				where: {pfsnumber: req.params.pfsNumber},
-				through: {
-					as: 'played',
-					attributes: ['pfs', 'pfs_gm', 'pfs2', 'pfs2_gm', 'core', 'core_gm', 'sfs', 'sfs_gm']
+			include: [ 
+				{ model: models.Game, as: 'game', attributes: ['shortname'], where: {shortname: req.params.game}}, 
+				{ 
+					model: models.Report,
+					as: 'reports',
+					attributes: ['reporttype_id', 'level', 'replay', 'wanted', 'comment', 'played_on'],
+					//required: false,
+					include: [ 
+						{model: models.Person, as: 'person', attributes: [], where: { pfsnumber: req.params.pfsNumber}}, 
+						{model: models.Character, as: 'character', attributes: ['name', 'number']}
+						]
 				},
-				required: false
-			} ],
-			order: order,
-			attributes: ['id', 'name', 'number', 'season', 'game', 'archived_at']
+			],
+			//order: order,
+			attributes: ['id', 'name', 'number', 'season', 'type', 'archived_on']
 		}
 	
 	models.Scenario.findAll(searchParams)
